@@ -481,49 +481,56 @@ CREATE TABLE rainier_placement
 (
   rainier_placement_id SERIAL,
   est_placement BOOLEAN NOT NULL,
-  act_placement BOOLEAN NOT NULL;
+  act_placement BOOLEAN NOT NULL,
+  CONSTRAINT rainier_placement_pk PRIMARY KEY (rainier_placement_id)
 );
 
 CREATE TABLE rainier_drive_side
 (
   rainier_drive_side_id SERIAL,
   est_drive_side BOOLEAN NULL,
-  act_drive_side BOOLEAN NULL
+  act_drive_side BOOLEAN NULL,
+  CONSTRAINT rainier_drive_side_pk PRIMARY KEY (rainier_drive_side_id)
 );
 
 CREATE TABLE rainier_hembar
 (
   rainier_hembar_id SERIAL,
   est_hembar BOOLEAN NULL,
-  act_hembar BOOLEAN NULL
+  act_hembar BOOLEAN NULL,
+  CONSTRAINT rainier_hembar_pk PRIMARY KEY (rainier_hembar_id)
 );
 
 CREATE TABLE rainier_pilebrush
 (
   rainier_pilebrush_id SERIAL,
   est_brush_location BOOLEAN NULL,
-  act_brush_location BOOLEAN NULL
+  act_brush_location BOOLEAN NULL,
+  CONSTRAINT rainier_pilebrush_pk PRIMARY KEY (rainier_pilebrush_id)
 );
 
 CREATE TABLE rainier_brush_loction
 (
   rainier_brush_loction_id SERIAL,
   est_brush_location BOOLEAN NULL,
-  act_brush_location BOOLEAN NULL
+  act_brush_location BOOLEAN NULL,
+  CONSTRAINT rainier_brush_location_pk PRIMARY KEY (rainier_brush_location_id)
 );
 
 CREATE TABLE rainier_cord_length
 (
   rainier_cord_length_id SERIAL,
   est_brush_location BOOLEAN NULL,
-  act_brush_location BOOLEAN NULL
+  act_brush_location BOOLEAN NULL,
+  CONSTRAINT rainier_placement_pk PRIMARY KEY (rainier_placement_id)
 );
 
 CREATE TABLE rainier_mount_type
 (
   rainier_mount_type_id SERIAL,
   est_mount_type BOOLEAN NULL,
-  act_mount_type BOOLEAN NULL
+  act_mount_type BOOLEAN NULL,
+  CONSTRAINT rainier_mount_type_pk PRIMARY KEY (rainier_mount_type_id)
 );
 
 CREATE TABLE rainier_top_opening_width
@@ -565,56 +572,64 @@ CREATE TABLE rainier_right_plumb
 (
   rainier_right_plumb_id SERIAL,
   est_right_plumb BOOLEAN NULL,
-  act_right_plumb BOOLEAN NULL
+  act_right_plumb BOOLEAN NULL,
+  CONSTRAINT rainier_right_plumb_pk PRIMARY KEY (rainier_right_plumb_id)
 );
 
 CREATE TABLE rainier_left_plumb
 (
   rainier_left_plumb_id SERIAL,
   est_left_plumb BOOLEAN NULL,
-  act_left_plumb BOOLEAN NULL
+  act_left_plumb BOOLEAN NULL,
+  CONSTRAINT rainier_left_plumb_pk PRIMARY KEY (rainier_left_plumb_id)
 );
 
 CREATE TABLE rainier_right_buildout
 (
   rainier_right_buildout_id SERIAL,
   est_rainier_right_buildout BOOLEAN NULL,
-  act_rainier_right_buildout BOOLEAN NULL 
+  act_rainier_right_buildout BOOLEAN NULL,
+  CONSTRAINT rainier_right_buildout_pk PRIMARY KEY (rainier_right_buildout_id)
 );
 
 CREATE TABLE rainier_left_buildout
 (
   rainier_left_buildout_id SERIAL,
   est_left_buildout BOOLEAN NULL,
-  act_left_buildout BOOLEAN NULL
+  act_left_buildout BOOLEAN NULL,
+  CONSTRAINT rainier_left_buildout_pk PRIMARY KEY (rainier_left_buildout_id)
 );
 
 CREATE TABLE rainier_add_buildout
 (
   rainier_add_buildout_id SERIAL,
   est_rrainier_add_buildout BOOLEAN NULL,
-  act_rainier_add_buildout BOOLEAN NULL
+  act_rainier_add_buildout BOOLEAN NULL,
+  CONSTRAINT rainier_placement_pk PRIMARY KEY (rainier_placement_id)
 )
 
 CREATE TABLE rainier_left_track
 (
   rainier_left_track_id SERIAL,
   est_left_track BOOLEAN NULL,
-  act_left_track BOOLEAN NULL
+  act_left_track BOOLEAN NULL,
+  CONSTRAINT rainier_left_track_pk PRIMARY KEY (rainier_left_track_id)
 );
 
 CREATE TABLE rainier_right_track
 (
   rainier_right_track_id SERIAL,
   est_right_track BOOLEAN NULL,
-  act_right_track BOOLEAN NULL
+  act_right_track BOOLEAN NULL,
+  CONSTRAINT rainier_right_track_pk PRIMARY KEY (rainier_right_track_id)
 );
 
 CREATE TABLE rainier_starting_point
 (
   rainer_starting_point_id SERIAL,
-  est_rainier_starting_point BOOLEAN NULL
+  est_rainier_starting_point BOOLEAN NULL,
   act_starting_point BOOLEAN NULL,
+  CONSTRAINT rainier_starting_point_pk PRIMARY KEY (rainier_starting_point_id)
 );
 
 CREATE TABLE IF NOT EXISTS rainier 
@@ -642,24 +657,49 @@ CREATE TABLE IF NOT EXISTS rainier
   rainier_right_track_id INTEGER NOT NULL,
 
   CONSTRAINT rainier_pk PRIMARY KEY (rainier_id),
-  CONSTRAINT rainier_housing_fk1
+  CONSTRAINT rainier_fk1
     FOREIGN KEY (rainier_housing_id)
     REFERENCES rainier_housing (rainier_housing_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT rainier_placement_fk2
+  CONSTRAINT rainier_fk2
     FOREIGN KEY (rainier_placement_id)
     REFERENCES rainier_placement (rainier_placement_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT rainier_drive_side_fk3
+  CONSTRAINT rainier_fk3
     FOREIGN KEY (rainier_drive_side_id)
     REFERENCES rainier_drive_side (rainier_drive_side_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-    CONSTRAINT rainier_housing_fk1
-    FOREIGN KEY (rainier_housing_id)
-    REFERENCES rainier_housing (rainier_housing_id)
+  CONSTRAINT rainier_fk4
+    FOREIGN KEY (rainier_hembar_id)
+    REFERENCES rainier_hembar (rainier_hembar_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT rainier_fk5
+    FOREIGN KEY (rainier_pilebrush_id)
+    REFERENCES rainier_hembar (rainier_pilebrush_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT rainier_fk6
+    FOREIGN KEY (rainier_brush_location_id)
+    REFERENCES rainier_hembar (rainier_brush_location_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT rainier_fk7
+    FOREIGN KEY (rainier_length_id)
+    REFERENCES rainier_length (rainier_length_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT rainier_fk8
+    FOREIGN KEY (rainier_mount_type_id)
+    REFERENCES rainier_mount_type (rainier_mount_type_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT rainier_fk9
+    FOREIGN KEY (rainier_top_opening_width_id)
+    REFERENCES rainier_top_opening_width (rainier_top_opening_width_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
 );
