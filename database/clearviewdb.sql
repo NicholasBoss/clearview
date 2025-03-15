@@ -477,12 +477,33 @@ CONSTRAINT rainier_housing_fk1
 -- Table rainier_placement
 -- -----------------------------------------------------
 -- 
+
+CREATE TABLE IF NOT EXISTS placement
+(
+  placement_id SERIAL,
+  placement_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT placement_pk PRIMARY KEY (placement_id)
+)
+
+
 CREATE TABLE rainier_placement
 (
   rainier_placement_id SERIAL,
   est_placement BOOLEAN NOT NULL,
   act_placement BOOLEAN NOT NULL;
 );
+
+-- -----------------------------------------------------
+-- Table rainier_drive_side
+-- -----------------------------------------------------
+-- 
+
+CREATE TABLE IF NOT EXISTS drive_side
+(
+  drive_side_id SERIAL,
+  drive_side_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT drive_side_pk PRIMARY KEY (drive_side_id)
+)
 
 CREATE TABLE rainier_drive_side
 (
