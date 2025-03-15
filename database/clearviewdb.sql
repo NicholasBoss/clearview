@@ -11,11 +11,11 @@ DROP TABLE IF EXISTS customer;
 DROP TABLE IF EXISTS product;
 DROP TABLE IF EXISTS door;
 -- DROP TABLE IF EXISTS account; 
-DROP TABLE IF EXISTS general_retract_control;
+DROP TABLE IF EXISTS general_retrcontrol;
 DROP TABLE IF EXISTS hale_door; 
 DROP TABLE IF EXISTS hale_screen_model; 
 DROP TABLE IF EXISTS account;
-DROP TABLE IF EXISTS general_retract_control;
+DROP TABLE IF EXISTS general_retrcontrol;
 DROP TABLE IF EXISTS hale_door;
 DROP TABLE IF EXISTS hale_screen_model;
 DROP TABLE IF EXISTS mirage;
@@ -46,12 +46,12 @@ DROP TABLE IF EXISTS viewguard;
 DROP TABLE IF EXISTS wizard_smart_screen;
 DROP TABLE IF EXISTS measurement;
 DROP TABLE IF EXISTS nws_measurement;
-DROP TABLE IF EXISTS rainier_color;
+DROP TABLE IF EXISTS color;
 DROP TABLE IF EXISTS mirage_3500_mesh;
 DROP TABLE IF EXISTS mirage_mesh;
 DROP TABLE IF EXISTS mirage_3500_color;
 DROP TABLE IF EXISTS mirage_color;
-DROP TABLE IF EXISTS rainier_order;
+DROP TABLE IF EXISTS order;
 DROP TABLE IF EXISTS mirage_order;
 DROP TABLE IF EXISTS mirage_3500_order;
 DROP TABLE IF EXISTS nws_order;
@@ -231,12 +231,12 @@ CREATE TABLE IF NOT EXISTS account
 
 
 -- -----------------------------------------------------
--- Table general_retract_control
+-- Table general_retrcontrol
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS general_retract_control 
+CREATE TABLE IF NOT EXISTS general_retrcontrol 
 (
-  general_retract_control_id SERIAL,
+  general_retrcontrol_id SERIAL,
   door_type CHARACTER VARYING NULL,
   door_mount CHARACTER VARYING NULL,
   opening_side CHARACTER VARYING NULL,
@@ -248,7 +248,7 @@ CREATE TABLE IF NOT EXISTS general_retract_control
   build_out CHARACTER VARYING NULL,
   btm_adapter CHARACTER VARYING NULL,
   btm_adapter_color CHARACTER VARYING NULL,
-  CONSTRAINT grc_pk PRIMARY KEY (general_retract_control_id)
+  CONSTRAINT grc_pk PRIMARY KEY (general_retrcontrol_id)
 );
 
 
@@ -455,213 +455,197 @@ CREATE TABLE IF NOT EXISTS phantom
 CREATE TABLE IF NOT EXISTS housing
 (
   housing_id SERIAL,
-  housing_name CHARACTER VARYING NOT NULL,
+  housing_series_name CHARACTER VARYING NOT NULL,
   CONSTRAINT housing_pk PRIMARY KEY (housing_id)
-)
-
-CREATE TABLE rainier_housing
-(
-rainier_housing_id SERIAL,
-est_housing_series BOOLEAN NOT NULL,
-act_housing_series BOOLEAN NOT NULL,
-housing_id INTEGER NOT NULL,
-CONSTRAINT rainier_housing_pk PRIMARY KEY (rainier_housing_id),
-CONSTRAINT rainier_housing_fk1
-  FOREIGN KEY (housing_id)
-  REFERENCES housing (housing_id)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE
 );
 
 -- -----------------------------------------------------
--- Table rainier_placement
+-- Table placement
 -- -----------------------------------------------------
 -- 
-CREATE TABLE rainier_placement
+CREATE TABLE IF NOT EXISTS placement
 (
-  rainier_placement_id SERIAL,
-  est_placement BOOLEAN NOT NULL,
-  act_placement BOOLEAN NOT NULL;
+  placement_id SERIAL,
+  placement_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT placement_pk PRIMARY KEY (placement_id)
 );
 
-CREATE TABLE rainier_drive_side
+CREATE TABLE IF NOT EXISTS drive_side
 (
-  rainier_drive_side_id SERIAL,
-  est_drive_side BOOLEAN NULL,
-  act_drive_side BOOLEAN NULL
+  drive_side_id SERIAL,
+  drive_side_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT drive_side_pk PRIMARY KEY (drive_side_id)
 );
 
-CREATE TABLE rainier_hembar
+CREATE TABLE hembar
 (
-  rainier_hembar_id SERIAL,
-  est_hembar BOOLEAN NULL,
-  act_hembar BOOLEAN NULL
+  hembar_id SERIAL,
+  hembar_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT hembar_pk PRIMARY KEY (hembar_id)
 );
 
-CREATE TABLE rainier_pilebrush
+CREATE TABLE pilebrush
 (
-  rainier_pilebrush_id SERIAL,
-  est_brush_location BOOLEAN NULL,
-  act_brush_location BOOLEAN NULL
+  pilebrush_id SERIAL,
+  pilebrush_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT pilebrush_pk PRIMARY KEY (pilebrush_id)
 );
 
-CREATE TABLE rainier_brush_loction
+CREATE TABLE brush_loction
 (
-  rainier_brush_loction_id SERIAL,
-  est_brush_location BOOLEAN NULL,
-  act_brush_location BOOLEAN NULL
+  brush_loction_id SERIAL,
+  brush_location_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT drive_side_pk PRIMARY KEY (brush_loction_id)
 );
 
-CREATE TABLE rainier_cord_length
+CREATE TABLE cord_length
 (
-  rainier_cord_length_id SERIAL,
-  est_brush_location BOOLEAN NULL,
-  act_brush_location BOOLEAN NULL
+  cord_length_id SERIAL,
+  cord_length_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT cord_length_pk PRIMARY KEY (cord_length_id)
 );
 
-CREATE TABLE rainier_mount_type
+CREATE TABLE mount_type
 (
-  rainier_mount_type_id SERIAL,
-  est_mount_type BOOLEAN NULL,
-  act_mount_type BOOLEAN NULL
+  mount_type_id SERIAL,
+  mount_type_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT mount_type_pk PRIMARY KEY (mount_type_id)
 );
 
-CREATE TABLE rainier_top_opening_width
+CREATE TABLE top_opening_width
 (
-  rainier_top_opening_width_id SERIAL,
-  est_top_opening_width BOOLEAN NULL,
-  act_top_opening_width BOOLEAN NULL  
+  top_opening_width_id SERIAL,
+  top_opening_width_name CHARACTER VARYING NULL,
+  CONSTRAINT top_opening_width_pk PRIMARY KEY (top_opening_width_id) 
 );
 
-CREATE TABLE rainier_top_level
+CREATE TABLE top_level
 (
-  rainier_top_level_id SERIAL,
-  est_top_level BOOLEAN NULL,
-  act_top_level BOOLEAN NULL
+  top_level_id SERIAL,
+  top_level_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT top_level_pk PRIMARY KEY (top_level_id)
 );
 
-CREATE TABLE rainier_bottom_level
+CREATE TABLE bottom_level
 (
-  rainier_bottom_level_id SERIAL,
-  est_bottom_level BOOLEAN NULL,
-  act_bottom_level BOOLEAN NULL
+  bottom_level_id SERIAL,
+  bottom_level_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT bottom_level_pk PRIMARY KEY (bottom_level_id)
 );
 
-CREATE TABLE rainier_bottom_opening_width
+CREATE TABLE bottom_opening_width
 (
-  rainier_bottom_opening_width_id SERIAL,
-  est_rainier_bottom_opening_width BOOLEAN NULL,
-  act_rainier_bottom_opening_width BOOLEAN NULL
+  bottom_opening_width_id SERIAL,
+  bottom_opening_width_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT bottom_opening_width_pk PRIMARY KEY (bottom_opening_width_id)
 );
 
-CREATE TABLE rainier_right_opening_height
+CREATE TABLE right_opening_height
 (
-  rainier_right_opening_height_id SERIAL,
-  est_rainier_right_opening_height BOOLEAN NULL,
-  act_rainier_right_opening_height BOOLEAN NULL
+  right_opening_height_id SERIAL,
+  right_opening_height_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT right_opening_height_pk PRIMARY KEY (right_opening_height_id)
 );
 
-CREATE TABLE rainier_right_plumb
+CREATE TABLE right_plumb
 (
-  rainier_right_plumb_id SERIAL,
-  est_right_plumb BOOLEAN NULL,
-  act_right_plumb BOOLEAN NULL
+  right_plumb_id SERIAL,
+  right_plumb_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT right_plumb_pk PRIMARY KEY (right_plumb_id)
 );
 
-CREATE TABLE rainier_left_plumb
+CREATE TABLE left_plumb
 (
-  rainier_left_plumb_id SERIAL,
-  est_left_plumb BOOLEAN NULL,
-  act_left_plumb BOOLEAN NULL
+  left_plumb_id SERIAL,
+  left_plumb_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT left_plumb_pk PRIMARY KEY (left_plumb_id)
 );
 
-CREATE TABLE rainier_right_buildout
+CREATE TABLE right_buildout
 (
-  rainier_right_buildout_id SERIAL,
-  est_rainier_right_buildout BOOLEAN NULL,
-  act_rainier_right_buildout BOOLEAN NULL 
+  right_buildout_id SERIAL,
+  right_buildout_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT right_buildout_pk PRIMARY KEY (right_buildout_id)
 );
 
-CREATE TABLE rainier_left_buildout
+CREATE TABLE left_buildout
 (
-  rainier_left_buildout_id SERIAL,
-  est_left_buildout BOOLEAN NULL,
-  act_left_buildout BOOLEAN NULL
+  left_buildout_id SERIAL,
+  left_buildout_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT left_buildout_pk PRIMARY KEY (left_buildout_id)
 );
 
-CREATE TABLE rainier_add_buildout
+CREATE TABLE add_buildout
 (
-  rainier_add_buildout_id SERIAL,
-  est_rrainier_add_buildout BOOLEAN NULL,
-  act_rainier_add_buildout BOOLEAN NULL
+  add_buildout_id SERIAL,
+  add_buildout_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT drive_side_pk PRIMARY KEY (drive_side_id)
 )
 
-CREATE TABLE rainier_left_track
+CREATE TABLE left_track
 (
-  rainier_left_track_id SERIAL,
-  est_left_track BOOLEAN NULL,
-  act_left_track BOOLEAN NULL
+  left_track_id SERIAL,
+  left_track_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT left_track_pk PRIMARY KEY (left_track_id)
 );
 
-CREATE TABLE rainier_right_track
+CREATE TABLE right_track
 (
-  rainier_right_track_id SERIAL,
-  est_right_track BOOLEAN NULL,
-  act_right_track BOOLEAN NULL
+  right_track_id SERIAL,
+  right_track_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT right_track_pk PRIMARY KEY (right_track_id)
 );
 
-CREATE TABLE rainier_starting_point
+CREATE TABLE starting_point
 (
   rainer_starting_point_id SERIAL,
-  est_rainier_starting_point BOOLEAN NULL
-  act_starting_point BOOLEAN NULL,
+  starting_point_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT starting_point_pk PRIMARY KEY (starting_point_id)
 );
 
 CREATE TABLE IF NOT EXISTS rainier 
 (
   rainier_id SERIAL,
-  rainier_housing_id INTEGER NOT NULL,
-  rainier_placement_id INTEGER NOT NULL,
-  rainier_drive_side_id INTEGER NOT NULL,
-  rainier_hembar_id INTEGER NOT NULL,
-  rainier_pilebrush_id INTEGER NOT NULL,
-  rainier_brush_location_id INTEGER NOT NULL,
-  rainier_cord_length_id INTEGER NOT NULL,
-  rainier_mount_type_id INTEGER NOT NULL,
-  rainier_top_opening_width_id INTEGER NOT NULL,
-  rainier_top_level_id INTEGER NOT NULL,
-  rainier_bottom_level_id INTEGER NOT NULL,
-  rainier_bottom_opening_width_id INTEGER NOT NULL,
-  rainier_right_opening_height_id INTEGER NOT NULL,
-  rainier_right_plumb_id INTEGER NOT NULL,
-  rainier_left_plumb_id INTEGER NOT NULL,
-  rainier_right_buildout_id INTEGER NOT NULL,
-  rainier_left_buildout_id INTEGER NOT NULL,
-  rainier_add_buildout_id INTEGER NOT NULL,
-  rainier_left_track_id INTEGER NOT NULL,
-  rainier_right_track_id INTEGER NOT NULL,
+  housing_id INTEGER NOT NULL,
+  placement_id INTEGER NOT NULL,
+  drive_side_id INTEGER NOT NULL,
+  hembar_id INTEGER NOT NULL,
+  pilebrush_id INTEGER NOT NULL,
+  brush_location_id INTEGER NOT NULL,
+  cord_length_id INTEGER NOT NULL,
+  mount_type_id INTEGER NOT NULL,
+  top_opening_width_id INTEGER NOT NULL,
+  top_level_id INTEGER NOT NULL,
+  bottom_level_id INTEGER NOT NULL,
+  bottom_opening_width_id INTEGER NOT NULL,
+  right_opening_height_id INTEGER NOT NULL,
+  right_plumb_id INTEGER NOT NULL,
+  left_plumb_id INTEGER NOT NULL,
+  right_buildout_id INTEGER NOT NULL,
+  left_buildout_id INTEGER NOT NULL,
+  add_buildout_id INTEGER NOT NULL,
+  left_track_id INTEGER NOT NULL,
+  right_track_id INTEGER NOT NULL,
+  is_estimate BOOLEAN NULL,
+  is_confirmed BOOLEAN NULL
 
   CONSTRAINT rainier_pk PRIMARY KEY (rainier_id),
-  CONSTRAINT rainier_housing_fk1
-    FOREIGN KEY (rainier_housing_id)
-    REFERENCES rainier_housing (rainier_housing_id)
+  CONSTRAINT rainier_fk1
+    FOREIGN KEY (housing_id)
+    REFERENCES housing (housing_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT rainier_placement_fk2
-    FOREIGN KEY (rainier_placement_id)
-    REFERENCES rainier_placement (rainier_placement_id)
+  CONSTRAINT rainier_fk2
+    FOREIGN KEY (placement_id)
+    REFERENCES placement (placement_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT rainier_drive_side_fk3
-    FOREIGN KEY (rainier_drive_side_id)
-    REFERENCES rainier_drive_side (rainier_drive_side_id)
+  CONSTRAINT rainier_fk3
+    FOREIGN KEY (drive_side_id)
+    REFERENCES drive_side (drive_side_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-    CONSTRAINT rainier_housing_fk1
-    FOREIGN KEY (rainier_housing_id)
-    REFERENCES rainier_housing (rainier_housing_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
+
 );
 
 -- -----------------------------------------------------
@@ -748,9 +732,9 @@ CREATE TABLE IF NOT EXISTS nws_measurement
   nws_measurement_id SERIAL,
   measurement_id INTEGER NOT NULL,
   nws_id INTEGER NOT NULL,
-  width_fraction CHARACTER(1) NULL,
+  width_fraction CHARACTER VARYING NULL,
   width_plus_minus CHARACTER(1) NULL,
-  height_fraction CHARACTER(1) NULL,
+  height_fraction CHARACTER VARYING NULL,
   height_plus_minus CHARACTER(1) NULL,
   CONSTRAINT nws_measurement_pk PRIMARY KEY (nws_measurement_id),
   INDEX nws_measurement_fk1_idx (measurement_id),
@@ -790,8 +774,10 @@ CREATE TABLE IF NOT EXISTS nws_measurement
     viewguard_id INTEGER NULL,
     sunscreen_id INTEGER NULL,
     hale_door_id INTEGER NULL,
-    general_retract_control_id INTEGER NULL,
+    general_retrcontrol_id INTEGER NULL,
     nws_measurement_id INTEGER NULL,
+    is_estimate BOOLEAN NULL,
+    is_confirmed BOOLEAN NULL
     CONSTRAINT customization_pk PRIMARY KEY (customization_id),
     CONSTRAINT customization_fk1
       FOREIGN KEY (product_id)
@@ -869,8 +855,8 @@ CREATE TABLE IF NOT EXISTS nws_measurement
       ON DELETE CASCADE
       ON UPDATE CASCADE,
     CONSTRAINT customization_fk16
-      FOREIGN KEY (general_retract_control_id)
-      REFERENCES general_retract_control (general_retract_control_id)
+      FOREIGN KEY (general_retrcontrol_id)
+      REFERENCES general_retrcontrol (general_retrcontrol_id)
       ON DELETE CASCADE
       ON UPDATE CASCADE,
     CONSTRAINT customization_fk17
