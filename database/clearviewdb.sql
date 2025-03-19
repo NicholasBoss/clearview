@@ -192,22 +192,7 @@ CREATE TABLE IF NOT EXISTS product
   CONSTRAINT product_pk PRIMARY KEY (product_id)
 );
 
--- -----------------------------------------------------
--- Table door
--- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS door 
-(
-  door_id SERIAL,
-  slide_type BOOLEAN NULL,
-  slide_color BOOLEAN NULL,
-  wheels_num INTEGER NOT NULL,
-  swing_type BOOLEAN NULL,
-  swing_color BOOLEAN NULL,
-  opening_side CHARACTER(2) NOT NULL,
-  handle_style BOOLEAN NULL,
-  CONSTRAINT door_pk PRIMARY KEY (door_id)
-);
 
 -- Account Type Creation
 -- DROP TYPE IF EXISTS account_type CASCADE;
@@ -229,6 +214,23 @@ CREATE TABLE IF NOT EXISTS account
   CONSTRAINT account_pk PRIMARY KEY (account_id)
 );
 
+
+-- -----------------------------------------------------
+-- Table door
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS door 
+(
+  door_id SERIAL,
+  slide_type BOOLEAN NULL,
+  slide_color BOOLEAN NULL,
+  wheels_num INTEGER NOT NULL,
+  swing_type BOOLEAN NULL,
+  swing_color BOOLEAN NULL,
+  opening_side CHARACTER(2) NOT NULL,
+  handle_style BOOLEAN NULL,
+  CONSTRAINT door_pk PRIMARY KEY (door_id)
+);
 
 -- -----------------------------------------------------
 -- Table general_retrcontrol
