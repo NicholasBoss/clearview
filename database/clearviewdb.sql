@@ -371,7 +371,7 @@ CREATE TABLE IF NOT EXISTS product_mesh
   color_id INTEGER NOT NULL,
   product_id INTEGER NOT NULL
 
-)
+);
 -- -----------------------------------------------------
 -- Table window
 -- -----------------------------------------------------
@@ -791,6 +791,7 @@ CREATE TABLE IF NOT EXISTS nws_measurement
     fastener_id INTEGER NOT NULL,
     color_id INTEGER NOT NULL,
     mesh_id INTEGER NOT NULL,
+    product_mesh_id INTEGER NOT NULL,
     mirage_3500_id INTEGER NULL,
     mirage_id INTEGER NULL,
     rainier_id INTEGER NULL,
