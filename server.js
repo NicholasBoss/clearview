@@ -77,7 +77,7 @@ app.use("/account", accountRoute)
 app.get("/about", generalRoute)
 
 // Orders Route
-app.get("/orders/*", ordersRoute)
+app.use("/orders", ordersRoute)
 
 // // Menu Route
 // app.use("/menu", menuRoute)

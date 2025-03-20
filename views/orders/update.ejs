@@ -1,1 +1,15 @@
 <h1>Update order</h1>
+
+<form action="/orders/update" method="post">
+    <input type="hidden" name="id" value="<%= order.order_id %>">
+    <label for="customer_name"><b>Customer Name:</b>
+        <input disabled type="text" name="customer_name" value="<%= order.customer_fname %> <%= order.customer_lname  %>">
+    </label>
+    <label for="quantity"><b>Quantity</b>
+        <input type="number" name="quantity" value="<%= order.quantity %>">
+    </label>
+    <label for="price"><b>Price</b>
+        <input type="number" name="price" value="<%= order.price %>">
+    </label>
+    <button type="submit">Update order</button>
+</form>

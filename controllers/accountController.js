@@ -48,7 +48,7 @@ async function buildRegister(req, res) {
  *************************/
 async function registerAccount(req, res){
     // console.log('Registering account')
-    const { account_firstname, account_lastname, account_email, account_phone, account_password } = req.body
+    const { account_firstname, account_lastname, account_email, account_password } = req.body
     // console.log('Account First Name:', account_firstname)
     // console.log('Account Last Name:', account_lastname)
     // console.log('Account Email:', account_email)
@@ -71,7 +71,6 @@ async function registerAccount(req, res){
         account_firstname,
         account_lastname,
         account_email,
-        account_phone,
         hashedPassword,
     )
 
@@ -80,12 +79,12 @@ async function registerAccount(req, res){
             'notice', 
             `Congratulations, you\'re now registered ${account_firstname}. Please log in.`
         )
-        res.status(201).render('account/login', {
+        res.status(201).render('index', {
             title: 'Login',
-            link: 'account/login',
+            link: '',
             section: 'account',
             errors: null,
-            url: '/account/register'
+            url: ''
         })
     } else {
         req.flash(
@@ -112,9 +111,9 @@ async function accountLogin(req, res){
     // console.log(accountData)
     if (!accountData) {
         req.flash('notice', 'Please check your credentials and try again.')
-        res.status(400).render('account/login', {
-            title: 'Login',
-            link: 'account/login',
+        res.status(400).render('index', {
+            title: 'Home',
+            link: '',
             section: 'account',
             errors: null,
             account_email,
@@ -141,9 +140,9 @@ async function accountLogin(req, res){
         }
     } else {
         req.flash('notice', 'Please check your credentials and try again.')
-        res.status(400).render('account/login', {
+        res.status(400).render('index', {
             title: 'Login',
-            link: 'account/login',
+            link: '',
             section: 'account',
             errors: null,
             account_email,

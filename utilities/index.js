@@ -15,7 +15,7 @@ Util.checkJWTToken = (req, res, next) => {
                 if (err) {
                     req.flash('notice','Please Log In')
                     res.clearCookie('jwt')
-                    return res.redirect('/account/login')
+                    return res.redirect('/')
                 }
             res.locals.accountData = accountData
             res.locals.loggedin = 1
@@ -34,7 +34,7 @@ Util.checkLogin = (req, res, next) => {
     next()
     } else {
         req.flash('error','Permission Denied. You are not authorized to view this page.')
-        return res.redirect('/account/login')
+        return res.redirect('/')
     }
 }
 
@@ -46,7 +46,7 @@ Util.checkAuth = (req, res, next) => {
     next()
     } else {
         req.flash('error','Permission Denied. You are not authorized to view this page.')
-        return res.redirect('/account/login')
+        return res.redirect('/')
     }
 }
 
@@ -58,7 +58,7 @@ Util.checkAdmin = (req, res, next) => {
     next()
     } else {
         req.flash('error','Permission Denied. You are not authorized to view this page.')
-        return res.redirect('/account/login')
+        return res.redirect('/')
     }
 }
 

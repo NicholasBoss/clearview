@@ -1,1 +1,32 @@
-<h1>Create order</h1>
+<% if (title) { %>
+    <h1>
+        <%= title %>
+    </h1>
+    <% } else { res.redirect('/') } %>
+
+        <%- messages() %>
+        <% if (errors) { %>
+            <ul id="errorList" class="notice error">
+                <% errors.array().forEach(error=> { %>
+                    <li>
+                        <%= error.msg %>
+                    </li>
+                    <% }) %>
+            </ul>
+            <% } %>
+<div>
+    <form action="" method="post">
+        <div class="container">
+            <label><b>Choose an order type:</b>
+                <select name="order_type" id="type">
+                    <option value="window">Window</option>
+                    <option value="blinds">Blind</option>
+                    <option value="screen">Screen</option>
+                    <option value="gutter">Gutter</option>
+                    <option value="christmas">Christmas</option>
+                </select></label>
+                <button class="formbtn"
+                type="submit">Submit</button>
+        </div>
+    </form>
+</div>

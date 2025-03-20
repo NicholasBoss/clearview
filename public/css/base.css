@@ -1,12 +1,81 @@
 :root{
     /* Site Colors */
-    --primary-color: ;
-    --secondary-color: #1E6DE3;
+    --primary-color: #6EBAEF;    
+    --secondary-color: #1F6DE2;
+    --accent1-color: #474747;
+    --accent2-color: #93B0F5;
+    --accent3-color: #0F172D;
     --ham-color: var(--secondary-color);
+	--nav-hover-background-color: var(--secondary-color);
+    --nav-transparent-background-color: #79d4bd;
+    /* --nav-transparent-background-color: var(--primary-color); */
 }
 
 header {
 	background-color: var(--secondary-color);
+}
+
+#main-header {
+    display: grid;
+	grid-template-columns: 125px 1fr;
+	/* justify-items: center; */
+    align-items: center;
+    max-width: 100%;
+    font-size: 0;
+    /* padding: 2%; */
+}
+#banner {
+    grid-column: 1/4;
+    grid-row: 1/2;
+}
+#banner img {
+    width: 100%;
+    align-self: unset;
+}
+.logolink {
+    grid-column: 1/2;
+    grid-row: 1/2;
+    z-index: 1;
+    text-align: center;
+}
+
+.logo {
+    width: 160%;
+    border-radius: 50%;
+}
+
+#tools {
+    /* background-color: var(--nav-background-color); */
+    background-color: var(--nav-transparent-background-color);
+    color: var(--accent3-color);
+    grid-column: 2/3;
+    grid-row: 1/2;
+    justify-self: center;
+    border-radius: 5px;
+    font-size: initial;
+}
+
+#loggedin, #loggedout {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+}
+#loggedin img, #loggedout img {
+    width: 25%;
+}
+
+#tools a {
+    border-radius: 5px;
+    padding: 2%;
+    text-decoration: none;
+    color: var(--accent3-color);
+}
+
+#tools a:hover {
+    background-color: var(--nav-hover-background-color);
+    font-weight: 500;
 }
 
 #menu {
@@ -88,4 +157,8 @@ input[type=email], input[type=password], input[type=text], input[type=tel], inpu
     /* margin-left: -30px; */
     cursor: pointer;
     text-align: center;
+}
+
+#workOrders {
+	text-align: center;
 }

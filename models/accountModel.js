@@ -3,10 +3,10 @@ const pool = require('../database/')
 /* ***********************
     * Create Account
     *************************/
-async function createAccount(account_firstname, account_lastname, account_email, account_phone, account_password) {
+async function createAccount(account_firstname, account_lastname, account_email, account_password) {
     try {
-        const sql = 'INSERT INTO account (account_firstname, account_lastname, account_email, account_phone, account_password) VALUES ($1, $2, $3, $4, $5) RETURNING *'
-        return await pool.query(sql, [account_firstname, account_lastname, account_email, account_phone, account_password])
+        const sql = 'INSERT INTO account (account_firstname, account_lastname, account_email, account_password) VALUES ($1, $2, $3, $4) RETURNING *'
+        return await pool.query(sql, [account_firstname, account_lastname, account_email, account_password])
     } catch (error) {
         return error.message
     }
@@ -32,7 +32,7 @@ async function getAccountByEmail(account_email){
     // console.log('Getting account by email:', account_email)
     try {
         const result = await pool.query(
-        'SELECT account_id, account_firstname, account_lastname, account_phone, account_email, account_type, account_password FROM account WHERE account_email = $1', 
+        'SELECT account_id, account_firstname, account_lastname, account_email, account_type, account_password FROM account WHERE account_email = $1', 
         [account_email])
         // console.log('Result:',result)
         return result.rows[0]

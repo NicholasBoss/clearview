@@ -62,7 +62,7 @@ validate.registrationRules = () => {
 ********************************************************** */
 validate.checkRegData = async (req, res, next) => {
     // console.log('Check Reg Data')
-    const { account_firstname, account_lastname, account_email, account_phone } = req.body
+    const { account_firstname, account_lastname, account_email } = req.body
     let errors = []
     errors = validationResult(req)
     if (!errors.isEmpty()) {
@@ -74,8 +74,7 @@ validate.checkRegData = async (req, res, next) => {
             section: "account",
             account_firstname,
             account_lastname,
-            account_email,
-            account_phone
+            account_email
         })
         return
     }

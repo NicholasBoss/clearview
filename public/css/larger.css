@@ -1,4 +1,21 @@
 @media screen and (min-width: 900px) {
+    #main-header {
+        grid-template-columns: 150px 1fr 1fr;
+    }
+    #loggedin img, #loggedout img {
+        width: 15%;
+    }
+    .logolink {
+        margin: 0 2%;
+        border-radius: 50%;
+    }
+    .logo {
+        max-width: 100%;
+    }
+    #tools {
+        grid-column: 3/4;
+    }
+
     #menu {
         display: none;
     }
@@ -17,5 +34,8 @@
     }
     nav ul li:nth-of-type(1){
         margin-top: unset;
+    }
+    #passImg {
+        width: 3%;
     }
 }
