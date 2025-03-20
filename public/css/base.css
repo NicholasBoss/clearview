@@ -5,6 +5,8 @@
     --accent1-color: #474747;
     --accent2-color: #93B0F5;
     --accent3-color: #0F172D;
+    --accent4-color: white;
+    --accent5-color: black;
     --ham-color: var(--secondary-color);
 	--nav-hover-background-color: var(--secondary-color);
     --nav-transparent-background-color: #79d4bd;
