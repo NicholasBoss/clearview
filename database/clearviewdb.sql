@@ -327,6 +327,28 @@ CREATE TABLE IF NOT EXISTS color
   CONSTRAINT color_pk PRIMARY KEY (color_id)
 );
 
+-- -----------------------------------------------------
+-- Table product_color
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS product_color
+(
+  product_color_id SERIAL,
+  product_id INTEGER NOT NULL,
+  color_id INTEGER NOT NULL,
+  CONSTRAINT product_color_pk PRIMARY KEY (product_color_id),
+  CONSTRAINT product_color_fk1
+    FOREIGN KEY (product_id)
+    REFERENCES product (product_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT product_color_fk2
+    FOREIGN KEY (color_id)
+    REFERENCES color (color_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+);
+
 
 -- -----------------------------------------------------
 -- Table frame_size
@@ -371,8 +393,24 @@ CREATE TABLE IF NOT EXISTS product_mesh
 (
   product_mesh_id SERIAL,
   color_id INTEGER NOT NULL,
-  product_id INTEGER NOT NULL
-
+  product_id INTEGER NOT NULL,
+  product_color_id INTEGER NOT NULL,
+  CONSTRAINT product_mesh_pk PRIMARY KEY (product_mesh_id)
+  CONSTRAINT product_mesh_fk1
+    FOREIGN KEY (color_id)
+    REFERENCES color (color_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+    CONSTRAINT product_mesh_fk2
+    FOREIGN KEY (product_id)
+    REFERENCES product (product_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+    CONSTRAINT product_mesh_fk3
+    FOREIGN KEY (product_color_id)
+    REFERENCES product_color (product_color_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 );
 -- -----------------------------------------------------
 -- Table window
