@@ -219,26 +219,26 @@ CREATE TABLE IF NOT EXISTS account
 -- Table door
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS door 
-(
-  door_id SERIAL,
-  slide_type BOOLEAN NULL,
-  slide_color BOOLEAN NULL,
-  wheels_num INTEGER NOT NULL,
-  swing_type BOOLEAN NULL,
-  swing_color BOOLEAN NULL,
-  opening_side CHARACTER(2) NOT NULL,
-  handle_style BOOLEAN NULL,
-  CONSTRAINT door_pk PRIMARY KEY (door_id)
-);
+-- CREATE TABLE IF NOT EXISTS door 
+-- (
+--   door_id SERIAL,
+--   slide_type BOOLEAN NULL,
+--   slide_color BOOLEAN NULL,
+--   wheels_num INTEGER NOT NULL,
+--   swing_type BOOLEAN NULL,
+--   swing_color BOOLEAN NULL,
+--   opening_side CHARACTER(2) NOT NULL,
+--   handle_style BOOLEAN NULL,
+--   CONSTRAINT door_pk PRIMARY KEY (door_id)
+-- );
 
 -- -----------------------------------------------------
--- Table general_retrcontrol
+-- Table general_retract_control
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS general_retrcontrol 
+CREATE TABLE IF NOT EXISTS general_retract_control 
 (
-  general_retrcontrol_id SERIAL,
+  general_retract_control_id SERIAL,
   door_type CHARACTER VARYING NULL,
   door_mount CHARACTER VARYING NULL,
   opening_side CHARACTER VARYING NULL,
@@ -250,7 +250,7 @@ CREATE TABLE IF NOT EXISTS general_retrcontrol
   build_out CHARACTER VARYING NULL,
   btm_adapter CHARACTER VARYING NULL,
   btm_adapter_color CHARACTER VARYING NULL,
-  CONSTRAINT grc_pk PRIMARY KEY (general_retrcontrol_id)
+  CONSTRAINT grc_pk PRIMARY KEY (general_retract_control_id)
 );
 
 
@@ -258,37 +258,37 @@ CREATE TABLE IF NOT EXISTS general_retrcontrol
 -- Table hale_door
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS hale_door 
-(
-  hale_door_id SERIAL,
-  size BOOLEAN NULL,
-  flap_config BOOLEAN NULL,
-  door_color BOOLEAN NULL,
-  sec_cover_load BOOLEAN NULL,
-  second_ext_cover CHARACTER(1) NOT NULL,
-  rain_cap CHARACTER(1) NOT NULL,
-  flap CHARACTER(1) NOT NULL,
-  thickness CHARACTER VARYING NOT NULL,
-  CONSTRAINT hale_door_pk PRIMARY KEY (hale_door_id)
-  thickness BOOLEAN NULL,
-  CONSTRAINT hale_door_pk PRIMARY KEY (table_id)
-);
+-- CREATE TABLE IF NOT EXISTS hale_door 
+-- (
+--   hale_door_id SERIAL,
+--   size BOOLEAN NULL,
+--   flap_config BOOLEAN NULL,
+--   door_color BOOLEAN NULL,
+--   sec_cover_load BOOLEAN NULL,
+--   second_ext_cover CHARACTER(1) NOT NULL,
+--   rain_cap CHARACTER(1) NOT NULL,
+--   flap CHARACTER(1) NOT NULL,
+--   thickness CHARACTER VARYING NOT NULL,
+--   CONSTRAINT hale_door_pk PRIMARY KEY (hale_door_id)
+--   thickness BOOLEAN NULL,
+--   CONSTRAINT hale_door_pk PRIMARY KEY (table_id)
+-- );
 
 
 -- -----------------------------------------------------
 -- Table hale_screen_model
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS hale_screen_model 
-(
-  hale_screen_model_id SERIAL,
-  model_size BOOLEAN NULL,
-  model_color BOOLEAN NULL,
-  model_thickness BOOLEAN NULL,
-  model_has_flap CHARACTER(2) NOT NULL,
-  model_placement BOOLEAN NULL,
-  CONSTRAINT hale_screen_model_pk PRIMARY KEY (hale_screen_model_id)
-);
+-- CREATE TABLE IF NOT EXISTS hale_screen_model 
+-- (
+--   hale_screen_model_id SERIAL,
+--   model_size BOOLEAN NULL,
+--   model_color BOOLEAN NULL,
+--   model_thickness BOOLEAN NULL,
+--   model_has_flap CHARACTER(2) NOT NULL,
+--   model_placement BOOLEAN NULL,
+--   CONSTRAINT hale_screen_model_pk PRIMARY KEY (hale_screen_model_id)
+-- );
 
 
 -- -----------------------------------------------------
@@ -427,23 +427,23 @@ CREATE TABLE IF NOT EXISTS new_window_screen
 -- Table pilebrush
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS phantom 
-(
-  phantom_id SERIAL,
-  phantom_color BOOLEAN NULL,
-  phantom_build_out BOOLEAN NULL DEFAULT 'None',
-  meshlock CHARACTER(1) NOT NULL,
-  phantom_mesh CHARACTER VARYING(200) NOT NULL,
-  meshlock_mesh CHARACTER VARYING(100) NOT NULL,
-  type_of_screen CHARACTER VARYING(60) NOT NULL,
-  screen_color BOOLEAN NULL,
-  wood_type BOOLEAN NULL,
-  mount BOOLEAN NULL,
-  hembar BOOLEAN NULL,
-  tracks BOOLEAN NULL,
-  mesh BOOLEAN NULL,
-  CONSTRAINT phantom_pk PRIMARY KEY (phantom_id)
-);
+-- CREATE TABLE IF NOT EXISTS phantom 
+-- (
+--   phantom_id SERIAL,
+--   phantom_color BOOLEAN NULL,
+--   phantom_build_out BOOLEAN NULL DEFAULT 'None',
+--   meshlock CHARACTER(1) NOT NULL,
+--   phantom_mesh CHARACTER VARYING(200) NOT NULL,
+--   meshlock_mesh CHARACTER VARYING(100) NOT NULL,
+--   type_of_screen CHARACTER VARYING(60) NOT NULL,
+--   screen_color BOOLEAN NULL,
+--   wood_type BOOLEAN NULL,
+--   mount BOOLEAN NULL,
+--   hembar BOOLEAN NULL,
+--   tracks BOOLEAN NULL,
+--   mesh BOOLEAN NULL,
+--   CONSTRAINT phantom_pk PRIMARY KEY (phantom_id)
+-- );
 
 
 -- -----------------------------------------------------
@@ -654,64 +654,64 @@ CREATE TABLE IF NOT EXISTS rainier
 -- Table sunscreen
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS sunscreen 
-(
-  sunscreen_id SERIAL,
-  cast_clip CHARACTER VARYING(5) NOT NULL,
-  CONSTRAINT susnscreen_pk PRIMARY KEY (sunscreen_id)
-);
+-- CREATE TABLE IF NOT EXISTS sunscreen 
+-- (
+--   sunscreen_id SERIAL,
+--   cast_clip CHARACTER VARYING(5) NOT NULL,
+--   CONSTRAINT susnscreen_pk PRIMARY KEY (sunscreen_id)
+-- );
 
 
 -- -----------------------------------------------------
 -- Table view_guard
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS viewguard 
-(
-  viewguard_id SERIAL,
-  handle_color CHARACTER VARYING(10) NOT NULL,
-  door_type CHARACTER VARYING(10) NOT NULL,
-  number_of_slides INTEGER NOT NULL,
-  color CHARACTER VARYING(10) NOT NULL,
-  handle_style BOOLEAN NULL,
-  deadbolt BOOLEAN NULL,
-  CONSTRAINT viewguard_pk PRIMARY KEY (viewguard_id)
-);
+-- CREATE TABLE IF NOT EXISTS viewguard 
+-- (
+--   viewguard_id SERIAL,
+--   handle_color CHARACTER VARYING(10) NOT NULL,
+--   door_type CHARACTER VARYING(10) NOT NULL,
+--   number_of_slides INTEGER NOT NULL,
+--   color CHARACTER VARYING(10) NOT NULL,
+--   handle_style BOOLEAN NULL,
+--   deadbolt BOOLEAN NULL,
+--   CONSTRAINT viewguard_pk PRIMARY KEY (viewguard_id)
+-- );
 
 
 -- -----------------------------------------------------
 -- Table wizard_smart_screen
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS wizard_smart_screen 
-(
-  wizard_smart_screen_id SERIAL,
-  location_on_house BOOLEAN NULL,
-  placement BOOLEAN NULL,
-  color BOOLEAN NULL,
-  fabric_type BOOLEAN NULL,
-  housing_size BOOLEAN NULL,
-  drive_side BOOLEAN NULL,
-  bottom_seal BOOLEAN NULL,
-  zipper_color BOOLEAN NULL,
-  probe_color BOOLEAN NULL,
-  cable_length BOOLEAN NULL,
-  top_opening_width BOOLEAN NULL,
-  top_level BOOLEAN NULL,
-  bottom_opening_width BOOLEAN NULL,
-  bottom_level BOOLEAN NULL,
-  right_opening_height BOOLEAN NULL,
-  right_plump BOOLEAN NULL,
-  right_opening_height BOOLEAN NULL,
-  right_plump BOOLEAN NULL,
-  two_by_two_angle BOOLEAN NULL,
-  track_type BOOLEAN NULL,
-  track_punched BOOLEAN NULL,
-  starting_poINTEGER BOOLEAN NULL,
-  order_width BOOLEAN NULL,
-  order_height BOOLEAN NULL,
-  CONSTRAINT wss_pk PRIMARY KEY (wizard_smart_screen_id)
-);
+-- CREATE TABLE IF NOT EXISTS wizard_smart_screen 
+-- (
+--   wizard_smart_screen_id SERIAL,
+--   location_on_house BOOLEAN NULL,
+--   placement BOOLEAN NULL,
+--   color BOOLEAN NULL,
+--   fabric_type BOOLEAN NULL,
+--   housing_size BOOLEAN NULL,
+--   drive_side BOOLEAN NULL,
+--   bottom_seal BOOLEAN NULL,
+--   zipper_color BOOLEAN NULL,
+--   probe_color BOOLEAN NULL,
+--   cable_length BOOLEAN NULL,
+--   top_opening_width BOOLEAN NULL,
+--   top_level BOOLEAN NULL,
+--   bottom_opening_width BOOLEAN NULL,
+--   bottom_level BOOLEAN NULL,
+--   right_opening_height BOOLEAN NULL,
+--   right_plump BOOLEAN NULL,
+--   right_opening_height BOOLEAN NULL,
+--   right_plump BOOLEAN NULL,
+--   two_by_two_angle BOOLEAN NULL,
+--   track_type BOOLEAN NULL,
+--   track_punched BOOLEAN NULL,
+--   starting_poINTEGER BOOLEAN NULL,
+--   order_width BOOLEAN NULL,
+--   order_height BOOLEAN NULL,
+--   CONSTRAINT wss_pk PRIMARY KEY (wizard_smart_screen_id)
+-- );
 
 
 -- -----------------------------------------------------
@@ -769,14 +769,14 @@ CREATE TABLE IF NOT EXISTS nws_measurement
     mirage_3500_id INTEGER NULL,
     mirage_id INTEGER NULL,
     rainier_id INTEGER NULL,
-    door_id INTEGER NULL,
-    hale_screen_model_id INTEGER NULL,
-    phantom_id INTEGER NULL,
-    wizard_smart_screen_id INTEGER NULL,
-    viewguard_id INTEGER NULL,
-    sunscreen_id INTEGER NULL,
-    hale_door_id INTEGER NULL,
-    general_retrcontrol_id INTEGER NULL,
+    -- door_id INTEGER NULL,
+    -- hale_screen_model_id INTEGER NULL,
+    -- phantom_id INTEGER NULL,
+    -- wizard_smart_screen_id INTEGER NULL,
+    -- viewguard_id INTEGER NULL,
+    -- sunscreen_id INTEGER NULL,
+    -- hale_door_id INTEGER NULL,
+    general_retract_control_id INTEGER NULL,
     nws_measurement_id INTEGER NULL,
     is_estimate BOOLEAN NULL,
     is_confirmed BOOLEAN NULL
@@ -826,38 +826,38 @@ CREATE TABLE IF NOT EXISTS nws_measurement
       REFERENCES rainier (rainier_id)
       ON DELETE CASCADE
       ON UPDATE CASCADE,
-    CONSTRAINT customization_fk10
-      FOREIGN KEY (door_id)
-      REFERENCES door (door_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk11
-      FOREIGN KEY (hale_screen_model_id)
-      REFERENCES hale_screen_model (hale_screen_model_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk12
-      FOREIGN KEY (phantom_id)
-      REFERENCES phantom (phantom_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk13
-      FOREIGN KEY (wizard_smart_screen_id)
-      REFERENCES wizard_smart_screen (wizard_smart_screen_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk14
-      FOREIGN KEY (viewguard_id)
-      REFERENCES viewguard (viewguard_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk15
-      FOREIGN KEY (hale_door_id)
-      REFERENCES hale_door (hale_door_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
+    -- CONSTRAINT customization_fk10
+    --   FOREIGN KEY (door_id)
+    --   REFERENCES door (door_id)
+    --   ON DELETE CASCADE
+    --   ON UPDATE CASCADE,
+    -- CONSTRAINT customization_fk11
+    --   FOREIGN KEY (hale_screen_model_id)
+    --   REFERENCES hale_screen_model (hale_screen_model_id)
+    --   ON DELETE CASCADE
+    --   ON UPDATE CASCADE,
+    -- CONSTRAINT customization_fk12
+    --   FOREIGN KEY (phantom_id)
+    --   REFERENCES phantom (phantom_id)
+    --   ON DELETE CASCADE
+    --   ON UPDATE CASCADE,
+    -- CONSTRAINT customization_fk13
+    --   FOREIGN KEY (wizard_smart_screen_id)
+    --   REFERENCES wizard_smart_screen (wizard_smart_screen_id)
+    --   ON DELETE CASCADE
+    --   ON UPDATE CASCADE,
+    -- CONSTRAINT customization_fk14
+    --   FOREIGN KEY (viewguard_id)
+    --   REFERENCES viewguard (viewguard_id)
+    --   ON DELETE CASCADE
+    --   ON UPDATE CASCADE,
+    -- CONSTRAINT customization_fk15
+    --   FOREIGN KEY (hale_door_id)
+    --   REFERENCES hale_door (hale_door_id)
+    --   ON DELETE CASCADE
+    --   ON UPDATE CASCADE,
     CONSTRAINT customization_fk16
-      FOREIGN KEY (general_retrcontrol_id)
+      FOREIGN KEY (general_retract_control_id)
       REFERENCES general_retrcontrol (general_retrcontrol_id)
       ON DELETE CASCADE
       ON UPDATE CASCADE,
