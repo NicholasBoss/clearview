@@ -296,25 +296,11 @@ CREATE TABLE IF NOT EXISTS general_retract_control
 -- Table mirage
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS mirage 
+CREATE TABLE IF NOT EXISTS mirage
 (
   mirage_id SERIAL,
   mirage_build_out CHARACTER VARYING NOT NULL,
   CONSTRAINT mirage_pk PRIMARY KEY (mirage_id)
-);
-
-CREATE TABLE IF NOT EXISTS custom_mirage_build
-(
-  custom_mirage_id SERIAL,
-  est_mirage_build BOOLEAN NOT NULL,
-  act_mirage_build BOOLEAN NOT NULL,
-  mirage_id INTEGER NOT NULL,
-  CONSTRAINT custom_mirage_pk PRIMARY KEY (custom_mirage_id),
-  CONSTRAINT custom_mirage_fk1
-    FOREIGN KEY (mirage_id)
-    REFERENCES mirage (mirage_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
 );
 
 
