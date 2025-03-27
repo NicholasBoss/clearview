@@ -19,7 +19,7 @@ if errorlevel 1 (
     exit /b 1
 )
 
-git checkout main
-git pull
 git checkout %1
-git merge main
+git pull
+git checkout %2
+git merge %1

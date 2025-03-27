@@ -9,6 +9,14 @@ VALUES
 ('Custom');
 
 
+-- CREATE TABLE IF NOT EXISTS mesh 
+-- (
+--   mesh_id SERIAL,
+--   mesh_type CHARACTER VARYING NOT NULL,
+--   CONSTRAINT mesh_pk PRIMARY KEY (mesh_id)
+-- );
+
+
 INSERT INTO mesh
 (mesh_type)
 VALUES
@@ -18,7 +26,6 @@ VALUES
 ("Tuff"),
 ("Pet"),
 ("SS"),
-
 ("Charcoal (18x14)"),
 ("20x20 Insect Mesh"),
 ("Solar Mesh (20x30)"),
