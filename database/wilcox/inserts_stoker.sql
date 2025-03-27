@@ -113,5 +113,65 @@ VALUES
 ),
 (
     (SELECT product_id FROM product WHERE product_name = 'Mirage 3500')
-    , (SELECT color_id FROM color WHERE color_name = 'Autumn')
+    , (SELECT color_id FROM color WHERE color_name = 'Autumn Leaf')
+),
+(
+    (SELECT product_id FROM product WHERE product_name = 'Mirage 3500')
+    , (SELECT color_id FROM color WHERE color_name = 'Burgundy')
+),
+(
+    (SELECT product_id FROM product WHERE product_name = 'Mirage 3500')
+    , (SELECT color_id FROM color WHERE color_name = 'Charcoal')
+),
+(
+    (SELECT product_id FROM product WHERE product_name = 'Mirage 3500')
+    , (SELECT color_id FROM color WHERE color_name = 'Dk Bronze Metallic')
+),
+(
+    (SELECT product_id FROM product WHERE product_name = 'Mirage 3500')
+    , (SELECT color_id FROM color WHERE color_name = 'Evergreen')
+),
+(
+    (SELECT product_id FROM product WHERE product_name = 'Mirage 3500')
+    , (SELECT color_id FROM color WHERE color_name = 'Furniture White')
+),
+(
+    (SELECT product_id FROM product WHERE product_name = 'Mirage 3500')
+    , (SELECT color_id FROM color WHERE color_name = 'Gloss Brown')
+),
+(
+    (SELECT product_id FROM product WHERE product_name = 'Mirage 3500')
+    , (SELECT color_id FROM color WHERE color_name = 'Metro Brown')
+),
+(
+    (SELECT product_id FROM product WHERE product_name = 'Mirage 3500')
+    , (SELECT color_id FROM color WHERE color_name = 'Mocha')
+),
+(
+    (SELECT product_id FROM product WHERE product_name = 'Mirage 3500')
+    , (SELECT color_id FROM color WHERE color_name = 'Metalic Silver')
+),
+(
+    (SELECT product_id FROM product WHERE product_name = 'Mirage 3500')
+    , (SELECT color_id FROM color WHERE color_name = 'Oyster Grey')
+),
+(
+    (SELECT product_id FROM product WHERE product_name = 'Mirage 3500')
+    , (SELECT color_id FROM color WHERE color_name = 'Seal Beach Green')
+),
+(
+    (SELECT product_id FROM product WHERE product_name = 'Mirage 3500')
+    , (SELECT color_id FROM color WHERE color_name = 'Sundried Tomato')
+),
+(
+    (SELECT product_id FROM product WHERE product_name = 'Mirage 3500')
+    , (SELECT color_id FROM color WHERE color_name = 'Signal White')
+),
+(
+    (SELECT product_id FROM product WHERE product_name = 'Mirage 3500')
+    , (SELECT color_id FROM color WHERE color_name = 'Wicker')
+),
+(
+    (SELECT product_id FROM product WHERE product_name = 'Mirage 3500')
+    , (SELECT color_id FROM color WHERE color_name = 'Custom Match')
 ),
