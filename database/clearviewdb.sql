@@ -24,6 +24,7 @@ DROP TABLE IF EXISTS color;
 DROP TABLE IF EXISTS frame_size;
 DROP TABLE IF EXISTS fastener;
 DROP TABLE IF EXISTS mesh; 
+DROP TABLE IF EXISTS product_mesh;
 DROP TABLE IF EXISTS new_window_screen;
 DROP TABLE IF EXISTS mesh;
 DROP TABLE IF EXISTS public.window;
@@ -295,7 +296,7 @@ CREATE TABLE IF NOT EXISTS general_retract_control
 -- Table mirage
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS mirage 
+CREATE TABLE IF NOT EXISTS mirage
 (
   mirage_id SERIAL,
   mirage_build_out CHARACTER VARYING NOT NULL,
@@ -324,6 +325,28 @@ CREATE TABLE IF NOT EXISTS color
   color_id SERIAL,
   color_name CHARACTER VARYING NOT NULL,
   CONSTRAINT color_pk PRIMARY KEY (color_id)
+);
+
+-- -----------------------------------------------------
+-- Table product_color
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS product_color
+(
+  product_color_id SERIAL,
+  product_id INTEGER NOT NULL,
+  color_id INTEGER NOT NULL,
+  CONSTRAINT product_color_pk PRIMARY KEY (product_color_id),
+  CONSTRAINT product_color_fk1
+    FOREIGN KEY (product_id)
+    REFERENCES product (product_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT product_color_fk2
+    FOREIGN KEY (color_id)
+    REFERENCES color (color_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
 );
 
 
@@ -362,7 +385,33 @@ CREATE TABLE IF NOT EXISTS mesh
   CONSTRAINT mesh_pk PRIMARY KEY (mesh_id)
 );
 
+-- -----------------------------------------------------
+-- Table product_mesh
+-- -----------------------------------------------------
 
+CREATE TABLE IF NOT EXISTS product_mesh
+(
+  product_mesh_id SERIAL,
+  color_id INTEGER NOT NULL,
+  product_id INTEGER NOT NULL,
+  product_color_id INTEGER NOT NULL,
+  CONSTRAINT product_mesh_pk PRIMARY KEY (product_mesh_id)
+  CONSTRAINT product_mesh_fk1
+    FOREIGN KEY (color_id)
+    REFERENCES color (color_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+    CONSTRAINT product_mesh_fk2
+    FOREIGN KEY (product_id)
+    REFERENCES product (product_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+    CONSTRAINT product_mesh_fk3
+    FOREIGN KEY (product_color_id)
+    REFERENCES product_color (product_color_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
 -- -----------------------------------------------------
 -- Table window
 -- -----------------------------------------------------
@@ -422,6 +471,20 @@ CREATE TABLE IF NOT EXISTS new_window_screen
     ON UPDATE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS custom_new_window_screen
+(
+  custom_nws_id SERIAL,
+  est_nws_build BOOLEAN NOT NULL,
+  act_nws_build BOOLEAN NOT NULL,
+  nws_id INTEGER NOT NULL,
+  CONSTRAINT custom_nws_pk
+    PRIMARY KEY (custom_nws_id),
+  CONSTRAINT custom_nws_fk1
+    FOREIGN KEY (nws_id)
+    REFERENCES new_window_screen (nws_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)
 
 -- -----------------------------------------------------
 -- Table pilebrush
@@ -725,7 +788,7 @@ CREATE TABLE IF NOT EXISTS rainier
 CREATE TABLE IF NOT EXISTS measurement 
 (
   measurement_id SERIAL,
-  measurement_name BOOLEAN NULL,
+  measurement_name CHARACTER VARYING NULL,
   CONSTRAINT measurement_pk PRIMARY KEY (measurement_id)
 );
 
@@ -770,6 +833,7 @@ CREATE TABLE IF NOT EXISTS nws_measurement
     fastener_id INTEGER NOT NULL,
     color_id INTEGER NOT NULL,
     mesh_id INTEGER NOT NULL,
+    product_mesh_id INTEGER NOT NULL,
     mirage_3500_id INTEGER NULL,
     mirage_id INTEGER NULL,
     rainier_id INTEGER NULL,
