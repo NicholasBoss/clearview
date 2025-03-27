@@ -296,7 +296,7 @@ CREATE TABLE IF NOT EXISTS general_retract_control
 -- Table mirage
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS mirage 
+CREATE TABLE IF NOT EXISTS mirage
 (
   mirage_id SERIAL,
   mirage_build_out CHARACTER VARYING NOT NULL,
@@ -471,6 +471,20 @@ CREATE TABLE IF NOT EXISTS new_window_screen
     ON UPDATE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS custom_new_window_screen
+(
+  custom_nws_id SERIAL,
+  est_nws_build BOOLEAN NOT NULL,
+  act_nws_build BOOLEAN NOT NULL,
+  nws_id INTEGER NOT NULL,
+  CONSTRAINT custom_nws_pk
+    PRIMARY KEY (custom_nws_id),
+  CONSTRAINT custom_nws_fk1
+    FOREIGN KEY (nws_id)
+    REFERENCES new_window_screen (nws_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)
 
 -- -----------------------------------------------------
 -- Table pilebrush
