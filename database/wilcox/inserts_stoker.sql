@@ -64,3 +64,54 @@ VALUES();
 
 INSERT INTO est_right_track()
 VALUES();
+
+INSERT INTO product_color(product_id, color_id)
+VALUES
+(
+    (SELECT product_id FROM product WHERE product_name = 'Mirage 3500')
+    , (SELECT color_id FROM color WHERE color_name = 'Midnight Black')
+),
+(
+    (SELECT product_id FROM product WHERE product_name = 'Mirage 3500')
+    , (SELECT color_id FROM color WHERE color_name = 'Slate Grey')
+),
+(
+    (SELECT product_id FROM product WHERE product_name = 'Mirage 3500')
+    , (SELECT color_id FROM color WHERE color_name = 'Linen Cream')
+),
+(
+    (SELECT product_id FROM product WHERE product_name = 'Mirage 3500')
+    , (SELECT color_id FROM color WHERE color_name = 'Rideau Brown')
+),
+(
+    (SELECT product_id FROM product WHERE product_name = 'Mirage 3500')
+    , (SELECT color_id FROM color WHERE color_name = 'Sandalwood')
+),
+(
+    (SELECT product_id FROM product WHERE product_name = 'Mirage 3500')
+    , (SELECT color_id FROM color WHERE color_name = 'Tudor Brown')
+),
+(
+    (SELECT product_id FROM product WHERE product_name = 'Mirage 3500')
+    , (SELECT color_id FROM color WHERE color_name = 'Polar White')
+),
+(
+    (SELECT product_id FROM product WHERE product_name = 'Mirage 3500')
+    , (SELECT color_id FROM color WHERE color_name = 'Ex Pebble Grey')
+),
+(
+    (SELECT product_id FROM product WHERE product_name = 'Mirage 3500')
+    , (SELECT color_id FROM color WHERE color_name = 'Hartford Green')
+),
+(
+    (SELECT product_id FROM product WHERE product_name = 'Mirage 3500')
+    , (SELECT color_id FROM color WHERE color_name = 'Ansi 49 Grey')
+),
+(
+    (SELECT product_id FROM product WHERE product_name = 'Mirage 3500')
+    , (SELECT color_id FROM color WHERE color_name = 'Almond')
+),
+(
+    (SELECT product_id FROM product WHERE product_name = 'Mirage 3500')
+    , (SELECT color_id FROM color WHERE color_name = 'Autumn')
+),
