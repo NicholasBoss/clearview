@@ -10,7 +10,7 @@
     --ham-color: var(--secondary-color);
 	--nav-hover-background-color: var(--secondary-color);
     --nav-transparent-background-color: #79d4bd;
-    /* --nav-transparent-background-color: var(--primary-color); */
+    --nav-transparent-background-color: var(--primary-color);
 }
 
 header {
@@ -132,9 +132,11 @@ header {
 }
 
 .container {
-	padding: 16px;
-    width: 80%;
+	padding-left: 100px;
+    padding-top: 20px;
+    width: 100%;
     margin: 0 auto;
+    background-color: var(--primary-color);
 }
 
 .container label b {
