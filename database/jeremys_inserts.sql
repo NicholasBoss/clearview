@@ -8,12 +8,6 @@ VALUES
 ('Calk'),
 ('Custom');
 
--- CREATE TABLE IF NOT EXISTS mesh 
--- (
---   mesh_id SERIAL,
---   mesh_type CHARACTER VARYING NOT NULL,
---   CONSTRAINT mesh_pk PRIMARY KEY (mesh_id)
--- );
 
 INSERT INTO mesh
 (mesh_type)
