@@ -175,3 +175,7 @@ VALUES
     (SELECT product_id FROM product WHERE product_name = 'Mirage 3500')
     , (SELECT color_id FROM color WHERE color_name = 'Custom Match')
 ),
+(
+    (SELECT product_id FROM product WHERE product_name = 'Rainier')
+    , (SELECT color_id FROM color WHERE color_name = 'Midnight Black')
+),
