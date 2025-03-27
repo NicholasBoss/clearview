@@ -18,7 +18,6 @@ VALUES
 ("Tuff"),
 ("Pet"),
 ("SS"),
-
 ("Charcoal (18x14)"),
 ("20x20 Insect Mesh"),
 ("Solar Mesh (20x30)"),
@@ -30,3 +29,23 @@ VALUES
 ("Suntex 90 Charcoal/Black (Non-Standard) (Add $100)"),
 ("Suntex 95 Charcoal/Black (Non-Standard) (Add $100)"),
 ("Custom (Non-Standard) (Add $??)");
+
+
+INSERT INTO measurement 
+(measurement_name)
+VALUES
+('1/16'),
+('1/8'),
+('3/16'),
+('1/4'),
+('5/16'),
+('3/8'),
+('7/16'),
+('1/2'),
+('9/16'),
+('5/8'),
+('11/16'),
+('3/4'),
+('13/16'),
+('7/8'),
+('15/16');

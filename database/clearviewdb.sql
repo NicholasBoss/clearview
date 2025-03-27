@@ -770,7 +770,7 @@ CREATE TABLE IF NOT EXISTS rainier
 CREATE TABLE IF NOT EXISTS measurement 
 (
   measurement_id SERIAL,
-  measurement_name BOOLEAN NULL,
+  measurement_name CHARACTER VARYING NULL,
   CONSTRAINT measurement_pk PRIMARY KEY (measurement_id)
 );
 
