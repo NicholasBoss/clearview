@@ -129,6 +129,12 @@ header {
 	content: "X";
 }
 
+form {
+    border: 2px solid var(--accent2-color);
+    max-width: 50%;
+    margin: 0 auto;
+}
+
 .container {
 	padding: 16px;
     width: 80%;

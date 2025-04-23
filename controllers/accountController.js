@@ -241,7 +241,7 @@ async function updatePassword(req, res){
     }
 
 async function buildAccount (req, res) {
-  res.render('account/account', { title: 'Account', link: '', errors: null });
+  res.render('account/account', { title: 'Account', link: 'account', errors: null });
 };
 
 module.exports = {
