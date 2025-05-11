@@ -1,3 +1,20 @@
+<% if (title) { %>
+    <h1>
+        <%= title %>
+    </h1>
+    <% } else { res.redirect('/') } %>
+        <%- messages() %>
+        <% if (errors) { %>
+            <ul id="errorList" class="notice error">
+                <% errors.array().forEach(error=> { %>
+                    <li>
+                        <%= error.msg %>
+                    </li>
+                    <% }) %>
+            </ul>
+            <% } %>
+
+
 <h1>Create Mirage 3500 Order</h1>
 
 <form action="" method="post">
@@ -141,8 +158,58 @@
         </label><br>
 
         <label for="top_level">
-            <input type="text" name="top_level" id="top_level">
+            <select name="top_level" id="top_level">
+                <option value="">1</option>
+                <option value="">2</option>
+                <option value="">3</option>
+                <option value="">4</option>
+                <option value="">5</option>
+            </select>
         </label>
 
+        <label for="bottom_level">
+            <input type="text" name="bottom_level" id="bottom_level">
+        </label>
+
+        <label for="left_plumb">
+            <input type="text" name="left_plumb" id="left_plumb">
+        </label>
+
+        <label for="right_plumb">
+            <input type="text" name="right_plumb" id="right_plumb">
+        </label>
+
+        <label for="starting_point">
+            <input type="text" name="starting_point" id="starting_point">
+        </label>
+
+        <!-- Single or Dbl to be placed here (create a table for specifically the mirages)-->
+
+        <label for="mount">
+            <input type="text" name="mount" id="mount">
+        </label>
+        <!-- in Vs Surface -->
+
+        <!-- handing to be placed here (create a table for specifically the mirages)-->
+
+        <label for="color">
+            <input type="text" name="color" id="color">
+        </label>
+
+        <label for="handle">
+            <input type="text" name="handle" id="handle">
+        </label>
+
+        <label for="handle_color">
+            <input type="text" maxlength="10" name="handle_color" id="handle_color">
+        </label>
+
+        <label for="top_adapter">
+            <input type="text" name="top_adapter" id="top_adapter">
+        </label>
+
+        <!-- top adapter color goes here -->
+
+        
     </div>
 </form>
