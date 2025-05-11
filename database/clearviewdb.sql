@@ -10,12 +10,8 @@ DROP TABLE IF EXISTS address;
 DROP TABLE IF EXISTS customer;
 DROP TABLE IF EXISTS product;
 DROP TABLE IF EXISTS door;
--- DROP TABLE IF EXISTS account; 
-DROP TABLE IF EXISTS general_retrcontrol;
-DROP TABLE IF EXISTS hale_door; 
-DROP TABLE IF EXISTS hale_screen_model; 
 DROP TABLE IF EXISTS account;
-DROP TABLE IF EXISTS general_retrcontrol;
+DROP TABLE IF EXISTS general_retract_control;
 DROP TABLE IF EXISTS hale_door;
 DROP TABLE IF EXISTS hale_screen_model;
 DROP TABLE IF EXISTS mirage;
@@ -28,7 +24,6 @@ DROP TABLE IF EXISTS product_mesh;
 DROP TABLE IF EXISTS new_window_screen;
 DROP TABLE IF EXISTS mesh;
 DROP TABLE IF EXISTS public.window;
-DROP TABLE IF EXISTS new_window_screen;
 DROP TABLE IF EXISTS phantom;
 DROP TABLE IF EXISTS rainier;
 DROP TABLE IF EXISTS placement;
@@ -196,7 +191,7 @@ CREATE TABLE IF NOT EXISTS product
 
 
 -- Account Type Creation
--- DROP TYPE IF EXISTS account_type CASCADE;
+DROP TYPE IF EXISTS account_type CASCADE;
 CREATE TYPE IF NOT EXISTS account_type AS ENUM
 ('Employee', 'Admin', 'DBA');
 
@@ -663,7 +658,7 @@ CREATE TABLE right_track
 
 CREATE TABLE starting_point
 (
-  rainer_starting_point_id SERIAL,
+  starting_point_id SERIAL,
   starting_point_name CHARACTER VARYING NOT NULL,
   CONSTRAINT starting_point_pk PRIMARY KEY (starting_point_id)
 );
@@ -922,7 +917,7 @@ CREATE TABLE IF NOT EXISTS nws_measurement
     --   ON UPDATE CASCADE,
     CONSTRAINT customization_fk16
       FOREIGN KEY (general_retract_control_id)
-      REFERENCES general_retrcontrol (general_retrcontrol_id)
+      REFERENCES general_retract_control (general_retract_control_id)
       ON DELETE CASCADE
       ON UPDATE CASCADE,
     CONSTRAINT customization_fk17
