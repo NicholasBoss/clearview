@@ -2,55 +2,57 @@
 -- Drop Statements
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS customization;
+DROP TABLE IF EXISTS nws_measurement;
+DROP TABLE IF EXISTS measurement;
+DROP TABLE IF EXISTS rainier;
+DROP TABLE IF EXISTS starting_point;
+DROP TABLE IF EXISTS right_track;
+DROP TABLE IF EXISTS left_track;
+DROP TABLE IF EXISTS add_buildout;
+DROP TABLE IF EXISTS left_buildout;
+DROP TABLE IF EXISTS right_buildout;
+DROP TABLE IF EXISTS left_plumb;
+DROP TABLE IF EXISTS right_plumb;
+DROP TABLE IF EXISTS right_opening_height;
+DROP TABLE IF EXISTS bottom_opening_width;
+DROP TABLE IF EXISTS bottom_level;
+DROP TABLE IF EXISTS top_level;
+DROP TABLE IF EXISTS top_opening_width;
+DROP TABLE IF EXISTS drive_side;
+DROP TABLE IF EXISTS placement;
+DROP TABLE IF EXISTS housing;
+DROP TABLE IF EXISTS custom_new_window_screen;
+DROP TABLE IF EXISTS new_window_screen;
+DROP TABLE IF EXISTS public.window;
+DROP TABLE IF EXISTS product_mesh;
+DROP TABLE IF EXISTS mesh;
+DROP TABLE IF EXISTS mesh;
+DROP TABLE IF EXISTS fastener;
+DROP TABLE IF EXISTS frame_size;
+DROP TABLE IF EXISTS product_color;
+DROP TABLE IF EXISTS color;
+DROP TABLE IF EXISTS mirage_3500;
+DROP TABLE IF EXISTS mirage;
+DROP TABLE IF EXISTS general_retract_control;
+DROP TABLE IF EXISTS account;
+DROP TYPE IF EXISTS account_type;
+DROP TABLE IF EXISTS product;
+DROP TABLE IF EXISTS order_log;
 DROP TABLE IF EXISTS cust_order;
 DROP TABLE IF EXISTS customer_address;
-DROP TABLE IF EXISTS order_log;
 DROP TABLE IF EXISTS public.order;
-DROP TABLE IF EXISTS address;
 DROP TABLE IF EXISTS customer;
-DROP TABLE IF EXISTS product;
-DROP TABLE IF EXISTS door;
-DROP TABLE IF EXISTS account;
-DROP TABLE IF EXISTS general_retract_control;
-DROP TABLE IF EXISTS hale_door;
-DROP TABLE IF EXISTS hale_screen_model;
-DROP TABLE IF EXISTS mirage;
-DROP TABLE IF EXISTS mirage_3500;
-DROP TABLE IF EXISTS color;
-DROP TABLE IF EXISTS frame_size;
-DROP TABLE IF EXISTS fastener;
-DROP TABLE IF EXISTS mesh; 
-DROP TABLE IF EXISTS product_mesh;
-DROP TABLE IF EXISTS new_window_screen;
-DROP TABLE IF EXISTS mesh;
-DROP TABLE IF EXISTS public.window;
-DROP TABLE IF EXISTS phantom;
-DROP TABLE IF EXISTS rainier;
-DROP TABLE IF EXISTS placement;
-DROP TABLE IF EXISTS housing_series;
-DROP TABLE IF EXISTS drive_side;
-DROP TABLE IF EXISTS hembar;
-DROP TABLE IF EXISTS pilebrush;
-DROP TABLE IF EXISTS brush_location;
-DROP TABLE IF EXISTS cord_length;
-DROP TABLE IF EXISTS mount_type;
-DROP TABLE IF EXISTS top_opening;
-DROP TABLE IF EXISTS buildout;
-DROP TABLE IF EXISTS track;
-DROP TABLE IF EXISTS sunscreen;
-DROP TABLE IF EXISTS viewguard; 
-DROP TABLE IF EXISTS wizard_smart_screen;
-DROP TABLE IF EXISTS measurement;
-DROP TABLE IF EXISTS nws_measurement;
-DROP TABLE IF EXISTS color;
-DROP TABLE IF EXISTS mirage_3500_mesh;
-DROP TABLE IF EXISTS mirage_mesh;
-DROP TABLE IF EXISTS mirage_3500_color;
-DROP TABLE IF EXISTS mirage_color;
-DROP TABLE IF EXISTS order;
-DROP TABLE IF EXISTS mirage_order;
-DROP TABLE IF EXISTS mirage_3500_order;
-DROP TABLE IF EXISTS nws_order;
+DROP TABLE IF EXISTS address;
+
+
+
+
+
+
+
+
+
+
 
 -- -----------------------------------------------------
 -- Table address
@@ -192,7 +194,7 @@ CREATE TABLE IF NOT EXISTS product
 
 -- Account Type Creation
 DROP TYPE IF EXISTS account_type CASCADE;
-CREATE TYPE IF NOT EXISTS account_type AS ENUM
+CREATE TYPE account_type AS ENUM
 ('Employee', 'Admin', 'DBA');
 
 -- -----------------------------------------------------
@@ -341,7 +343,7 @@ CREATE TABLE IF NOT EXISTS product_color
     FOREIGN KEY (color_id)
     REFERENCES color (color_id)
     ON DELETE CASCADE
-    ON UPDATE CASCADE,
+    ON UPDATE CASCADE
 );
 
 
@@ -390,7 +392,7 @@ CREATE TABLE IF NOT EXISTS product_mesh
   color_id INTEGER NOT NULL,
   product_id INTEGER NOT NULL,
   product_color_id INTEGER NOT NULL,
-  CONSTRAINT product_mesh_pk PRIMARY KEY (product_mesh_id)
+  CONSTRAINT product_mesh_pk PRIMARY KEY (product_mesh_id),
   CONSTRAINT product_mesh_fk1
     FOREIGN KEY (color_id)
     REFERENCES color (color_id)
@@ -420,10 +422,6 @@ CREATE TABLE IF NOT EXISTS public.window
   fastener_id INTEGER NOT NULL,
   mesh_id INTEGER NOT NULL,
   CONSTRAINT window_pk PRIMARY KEY (window_id),
-  INDEX window_fk1_idx (color_id),
-  INDEX window_fk2_idx (frame_size_id),
-  INDEX window_fk3_idx (fastener_id),
-  INDEX window_fk4_idx (mesh_id),
   CONSTRAINT window_fk1
     FOREIGN KEY (color_id)
     REFERENCES color (color_id)
@@ -458,7 +456,6 @@ CREATE TABLE IF NOT EXISTS new_window_screen
   height_inch BOOLEAN NULL,
   window_id INTEGER NOT NULL,
   CONSTRAINT nws_pk PRIMARY KEY (nws_id),
-  INDEX nws_fk1_idx (window_id),
   CONSTRAINT nws_fk1
     FOREIGN KEY (window_id)
     REFERENCES public.window (window_id)
@@ -479,7 +476,7 @@ CREATE TABLE IF NOT EXISTS custom_new_window_screen
     REFERENCES new_window_screen (nws_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-)
+);
 
 -- -----------------------------------------------------
 -- Table pilebrush
@@ -537,126 +534,126 @@ CREATE TABLE IF NOT EXISTS drive_side
   CONSTRAINT drive_side_pk PRIMARY KEY (drive_side_id)
 );
 
-CREATE TABLE hembar
+CREATE TABLE IF NOT EXISTS hembar
 (
   hembar_id SERIAL,
   hembar_name CHARACTER VARYING NOT NULL,
   CONSTRAINT hembar_pk PRIMARY KEY (hembar_id)
 );
 
-CREATE TABLE pilebrush
+CREATE TABLE IF NOT EXISTS pilebrush
 (
   pilebrush_id SERIAL,
   pilebrush_name CHARACTER VARYING NOT NULL,
   CONSTRAINT pilebrush_pk PRIMARY KEY (pilebrush_id)
 );
 
-CREATE TABLE brush_loction
+CREATE TABLE IF NOT EXISTS brush_loction
 (
   brush_loction_id SERIAL,
   brush_location_name CHARACTER VARYING NOT NULL,
   CONSTRAINT drive_side_pk PRIMARY KEY (brush_loction_id)
 );
 
-CREATE TABLE cord_length
+CREATE TABLE IF NOT EXISTS cord_length
 (
   cord_length_id SERIAL,
   cord_length_name CHARACTER VARYING NOT NULL,
   CONSTRAINT cord_length_pk PRIMARY KEY (cord_length_id)
 );
 
-CREATE TABLE mount_type
+CREATE TABLE IF NOT EXISTS mount_type
 (
   mount_type_id SERIAL,
   mount_type_name CHARACTER VARYING NOT NULL,
   CONSTRAINT mount_type_pk PRIMARY KEY (mount_type_id)
 );
 
-CREATE TABLE top_opening_width
+CREATE TABLE IF NOT EXISTS top_opening_width
 (
   top_opening_width_id SERIAL,
   top_opening_width_name CHARACTER VARYING NULL,
   CONSTRAINT top_opening_width_pk PRIMARY KEY (top_opening_width_id) 
 );
 
-CREATE TABLE top_level
+CREATE TABLE IF NOT EXISTS top_level
 (
   top_level_id SERIAL,
   top_level_name CHARACTER VARYING NOT NULL,
   CONSTRAINT top_level_pk PRIMARY KEY (top_level_id)
 );
 
-CREATE TABLE bottom_level
+CREATE TABLE IF NOT EXISTS bottom_level
 (
   bottom_level_id SERIAL,
   bottom_level_name CHARACTER VARYING NOT NULL,
   CONSTRAINT bottom_level_pk PRIMARY KEY (bottom_level_id)
 );
 
-CREATE TABLE bottom_opening_width
+CREATE TABLE IF NOT EXISTS bottom_opening_width
 (
   bottom_opening_width_id SERIAL,
   bottom_opening_width_name CHARACTER VARYING NOT NULL,
   CONSTRAINT bottom_opening_width_pk PRIMARY KEY (bottom_opening_width_id)
 );
 
-CREATE TABLE right_opening_height
+CREATE TABLE IF NOT EXISTS right_opening_height
 (
   right_opening_height_id SERIAL,
   right_opening_height_name CHARACTER VARYING NOT NULL,
   CONSTRAINT right_opening_height_pk PRIMARY KEY (right_opening_height_id)
 );
 
-CREATE TABLE right_plumb
+CREATE TABLE IF NOT EXISTS right_plumb
 (
   right_plumb_id SERIAL,
   right_plumb_name CHARACTER VARYING NOT NULL,
   CONSTRAINT right_plumb_pk PRIMARY KEY (right_plumb_id)
 );
 
-CREATE TABLE left_plumb
+CREATE TABLE IF NOT EXISTS left_plumb
 (
   left_plumb_id SERIAL,
   left_plumb_name CHARACTER VARYING NOT NULL,
   CONSTRAINT left_plumb_pk PRIMARY KEY (left_plumb_id)
 );
 
-CREATE TABLE right_buildout
+CREATE TABLE IF NOT EXISTS right_buildout
 (
   right_buildout_id SERIAL,
   right_buildout_name CHARACTER VARYING NOT NULL,
   CONSTRAINT right_buildout_pk PRIMARY KEY (right_buildout_id)
 );
 
-CREATE TABLE left_buildout
+CREATE TABLE IF NOT EXISTS left_buildout
 (
   left_buildout_id SERIAL,
   left_buildout_name CHARACTER VARYING NOT NULL,
   CONSTRAINT left_buildout_pk PRIMARY KEY (left_buildout_id)
 );
 
-CREATE TABLE add_buildout
+CREATE TABLE IF NOT EXISTS add_buildout
 (
   add_buildout_id SERIAL,
   add_buildout_name CHARACTER VARYING NOT NULL,
   CONSTRAINT drive_side_pk PRIMARY KEY (drive_side_id)
-)
+);
 
-CREATE TABLE left_track
+CREATE TABLE IF NOT EXISTS left_track
 (
   left_track_id SERIAL,
   left_track_name CHARACTER VARYING NOT NULL,
   CONSTRAINT left_track_pk PRIMARY KEY (left_track_id)
 );
 
-CREATE TABLE right_track
+CREATE TABLE IF NOT EXISTS right_track
 (
   right_track_id SERIAL,
   right_track_name CHARACTER VARYING NOT NULL,
   CONSTRAINT right_track_pk PRIMARY KEY (right_track_id)
 );
 
-CREATE TABLE starting_point
+CREATE TABLE IF NOT EXISTS starting_point
 (
   starting_point_id SERIAL,
   starting_point_name CHARACTER VARYING NOT NULL,
@@ -687,7 +684,7 @@ CREATE TABLE IF NOT EXISTS rainier
   left_track_id INTEGER NOT NULL,
   right_track_id INTEGER NOT NULL,
   is_estimate BOOLEAN NULL,
-  is_confirmed BOOLEAN NULL
+  is_confirmed BOOLEAN NULL,
 
   CONSTRAINT rainier_pk PRIMARY KEY (rainier_id),
   CONSTRAINT rainier_fk1
@@ -704,7 +701,7 @@ CREATE TABLE IF NOT EXISTS rainier
     FOREIGN KEY (drive_side_id)
     REFERENCES drive_side (drive_side_id)
     ON DELETE CASCADE
-    ON UPDATE CASCADE,
+    ON UPDATE CASCADE
 
 );
 
@@ -797,8 +794,6 @@ CREATE TABLE IF NOT EXISTS nws_measurement
   height_fraction CHARACTER VARYING NULL,
   height_plus_minus CHARACTER(1) NULL,
   CONSTRAINT nws_measurement_pk PRIMARY KEY (nws_measurement_id),
-  INDEX nws_measurement_fk1_idx (measurement_id),
-  INDEX nws_measurement_fk2_idx (nws_id),
   CONSTRAINT nws_measurement_fk1
     FOREIGN KEY (measurement_id)
     REFERENCES measurement (measurement_id)
@@ -838,7 +833,7 @@ CREATE TABLE IF NOT EXISTS nws_measurement
     general_retract_control_id INTEGER NULL,
     nws_measurement_id INTEGER NULL,
     is_estimate BOOLEAN NULL,
-    is_confirmed BOOLEAN NULL
+    is_confirmed BOOLEAN NULL,
     CONSTRAINT customization_pk PRIMARY KEY (customization_id),
     CONSTRAINT customization_fk1
       FOREIGN KEY (product_id)
@@ -932,23 +927,23 @@ CREATE TABLE IF NOT EXISTS nws_measurement
 
 -- INSERTS
 
-INSERT INTO color (color_name)
-VALUES ('Midnight Black', 'Slack Grey', 'Limen Cream', 'Rindeau Brown', 'Sandalwood', 'Tudor Brown', 'Polar White', 'Ex Pebble Grey'
-        , 'Hatford Green', 'Ansi 49 Grey', 'Almond', 'Autumn Leaf', 'Bergundy', 'Charcoal', 'Dk Bronze Metallic', 'Evergreen'
-        , 'Furniture White', 'Gloss Brown', 'Metro Brown', 'Mocha', 'Metalic Silver', 'Oyster Grey', 'Seal Beach Green', 'Sundried Tomato', 'Signal White', 'Wicker', 'Custom Match');
+-- INSERT INTO color (color_name)
+-- VALUES ('Midnight Black', 'Slack Grey', 'Limen Cream', 'Rindeau Brown', 'Sandalwood', 'Tudor Brown', 'Polar White', 'Ex Pebble Grey'
+--         , 'Hatford Green', 'Ansi 49 Grey', 'Almond', 'Autumn Leaf', 'Bergundy', 'Charcoal', 'Dk Bronze Metallic', 'Evergreen'
+--         , 'Furniture White', 'Gloss Brown', 'Metro Brown', 'Mocha', 'Metalic Silver', 'Oyster Grey', 'Seal Beach Green', 'Sundried Tomato', 'Signal White', 'Wicker', 'Custom Match');
 
-INSERT INTO frame_size (size_type)
-VALUES ('1/4"', '5/16"', '3/8"', '7/16"', '1"', 'OC', 'IC');
+-- INSERT INTO frame_size (size_type)
+-- VALUES ('1/4"', '5/16"', '3/8"', '7/16"', '1"', 'OC', 'IC');
 
-INSERT INTO fastener (fastener_type)
-VALUES ('None', 'RH (Ram Horn Spring)', 'PP (Pointed Plunger)', 'SP (Standard Plunger)', 'FP (Fat Plunger)', '1" FP (1" Fat Plunger)', 'PL (Pointer Latch)', 'CC (Cast Clip)', 'F-Chanel', 'H-Chanel', 'Combination', 'Custom')
+-- INSERT INTO fastener (fastener_type)
+-- VALUES ('None', 'RH (Ram Horn Spring)', 'PP (Pointed Plunger)', 'SP (Standard Plunger)', 'FP (Fat Plunger)', '1" FP (1" Fat Plunger)', 'PL (Pointer Latch)', 'CC (Cast Clip)', 'F-Chanel', 'H-Chanel', 'Combination', 'Custom')
 
-INSERT INTO mesh (mesh_type)
-VALUES ('BV', 'Bug', 'Patio', 'Tuff', 'Pet', 'SS')
+-- INSERT INTO mesh (mesh_type)
+-- VALUES ('BV', 'Bug', 'Patio', 'Tuff', 'Pet', 'SS')
 
 
-INSERT INTO PRODUCT (product_name)
-VALUES ("Mirage", "Mirage 3500", "New Window Screen", "Rainier")
+-- INSERT INTO PRODUCT (product_name)
+-- VALUES ("Mirage", "Mirage 3500", "New Window Screen", "Rainier")
 
 
 
