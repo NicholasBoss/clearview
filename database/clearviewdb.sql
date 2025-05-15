@@ -26,7 +26,6 @@ DROP TABLE IF EXISTS new_window_screen;
 DROP TABLE IF EXISTS public.window;
 DROP TABLE IF EXISTS product_mesh;
 DROP TABLE IF EXISTS mesh;
-DROP TABLE IF EXISTS mesh;
 DROP TABLE IF EXISTS fastener;
 DROP TABLE IF EXISTS frame_size;
 DROP TABLE IF EXISTS product_color;
@@ -34,8 +33,8 @@ DROP TABLE IF EXISTS color;
 DROP TABLE IF EXISTS mirage_3500;
 DROP TABLE IF EXISTS mirage;
 DROP TABLE IF EXISTS general_retract_control;
-DROP TABLE IF EXISTS account;
-DROP TYPE IF EXISTS account_type;
+--DROP TABLE IF EXISTS account;
+--DROP TYPE IF EXISTS account_type;
 DROP TABLE IF EXISTS product;
 DROP TABLE IF EXISTS order_log;
 DROP TABLE IF EXISTS cust_order;
@@ -82,6 +81,25 @@ CREATE TABLE IF NOT EXISTS customer
   CONSTRAINT customer_pk PRIMARY KEY (customer_id)
 );
 
+
+-- Account Type Creation
+CREATE TYPE account_type AS ENUM
+('Employee', 'Admin', 'DBA');
+
+-- -----------------------------------------------------
+-- Table account
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS account 
+(
+  account_id SERIAL,
+  account_firstname CHARACTER VARYING NOT NULL,
+  account_lastname CHARACTER VARYING NOT NULL,
+  account_email CHARACTER VARYING NOT NULL,
+  account_password CHARACTER VARYING NOT NULL,
+  account_type account_type NOT NULL DEFAULT 'Employee'::account_type,
+  CONSTRAINT account_pk PRIMARY KEY (account_id)
+);
 
 -- -----------------------------------------------------
 -- Table order
@@ -188,27 +206,6 @@ CREATE TABLE IF NOT EXISTS product
   product_id SERIAL,
   product_name CHARACTER VARYING NOT NULL,
   CONSTRAINT product_pk PRIMARY KEY (product_id)
-);
-
-
-
--- Account Type Creation
-CREATE TYPE account_type AS ENUM
-('Employee', 'Admin', 'DBA');
-
--- -----------------------------------------------------
--- Table account
--- -----------------------------------------------------
-
-CREATE TABLE IF NOT EXISTS account 
-(
-  account_id SERIAL,
-  account_firstname CHARACTER VARYING NOT NULL,
-  account_lastname CHARACTER VARYING NOT NULL,
-  account_email CHARACTER VARYING NOT NULL,
-  account_password CHARACTER VARYING NOT NULL,
-  account_type account_type NOT NULL DEFAULT 'Employee'::account_type,
-  CONSTRAINT account_pk PRIMARY KEY (account_id)
 );
 
 
