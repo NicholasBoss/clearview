@@ -1,1 +1,332 @@
+<% if (title) { %>
+    <h1>
+        <%= title %>
+    </h1>
+    <% } else { res.redirect('/') } %>
+        <%- messages() %>
+        <% if (errors) { %>
+            <ul id="errorList" class="notice error">
+                <% errors.array().forEach(error=> { %>
+                    <li>
+                        <%= error.msg %>
+                    </li>
+                    <% }) %>
+            </ul>
+            <% } %>
+
+
 <h1>Create Mirage Order</h1>
+
+<form action="" method="post">
+    <div class="container">
+        <!-- Single or Dbl to be placed here (create a table for specifically the mirages)-->
+
+        <label for="mount">
+            <input type="text" name="mount" id="mount">
+        </label>
+        <!-- in Vs Surface -->
+
+        <!-- handing to be placed here (create a table for specifically the mirages)-->
+
+        <label for="color">
+            <select  name="color_name" id="color">
+                <option value="">1</option>
+                <option value="">2</option>
+                <option value="">3</option>
+                <option value="">4</option>
+                <option value="">5</option>
+            </select>
+        </label>
+
+        <label for="">
+            <select  name="" id="pivot_pro_color">
+                <option value="">1</option>
+                <option value="">2</option>
+                <option value="">3</option>
+                <option value="">4</option>
+                <option value="">5</option>
+            </select>
+        </label>
+        <!-- pivot pro color not found in database -->
+
+        <label for="top_adapter">
+            <select name="top_adapter" id="top_adapter">
+                <option value="">1</option>
+                <option value="">2</option>
+                <option value="">3</option>
+                <option value="">4</option>
+                <option value="">5</option>
+            </select>
+        </label>
+
+        <label for="top_adapter_color">
+            <select name="top_adapter_color" id="top_adapter_color">
+                <option value="">1</option>
+                <option value="">2</option>
+                <option value="">3</option>
+                <option value="">4</option>
+                <option value="">5</option>
+            </select>
+        </label>
+        <!-- top adapter color not found in database -->
+
+         <label for="top_adapter_width">
+            <input type="text" name="top_adapter_width" id="top_adapter_width">
+        </label><br>
+        <label for="top_adapter_width_fraction">
+            <select name="top_adapter_width_fraction" id="top_adapter_width_fraction">
+                <option value="">1</option>
+                <option value="">2</option>
+                <option value="">3</option>
+                <option value="">4</option>
+                <option value="">5</option>
+                <option value="">6</option>
+                <option value="">7</option>
+                <option value="">8</option>
+                <option value="">9</option>
+                <option value="">10</option>
+                <option value="">11</option>
+                <option value="">12</option>
+                <option value="">13</option>
+                <option value="">14</option>
+                <option value="">15</option>
+            </select>
+        </label><br>
+         <!-- top adapter width not found in database -->
+
+         <label for="opening_height">
+            <input type="text" name="opening_height" id="opening_height">
+        </label><br>
+        <label for="opening_height_fraction">
+            <select name="opening_height_fraction" id="opening_height_fraction">
+                <option value="">1</option>
+                <option value="">2</option>
+                <option value="">3</option>
+                <option value="">4</option>
+                <option value="">5</option>
+                <option value="">6</option>
+                <option value="">7</option>
+                <option value="">8</option>
+                <option value="">9</option>
+                <option value="">10</option>
+                <option value="">11</option>
+                <option value="">12</option>
+                <option value="">13</option>
+                <option value="">14</option>
+                <option value="">15</option>
+            </select>
+        </label><br>
+        <!-- Not sure if right_opening_height is the same as opening height -->
+
+        <label for="unit_height">
+            <input type="text" name="unit_height" id="unit_height">
+        </label><br>
+        <label for="unit_height_fraction">
+            <select name="unit_height_fraction" id="unit_height_fraction">
+                <option value="">1</option>
+                <option value="">2</option>
+                <option value="">3</option>
+                <option value="">4</option>
+                <option value="">5</option>
+                <option value="">6</option>
+                <option value="">7</option>
+                <option value="">8</option>
+                <option value="">9</option>
+                <option value="">10</option>
+                <option value="">11</option>
+                <option value="">12</option>
+                <option value="">13</option>
+                <option value="">14</option>
+                <option value="">15</option>
+            </select>
+        </label><br>
+        <!-- unit height not found in database -->
+
+        <label for="pivot_pro_height">
+            <input type="text" name="pivot_pro_height" id="pivot_pro_height">
+        </label><br>
+        <label for="pivot_pro_height_fraction">
+            <select name="pivot_pro_height_fraction" id="pivot_pro_height_fraction">
+                <option value="">1</option>
+                <option value="">2</option>
+                <option value="">3</option>
+                <option value="">4</option>
+                <option value="">5</option>
+                <option value="">6</option>
+                <option value="">7</option>
+                <option value="">8</option>
+                <option value="">9</option>
+                <option value="">10</option>
+                <option value="">11</option>
+                <option value="">12</option>
+                <option value="">13</option>
+                <option value="">14</option>
+                <option value="">15</option>
+            </select>
+        </label><br>
+        <!-- pivot pro height not found in database -->
+
+        <label for="btm_adapter">
+            <select name="btm_adapter" id="btm_adapter">
+                <option value="">1</option>
+                <option value="">2</option>
+                <option value="">3</option>
+                <option value="">4</option>
+                <option value="">5</option>
+            </select>
+        </label>
+
+        <label for="btm_adapter_color">
+            <select name="btm_adapter_color" id="btm_adapter_color">
+                <option value="">1</option>
+                <option value="">2</option>
+                <option value="">3</option>
+                <option value="">4</option>
+                <option value="">5</option>
+            </select>
+        </label>
+
+        <label for="btm_adapter_width">
+            <input type="text" name="btm_adapter_width" id="btm_adapter_width">
+        </label><br>
+        <label for="btm_adapter_width_fraction">
+            <select name="btm_adapter_width_fraction" id="btm_adapter_width_fraction">
+                <option value="">1</option>
+                <option value="">2</option>
+                <option value="">3</option>
+                <option value="">4</option>
+                <option value="">5</option>
+                <option value="">6</option>
+                <option value="">7</option>
+                <option value="">8</option>
+                <option value="">9</option>
+                <option value="">10</option>
+                <option value="">11</option>
+                <option value="">12</option>
+                <option value="">13</option>
+                <option value="">14</option>
+                <option value="">15</option>
+            </select>
+        </label><br>
+        <!-- bottom adapter width not found in database -->
+
+        <label for="">
+            <select name="" id="build_out">
+                <option value="">1</option>
+                <option value="">2</option>
+                <option value="">3</option>
+                <option value="">4</option>
+                <option value="">5</option>
+            </select>
+        </label>
+        <!-- build out for M3500 goes here (not sure which variable in db is correct) -->
+
+         <label for="">
+            <input type="text" name="" id="build_out_dimension">
+        </label><br>
+        <label for="">
+            <select name="" id="build_out_dimension_fraction">
+                <option value="">1</option>
+                <option value="">2</option>
+                <option value="">3</option>
+                <option value="">4</option>
+                <option value="">5</option>
+                <option value="">6</option>
+                <option value="">7</option>
+                <option value="">8</option>
+                <option value="">9</option>
+                <option value="">10</option>
+                <option value="">11</option>
+                <option value="">12</option>
+                <option value="">13</option>
+                <option value="">14</option>
+                <option value="">15</option>
+            </select>
+        </label><br>
+        <!-- build out dimension not found in database (goes here) -->
+
+        <label for="">
+            <select name="" id="mesh">
+                <option value="">1</option>
+                <option value="">2</option>
+                <option value="">3</option>
+                <option value="">4</option>
+                <option value="">5</option>
+            </select>
+        </label>
+        <!-- There are a lot of different mesh variables and I am unsure of which one to use here -->
+
+        <label for="mohair">
+            <select name="mohair" id="mohair">
+                <option value="">1</option>
+                <option value="">2</option>
+                <option value="">3</option>
+                <option value="">4</option>
+                <option value="">5</option>
+            </select>
+        </label>
+
+        <label for="mohair_position">
+            <select name="mohair_position" id="mohair_position">
+                <option value="">1</option>
+                <option value="">2</option>
+                <option value="">3</option>
+                <option value="">4</option>
+                <option value="">5</option>
+            </select>
+        </label>
+
+        <!-- bottom adapter screws go here (not found in database) -->
+
+        <!-- slide bolt goes here (not found in db) -->
+
+        <label for="mohair_size">
+            <select name="mohair_size" id="mohair_size">
+                <option value="">1</option>
+                <option value="">2</option>
+                <option value="">3</option>
+                <option value="">4</option>
+            </select>
+        </label>
+
+        <!-- 4 sizes of mohair not found in database  -->
+
+         <label for="">
+            <select name="" id="bumper_pads">
+                <option value="">1</option>
+                <option value="">2</option>
+                <option value="">3</option>
+                <option value="">4</option>
+                <option value="">5</option>
+            </select>
+        </label>
+        <!-- bumper pads not found in database -->
+
+        <label for="">
+            <select name="" id="silicone_spray">
+                <option value="">1</option>
+                <option value="">2</option>
+                <option value="">3</option>
+                <option value="">4</option>
+                <option value="">5</option>
+            </select>
+        </label>
+        <!-- silicone spray not found in database -->
+
+        <label for="location_on_house">
+            <select name="location_on_house" id="label_location">
+                <option value="">1</option>
+                <option value="">2</option>
+                <option value="">3</option>
+                <option value="">4</option>
+                <option value="">5</option>
+            </select>
+        </label>
+        <!-- unsure if label/location is in database - used location on house (change if needed) -->
+
+        <!-- sold and date sold goes here (not found in database) -->
+
+        <!-- QC Tech / Date goes here (not found in database) -->
+         
+    </div>
+</form>
