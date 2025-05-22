@@ -548,7 +548,7 @@ CREATE TABLE IF NOT EXISTS brush_loction
 (
   brush_loction_id SERIAL,
   brush_location_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT drive_side_pk PRIMARY KEY (brush_loction_id)
+  CONSTRAINT brush_location_pk PRIMARY KEY (brush_loction_id)
 );
 
 CREATE TABLE IF NOT EXISTS cord_length
@@ -632,7 +632,7 @@ CREATE TABLE IF NOT EXISTS add_buildout
 (
   add_buildout_id SERIAL,
   add_buildout_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT drive_side_pk PRIMARY KEY (drive_side_id)
+  CONSTRAINT add_buildout_pk PRIMARY KEY (add_buildout_id)
 );
 
 CREATE TABLE IF NOT EXISTS left_track
