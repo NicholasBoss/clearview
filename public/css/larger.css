@@ -36,6 +36,6 @@
         margin-top: unset;
     }
     #passImg {
-        width: 3%;
+        max-width: 7%;
     }
 }

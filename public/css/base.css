@@ -1,6 +1,6 @@
 :root{
     /* Site Colors */
-    --primary-color: #6EBAEF;    
+    --primary-color: #6ebaef;    
     --secondary-color: #1F6DE2;
     --accent1-color: #474747;
     --accent2-color: #93B0F5;
@@ -9,8 +9,7 @@
     --accent5-color: black;
     --ham-color: var(--secondary-color);
 	--nav-hover-background-color: var(--secondary-color);
-    --nav-transparent-background-color: #79d4bd;
-    --nav-transparent-background-color: var(--primary-color);
+    --nav-transparent-background-color: rgba(130, 198, 232, 0.85);
 }
 
 header {
@@ -55,7 +54,6 @@ header {
     justify-self: center;
     border-radius: 5px;
     font-size: initial;
-    opacity: 0.85;
 }
 
 #loggedin, #loggedout {
@@ -147,6 +145,7 @@ form {
     border-radius: 5px;
     padding: 50px;
     margin: 60px;
+    background-color: var(--accent2-color);
 }
 
 .container label b {
