@@ -10,7 +10,7 @@
         border-radius: 50%;
     }
     .logo {
-        max-width: 100%;
+        min-width: 150%;
     }
     #tools {
         grid-column: 3/4;
