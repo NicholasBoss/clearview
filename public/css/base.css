@@ -176,7 +176,8 @@ input[type=email], input[type=password], input[type=text], input[type=tel], inpu
     border-radius: 6px;
     padding: .75rem;
     color: #555;
-    max-width: 300px;
+    width: 75%;
+    max-width: 500px;
     display: block;
 }
 
