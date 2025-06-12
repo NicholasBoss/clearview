@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS nws_measurement;
 DROP TABLE IF EXISTS measurement;
-DROP TABLE IF EXISTS rainier;
+-- DROP TABLE IF EXISTS rainier;
 DROP TABLE IF EXISTS starting_point;
 DROP TABLE IF EXISTS right_track;
 DROP TABLE IF EXISTS left_track;
@@ -30,15 +30,15 @@ DROP TABLE IF EXISTS product_color;
 DROP TABLE IF EXISTS mirage_3500;
 DROP TABLE IF EXISTS mirage;
 DROP TABLE IF EXISTS general_retract_control;
-DROP TABLE IF EXISTS account;
-DROP TYPE IF EXISTS account_type;
+-- DROP TABLE IF EXISTS account;
+-- DROP TYPE IF EXISTS account_type;
 DROP TABLE IF EXISTS product;
-DROP TABLE IF EXISTS order_log;
-DROP TABLE IF EXISTS cust_order;
-DROP TABLE IF EXISTS customer_address;
-DROP TABLE IF EXISTS public.order;
-DROP TABLE IF EXISTS customer;
-DROP TABLE IF EXISTS address;
+-- DROP TABLE IF EXISTS order_log;
+-- DROP TABLE IF EXISTS cust_order;
+-- DROP TABLE IF EXISTS customer_address;
+-- DROP TABLE IF EXISTS public.order;
+-- DROP TABLE IF EXISTS customer;
+-- DROP TABLE IF EXISTS address;
 
 INSERT INTO color (color_name)
 VALUES ('Midnight Black'), ('Slack Grey'), ('Limen Cream'), ('Rindeau Brown'), ('Sandalwood'), ('Tudor Brown'), ('Polar White'), ('Ex Pebble Grey')
