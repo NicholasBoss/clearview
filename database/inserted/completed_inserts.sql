@@ -166,8 +166,10 @@ VALUES
 INSERT INTO placement
 (placement_name)
 VALUES 
-('ILO Left (for LH door)'),
-('ILO Right (for RH door)');
+('Outside'),
+('Inside'),
+('Under Facing In'),
+('Under Facing Out');
 
 INSERT INTO housing
 (housing_series_name)
