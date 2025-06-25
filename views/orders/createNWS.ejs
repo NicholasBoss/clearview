@@ -1,11 +1,9 @@
 <h1>Create New Window Screen Order</h1>
 
-<form action="" method="post">
+<form action="/orders/create" method="post">
     <div class="container">
         <label><b>Quantity</b>
-            <select name="quantity" id="">
-                <input type="text" name="quantity_amount" id="">
-            </select>
+            <input type="text" name="quantity" id="">
         </label><br>
         <label><b>Fab</b>
             <select name="fab" id="">
@@ -42,7 +40,7 @@
             </select>
         </label><br>
         <label><b>W / F</b>
-            <select name="w/f" id="">
+            <select name="measurement_name" id="">
                 <option value="">1</option>
                 <option value="">2</option>
                 <option value="">3</option>
@@ -71,8 +69,8 @@
                 <input type="text" name="height_input" id="">
             </select>
         </label><br>
-        <label><b>h / f</b>
-            <select name="h/f" id="">
+        <label><b>H / F</b>
+            <select name="height_fraction" id="">
                 <option value="">1</option>
                 <option value="">2</option>
                 <option value="">3</option>
@@ -142,5 +140,14 @@
         <label><b>Notes</b>
             <input type="text" name="notes" id="">
         </label><br>
+
+        <label><b>Order Type</b>
+            <select name="order_type" id="">
+                <option value="phone">Phone Order</option>
+                <option value="in_person">On-Site Order</option>
+            </select>
+        </label><br>
+
+        <button type="submit">Create Order</button>
     </div>
 </form>
