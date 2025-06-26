@@ -172,3 +172,21 @@ input[type=email], input[type=password], input[type=text], input[type=tel], inpu
 #workOrders {
 	text-align: center;
 }
+
+.types {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--primary-color);
+    text-align: center;
+}
+
+.types a {
+    background-color: var(--secondary-color);
+    margin: 35px auto;
+    max-width: 25%;
+    text-align: center;
+    padding: 5%;
+    border-radius: 5%;
+    color: var(--accent4-color);
+    text-decoration: none;
+}
