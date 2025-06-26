@@ -1,48 +1,61 @@
-DROP TABLE IF EXISTS nws_measurement;
--- DROP TABLE IF EXISTS measurement;
--- DROP TABLE IF EXISTS rainier;
-DROP TABLE IF EXISTS starting_point;
-DROP TABLE IF EXISTS right_track;
-DROP TABLE IF EXISTS left_track;
--- DROP TABLE IF EXISTS brush_location;
--- DROP TABLE IF EXISTS pilebrush;
-DROP TABLE IF EXISTS add_buildout;
-DROP TABLE IF EXISTS left_buildout;
-DROP TABLE IF EXISTS right_buildout;
--- DROP TABLE IF EXISTS hembar;
--- DROP TABLE IF EXISTS cord_length;
--- DROP TABLE IF EXISTS frame_size;
-DROP TABLE IF EXISTS left_plumb;
-DROP TABLE IF EXISTS right_plumb;
-DROP TABLE IF EXISTS right_opening_height;
-DROP TABLE IF EXISTS bottom_opening_width;
-DROP TABLE IF EXISTS bottom_level;
-DROP TABLE IF EXISTS top_level;
-DROP TABLE IF EXISTS top_opening_width;
--- DROP TABLE IF EXISTS drive_side;
--- DROP TABLE IF EXISTS placement;
--- DROP TABLE IF EXISTS housing;
-DROP TABLE IF EXISTS custom_new_window_screen;
-DROP TABLE IF EXISTS new_window_screen;
-DROP TABLE IF EXISTS public.window;
-DROP TABLE IF EXISTS product_mesh;
--- DROP TABLE IF EXISTS mesh;
--- DROP TABLE IF EXISTS fastener;
--- DROP TABLE IF EXISTS frame_size;
-DROP TABLE IF EXISTS product_color;
--- DROP TABLE IF EXISTS color;
--- DROP TABLE IF EXISTS mirage_3500;
--- DROP TABLE IF EXISTS mirage;
-DROP TABLE IF EXISTS general_retract_control;
--- DROP TABLE IF EXISTS account;
--- DROP TYPE IF EXISTS account_type;
-DROP TABLE IF EXISTS product;
--- DROP TABLE IF EXISTS order_log;
--- DROP TABLE IF EXISTS cust_order;
--- DROP TABLE IF EXISTS customer_address;
--- DROP TABLE IF EXISTS public.order;
--- DROP TABLE IF EXISTS customer;
--- DROP TABLE IF EXISTS address;
+tow_measurement
+bow_measurement
+roh_measurement
+loh_measurement
+nws_measurement
+-- measurement
+-- rainier
+starting_point
+right_track
+left_track
+-- brush_location
+-- pilebrush
+add_buildout
+left_buildout
+right_buildout
+top_adapter
+bottom_adapter
+-- hembar
+-- cord_length
+-- frame_size
+left_plumb
+right_plumb
+right_opening_height
+bottom_opening_width
+bottom_level
+top_level
+top_opening_width
+-- drive_side
+-- placement
+-- housing
+custom_new_window_screen
+new_window_screen
+public.window
+product_mesh
+-- mesh
+-- fastener
+-- frame_size
+fabric_color
+handle_color
+hardware_color
+nws_color
+pivot_pro_color
+top_adapter_color
+rainier_zipper_color
+product_color
+-- color
+-- mirage_3500
+-- mirage
+general_retract_control
+-- account
+-- account_type
+product
+-- order_log
+-- cust_order
+-- customer_address
+-- public.order
+-- customer
+-- address
 
 INSERT INTO color (color_name)
 VALUES ('Midnight Black'), ('Slack Grey'), ('Limen Cream'), ('Rindeau Brown'), ('Sandalwood'), ('Tudor Brown'), ('Polar White'), ('Ex Pebble Grey')
