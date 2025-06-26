@@ -2,6 +2,11 @@
 -- Drop Statements
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS customization;
+DROP TABLE IF EXISTS tow_measurement;
+DROP TABLE IF EXISTS bow_measurement;
+DROP TABLE IF EXISTS roh_measurement;
+DROP TABLE IF EXISTS loh_measurement;
+DROP TABLE IF EXISTS brush_location;
 DROP TABLE IF EXISTS nws_measurement;
 DROP TABLE IF EXISTS measurement;
 DROP TABLE IF EXISTS rainier;
@@ -11,6 +16,8 @@ DROP TABLE IF EXISTS left_track;
 DROP TABLE IF EXISTS add_buildout;
 DROP TABLE IF EXISTS left_buildout;
 DROP TABLE IF EXISTS right_buildout;
+DROP TABLE IF EXISTS top_adapter;
+DROP TABLE IF EXISTS bottom_adapter;
 DROP TABLE IF EXISTS left_plumb;
 DROP TABLE IF EXISTS right_plumb;
 DROP TABLE IF EXISTS right_opening_height;
@@ -26,16 +33,22 @@ DROP TABLE IF EXISTS new_window_screen;
 DROP TABLE IF EXISTS public.window;
 DROP TABLE IF EXISTS product_mesh;
 DROP TABLE IF EXISTS mesh;
-DROP TABLE IF EXISTS mesh;
 DROP TABLE IF EXISTS fastener;
 DROP TABLE IF EXISTS frame_size;
+DROP TABLE IF EXISTS fabric_color;
+DROP TABLE IF EXISTS handle_color;
+DROP TABLE IF EXISTS hardware_color;
+DROP TABLE IF EXISTS nws_color;
+DROP TABLE IF EXISTS pivot_pro_color;
+DROP TABLE IF EXISTS top_adapter_color;
+DROP TABLE IF EXISTS rainier_zipper_color;
 DROP TABLE IF EXISTS product_color;
 DROP TABLE IF EXISTS color;
 DROP TABLE IF EXISTS mirage_3500;
 DROP TABLE IF EXISTS mirage;
 DROP TABLE IF EXISTS general_retract_control;
-DROP TABLE IF EXISTS account;
-DROP TYPE IF EXISTS account_type;
+-- DROP TABLE IF EXISTS account;
+-- DROP TYPE IF EXISTS account_type;
 DROP TABLE IF EXISTS product;
 DROP TABLE IF EXISTS order_log;
 DROP TABLE IF EXISTS cust_order;
@@ -350,6 +363,39 @@ CREATE TABLE IF NOT EXISTS mesh
 );
 
 -- -----------------------------------------------------
+-- Table color
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS color 
+(
+  color_id SERIAL,
+  color_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT color_pk PRIMARY KEY (color_id)
+);
+
+-- -----------------------------------------------------
+-- Table product_color
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS product_color
+(
+  product_color_id SERIAL,
+  product_id INTEGER NOT NULL,
+  color_id INTEGER NOT NULL,
+  CONSTRAINT product_color_pk PRIMARY KEY (product_color_id),
+  CONSTRAINT product_color_fk1
+    FOREIGN KEY (product_id)
+    REFERENCES product (product_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT product_color_fk2
+    FOREIGN KEY (color_id)
+    REFERENCES color (color_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+-- -----------------------------------------------------
 -- Table product_mesh
 -- -----------------------------------------------------
 
@@ -446,39 +492,6 @@ CREATE TABLE IF NOT EXISTS custom_new_window_screen
 );
 
 -- -----------------------------------------------------
--- Table color
--- -----------------------------------------------------
-
-CREATE TABLE IF NOT EXISTS color 
-(
-  color_id SERIAL,
-  color_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT color_pk PRIMARY KEY (color_id)
-);
-
--- -----------------------------------------------------
--- Table product_color
--- -----------------------------------------------------
-
-CREATE TABLE IF NOT EXISTS product_color
-(
-  product_color_id SERIAL,
-  product_id INTEGER NOT NULL,
-  color_id INTEGER NOT NULL,
-  CONSTRAINT product_color_pk PRIMARY KEY (product_color_id),
-  CONSTRAINT product_color_fk1
-    FOREIGN KEY (product_id)
-    REFERENCES product (product_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT product_color_fk2
-    FOREIGN KEY (color_id)
-    REFERENCES color (color_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
-);
-
--- -----------------------------------------------------
 -- Table fabric_color
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS fabric_color
@@ -491,7 +504,7 @@ CREATE TABLE IF NOT EXISTS fabric_color
     REFERENCES product_color (product_color_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-)
+);
 
 -- -----------------------------------------------------
 -- Table handle_color
@@ -506,7 +519,7 @@ CREATE TABLE IF NOT EXISTS handle_color
     REFERENCES product_color (product_color_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-)
+);
 
 -- -----------------------------------------------------
 -- Table hardware_color
@@ -521,7 +534,7 @@ CREATE TABLE IF NOT EXISTS hardware_color
     REFERENCES product_color (product_color_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-)
+);
 
 -- ------------------------------------------------------
 -- nws_color
@@ -653,11 +666,11 @@ CREATE TABLE IF NOT EXISTS pilebrush
   CONSTRAINT pilebrush_pk PRIMARY KEY (pilebrush_id)
 );
 
-CREATE TABLE IF NOT EXISTS brush_loction
+CREATE TABLE IF NOT EXISTS brush_location
 (
-  brush_loction_id SERIAL,
+  brush_location_id SERIAL,
   brush_location_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT drive_side_pk PRIMARY KEY (brush_loction_id)
+  CONSTRAINT brush_location_pk PRIMARY KEY (brush_location_id)
 );
 
 CREATE TABLE IF NOT EXISTS cord_length
@@ -762,7 +775,7 @@ CREATE TABLE IF NOT EXISTS add_buildout
 (
   add_buildout_id SERIAL,
   add_buildout_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT drive_side_pk PRIMARY KEY (drive_side_id)
+  CONSTRAINT add_buildout_pk PRIMARY KEY (add_buildout_id)
 );
 
 CREATE TABLE IF NOT EXISTS left_track
@@ -951,7 +964,7 @@ CREATE TABLE IF NOT EXISTS loh_measurement
     REFERENCES left_opening_height (left_opening_height_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-)
+);
 
 -- -----------------------------------------------------
 -- Table roh_measurement
@@ -972,7 +985,7 @@ CREATE TABLE IF NOT EXISTS roh_measurement
     REFERENCES right_opening_height (right_opening_height_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-)
+);
 
 -- -----------------------------------------------------
 -- Table bow_measurement
@@ -993,7 +1006,7 @@ CREATE TABLE IF NOT EXISTS bow_measurement
     REFERENCES bottom_opening_width (bottom_opening_width_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-)
+);
 
 -- -----------------------------------------------------
 -- Table bow_measurement
@@ -1014,7 +1027,7 @@ CREATE TABLE IF NOT EXISTS tow_measurement
     REFERENCES top_opening_width (top_opening_width_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-)
+);
 
 -- -----------------------------------------------------
 -- Table customization
