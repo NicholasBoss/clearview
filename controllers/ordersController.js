@@ -1,17 +1,10 @@
+const ordersModel = require('../models/ordersModel')
 const ordersController = {}
 
 ordersController.buildCreate = async function(req, res){
     res.render('orders/create', {
         title: 'Create order',
         link: 'orders/create',
-        errors: null
-    })
-}
-
-ordersController.buildRead = async function(req, res){
-    res.render('orders/read', {
-        title: 'Read order',
-        link: 'orders/read',
         errors: null
     })
 }
@@ -32,6 +25,7 @@ ordersController.buildDelete = async function(req, res){
     })
 }
 
+// This function will fire when the user CONFIRMS the order
 ordersController.createOrder = async function(req, res){
     const { product_name, measurement_name, size_type, fastener_type, color_name, mesh_type, mirage_build_out, mirage_3500_handle } = req.body
     console.log('Creating order')
@@ -51,42 +45,35 @@ ordersController.createOrder = async function(req, res){
     }
 }
 
-ordersController.updateOrder = async function(req, res){
+// This function will fire when the user CREATES the product order
+ordersController.insertProduct = async function(req, res){
     const { product_name, measurement_name, size_type, fastener_type, color_name, mesh_type, mirage_build_out, mirage_3500_handle } = req.body
-    console.log('Updating order')
+    console.log('Inserting product')
+    console.log(req.body)
+    // console.log('Product Name:', product_name);
+    // console.log('Measurement Name:', measurement_name);
+    // console.log('Size Type:', size_type);
+    // console.log('Fastener Type:', fastener_type);
+    // console.log('Color Name:', color_name);
+    // console.log('Mesh Type:', mesh_type);
+    // console.log('Mirage Build Out:', mirage_build_out);
+    // console.log('Mirage 3500 Handle:', mirage_3500_handle);
     try {
-        const order = await ordersModel.updateOrder(
-            product_name,
-            measurement_name,
-            size_type,
-            fastener_type,
-            color_name,
-            mesh_type,
-            mirage_build_out,
-            mirage_3500_handle
-        )
+        // const product = await ordersModel.insertProduct(
+        //     product_name,
+        //     measurement_name,
+        //     size_type,
+        //     fastener_type,
+        //     color_name,
+        //     mesh_type,
+        //     mirage_build_out,
+        //     mirage_3500_handle
+        // )
+        console.log('Inserting product into database...')
+        // load the /account page
+        res.redirect('/account')
     } catch (error) {
-        console.log('Error updating order:', error);
-    }
-}
-
-ordersController.deleteOrder = async function(req, res){
-    const { product_name, measurement_name, size_type, fastener_type, color_name, mesh_type, mirage_build_out, mirage_3500_handle } = req.body
-    = req.body
-    console.log('Deleting order')
-    try {
-        const order = await ordersModel.deleteOrder(
-            product_name,
-            measurement_name,
-            size_type,
-            fastener_type,
-            color_name,
-            mesh_type,
-            mirage_build_out,
-            mirage_3500_handle
-        )
-    } catch (error) {
-        console.log('Error deleting order:', error);
+        console.log('Error inserting product:', error);
     }
 }
 
