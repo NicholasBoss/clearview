@@ -1,12 +1,17 @@
 DROP TABLE IF EXISTS nws_measurement;
-DROP TABLE IF EXISTS measurement;
+-- DROP TABLE IF EXISTS measurement;
 -- DROP TABLE IF EXISTS rainier;
 DROP TABLE IF EXISTS starting_point;
 DROP TABLE IF EXISTS right_track;
 DROP TABLE IF EXISTS left_track;
+-- DROP TABLE IF EXISTS brush_location;
+-- DROP TABLE IF EXISTS pilebrush;
 DROP TABLE IF EXISTS add_buildout;
 DROP TABLE IF EXISTS left_buildout;
 DROP TABLE IF EXISTS right_buildout;
+-- DROP TABLE IF EXISTS hembar;
+-- DROP TABLE IF EXISTS cord_length;
+-- DROP TABLE IF EXISTS frame_size;
 DROP TABLE IF EXISTS left_plumb;
 DROP TABLE IF EXISTS right_plumb;
 DROP TABLE IF EXISTS right_opening_height;
@@ -14,21 +19,20 @@ DROP TABLE IF EXISTS bottom_opening_width;
 DROP TABLE IF EXISTS bottom_level;
 DROP TABLE IF EXISTS top_level;
 DROP TABLE IF EXISTS top_opening_width;
-DROP TABLE IF EXISTS drive_side;
-DROP TABLE IF EXISTS placement;
-DROP TABLE IF EXISTS housing;
+-- DROP TABLE IF EXISTS drive_side;
+-- DROP TABLE IF EXISTS placement;
+-- DROP TABLE IF EXISTS housing;
 DROP TABLE IF EXISTS custom_new_window_screen;
 DROP TABLE IF EXISTS new_window_screen;
 DROP TABLE IF EXISTS public.window;
 DROP TABLE IF EXISTS product_mesh;
-DROP TABLE IF EXISTS mesh;
-DROP TABLE IF EXISTS mesh;
-DROP TABLE IF EXISTS fastener;
+-- DROP TABLE IF EXISTS mesh;
+-- DROP TABLE IF EXISTS fastener;
 -- DROP TABLE IF EXISTS frame_size;
 DROP TABLE IF EXISTS product_color;
 -- DROP TABLE IF EXISTS color;
-DROP TABLE IF EXISTS mirage_3500;
-DROP TABLE IF EXISTS mirage;
+-- DROP TABLE IF EXISTS mirage_3500;
+-- DROP TABLE IF EXISTS mirage;
 DROP TABLE IF EXISTS general_retract_control;
 -- DROP TABLE IF EXISTS account;
 -- DROP TYPE IF EXISTS account_type;
@@ -49,25 +53,18 @@ INSERT INTO frame_size (size_type)
 VALUES ('1/4"'), ('5/16"'), ('3/8"'), ('7/16"'), ('1"'), ('OC'), ('IC');
 
 INSERT INTO mirage ( mirage_build_out )
-VALUES ( "None")
-        , ("Bug Flap Black")
-        , ("Bug Flap Grey")
-        , ("1\'' X 2\'' L Flap")
-        , ("1' Sq")
-        , ("1/2\' Sq")
-        , ("Custom");
+VALUES ( 'None')
+        , ('Bug Flap Black')
+        , ('Bug Flap Grey')
+        , ('1'' X 2\'' L Flap')
+        , ('1'' Sq')
+        , ('1/2'' Sq')
+        , ('Custom');
 
 INSERT INTO mirage_3500 (mirage_3500_handle)
-VALUES ("Pivot Pro")
-        , ("Recessed")
-        , ("Standard"); 
-
-INSERT INTO new_window_screen 
-(width_inch,height_inch)
-VALUES
-('1/16','1/8','3/16','1/4','5/16','3/8','7/16','1/2','9/16','5/8','11/16','3/4',
-'13/16','7/8','15/16'),('1/16','1/8','3/16','1/4','5/16','3/8','7/16','1/2','9/16',
-'5/8','11/16','3/4','13/16','7/8','15/16');
+VALUES ('Pivot Pro')
+        , ('Recessed')
+        , ('Standard'); 
 
 
 INSERT INTO measurement 
