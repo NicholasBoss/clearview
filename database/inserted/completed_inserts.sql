@@ -49,13 +49,20 @@ product_color
 general_retract_control
 -- account
 -- account_type
-product
+-- product
 -- order_log
 -- cust_order
 -- customer_address
 -- public.order
 -- customer
 -- address
+
+INSERT INTO product (product_name)
+VALUES 
+('Rainier')
+, ('New Window Screen')
+, ('Mirage 3500')
+, ('Mirage');
 
 INSERT INTO color (color_name)
 VALUES ('Midnight Black'), ('Slack Grey'), ('Limen Cream'), ('Rindeau Brown'), ('Sandalwood'), ('Tudor Brown'), ('Polar White'), ('Ex Pebble Grey')
