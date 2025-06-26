@@ -18,7 +18,7 @@ if ! git show-ref --verify --quiet refs/heads/$1; then
     exit 1
 fi
 
-git checkout main
-git pull
 git checkout $1
-git merge main
+git pull
+git checkout $2
+git merge $1
