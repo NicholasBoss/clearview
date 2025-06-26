@@ -150,7 +150,7 @@ INSERT INTO cord_length
 (cord_length_name)
 VALUES
 ('12" (Std)'),
-('24" (upgrade)');
+('24'' (upgrade)');
 
 INSERT INTO frame_size
 (size_type)
@@ -180,14 +180,22 @@ VALUES
 ('4 Square'),
 ('5 Square');
 
--- There is also a housing type in the google sheet: 
--- INSERT INTO housing
--- (housing_series_name OR housing_type?)
--- VALUES
--- ('Full Cassette'),
--- ('Cassette w/ NO Cover'),
--- ('Brackets Only');
--- Which to use for housing table????
+INSERT INTO bottom_adapter
+(bottom_adapter_name)
+VALUES
+('Ramp Sill'),
+('Top Sill'),
+('Break Sill'),
+('2" In Sill'),
+('5" In Sill'),
+('Out Sill'),
+('None');
 
--- These are all the inserts I could find, lmk if I missed any 
--- Peter Ashworth
+INSERT INTO top_adpater
+(top_adapter_name)
+VALUES
+('TrimSill'),
+('1'' Sq'),
+('1/2" Sq'),
+('None');
+
