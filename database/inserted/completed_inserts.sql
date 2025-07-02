@@ -33,6 +33,7 @@ new_window_screen
 public.window
 product_mesh
 -- mesh
+fabric
 -- fastener
 -- frame_size
 fabric_color
@@ -65,9 +66,21 @@ VALUES
 , ('Mirage');
 
 INSERT INTO color (color_name)
-VALUES ('Midnight Black'), ('Slack Grey'), ('Limen Cream'), ('Rindeau Brown'), ('Sandalwood'), ('Tudor Brown'), ('Polar White'), ('Ex Pebble Grey')
-        , ('Hatford Green'), ('Ansi 49 Grey'), ('Almond'), ('Autumn Leaf'), ('Bergundy'), ('Charcoal'), ('Dk Bronze Metallic'), ('Evergreen')
-        , ('Furniture White'), ('Gloss Brown'), ('Metro Brown'), ('Mocha'), ('Metalic Silver'), ('Oyster Grey'), ('Seal Beach Green'), ('Sundried Tomato'), ('Signal White'), ('Wicker'), ('Custom Match');
+VALUES 
+-- Mirage & M3500 colors
+('Midnight Black'), ('Slate Grey'), ('Limen Cream'), ('Rindeau Brown'), ('Bronze') ('Sandalwood'), ('Tudor Brown'), ('Polar White'), ('Ex Pebble Grey')
+, ('Hatford Green'), ('Ansi 49 Grey'), ('Almond'), ('Autumn Leaf'), ('Bergundy'), ('Charcoal'), ('Dk Bronze Metallic'), ('Evergreen')
+, ('Furniture White'), ('Gloss Brown'), ('Metro Brown'), ('Mocha'), ('Metalic Silver'), ('Oyster Grey'), ('Seal Beach Green')
+, ('Sundried Tomato'), ('Signal White'), ('Wicker'), ('Custom')
+-- NWS colors
+, ('White'), ('Black'), ('Tan'), ('CB'), ('Mill')
+-- Rainier Colors
+, ('Bright White'), ('Off White'), ('Gray'), ('Navajo'), ('Desert Sand'), ('Brown'), ('Green'), ('Silver')
+, ('Varies (Specify in Notes)'), ('RAL (Specify in Notes)'), ('Textured Dark Gray'), ('Textured Tan'), ('Textured Copper Bronze')
+, ('Textured Black'), ('Textured Rust'), ('Textured Varies (Specify in Notes)')
+-- Rainier fabric colors
+, ('Dark Bronze'), ('Dark Gray'), ('Tobacco'), ('Carbon'), ('Stone Texture'), ('Shadow Texture'), ('Sand')
+, ('Expresso'), ('Mushroom (Safari Cashmere)'), ('Quartz'), ('Twill Tobacco'), ('Twill Charcoal'), ('Twill Black');
 
 INSERT INTO frame_size (size_type)
 VALUES ('1/4"'), ('5/16"'), ('3/8"'), ('7/16"'), ('1"'), ('OC'), ('IC');

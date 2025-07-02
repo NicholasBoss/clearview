@@ -33,6 +33,7 @@ DROP TABLE IF EXISTS new_window_screen;
 DROP TABLE IF EXISTS public.window;
 DROP TABLE IF EXISTS product_mesh;
 DROP TABLE IF EXISTS mesh;
+DROP TABLE IF EXISTS fabric;
 DROP TABLE IF EXISTS fastener;
 DROP TABLE IF EXISTS frame_size;
 DROP TABLE IF EXISTS fabric_color;
@@ -338,6 +339,16 @@ CREATE TABLE IF NOT EXISTS frame_size
   CONSTRAINT frame_size_pk PRIMARY KEY (frame_size_id)
 );
 
+-- -----------------------------------------------------
+-- Table fabric
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS fabric
+(
+  fabric_id SERIAL,
+  fabric_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT fabric_pk PRIMARY KEY (fabric_id)
+);
 
 -- -----------------------------------------------------
 -- Table fastener
@@ -498,10 +509,15 @@ CREATE TABLE IF NOT EXISTS fabric_color
 (
   fabric_color_id SERIAL,
   product_color_id INTEGER NOT NULL,
+  fabric_id INTEGER NOT NULL,
   CONSTRAINT fabric_color_pk PRIMARY KEY (fabric_color_id),
   CONSTRAINT fabric_color_fk1
     FOREIGN KEY (product_color_id)
     REFERENCES product_color (product_color_id)
+    ON DELETE CASCADE,
+  CONSTRAINT fabric_color_fk2
+    FOREIGN KEY (fabric_id)
+    REFERENCES fabric (fabric_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
@@ -624,7 +640,7 @@ CREATE TABLE IF NOT EXISTS rainier_zipper_color
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Table Rainier Housing
+-- Table housing
 -- -----------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS housing
@@ -822,6 +838,7 @@ CREATE TABLE IF NOT EXISTS rainier
   add_buildout_id INTEGER NOT NULL,
   left_track_id INTEGER NOT NULL,
   right_track_id INTEGER NOT NULL,
+  fabric_id INTEGER NOT NULL,
   is_estimate BOOLEAN NULL,
   is_confirmed BOOLEAN NULL,
 
@@ -840,8 +857,57 @@ CREATE TABLE IF NOT EXISTS rainier
     FOREIGN KEY (drive_side_id)
     REFERENCES drive_side (drive_side_id)
     ON DELETE CASCADE
-    ON UPDATE CASCADE
-
+    ON UPDATE CASCADE,
+  CONSTRAINT rainier_fk4
+    FOREIGN KEY (hembar_id)
+    REFERENCES hembar (hembar_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT rainier_fk5
+    FOREIGN KEY (pilebrush_id)
+    REFERENCES pilebrush (pilebrush_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT rainier_fk6
+    FOREIGN KEY (brush_location_id)
+    REFERENCES brush_location (brush_location_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT rainier_fk7
+    FOREIGN KEY (cord_length_id)
+    REFERENCES cord_length (cord_length_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT rainier_fk8
+    FOREIGN KEY (mount_type_id)
+    REFERENCES mount_type (mount_type_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT rainier_fk9
+    FOREIGN KEY (top_opening_width_id)
+    REFERENCES top_opening_width (top_opening_width_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT rainier_fk10
+    FOREIGN KEY (top_level_id)
+    REFERENCES top_level (top_level_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT rainier_fk11
+    FOREIGN KEY (bottom_level_id)
+    REFERENCES bottom_level (bottom_level_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT rainier_fk12
+    FOREIGN KEY (bottom_opening_width_id)
+    REFERENCES bottom_opening_width (bottom_opening_width_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT rainier_fk13
+    FOREIGN KEY (right_opening_height_id)
+    REFERENCES right_opening_height (right_opening_height_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
 );
 
 -- -----------------------------------------------------
