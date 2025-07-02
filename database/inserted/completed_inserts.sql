@@ -82,6 +82,18 @@ VALUES
 , ('Dark Bronze'), ('Dark Gray'), ('Tobacco'), ('Carbon'), ('Stone Texture'), ('Shadow Texture'), ('Sand')
 , ('Expresso'), ('Mushroom (Safari Cashmere)'), ('Quartz'), ('Twill Tobacco'), ('Twill Charcoal'), ('Twill Black');
 
+
+INSERT INTO product_color (product_id, color_id)
+VALUES
+((SELECT product_id FROM product WHERE product_name = 'New Window Screen'), (SELECT color_id FROM color WHERE color_name = 'White'))
+, ((SELECT product_id FROM product WHERE product_name = 'New Window Screen'), (SELECT color_id FROM color WHERE color_name = 'Bronze'))
+, ((SELECT product_id FROM product WHERE product_name = 'New Window Screen'), (SELECT color_id FROM color WHERE color_name = 'Tan'))
+, ((SELECT product_id FROM product WHERE product_name = 'New Window Screen'), (SELECT color_id FROM color WHERE color_name = 'CB'))
+, ((SELECT product_id FROM product WHERE product_name = 'New Window Screen'), (SELECT color_id FROM color WHERE color_name = 'Mill'))
+, ((SELECT product_id FROM product WHERE product_name = 'New Window Screen'), (SELECT color_id FROM color WHERE color_name = 'Black'))
+, ((SELECT product_id FROM product WHERE product_name = 'New Window Screen'), (SELECT color_id FROM color WHERE color_name = 'Custom'));
+
+
 INSERT INTO frame_size (size_type)
 VALUES ('1/4"'), ('5/16"'), ('3/8"'), ('7/16"'), ('1"'), ('OC'), ('IC');
 
