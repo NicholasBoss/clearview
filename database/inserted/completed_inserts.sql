@@ -112,7 +112,7 @@ VALUES
 , ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Textured Copper Bronze'))
 , ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Textured Black'))
 , ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Textured Rust'))
-, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Textured Varies (Specify in Notes)'));
+, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Textured Varies (Specify in Notes)'))
 -- Rainier fabric colors
 , ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Dark Bronze'))
 , ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Dark Gray'))
@@ -151,7 +151,7 @@ VALUES
 , ((SELECT product_id FROM product WHERE product_name = 'Mirage'), (SELECT color_id FROM color WHERE color_name = 'Sundried Tomato'))
 , ((SELECT product_id FROM product WHERE product_name = 'Mirage'), (SELECT color_id FROM color WHERE color_name = 'Signal White'))
 , ((SELECT product_id FROM product WHERE product_name = 'Mirage'), (SELECT color_id FROM color WHERE color_name = 'Wicker'))
-, ((SELECT product_id FROM product WHERE product_name = 'Mirage'), (SELECT color_id FROM color WHERE color_name = 'Custom'));
+, ((SELECT product_id FROM product WHERE product_name = 'Mirage'), (SELECT color_id FROM color WHERE color_name = 'Custom'))
 
 , ((SELECT product_id FROM product WHERE product_name = 'Mirage 3500'), (SELECT color_id FROM color WHERE color_name = 'Slate Grey'))
 , ((SELECT product_id FROM product WHERE product_name = 'Mirage 3500'), (SELECT color_id FROM color WHERE color_name = 'Linen Cream'))
