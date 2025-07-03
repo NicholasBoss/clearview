@@ -93,6 +93,54 @@ VALUES
 , ((SELECT product_id FROM product WHERE product_name = 'New Window Screen'), (SELECT color_id FROM color WHERE color_name = 'Black'))
 , ((SELECT product_id FROM product WHERE product_name = 'New Window Screen'), (SELECT color_id FROM color WHERE color_name = 'Custom'));
 
+INSERT INTO fabric (fabric_name)
+VALUES 
+('Tuffscreen NoSeeUm'),
+('Tuffscreen'),
+('20x20 Bug'),
+('17x17 Super Screen'),
+('Suntex 95'),
+('Twill 95%'),
+('Nano 95%'),
+('Textilene 95%'),
+('Suntex 97'),
+('Nano 97%'),
+('Sheereave 2703'),
+('Solar 90%');
+
+INSERT INTO fabric_color (fabric_id, color_id)
+VALUES
+((SELECT fabric_id FROM fabric WHERE fabric_name = 'Tuffscreen NoSeeUm'), (SELECT color_id FROM color WHERE color_name = 'Black'))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Tuffscreen'), (SELECT color_id FROM color WHERE color_name = 'Black'))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Tuffscreen'), (SELECT color_id FROM color WHERE color_name = 'Dark Gray'))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Tuffscreen'), (SELECT color_id FROM color WHERE color_name = 'Dark Bronze'))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = '20x20 Bug'), (SELECT color_id FROM color WHERE color_name = 'Tobacco'))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = '17x17 Super Screen'), (SELECT color_id FROM color WHERE color_name = 'Black'))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = '17x17 Super Screen'), (SELECT color_id FROM color WHERE color_name = 'White'))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 95'), (SELECT color_id FROM color WHERE color_name = 'Black'))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 95'), (SELECT color_id FROM color WHERE color_name = 'Dark Bronze'))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 95'), (SELECT color_id FROM color WHERE color_name = 'Charcoal'))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 95'), (SELECT color_id FROM color WHERE color_name = 'Carbon'))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 95'), (SELECT color_id FROM color WHERE color_name = 'Stone Texture'))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 95'), (SELECT color_id FROM color WHERE color_name = 'Shadow Texture'))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 95'), (SELECT color_id FROM color WHERE color_name = 'Sand'))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 95'), (SELECT color_id FROM color WHERE color_name = 'Tobacco'))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Twill 95%'), (SELECT color_id FROM color WHERE color_name = 'Dark Gray'))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 95%'), (SELECT color_id FROM color WHERE color_name = 'Tobacco'))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 95%'), (SELECT color_id FROM color WHERE color_name = 'Charcoal'))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 95%'), (SELECT color_id FROM color WHERE color_name = 'Expresso'))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 95%'), (SELECT color_id FROM color WHERE color_name = 'Stone Texture'))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 95%'), (SELECT color_id FROM color WHERE color_name = 'Black'))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 95%'), (SELECT color_id FROM color WHERE color_name = 'Shadow Texture'))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Textilene 95%'), (SELECT color_id FROM color WHERE color_name = 'Mushroom (Safari Cashmere)'))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Textilene 95%'), (SELECT color_id FROM color WHERE color_name = 'Quartz'))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 97'), (SELECT color_id FROM color WHERE color_name = 'Black'))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 97'), (SELECT color_id FROM color WHERE color_name = 'Dark Bronze'))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 97%'), (SELECT color_id FROM color WHERE color_name = 'Twill Tobacco'))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 97%'), (SELECT color_id FROM color WHERE color_name = 'Twill Charcoal'))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 97%'), (SELECT color_id FROM color WHERE color_name = 'Twill Black'))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Sheereave 2703'), (SELECT color_id FROM color WHERE color_name = 'Charcoal'))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Solar 90%'), (SELECT color_id FROM color WHERE color_name = 'Tobacco'));
 
 INSERT INTO frame_size (size_type)
 VALUES ('1/4"'), ('5/16"'), ('3/8"'), ('7/16"'), ('1"'), ('OC'), ('IC');
