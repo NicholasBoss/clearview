@@ -93,25 +93,25 @@ VALUES
 , ((SELECT product_id FROM product WHERE product_name = 'New Window Screen'), (SELECT color_id FROM color WHERE color_name = 'Black'))
 , ((SELECT product_id FROM product WHERE product_name = 'New Window Screen'), (SELECT color_id FROM color WHERE color_name = 'Custom'))
 
-, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Black'));
-, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'White'));
-, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Bright White'));
-, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Off White'));
-, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Gray'));
-, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Tan'));
-, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Navajo'));
-, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Desert Sand'));
-, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Brown'));
+, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Black'))
+, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'White'))
+, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Bright White'))
+, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Off White'))
+, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Gray'))
+, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Tan'))
+, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Navajo'))
+, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Desert Sand'))
+, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Brown'))
 , ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Charcoal'))
-, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Green'));
-, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Silver'));
-, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Varies (Specify in Notes)'));
-, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'RAL (Specify in Notes)'));
-, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Textured Dark Gray'));
-, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Textured Tan'));
-, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Textured Copper Bronze'));
-, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Textured Black'));
-, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Textured Rust'));
+, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Green'))
+, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Silver'))
+, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Varies (Specify in Notes)'))
+, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'RAL (Specify in Notes)'))
+, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Textured Dark Gray'))
+, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Textured Tan'))
+, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Textured Copper Bronze'))
+, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Textured Black'))
+, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Textured Rust'))
 , ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Textured Varies (Specify in Notes)'));
 -- Rainier fabric colors
 , ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Dark Bronze'))
@@ -138,7 +138,7 @@ VALUES
 , ((SELECT product_id FROM product WHERE product_name = 'Mirage'), (SELECT color_id FROM color WHERE color_name = 'Almond'))
 , ((SELECT product_id FROM product WHERE product_name = 'Mirage'), (SELECT color_id FROM color WHERE color_name = 'Autum Leaf'))
 , ((SELECT product_id FROM product WHERE product_name = 'Mirage'), (SELECT color_id FROM color WHERE color_name = 'Burgundy'))
-, ((SELECT product_id FROM product WHERE product_name = 'Mirage'), (SELECT color_id FROM color WHERE color_name = 'Charcoal'));
+, ((SELECT product_id FROM product WHERE product_name = 'Mirage'), (SELECT color_id FROM color WHERE color_name = 'Charcoal'))
 , ((SELECT product_id FROM product WHERE product_name = 'Mirage'), (SELECT color_id FROM color WHERE color_name = 'Dk Bronze Metallic'))
 , ((SELECT product_id FROM product WHERE product_name = 'Mirage'), (SELECT color_id FROM color WHERE color_name = 'Evergreen'))
 , ((SELECT product_id FROM product WHERE product_name = 'Mirage'), (SELECT color_id FROM color WHERE color_name = 'Furniture White'))
@@ -195,7 +195,7 @@ VALUES
 ('Nano 95%'),
 ('Textilene 95%'),
 ('Suntex 97'),
-('Nano 97%'),
+('Nano 97% Twill'),
 ('Sheereave 2703'),
 ('Solar 90%');
 
@@ -227,9 +227,9 @@ VALUES
 , ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Textilene 95%'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Quartz')))
 , ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 97'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Black')))
 , ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 97'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Dark Bronze')))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 97%'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Twill Tobacco')))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 97%'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Twill Charcoal')))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 97%'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Twill Black')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 97% Twill'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Twill Tobacco')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 97% Twill'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Twill Charcoal')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 97% Twill'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Twill Black')))
 , ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Sheereave 2703'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Charcoal')))
 , ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Solar 90%'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Tobacco')));
 
