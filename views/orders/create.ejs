@@ -15,7 +15,7 @@
             </ul>
             <% } %>
 <div>
-    <form action="/orders/createRainier" method="post">
+    <!-- <form action="/orders/createRainier" method="post">
         <div class="container">
             <label><b>Choose an order type:</b>
                 <select name="order_type" id="type">
@@ -27,5 +27,12 @@
                 <button class="formbtn"
                 type="submit">Submit</button>
         </div>
-    </form>
+    </form> -->
+        <label><b>Choose an Order Type:</b></label>
+        <div class="types">
+            <a href="/orders/createRainier">Rainier</a>
+            <a href="/orders/createNWS">New Window Screen</a>
+            <a href="/orders/createMirage">Mirage</a>
+            <a href="/orders/createMirage3500">Mirage 3500</a>
+        </div>
 </div>

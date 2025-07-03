@@ -22,5 +22,7 @@ router.get("/confirmRainier", util.checkLogin, util.handleErrors(ordersControlle
 router.get("/createNWS", util.checkLogin, util.handleErrors(ordersController.buildCreateNWS))
 router.get("/confirmNWS", util.checkLogin, util.handleErrors(ordersController.buildConfirmNWS))
 
+router.post("/create", util.checkLogin, util.handleErrors(ordersController.insertProduct))
+
 // Export
 module.exports = router
