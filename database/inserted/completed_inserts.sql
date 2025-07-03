@@ -61,7 +61,7 @@ general_retract_control
 INSERT INTO product (product_name)
 VALUES 
 ('Rainier')
-, ('Rainier')
+, ('New Window Screen')
 , ('Mirage 3500')
 , ('Mirage');
 
@@ -85,13 +85,13 @@ VALUES
 
 INSERT INTO product_color (product_id, color_id)
 VALUES
-((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'White'))
-, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Bronze'))
-, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Tan'))
-, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'CB'))
-, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Mill'))
-, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Black'))
-, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Custom'));
+((SELECT product_id FROM product WHERE product_name = 'New Window Screen'), (SELECT color_id FROM color WHERE color_name = 'White'))
+, ((SELECT product_id FROM product WHERE product_name = 'New Window Screen'), (SELECT color_id FROM color WHERE color_name = 'Bronze'))
+, ((SELECT product_id FROM product WHERE product_name = 'New Window Screen'), (SELECT color_id FROM color WHERE color_name = 'Tan'))
+, ((SELECT product_id FROM product WHERE product_name = 'New Window Screen'), (SELECT color_id FROM color WHERE color_name = 'CB'))
+, ((SELECT product_id FROM product WHERE product_name = 'New Window Screen'), (SELECT color_id FROM color WHERE color_name = 'Mill'))
+, ((SELECT product_id FROM product WHERE product_name = 'New Window Screen'), (SELECT color_id FROM color WHERE color_name = 'Black'))
+, ((SELECT product_id FROM product WHERE product_name = 'New Window Screen'), (SELECT color_id FROM color WHERE color_name = 'Custom'));
 
 INSERT INTO fabric (fabric_name)
 VALUES 
