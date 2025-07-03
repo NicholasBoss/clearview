@@ -61,7 +61,7 @@ general_retract_control
 INSERT INTO product (product_name)
 VALUES 
 ('Rainier')
-, ('New Window Screen')
+, ('Rainier')
 , ('Mirage 3500')
 , ('Mirage');
 
@@ -85,13 +85,13 @@ VALUES
 
 INSERT INTO product_color (product_id, color_id)
 VALUES
-((SELECT product_id FROM product WHERE product_name = 'New Window Screen'), (SELECT color_id FROM color WHERE color_name = 'White'))
-, ((SELECT product_id FROM product WHERE product_name = 'New Window Screen'), (SELECT color_id FROM color WHERE color_name = 'Bronze'))
-, ((SELECT product_id FROM product WHERE product_name = 'New Window Screen'), (SELECT color_id FROM color WHERE color_name = 'Tan'))
-, ((SELECT product_id FROM product WHERE product_name = 'New Window Screen'), (SELECT color_id FROM color WHERE color_name = 'CB'))
-, ((SELECT product_id FROM product WHERE product_name = 'New Window Screen'), (SELECT color_id FROM color WHERE color_name = 'Mill'))
-, ((SELECT product_id FROM product WHERE product_name = 'New Window Screen'), (SELECT color_id FROM color WHERE color_name = 'Black'))
-, ((SELECT product_id FROM product WHERE product_name = 'New Window Screen'), (SELECT color_id FROM color WHERE color_name = 'Custom'));
+((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'White'))
+, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Bronze'))
+, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Tan'))
+, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'CB'))
+, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Mill'))
+, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Black'))
+, ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Custom'));
 
 INSERT INTO fabric (fabric_name)
 VALUES 
@@ -108,39 +108,39 @@ VALUES
 ('Sheereave 2703'),
 ('Solar 90%');
 
-INSERT INTO fabric_color (fabric_id, color_id)
+INSERT INTO fabric_color (fabric_id, product_color_id)
 VALUES
-((SELECT fabric_id FROM fabric WHERE fabric_name = 'Tuffscreen NoSeeUm'), (SELECT color_id FROM color WHERE color_name = 'Black'))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Tuffscreen'), (SELECT color_id FROM color WHERE color_name = 'Black'))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Tuffscreen'), (SELECT color_id FROM color WHERE color_name = 'Dark Gray'))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Tuffscreen'), (SELECT color_id FROM color WHERE color_name = 'Dark Bronze'))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = '20x20 Bug'), (SELECT color_id FROM color WHERE color_name = 'Tobacco'))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = '17x17 Super Screen'), (SELECT color_id FROM color WHERE color_name = 'Black'))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = '17x17 Super Screen'), (SELECT color_id FROM color WHERE color_name = 'White'))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 95'), (SELECT color_id FROM color WHERE color_name = 'Black'))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 95'), (SELECT color_id FROM color WHERE color_name = 'Dark Bronze'))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 95'), (SELECT color_id FROM color WHERE color_name = 'Charcoal'))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 95'), (SELECT color_id FROM color WHERE color_name = 'Carbon'))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 95'), (SELECT color_id FROM color WHERE color_name = 'Stone Texture'))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 95'), (SELECT color_id FROM color WHERE color_name = 'Shadow Texture'))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 95'), (SELECT color_id FROM color WHERE color_name = 'Sand'))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 95'), (SELECT color_id FROM color WHERE color_name = 'Tobacco'))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Twill 95%'), (SELECT color_id FROM color WHERE color_name = 'Dark Gray'))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 95%'), (SELECT color_id FROM color WHERE color_name = 'Tobacco'))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 95%'), (SELECT color_id FROM color WHERE color_name = 'Charcoal'))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 95%'), (SELECT color_id FROM color WHERE color_name = 'Expresso'))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 95%'), (SELECT color_id FROM color WHERE color_name = 'Stone Texture'))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 95%'), (SELECT color_id FROM color WHERE color_name = 'Black'))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 95%'), (SELECT color_id FROM color WHERE color_name = 'Shadow Texture'))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Textilene 95%'), (SELECT color_id FROM color WHERE color_name = 'Mushroom (Safari Cashmere)'))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Textilene 95%'), (SELECT color_id FROM color WHERE color_name = 'Quartz'))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 97'), (SELECT color_id FROM color WHERE color_name = 'Black'))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 97'), (SELECT color_id FROM color WHERE color_name = 'Dark Bronze'))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 97%'), (SELECT color_id FROM color WHERE color_name = 'Twill Tobacco'))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 97%'), (SELECT color_id FROM color WHERE color_name = 'Twill Charcoal'))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 97%'), (SELECT color_id FROM color WHERE color_name = 'Twill Black'))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Sheereave 2703'), (SELECT color_id FROM color WHERE color_name = 'Charcoal'))
-, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Solar 90%'), (SELECT color_id FROM color WHERE color_name = 'Tobacco'));
+((SELECT fabric_id FROM fabric WHERE fabric_name = 'Tuffscreen NoSeeUm'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'White')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Tuffscreen'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Black')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Tuffscreen'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Dark Gray')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Tuffscreen'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Dark Bronze')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = '20x20 Bug'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Tobacco')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = '17x17 Super Screen'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Black')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = '17x17 Super Screen'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'White')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 95'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Black')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 95'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Dark Bronze')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 95'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Charcoal')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 95'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Carbon')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 95'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Stone Texture')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 95'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Shadow Texture')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 95'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Sand')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 95'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Tobacco')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Twill 95%'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Dark Gray')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 95%'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Tobacco')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 95%'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Charcoal')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 95%'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Expresso')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 95%'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Stone Texture')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 95%'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Black')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 95%'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Shadow Texture')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Textilene 95%'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Mushroom (Safari Cashmere)')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Textilene 95%'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Quartz')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 97'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Black')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Suntex 97'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Dark Bronze')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 97%'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Twill Tobacco')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 97%'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Twill Charcoal')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Nano 97%'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Twill Black')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Sheereave 2703'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Charcoal')))
+, ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Solar 90%'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Tobacco')));
 
 INSERT INTO frame_size (size_type)
 VALUES ('1/4"'), ('5/16"'), ('3/8"'), ('7/16"'), ('1"'), ('OC'), ('IC');
