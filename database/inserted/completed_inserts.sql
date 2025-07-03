@@ -33,17 +33,17 @@ new_window_screen
 public.window
 product_mesh
 -- mesh
-fabric
+-- fabric
 -- fastener
 -- frame_size
-fabric_color
+-- fabric_color
 handle_color
 hardware_color
 nws_color
 pivot_pro_color
 top_adapter_color
 rainier_zipper_color
-product_color
+-- product_color
 -- color
 -- mirage_3500
 -- mirage
