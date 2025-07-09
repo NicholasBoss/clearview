@@ -1,36 +1,36 @@
-tow_measurement
-bow_measurement
-roh_measurement
-loh_measurement
-nws_measurement
+-- tow_measurement
+-- bow_measurement
+-- roh_measurement
+-- loh_measurement
+-- nws_measurement
 -- measurement
 -- rainier
-starting_point
-right_track
-left_track
+-- starting_point
+-- right_track
+-- left_track
 -- brush_location
 -- pilebrush
-add_buildout
-left_buildout
-right_buildout
-top_adapter
-bottom_adapter
+-- add_buildout
+-- left_buildout
+-- right_buildout
+-- top_adapter
+-- bottom_adapter
 -- hembar
 -- cord_length
 -- frame_size
-left_plumb
-right_plumb
-right_opening_height
-bottom_opening_width
-bottom_level
-top_level
-top_opening_width
+-- left_plumb
+-- right_plumb
+-- right_opening_height
+-- bottom_opening_width
+-- bottom_level
+-- top_level
+-- top_opening_width
 -- drive_side
 -- placement
 -- housing
-custom_new_window_screen
-new_window_screen
-public.window
+custom_new_window_screen??
+new_window_screen??
+-- public.window
 product_mesh
 -- mesh
 -- fabric
@@ -39,7 +39,6 @@ product_mesh
 -- fabric_color
 handle_color
 hardware_color
-nws_color
 pivot_pro_color
 top_adapter_color
 rainier_zipper_color
@@ -47,7 +46,7 @@ rainier_zipper_color
 -- color
 -- mirage_3500
 -- mirage
-general_retract_control
+-- general_retract_control
 -- account
 -- account_type
 -- product
@@ -380,3 +379,34 @@ VALUES
 ('1/2" Sq'),
 ('None');
 
+INSERT INTO right_track
+(right_track_name)
+VALUES
+('Surface Mount'),
+('Recessed (Side) Mount');
+
+INSERT INTO left_track
+(left_track_name)
+VALUES
+('Surface Mount'),
+('Recessed (Side) Mount');
+
+INSERT INTO right_buildout
+(right_buildout_name)
+VALUES
+('None'),
+('1" X 2" L Angle'),
+('1" X 3" L Angle'),
+('1" X 2" Tube'),
+('1" X 1" Sq Tube'),
+('Custom');
+
+INSERT INTO left_buildout
+(left_buildout_name)
+VALUES
+('None'),
+('1" X 2" L Angle'),
+('1" X 3" L Angle'),
+('1" X 2" Tube'),
+('1" X 1" Sq Tube'),
+('Custom');

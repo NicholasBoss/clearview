@@ -253,13 +253,13 @@ CREATE TABLE IF NOT EXISTS general_retract_control
   door_type CHARACTER VARYING NULL,
   door_mount CHARACTER VARYING NULL,
   opening_side CHARACTER VARYING NULL,
-  fraction CHARACTER VARYING NULL,
-  mesh CHARACTER VARYING NULL,
-  mohair CHARACTER VARYING NULL,
+  measurement_id INTEGER NOT NULL,
+  mesh_id INTEGER NOT NULL,
+  mohair_id INTEGER NOT NULL,
   mohair_position CHARACTER VARYING NULL,
-  top_adapter CHARACTER VARYING NULL,
-  build_out CHARACTER VARYING NULL,
-  btm_adapter CHARACTER VARYING NULL,
+  top_adapter_id INTEGER NOT NULL,
+  build_out_id INTEGER NOT NULL,
+  bottom_adapter_id INTEGER NOT NULL,
   btm_adapter_color CHARACTER VARYING NULL,
   CONSTRAINT grc_pk PRIMARY KEY (general_retract_control_id)
 );
@@ -546,21 +546,6 @@ CREATE TABLE IF NOT EXISTS hardware_color
   product_color_id INTEGER NOT NULL,
   CONSTRAINT hardware_color_pk PRIMARY KEY (hardware_color_id),
   CONSTRAINT hardware_color_fk1
-    FOREIGN KEY (product_color_id)
-    REFERENCES product_color (product_color_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
-);
-
--- ------------------------------------------------------
--- nws_color
--- ------------------------------------------------------
-CREATE TABLE IF NOT EXISTS nws_color
-(
-  nws_color_id SERIAL,
-  product_color_id INTEGER NOT NULL,
-  CONSTRAINT nws_color_pk PRIMARY KEY (nws_color_id),
-  CONSTRAINT nws_color_fk1
     FOREIGN KEY (product_color_id)
     REFERENCES product_color (product_color_id)
     ON DELETE CASCADE
