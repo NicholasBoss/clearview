@@ -28,7 +28,6 @@ DROP TABLE IF EXISTS top_opening_width;
 DROP TABLE IF EXISTS drive_side;
 DROP TABLE IF EXISTS placement;
 DROP TABLE IF EXISTS housing;
-DROP TABLE IF EXISTS custom_new_window_screen;
 DROP TABLE IF EXISTS new_window_screen;
 DROP TABLE IF EXISTS public.window;
 DROP TABLE IF EXISTS product_mesh;
@@ -433,6 +432,17 @@ CREATE TABLE IF NOT EXISTS product_mesh
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
+
+-- -----------------------------------------------------
+-- Table tab_spring
+-- -----------------------------------------------------
+CREATE TABLE tab_spring
+(
+  tab_spring_id SERIAL,
+  tab_spring_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT tab_spring_pk PRIMARY KEY (tab_spring_id)
+);
+
 -- -----------------------------------------------------
 -- Table window
 -- -----------------------------------------------------
@@ -440,7 +450,7 @@ CREATE TABLE IF NOT EXISTS product_mesh
 CREATE TABLE IF NOT EXISTS public.window 
 (
   window_id SERIAL,
-  tab_spring CHARACTER VARYING NOT NULL,
+  tab_spring_id INTEGER NOT NULL,
   color_id INTEGER NOT NULL,
   frame_size_id INTEGER NOT NULL,
   fastener_id INTEGER NOT NULL,
@@ -487,21 +497,6 @@ CREATE TABLE IF NOT EXISTS new_window_screen
     ON UPDATE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS custom_new_window_screen
-(
-  custom_nws_id SERIAL,
-  est_nws_build BOOLEAN NOT NULL,
-  act_nws_build BOOLEAN NOT NULL,
-  nws_id INTEGER NOT NULL,
-  CONSTRAINT custom_nws_pk
-    PRIMARY KEY (custom_nws_id),
-  CONSTRAINT custom_nws_fk1
-    FOREIGN KEY (nws_id)
-    REFERENCES new_window_screen (nws_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
-);
-
 -- -----------------------------------------------------
 -- Table fabric_color
 -- -----------------------------------------------------
@@ -529,10 +524,16 @@ CREATE TABLE IF NOT EXISTS handle_color
 (
   handle_color_id SERIAL,
   product_color_id INTEGER NOT NULL,
+  mirage_3500_id INTEGER NOT NULL,
   CONSTRAINT handle_color_pk PRIMARY KEY (handle_color_id),
   CONSTRAINT handle_color_fk1
     FOREIGN KEY (product_color_id)
     REFERENCES product_color (product_color_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT handle_color_fk2
+    FOREIGN KEY (mirage_3500_id)
+    REFERENCES mirage_3500 (mirage_3500_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );

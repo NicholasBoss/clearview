@@ -28,8 +28,7 @@
 -- drive_side
 -- placement
 -- housing
-custom_new_window_screen??
-new_window_screen??
+-- new_window_screen
 -- public.window
 product_mesh
 -- mesh
