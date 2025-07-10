@@ -312,7 +312,6 @@ CREATE TABLE IF NOT EXISTS mirage
   CONSTRAINT mirage_pk PRIMARY KEY (mirage_id)
 );
 
-
 -- -----------------------------------------------------
 -- Table mirage_3500
 -- -----------------------------------------------------
@@ -323,9 +322,6 @@ CREATE TABLE IF NOT EXISTS mirage_3500
   mirage_3500_handle CHARACTER VARYING NOT NULL,
   CONSTRAINT mirage_3500_pk PRIMARY KEY (mirage_3500_id)
 );
-
-
-
 
 -- -----------------------------------------------------
 -- Table frame_size
@@ -412,23 +408,29 @@ CREATE TABLE IF NOT EXISTS product_color
 CREATE TABLE IF NOT EXISTS product_mesh
 (
   product_mesh_id SERIAL,
-  color_id INTEGER NOT NULL,
-  product_id INTEGER NOT NULL,
-  product_color_id INTEGER NOT NULL,
+  product_id INTEGER NULL,
+  mesh_id INTEGER NULL,
+  product_color_id INTEGER NULL,
+  fabric_id INTEGER NULL,
   CONSTRAINT product_mesh_pk PRIMARY KEY (product_mesh_id),
-  CONSTRAINT product_mesh_fk1
-    FOREIGN KEY (color_id)
-    REFERENCES color (color_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-    CONSTRAINT product_mesh_fk2
+    CONSTRAINT product_mesh_fk1
     FOREIGN KEY (product_id)
     REFERENCES product (product_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-    CONSTRAINT product_mesh_fk3
+  CONSTRAINT product_mesh_fk2
+    FOREIGN KEY (mesh_id)
+    REFERENCES mesh (mesh_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT product_mesh_fk3
     FOREIGN KEY (product_color_id)
     REFERENCES product_color (product_color_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT product_mesh_fk4
+    FOREIGN KEY (fabric_id)
+    REFERENCES fabric (fabric_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
@@ -493,26 +495,6 @@ CREATE TABLE IF NOT EXISTS new_window_screen
   CONSTRAINT nws_fk1
     FOREIGN KEY (window_id)
     REFERENCES public.window (window_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
-);
-
--- -----------------------------------------------------
--- Table fabric_color
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS fabric_color
-(
-  fabric_color_id SERIAL,
-  product_color_id INTEGER NOT NULL,
-  fabric_id INTEGER NOT NULL,
-  CONSTRAINT fabric_color_pk PRIMARY KEY (fabric_color_id),
-  CONSTRAINT fabric_color_fk1
-    FOREIGN KEY (product_color_id)
-    REFERENCES product_color (product_color_id)
-    ON DELETE CASCADE,
-  CONSTRAINT fabric_color_fk2
-    FOREIGN KEY (fabric_id)
-    REFERENCES fabric (fabric_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );

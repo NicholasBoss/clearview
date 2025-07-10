@@ -179,6 +179,7 @@ VALUES
 , ((SELECT product_id FROM product WHERE product_name = 'Mirage 3500'), (SELECT color_id FROM color WHERE color_name = 'Wicker'))
 , ((SELECT product_id FROM product WHERE product_name = 'Mirage 3500'), (SELECT color_id FROM color WHERE color_name = 'Seal Beach Green'))
 , ((SELECT product_id FROM product WHERE product_name = 'Mirage 3500'), (SELECT color_id FROM color WHERE color_name = 'Bronze'))
+, ((SELECT product_id FROM product WHERE product_name = 'Mirage 3500'), (SELECT color_id FROM color WHERE color_name = 'Charcoal/Black'))
 , ((SELECT product_id FROM product WHERE product_name = 'Mirage 3500'), (SELECT color_id FROM color WHERE color_name = 'Custom'));
 
 
@@ -197,7 +198,7 @@ VALUES
 ('Sheereave 2703'),
 ('Solar 90%');
 
-INSERT INTO fabric_color (fabric_id, product_color_id)
+INSERT INTO product_mesh (fabric_id, product_color_id)
 VALUES
 ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Tuffscreen NoSeeUm'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'White')))
 , ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Tuffscreen'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Black')))
@@ -409,3 +410,25 @@ VALUES
 ('1" X 2" Tube'),
 ('1" X 1" Sq Tube'),
 ('Custom');
+
+product_mesh
+handle_color
+hardware_color
+pivot_pro_color
+top_adapter_color
+rainier_zipper_color
+
+INSERT INTO product_mesh (product_id, mesh_id)
+VALUES
+((SELECT product_id FROM product WHERE product_name = 'New Window Screen'),
+ (SELECT mesh_id FROM mesh WHERE mesh_type = 'BV')),
+((SELECT product_id FROM product WHERE product_name = 'New Window Screen'),
+ (SELECT mesh_id FROM mesh WHERE mesh_type = 'Bug')),
+((SELECT product_id FROM product WHERE product_name = 'New Window Screen'),
+ (SELECT mesh_id FROM mesh WHERE mesh_type = 'Patio')),
+((SELECT product_id FROM product WHERE product_name = 'New Window Screen'),
+ (SELECT mesh_id FROM mesh WHERE mesh_type = 'Tuff')),
+((SELECT product_id FROM product WHERE product_name = 'New Window Screen'),
+ (SELECT mesh_id FROM mesh WHERE mesh_type = 'Pet')),
+((SELECT product_id FROM product WHERE product_name = 'New Window Screen'),
+ (SELECT mesh_id FROM mesh WHERE mesh_type = 'SS'));
