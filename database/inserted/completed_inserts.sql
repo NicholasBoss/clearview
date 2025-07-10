@@ -30,7 +30,7 @@
 -- housing
 -- new_window_screen
 -- public.window
-product_mesh
+-- product_mesh
 -- mesh
 -- fabric
 -- fastener
@@ -411,8 +411,8 @@ VALUES
 ('1" X 1" Sq Tube'),
 ('Custom');
 
-product_mesh
-handle_color
+-- product_mesh
+-- handle_color
 hardware_color
 pivot_pro_color
 top_adapter_color
@@ -432,3 +432,48 @@ VALUES
  (SELECT mesh_id FROM mesh WHERE mesh_type = 'Pet')),
 ((SELECT product_id FROM product WHERE product_name = 'New Window Screen'),
  (SELECT mesh_id FROM mesh WHERE mesh_type = 'SS'));
+
+
+INSERT INTO handle_color (product_color_id, mirage_3500_id)
+VALUES
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage 3500') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Midnight Black')),
+ (SELECT mirage_3500_id FROM mirage_3500 WHERE mirage_3500_handle = 'Pivot Pro')),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage 3500') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Polar White')),
+ (SELECT mirage_3500_id FROM mirage_3500 WHERE mirage_3500_handle = 'Pivot Pro')),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage 3500') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Bronze')),
+ (SELECT mirage_3500_id FROM mirage_3500 WHERE mirage_3500_handle = 'Pivot Pro')),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage 3500') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Sandalwood')),
+ (SELECT mirage_3500_id FROM mirage_3500 WHERE mirage_3500_handle = 'Pivot Pro')),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage 3500') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Custom')),
+ (SELECT mirage_3500_id FROM mirage_3500 WHERE mirage_3500_handle = 'Pivot Pro')),
+ ((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage 3500') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Midnight Black')),
+ (SELECT mirage_3500_id FROM mirage_3500 WHERE mirage_3500_handle = 'Recessed')),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage 3500') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Polar White')),
+ (SELECT mirage_3500_id FROM mirage_3500 WHERE mirage_3500_handle = 'Recessed')),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage 3500') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Bronze')),
+ (SELECT mirage_3500_id FROM mirage_3500 WHERE mirage_3500_handle = 'Recessed')),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage 3500') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Sandalwood')),
+ (SELECT mirage_3500_id FROM mirage_3500 WHERE mirage_3500_handle = 'Recessed')),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage 3500') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Custom')),
+ (SELECT mirage_3500_id FROM mirage_3500 WHERE mirage_3500_handle = 'Recessed')),
+ ((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage 3500') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Midnight Black')),
+ (SELECT mirage_3500_id FROM mirage_3500 WHERE mirage_3500_handle = 'Standard')),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage 3500') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Polar White')),
+ (SELECT mirage_3500_id FROM mirage_3500 WHERE mirage_3500_handle = 'Standard')),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage 3500') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Bronze')),
+ (SELECT mirage_3500_id FROM mirage_3500 WHERE mirage_3500_handle = 'Standard')),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage 3500') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Sandalwood')),
+ (SELECT mirage_3500_id FROM mirage_3500 WHERE mirage_3500_handle = 'Standard')),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage 3500') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Custom')),
+ (SELECT mirage_3500_id FROM mirage_3500 WHERE mirage_3500_handle = 'Standard'));
+
+Black
+Slate Grey
+Linen Cream
+Rideau Brown
+Sandalwood
+Tudor Brown
+Polar White
+Ex Pebble Grey
+
+INSERT INTO pivot_pro_color
