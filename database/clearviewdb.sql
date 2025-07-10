@@ -28,7 +28,6 @@ DROP TABLE IF EXISTS top_opening_width;
 DROP TABLE IF EXISTS drive_side;
 DROP TABLE IF EXISTS placement;
 DROP TABLE IF EXISTS housing;
-DROP TABLE IF EXISTS custom_new_window_screen;
 DROP TABLE IF EXISTS new_window_screen;
 DROP TABLE IF EXISTS public.window;
 DROP TABLE IF EXISTS product_mesh;
@@ -253,13 +252,13 @@ CREATE TABLE IF NOT EXISTS general_retract_control
   door_type CHARACTER VARYING NULL,
   door_mount CHARACTER VARYING NULL,
   opening_side CHARACTER VARYING NULL,
-  fraction CHARACTER VARYING NULL,
-  mesh CHARACTER VARYING NULL,
-  mohair CHARACTER VARYING NULL,
+  measurement_id INTEGER NOT NULL,
+  mesh_id INTEGER NOT NULL,
+  mohair_id INTEGER NOT NULL,
   mohair_position CHARACTER VARYING NULL,
-  top_adapter CHARACTER VARYING NULL,
-  build_out CHARACTER VARYING NULL,
-  btm_adapter CHARACTER VARYING NULL,
+  top_adapter_id INTEGER NOT NULL,
+  build_out_id INTEGER NOT NULL,
+  bottom_adapter_id INTEGER NOT NULL,
   btm_adapter_color CHARACTER VARYING NULL,
   CONSTRAINT grc_pk PRIMARY KEY (general_retract_control_id)
 );
@@ -313,7 +312,6 @@ CREATE TABLE IF NOT EXISTS mirage
   CONSTRAINT mirage_pk PRIMARY KEY (mirage_id)
 );
 
-
 -- -----------------------------------------------------
 -- Table mirage_3500
 -- -----------------------------------------------------
@@ -324,9 +322,6 @@ CREATE TABLE IF NOT EXISTS mirage_3500
   mirage_3500_handle CHARACTER VARYING NOT NULL,
   CONSTRAINT mirage_3500_pk PRIMARY KEY (mirage_3500_id)
 );
-
-
-
 
 -- -----------------------------------------------------
 -- Table frame_size
@@ -413,26 +408,43 @@ CREATE TABLE IF NOT EXISTS product_color
 CREATE TABLE IF NOT EXISTS product_mesh
 (
   product_mesh_id SERIAL,
-  color_id INTEGER NOT NULL,
-  product_id INTEGER NOT NULL,
-  product_color_id INTEGER NOT NULL,
+  product_id INTEGER NULL,
+  mesh_id INTEGER NULL,
+  product_color_id INTEGER NULL,
+  fabric_id INTEGER NULL,
   CONSTRAINT product_mesh_pk PRIMARY KEY (product_mesh_id),
-  CONSTRAINT product_mesh_fk1
-    FOREIGN KEY (color_id)
-    REFERENCES color (color_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-    CONSTRAINT product_mesh_fk2
+    CONSTRAINT product_mesh_fk1
     FOREIGN KEY (product_id)
     REFERENCES product (product_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-    CONSTRAINT product_mesh_fk3
+  CONSTRAINT product_mesh_fk2
+    FOREIGN KEY (mesh_id)
+    REFERENCES mesh (mesh_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT product_mesh_fk3
     FOREIGN KEY (product_color_id)
     REFERENCES product_color (product_color_id)
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT product_mesh_fk4
+    FOREIGN KEY (fabric_id)
+    REFERENCES fabric (fabric_id)
+    ON DELETE CASCADE
     ON UPDATE CASCADE
 );
+
+-- -----------------------------------------------------
+-- Table tab_spring
+-- -----------------------------------------------------
+CREATE TABLE tab_spring
+(
+  tab_spring_id SERIAL,
+  tab_spring_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT tab_spring_pk PRIMARY KEY (tab_spring_id)
+);
+
 -- -----------------------------------------------------
 -- Table window
 -- -----------------------------------------------------
@@ -440,7 +452,7 @@ CREATE TABLE IF NOT EXISTS product_mesh
 CREATE TABLE IF NOT EXISTS public.window 
 (
   window_id SERIAL,
-  tab_spring CHARACTER VARYING NOT NULL,
+  tab_spring_id INTEGER NOT NULL,
   color_id INTEGER NOT NULL,
   frame_size_id INTEGER NOT NULL,
   fastener_id INTEGER NOT NULL,
@@ -487,41 +499,6 @@ CREATE TABLE IF NOT EXISTS new_window_screen
     ON UPDATE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS custom_new_window_screen
-(
-  custom_nws_id SERIAL,
-  est_nws_build BOOLEAN NOT NULL,
-  act_nws_build BOOLEAN NOT NULL,
-  nws_id INTEGER NOT NULL,
-  CONSTRAINT custom_nws_pk
-    PRIMARY KEY (custom_nws_id),
-  CONSTRAINT custom_nws_fk1
-    FOREIGN KEY (nws_id)
-    REFERENCES new_window_screen (nws_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
-);
-
--- -----------------------------------------------------
--- Table fabric_color
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS fabric_color
-(
-  fabric_color_id SERIAL,
-  product_color_id INTEGER NOT NULL,
-  fabric_id INTEGER NOT NULL,
-  CONSTRAINT fabric_color_pk PRIMARY KEY (fabric_color_id),
-  CONSTRAINT fabric_color_fk1
-    FOREIGN KEY (product_color_id)
-    REFERENCES product_color (product_color_id)
-    ON DELETE CASCADE,
-  CONSTRAINT fabric_color_fk2
-    FOREIGN KEY (fabric_id)
-    REFERENCES fabric (fabric_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
-);
-
 -- -----------------------------------------------------
 -- Table handle_color
 -- -----------------------------------------------------
@@ -529,10 +506,16 @@ CREATE TABLE IF NOT EXISTS handle_color
 (
   handle_color_id SERIAL,
   product_color_id INTEGER NOT NULL,
+  mirage_3500_id INTEGER NOT NULL,
   CONSTRAINT handle_color_pk PRIMARY KEY (handle_color_id),
   CONSTRAINT handle_color_fk1
     FOREIGN KEY (product_color_id)
     REFERENCES product_color (product_color_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT handle_color_fk2
+    FOREIGN KEY (mirage_3500_id)
+    REFERENCES mirage_3500 (mirage_3500_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
@@ -546,21 +529,6 @@ CREATE TABLE IF NOT EXISTS hardware_color
   product_color_id INTEGER NOT NULL,
   CONSTRAINT hardware_color_pk PRIMARY KEY (hardware_color_id),
   CONSTRAINT hardware_color_fk1
-    FOREIGN KEY (product_color_id)
-    REFERENCES product_color (product_color_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
-);
-
--- ------------------------------------------------------
--- nws_color
--- ------------------------------------------------------
-CREATE TABLE IF NOT EXISTS nws_color
-(
-  nws_color_id SERIAL,
-  product_color_id INTEGER NOT NULL,
-  CONSTRAINT nws_color_pk PRIMARY KEY (nws_color_id),
-  CONSTRAINT nws_color_fk1
     FOREIGN KEY (product_color_id)
     REFERENCES product_color (product_color_id)
     ON DELETE CASCADE

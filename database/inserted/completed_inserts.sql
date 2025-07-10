@@ -1,53 +1,51 @@
-tow_measurement
-bow_measurement
-roh_measurement
-loh_measurement
-nws_measurement
+-- tow_measurement
+-- bow_measurement
+-- roh_measurement
+-- loh_measurement
+-- nws_measurement
 -- measurement
 -- rainier
-starting_point
-right_track
-left_track
+-- starting_point
+-- right_track
+-- left_track
 -- brush_location
 -- pilebrush
-add_buildout
-left_buildout
-right_buildout
-top_adapter
-bottom_adapter
+-- add_buildout
+-- left_buildout
+-- right_buildout
+-- top_adapter
+-- bottom_adapter
 -- hembar
 -- cord_length
 -- frame_size
-left_plumb
-right_plumb
-right_opening_height
-bottom_opening_width
-bottom_level
-top_level
-top_opening_width
+-- left_plumb
+-- right_plumb
+-- right_opening_height
+-- bottom_opening_width
+-- bottom_level
+-- top_level
+-- top_opening_width
 -- drive_side
 -- placement
 -- housing
-custom_new_window_screen
-new_window_screen
-public.window
-product_mesh
+-- new_window_screen
+-- public.window
+-- product_mesh
 -- mesh
 -- fabric
 -- fastener
 -- frame_size
 -- fabric_color
-handle_color
-hardware_color
-nws_color
-pivot_pro_color
-top_adapter_color
+-- handle_color
+-- hardware_color
+-- pivot_pro_color
+-- top_adapter_color
 rainier_zipper_color
 -- product_color
 -- color
 -- mirage_3500
 -- mirage
-general_retract_control
+-- general_retract_control
 -- account
 -- account_type
 -- product
@@ -125,6 +123,7 @@ VALUES
 , ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Mushroom (Safari Cashmere)'))
 , ((SELECT product_id FROM product WHERE product_name = 'Rainier'), (SELECT color_id FROM color WHERE color_name = 'Quartz'))
 
+, ((SELECT product_id FROM product WHERE product_name = 'Mirage'), (SELECT color_id FROM color WHERE color_name = 'Black'))
 , ((SELECT product_id FROM product WHERE product_name = 'Mirage'), (SELECT color_id FROM color WHERE color_name = 'Midnight Black'))
 , ((SELECT product_id FROM product WHERE product_name = 'Mirage'), (SELECT color_id FROM color WHERE color_name = 'Slate Grey'))
 , ((SELECT product_id FROM product WHERE product_name = 'Mirage'), (SELECT color_id FROM color WHERE color_name = 'Linen Cream'))
@@ -181,6 +180,7 @@ VALUES
 , ((SELECT product_id FROM product WHERE product_name = 'Mirage 3500'), (SELECT color_id FROM color WHERE color_name = 'Wicker'))
 , ((SELECT product_id FROM product WHERE product_name = 'Mirage 3500'), (SELECT color_id FROM color WHERE color_name = 'Seal Beach Green'))
 , ((SELECT product_id FROM product WHERE product_name = 'Mirage 3500'), (SELECT color_id FROM color WHERE color_name = 'Bronze'))
+, ((SELECT product_id FROM product WHERE product_name = 'Mirage 3500'), (SELECT color_id FROM color WHERE color_name = 'Charcoal/Black'))
 , ((SELECT product_id FROM product WHERE product_name = 'Mirage 3500'), (SELECT color_id FROM color WHERE color_name = 'Custom'));
 
 
@@ -199,7 +199,7 @@ VALUES
 ('Sheereave 2703'),
 ('Solar 90%');
 
-INSERT INTO fabric_color (fabric_id, product_color_id)
+INSERT INTO product_mesh (fabric_id, product_color_id)
 VALUES
 ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Tuffscreen NoSeeUm'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'White')))
 , ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Tuffscreen'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Black')))
@@ -380,3 +380,159 @@ VALUES
 ('1/2" Sq'),
 ('None');
 
+INSERT INTO right_track
+(right_track_name)
+VALUES
+('Surface Mount'),
+('Recessed (Side) Mount');
+
+INSERT INTO left_track
+(left_track_name)
+VALUES
+('Surface Mount'),
+('Recessed (Side) Mount');
+
+INSERT INTO right_buildout
+(right_buildout_name)
+VALUES
+('None'),
+('1" X 2" L Angle'),
+('1" X 3" L Angle'),
+('1" X 2" Tube'),
+('1" X 1" Sq Tube'),
+('Custom');
+
+INSERT INTO left_buildout
+(left_buildout_name)
+VALUES
+('None'),
+('1" X 2" L Angle'),
+('1" X 3" L Angle'),
+('1" X 2" Tube'),
+('1" X 1" Sq Tube'),
+('Custom');
+
+-- product_mesh
+-- handle_color
+hardware_color
+-- pivot_pro_color
+top_adapter_color
+rainier_zipper_color
+
+INSERT INTO product_mesh (product_id, mesh_id)
+VALUES
+((SELECT product_id FROM product WHERE product_name = 'New Window Screen'),
+ (SELECT mesh_id FROM mesh WHERE mesh_type = 'BV')),
+((SELECT product_id FROM product WHERE product_name = 'New Window Screen'),
+ (SELECT mesh_id FROM mesh WHERE mesh_type = 'Bug')),
+((SELECT product_id FROM product WHERE product_name = 'New Window Screen'),
+ (SELECT mesh_id FROM mesh WHERE mesh_type = 'Patio')),
+((SELECT product_id FROM product WHERE product_name = 'New Window Screen'),
+ (SELECT mesh_id FROM mesh WHERE mesh_type = 'Tuff')),
+((SELECT product_id FROM product WHERE product_name = 'New Window Screen'),
+ (SELECT mesh_id FROM mesh WHERE mesh_type = 'Pet')),
+((SELECT product_id FROM product WHERE product_name = 'New Window Screen'),
+ (SELECT mesh_id FROM mesh WHERE mesh_type = 'SS'));
+
+
+INSERT INTO handle_color (product_color_id, mirage_3500_id)
+VALUES
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage 3500') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Midnight Black')),
+ (SELECT mirage_3500_id FROM mirage_3500 WHERE mirage_3500_handle = 'Pivot Pro')),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage 3500') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Polar White')),
+ (SELECT mirage_3500_id FROM mirage_3500 WHERE mirage_3500_handle = 'Pivot Pro')),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage 3500') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Bronze')),
+ (SELECT mirage_3500_id FROM mirage_3500 WHERE mirage_3500_handle = 'Pivot Pro')),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage 3500') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Sandalwood')),
+ (SELECT mirage_3500_id FROM mirage_3500 WHERE mirage_3500_handle = 'Pivot Pro')),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage 3500') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Custom')),
+ (SELECT mirage_3500_id FROM mirage_3500 WHERE mirage_3500_handle = 'Pivot Pro')),
+ ((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage 3500') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Midnight Black')),
+ (SELECT mirage_3500_id FROM mirage_3500 WHERE mirage_3500_handle = 'Recessed')),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage 3500') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Polar White')),
+ (SELECT mirage_3500_id FROM mirage_3500 WHERE mirage_3500_handle = 'Recessed')),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage 3500') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Bronze')),
+ (SELECT mirage_3500_id FROM mirage_3500 WHERE mirage_3500_handle = 'Recessed')),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage 3500') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Sandalwood')),
+ (SELECT mirage_3500_id FROM mirage_3500 WHERE mirage_3500_handle = 'Recessed')),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage 3500') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Custom')),
+ (SELECT mirage_3500_id FROM mirage_3500 WHERE mirage_3500_handle = 'Recessed')),
+ ((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage 3500') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Midnight Black')),
+ (SELECT mirage_3500_id FROM mirage_3500 WHERE mirage_3500_handle = 'Standard')),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage 3500') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Polar White')),
+ (SELECT mirage_3500_id FROM mirage_3500 WHERE mirage_3500_handle = 'Standard')),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage 3500') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Bronze')),
+ (SELECT mirage_3500_id FROM mirage_3500 WHERE mirage_3500_handle = 'Standard')),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage 3500') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Sandalwood')),
+ (SELECT mirage_3500_id FROM mirage_3500 WHERE mirage_3500_handle = 'Standard')),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage 3500') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Custom')),
+ (SELECT mirage_3500_id FROM mirage_3500 WHERE mirage_3500_handle = 'Standard'));
+
+
+INSERT INTO pivot_pro_color (product_color_id)
+VALUES
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Black'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Slate Grey'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Linen Cream'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Rideau Brown'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Sandalwood'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Tudor Brown'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Polar White'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Ex Pebble Grey')));
+
+INSERT INTO top_adapter_color (product_color_id)
+VALUES
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Midnight Black'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Slate Grey'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Linen Cream'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Rideau Brown'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Sandalwood'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Tudor Brown'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Polar White'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Ex Pebble Grey'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Hartford Green'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Ansi 49 Grey'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Almond'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Autumn Leaf'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Burgundy'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Charcoal'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Dk Bronze Metallic'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Evergreen'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Furniture White'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Gloss Brown'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Metro Brown'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Mocha'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Metallic Silver'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Oyster Grey'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Seal Beach Green'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Sundried Tomato'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Signal White'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Wicker'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Custom')));
+
+INSERT INTO hardware_color (product_color_id)
+VALUES
+(SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Bright White')),
+(SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Off White')),
+(SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Gray')),
+(SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Navajo')),
+(SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Tan')),
+(SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Desert Sand')),
+(SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Brown')),
+(SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Green')),
+(SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Bronze')),
+(SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Black')),
+(SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Silver')),
+(SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Varies (Specify in Notes)')),
+(SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'RAL (Specify in Notes)')),
+(SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Textured Dark Gray')),
+(SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Textured Tan')),
+(SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Textured Copper Bronze')),
+(SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Textured Black')),
+(SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Textured Rust')),
+(SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Textured Varies (Specify in Notes)'));
+
+INSERT INTO rainier_zipper_color (product_color_id)
+VALUES
+(SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Black')),
+(SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'White'));
