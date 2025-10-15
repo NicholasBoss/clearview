@@ -14,30 +14,30 @@ async function createOrder(product_name, measurement_name, size_type, fastener_t
         else if (product_name == 'NWS'){
             createNWSOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type)
         }
-        else if (product_name == 'Door'){
-            createDoorOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type)
-        }
-        else if (product_name == 'Hale Screen Model'){
-            createHaleScreenModelOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type)
-        }
-        else if (product_name == 'Phantom'){
-            createPhantomOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type)
-        }
-        else if (product_name == 'Wizard Smart Screen'){
-            createWizardSmartScreenOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type)
-        }
-        else if (product_name == 'Viewguard'){
-            createViewguardOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type)
-        }
-        else if (product_name == 'Sunscreen'){
-            createSunscreenOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type)
-        }
-        else if (product_name == 'Hale Door'){
-            createHaleDoorOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type)
-        }
-        else if (product_name == 'General Retract Control'){
-            createGeneralRetractControlOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type)
-        }
+        // else if (product_name == 'Door'){
+        //     createDoorOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type)
+        // }
+        // else if (product_name == 'Hale Screen Model'){
+        //     createHaleScreenModelOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type)
+        // }
+        // else if (product_name == 'Phantom'){
+        //     createPhantomOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type)
+        // }
+        // else if (product_name == 'Wizard Smart Screen'){
+        //     createWizardSmartScreenOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type)
+        // }
+        // else if (product_name == 'Viewguard'){
+        //     createViewguardOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type)
+        // }
+        // else if (product_name == 'Sunscreen'){
+        //     createSunscreenOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type)
+        // }
+        // else if (product_name == 'Hale Door'){
+        //     createHaleDoorOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type)
+        // }
+        // else if (product_name == 'General Retract Control'){
+        //     createGeneralRetractControlOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type)
+        // }
     } catch (error) {
         return error.message
     }
@@ -75,74 +75,74 @@ async function createNWSOrder(product_name, measurement_name, size_type, fastene
     }
 }
 
-async function createDoorOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type){
-    try {
+// async function createDoorOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type){
+//     try {
 
-    } catch (error) {
-        return error.message
-    }
-}
+//     } catch (error) {
+//         return error.message
+//     }
+// }
 
-async function createHaleScreenModelOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type){
-    try {
+// async function createHaleScreenModelOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type){
+//     try {
 
-    } catch (error) {
-        return error.message
-    }
-}
+//     } catch (error) {
+//         return error.message
+//     }
+// }
 
-async function createPhantomOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type){
-    try {
+// async function createPhantomOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type){
+//     try {
 
-    } catch (error) {
-        return error.message
-    }
-}
+//     } catch (error) {
+//         return error.message
+//     }
+// }
 
-async function createWizardSmartScreenOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type){
-    try {
+// async function createWizardSmartScreenOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type){
+//     try {
 
-    } catch (error) {
-        return error.message
-    }
-}
+//     } catch (error) {
+//         return error.message
+//     }
+// }
 
-async function createViewguardOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type){
-    try {
+// async function createViewguardOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type){
+//     try {
 
-    } catch (error) {
-        return error.message
-    }
-}
+//     } catch (error) {
+//         return error.message
+//     }
+// }
 
-async function createSunscreenOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type){
-    try {
+// async function createSunscreenOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type){
+//     try {
 
-    } catch (error) {
-        return error.message
-    }
-}
+//     } catch (error) {
+//         return error.message
+//     }
+// }
 
-async function createHaleDoorOrder (product_name, measurement_name, size_type, fastener_type, color_name, mesh_type){
-    try {
+// async function createHaleDoorOrder (product_name, measurement_name, size_type, fastener_type, color_name, mesh_type){
+//     try {
 
-    } catch (error) {
-        return error.message
-    }
-}
+//     } catch (error) {
+//         return error.message
+//     }
+// }
 
-async function updateOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type, mirage_build_out, mirage_3500_handle){
-    try {
+// async function updateOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type, mirage_build_out, mirage_3500_handle){
+//     try {
 
-    } catch (error) {
-        return error.message
-    }
-}
+//     } catch (error) {
+//         return error.message
+//     }
+// }
 
-async function deleteOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type, mirage_build_out, mirage_3500_handle){
-    try {
+// async function deleteOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type, mirage_build_out, mirage_3500_handle){
+//     try {
 
-    } catch (error) {
-        return error.message
-    }
-}
+//     } catch (error) {
+//         return error.message
+//     }
+// }
