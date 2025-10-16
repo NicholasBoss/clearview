@@ -6,10 +6,10 @@ DROP TABLE IF EXISTS tow_measurement;
 DROP TABLE IF EXISTS bow_measurement;
 DROP TABLE IF EXISTS roh_measurement;
 DROP TABLE IF EXISTS loh_measurement;
-DROP TABLE IF EXISTS brush_location;
 DROP TABLE IF EXISTS nws_measurement;
 DROP TABLE IF EXISTS measurement;
 DROP TABLE IF EXISTS rainier;
+DROP TABLE IF EXISTS brush_location;
 DROP TABLE IF EXISTS starting_point;
 DROP TABLE IF EXISTS right_track;
 DROP TABLE IF EXISTS left_track;
@@ -875,7 +875,7 @@ CREATE TABLE IF NOT EXISTS rainier
     FOREIGN KEY (right_opening_height_id)
     REFERENCES right_opening_height (right_opening_height_id)
     ON DELETE CASCADE
-    ON UPDATE CASCADE,
+    ON UPDATE CASCADE
 );
 
 -- -----------------------------------------------------
