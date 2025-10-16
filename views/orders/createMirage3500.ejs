@@ -33,7 +33,7 @@ const colors = [
 ];
 %>
 
-<form action="" method="post">
+<form id="form" action="" method="post">
     <div class="container">
         <label><b>Top Opening Width</b>
             <input type="text" name="top_opening_width" id="top_opening_width">
@@ -108,58 +108,23 @@ const colors = [
         </label><br>
 
         <label><b>Top Level</b>
-            <!-- There are no inserts for this -->
-            <select name="top_level" id="top_level">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-            </select>
+            <input type="text" name="top_level" id="top_level">
         </label><br>
 
         <label><b>Bottom Level</b>
-            <!-- There are no inserts for this -->
-            <select name="bottom_level" id="bottom_level">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-            </select>
+            <input type="text" name="bottom_level" id="bottom_level">
         </label><br>
 
         <label><b>Left Plumb</b>
-            <!-- There are no inserts for this -->
-            <select name="left_plumb" id="left_plumb">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-            </select>
+            <input type="text" name="left_plumb" id="left_plumb">
         </label><br>
 
         <label><b>Right Plumb</b>
-            <!-- There are no inserts for this -->
-            <select name="right_plumb" id="right_plumb">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-            </select>
+            <input type="text" name="right_plumb" id="right_plumb">
         </label><br>
 
         <label><b>Starting Point</b>
-            <!-- There are no inserts for this -->
-            <select name="starting_point" id="starting_point">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-            </select>
+            <input type="text" name="starting_point" id="starting_point">
         </label><br>
 
         <!-- Single or Dbl to be placed here (create a table for specifically the mirages)-->
@@ -181,13 +146,12 @@ const colors = [
         </label><br>
 
         <label><b>Handle</b>
-            <!-- can't find handle table in database -->
+            <!-- I assume this is actually the mirage_3500_handle column in the mirage3500 table -->
             <select  name="handle" id="handle">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
+                <option value="">Select</option>
+                <option value="Pivot Pro">Pivot Pro</option>
+                <option value="Recessed">Recessed</option>
+                <option value="Standard">Standard</option>
             </select>
         </label><br>
 
@@ -289,22 +253,35 @@ const colors = [
             </select>
         </label><br>
 
-        <label><b>Build Out</b>
-            <select name="" id="build_out">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
+        <label><b>Right Build Out</b>
+            <select name="right_build_out" id="right_build_out">
+                <option value="">Select</option>
+                <option value="None">None</option>
+                <option value="1&quot; X 2&quot; L Angle">1" X 2" L Angle</option>
+                <option value="1&quot; X 3&quot; L Angle">1" X 3" L Angle</option>
+                <option value="1&quot; X 2&quot; Tube">1" X 2" Tube</option>
+                <option value="1&quot; X 1&quot; Sq Tube">1" X 1" Sq Tube</option>
+                <option value="Custom">Custom</option>
             </select>
         </label><br>
-        <!-- build out for M3500 goes here (not sure which variable in db is correct) -->
+
+        <label><b>Left Build Out</b>
+            <select name="left_build_out" id="left_build_out">
+                <option value="">Select</option>
+                <option value="None">None</option>
+                <option value="1&quot; X 2&quot; L Angle">1" X 2" L Angle</option>
+                <option value="1&quot; X 3&quot; L Angle">1" X 3" L Angle</option>
+                <option value="1&quot; X 2&quot; Tube">1" X 2" Tube</option>
+                <option value="1&quot; X 1&quot; Sq Tube">1" X 1" Sq Tube</option>
+                <option value="Custom">Custom</option>
+            </select>
+        </label><br>
 
          <label><b>Build Out Dimension</b>
-            <input type="text" name="" id="build_out_dimension">
+            <input type="text" name="build_out_dimension" id="build_out_dimension">
         </label><br>
         <label><b>Build Out Dimension Fraction</b>
-            <select name="" id="build_out_dimension_fraction">
+            <select name="build_out_dimension_fraction" id="build_out_dimension_fraction">
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
                     <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
@@ -313,7 +290,7 @@ const colors = [
         </label><br>
 
         <label><b>Mesh</b>
-            <select name="" id="mesh">
+            <select name="mesh" id="mesh">
                 <option value="">Select</option>
                 <option value="BV">BV</option>
                 <option value="Bug">Bug</option>
@@ -325,125 +302,82 @@ const colors = [
         </label><br>
 
         <label><b>Mohair</b>
-            <!-- this table not found in database -->
             <select name="mohair" id="mohair">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
+                <option value="">Select</option>
+                <option value=".200 MoHair X.187">.200 MoHair X.187</option>
+                <option value=".250 MoHair X.187">.250 MoHair X.187</option>
+                <option value=".300 MoHair X.187">.300 MoHair X.187</option>
+                <option value=".350 MoHair X.187">.350 MoHair X.187</option>
             </select>
         </label><br>
 
         <label><b>Mohair Position</b>
-            <!-- this table not found in database -->
             <select name="mohair_position" id="mohair_position">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
+                <option value="">Select</option>
+                <option value="Edge">Edge</option>
+                <option value="Inside">Inside</option>
             </select>
         </label><br>
 
-        <!-- bottom adapter screws go here (not found in database) -->
-
-        <!-- slide bolt goes here (not found in db) -->
+        <!-- bottom adapter screws have a fixed value for everything -->
 
         <label><b>Mohair Size</b>
-            <!-- this table not found in database -->
             <select name="mohair_size" id="mohair_size">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
+                <option value="">Select</option>
+                <option value=".2">.2</option>
+                <option value=".25">.25</option>
+                <option value=".3">.3</option>
+                <option value=".35">.35</option>
             </select>
         </label><br>
-
-        <!-- 4 sizes of mohair not found in database  -->
 
          <label><b>Bumper Pads</b>
-            <select name="" id="bumper_pads">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-            </select>
+            <input type="text" name="bumper_pads" id="bumper_pads">
         </label><br>
-        <!-- bumper pads not found in database -->
 
         <label><b>Silicone Spray</b>
-            <select name="" id="silicone_spray">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-            </select>
+            <input type="text" name="silicone_spray" id="silicone_spray">
         </label><br>
-        <!-- silicone spray not found in database -->
 
         <label><b>WholeSale Price</b>
-            <select name="" id="wholesale_price">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-            </select>
+            <input type="text" name="wholesale_price" id="wholesale_price">
         </label><br>
-        <!-- wholesale price not found in database -->
 
         <label><b>Markup Mutliplier</b>
-            <select name="" id="markup_multiplier">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
+            <select name="markup_multiplier" id="markup_multiplier">
+                <option value="">Select</option>
+                <option value="2">2</option>
+                <option value="1.9">1.9</option>
+                <option value="1.8">1.8</option>
             </select>
         </label><br>
-        <!-- Mark Up / Multiplier not found in database -->
 
         <label><b>Retail Price</b>
-            <select name="" id="retail_price">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-            </select>
+            <input type="text" name="retail_price" id="retail_price">
         </label><br>
-        <!-- retail_price not found in database -->
 
         <label><b>Custom Add-ons</b>
-            <select name="" id="custom_addons">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-            </select>
+            <input type="text" name="custom_addons" id="custom_addons">
         </label><br>
-        <!-- Custom/Add ons not found in database -->
 
         <label><b>PIA Obstacles Helper</b>
-            <select name="" id="pia_obstacles_helper">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-            </select>
+            <input type="text" name="pia_obstacles_helper" id="pia_obstacles_helper">
         </label><br>
-        <!-- PIA/Obstacles/Helper not found in database -->
 
-        <!-- sold and date sold goes here (not found in database) -->
+        <label><b>Sold</b>
+            <input type="checkbox" name="is_sold" id="is_sold">
+        </label><br>
 
-        <!-- QC Tech / Date goes here (not found in database) -->
-         <button class="formbtn"
-                type="submit">Submit</button>
+        <label><b>Date Sold</b>
+            <input type="date" name="date_sold" id="date_sold">
+        </label><br>
+
+        <label><b>QC Tech and Date</b>
+            <input type="text" name="qc_tech_date" id="qc_tech_date">
+        </label><br>
+
+
+        <button class="formbtn" type="submit">Submit</button>
          
     </div>
 </form>
