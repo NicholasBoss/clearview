@@ -15,8 +15,7 @@
             <% } %>
 
 <%
-// Define fraction options for reuse
-const fractions = ['1/16', '1/8', '3/16', '1/4', '5/16', '3/8', '7/16', '1/2', '9/16', '5/8', '11/16', '3/4', '13/16', '7/8', '15/16'];
+// const fractions = ['1/16', '1/8', '3/16', '1/4', '5/16', '3/8', '7/16', '1/2', '9/16', '5/8', '11/16', '3/4', '13/16', '7/8', '15/16'];
 
 // Define color options for reuse
 const colors = [
@@ -43,7 +42,7 @@ const colors = [
             <select name="top_opening_width_fraction" id="top_opening_width_fraction">
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction %>"><%= fraction %></option>
+                    <option value="<%= fraction.measurement_name%>"><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
         </label><br>
@@ -55,7 +54,7 @@ const colors = [
             <select name="middle_opening_width_fraction" id="middle_opening_width_fraction">
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction %>"><%= fraction %></option>
+                    <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
         </label><br>
@@ -67,7 +66,7 @@ const colors = [
             <select name="bottom_opening_width_fraction" id="bottom_opening_width_fraction">
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction %>"><%= fraction %></option>
+                    <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
         </label><br>
@@ -79,7 +78,7 @@ const colors = [
             <select name="left_opening_height_fraction" id="left_opening_height_fraction">
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction %>"><%= fraction %></option>
+                    <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
         </label><br>
@@ -91,7 +90,7 @@ const colors = [
             <select name="middle_opening_height_fraction" id="middle_opening_height_fraction">
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction %>"><%= fraction %></option>
+                    <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
         </label><br>
@@ -103,7 +102,7 @@ const colors = [
             <select name="right_opening_height_fraction" id="right_opening_height_fraction">
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction %>"><%= fraction %></option>
+                    <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
         </label><br>
@@ -227,7 +226,7 @@ const colors = [
             <select name="top_adapter_width_fraction" id="top_adapter_width_fraction">
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction %>"><%= fraction %></option>
+                    <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
         </label><br>
@@ -239,7 +238,7 @@ const colors = [
             <select name="unit_height_fraction" id="unit_height_fraction">
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction %>"><%= fraction %></option>
+                    <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
         </label><br>
@@ -251,7 +250,7 @@ const colors = [
             <select name="pivot_pro_height_fraction" id="pivot_pro_height_fraction">
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction %>"><%= fraction %></option>
+                    <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
         </label><br>
@@ -285,7 +284,7 @@ const colors = [
             <select name="btm_adapter_width_fraction" id="btm_adapter_width_fraction">
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction %>"><%= fraction %></option>
+                    <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
         </label><br>
@@ -308,7 +307,7 @@ const colors = [
             <select name="" id="build_out_dimension_fraction">
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction %>"><%= fraction %></option>
+                    <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
         </label><br>

@@ -43,6 +43,18 @@ async function createOrder(product_name, measurement_name, size_type, fastener_t
     }
 }
 
+async function getMeasurements() {
+    try {
+        const sql = 'SELECT measurement_name FROM measurement;'
+        const measurement = await pool.query(sql)
+        // console.log(measurement)
+        // console.log(measurement.rows)
+        return measurement.rows
+    } catch (error) {
+        return error.message
+    }
+}
+
 async function createMirage3500Order(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type, mirage_3500_handle) {
     try {
         // Select existing mirage_3500 record by handle
@@ -196,3 +208,8 @@ async function createNWSOrder(product_name, measurement_name, size_type, fastene
 //         return error.message
 //     }
 // }
+
+module.exports = {
+    createOrder,
+    getMeasurements
+}
