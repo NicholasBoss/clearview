@@ -6,10 +6,10 @@ DROP TABLE IF EXISTS tow_measurement;
 DROP TABLE IF EXISTS bow_measurement;
 DROP TABLE IF EXISTS roh_measurement;
 DROP TABLE IF EXISTS loh_measurement;
+DROP TABLE IF EXISTS brush_location;
 DROP TABLE IF EXISTS nws_measurement;
 DROP TABLE IF EXISTS measurement;
 DROP TABLE IF EXISTS rainier;
-DROP TABLE IF EXISTS brush_location;
 DROP TABLE IF EXISTS starting_point;
 DROP TABLE IF EXISTS right_track;
 DROP TABLE IF EXISTS left_track;
@@ -29,7 +29,7 @@ DROP TABLE IF EXISTS drive_side;
 DROP TABLE IF EXISTS placement;
 DROP TABLE IF EXISTS housing;
 DROP TABLE IF EXISTS new_window_screen;
-DROP TABLE IF EXISTS public.window;
+DROP TABLE IF EXISTS `window`;
 DROP TABLE IF EXISTS product_mesh;
 DROP TABLE IF EXISTS mesh;
 DROP TABLE IF EXISTS fabric;
@@ -53,7 +53,7 @@ DROP TABLE IF EXISTS product;
 DROP TABLE IF EXISTS order_log;
 DROP TABLE IF EXISTS cust_order;
 DROP TABLE IF EXISTS customer_address;
-DROP TABLE IF EXISTS public.order;
+DROP TABLE IF EXISTS `order`;
 DROP TABLE IF EXISTS customer;
 DROP TABLE IF EXISTS address;
 
@@ -71,57 +71,53 @@ DROP TABLE IF EXISTS address;
 -- Table address
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS address 
-(
-  address_id SERIAL,
-  address_line1 CHARACTER VARYING NOT NULL,
-  address_line2 CHARACTER VARYING NOT NULL,
-  address_city CHARACTER VARYING NOT NULL,
-  address_state CHARACTER VARYING NOT NULL,
-  address_zip CHARACTER VARYING NOT NULL,
-  CONSTRAINT address_pk PRIMARY KEY (address_id)
-);
+CREATE TABLE IF NOT EXISTS address (
+  address_id INT AUTO_INCREMENT,
+  address_line1 VARCHAR(255) NOT NULL,
+  address_line2 VARCHAR(255) NOT NULL,
+  address_city VARCHAR(255) NOT NULL,
+  address_state VARCHAR(255) NOT NULL,
+  address_zip VARCHAR(255) NOT NULL,
+  PRIMARY KEY (address_id)
+) ENGINE=InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table customer
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS customer 
-(
-  customer_id SERIAL,
-  customer_firstname CHARACTER VARYING NOT NULL,
-  customer_lastname CHARACTER VARYING NOT NULL,
-  CONSTRAINT customer_pk PRIMARY KEY (customer_id)
-);
+CREATE TABLE IF NOT EXISTS customer (
+  customer_id INT AUTO_INCREMENT,
+  customer_firstname VARCHAR(255) NOT NULL,
+  customer_lastname VARCHAR(255) NOT NULL,
+  PRIMARY KEY (customer_id)
+) ENGINE=InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table order
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS public.order 
-(
-  order_id SERIAL,
+CREATE TABLE IF NOT EXISTS `order` (
+  order_id INT AUTO_INCREMENT,
   order_date DATE NOT NULL,
   estimated_date DATE NOT NULL,
-  actual_date DATE NULL DEFAULT NULL,
-  estimated_cost REAL NOT NULL,
-  actual_cost REAL NULL DEFAULT NULL,
-  quantity INTEGER NOT NULL,
-  CONSTRAINT order_pk PRIMARY KEY (order_id)
-);
+  actual_date DATE DEFAULT NULL,
+  estimated_cost FLOAT NOT NULL,
+  actual_cost FLOAT DEFAULT NULL,
+  quantity INT NOT NULL,
+  PRIMARY KEY (order_id)
+) ENGINE=InnoDB;
 
 -- -----------------------------------------------------
 -- Table customer_address
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS customer_address 
-(
-  customer_address_id SERIAL,
-  customer_id INTEGER NOT NULL,
-  address_id INTEGER NOT NULL,
-  CONSTRAINT cust_address_pk PRIMARY KEY (customer_address_id),
+CREATE TABLE IF NOT EXISTS customer_address (
+  customer_address_id INT AUTO_INCREMENT,
+  customer_id INT NOT NULL,
+  address_id INT NOT NULL,
+  PRIMARY KEY (customer_address_id),
   CONSTRAINT fk_customer_address_address1
     FOREIGN KEY (address_id)
     REFERENCES address (address_id)
@@ -132,19 +128,18 @@ CREATE TABLE IF NOT EXISTS customer_address
     REFERENCES customer (customer_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-);
+) ENGINE=InnoDB;
 
 -- -----------------------------------------------------
 -- Table cust_order
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS cust_order 
-(
-  cust_order_id SERIAL,
-  customer_id INTEGER NOT NULL,
-  order_id INTEGER NOT NULL,
-  customer_address_id INTEGER NOT NULL,
-  CONSTRAINT cust_order_pk PRIMARY KEY (cust_order_id),
+CREATE TABLE IF NOT EXISTS cust_order (
+  cust_order_id INT AUTO_INCREMENT,
+  customer_id INT NOT NULL,
+  order_id INT NOT NULL,
+  customer_address_id INT NOT NULL,
+  PRIMARY KEY (cust_order_id),
   CONSTRAINT cust_order_fk1
     FOREIGN KEY (customer_id)
     REFERENCES customer (customer_id)
@@ -152,7 +147,7 @@ CREATE TABLE IF NOT EXISTS cust_order
     ON UPDATE CASCADE,
   CONSTRAINT cust_order_fk2
     FOREIGN KEY (order_id)
-    REFERENCES public.order (order_id)
+    REFERENCES `order` (order_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT cust_order_fk3
@@ -160,21 +155,20 @@ CREATE TABLE IF NOT EXISTS cust_order
     REFERENCES customer_address (customer_address_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-);
+) ENGINE=InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table order_log
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS order_log
-(
-  order_log_id SERIAL,
-  customer_id INTEGER NOT NULL,
-  account_id INTEGER NOT NULL,
-  order_id INTEGER NOT NULL,
-  actual_date DATE NULL DEFAULT NULL,
-  CONSTRAINT order_log_pk PRIMARY KEY (order_log_id),
+CREATE TABLE IF NOT EXISTS order_log (
+  order_log_id INT AUTO_INCREMENT,
+  customer_id INT NOT NULL,
+  account_id INT NOT NULL,
+  order_id INT NOT NULL,
+  actual_date DATE DEFAULT NULL,
+  PRIMARY KEY (order_log_id),
   CONSTRAINT order_log_fk1
     FOREIGN KEY (customer_id)
     REFERENCES customer (customer_id)
@@ -187,42 +181,39 @@ CREATE TABLE IF NOT EXISTS order_log
     ON UPDATE CASCADE,
   CONSTRAINT order_log_fk3
     FOREIGN KEY (order_id)
-    REFERENCES public.order (order_id)
+    REFERENCES `order` (order_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-);
+) ENGINE=InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table product
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS product
-(
-  product_id SERIAL,
-  product_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT product_pk PRIMARY KEY (product_id)
-);
+CREATE TABLE IF NOT EXISTS product (
+  product_id INT AUTO_INCREMENT,
+  product_name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (product_id)
+ ) ENGINE=InnoDB;
 
 
 
 -- Account Type Creation
-CREATE TYPE account_type AS ENUM
-('Employee', 'Admin', 'DBA');
+-- MySQL ENUM will be defined inline in the account table below
 
 -- -----------------------------------------------------
 -- Table account
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS account 
-(
-  account_id SERIAL,
-  account_firstname CHARACTER VARYING NOT NULL,
-  account_lastname CHARACTER VARYING NOT NULL,
-  account_email CHARACTER VARYING NOT NULL,
-  account_password CHARACTER VARYING NOT NULL,
-  account_type account_type NOT NULL DEFAULT 'Employee'::account_type,
-  CONSTRAINT account_pk PRIMARY KEY (account_id)
-);
+CREATE TABLE IF NOT EXISTS account (
+  account_id INT AUTO_INCREMENT,
+  account_firstname VARCHAR(255) NOT NULL,
+  account_lastname VARCHAR(255) NOT NULL,
+  account_email VARCHAR(255) NOT NULL,
+  account_password VARCHAR(255) NOT NULL,
+  account_type ENUM('Employee','Admin','DBA') NOT NULL DEFAULT 'Employee',
+  PRIMARY KEY (account_id)
+) ENGINE=InnoDB;
 
 
 -- -----------------------------------------------------
@@ -246,22 +237,21 @@ CREATE TABLE IF NOT EXISTS account
 -- Table general_retract_control
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS general_retract_control 
-(
-  general_retract_control_id SERIAL,
-  door_type CHARACTER VARYING NULL,
-  door_mount CHARACTER VARYING NULL,
-  opening_side CHARACTER VARYING NULL,
-  measurement_id INTEGER NOT NULL,
-  mesh_id INTEGER NOT NULL,
-  mohair_id INTEGER NOT NULL,
-  mohair_position CHARACTER VARYING NULL,
-  top_adapter_id INTEGER NOT NULL,
-  build_out_id INTEGER NOT NULL,
-  bottom_adapter_id INTEGER NOT NULL,
-  btm_adapter_color CHARACTER VARYING NULL,
-  CONSTRAINT grc_pk PRIMARY KEY (general_retract_control_id)
-);
+CREATE TABLE IF NOT EXISTS general_retract_control (
+  general_retract_control_id INT AUTO_INCREMENT,
+  door_type VARCHAR(255) NULL,
+  door_mount VARCHAR(255) NULL,
+  opening_side VARCHAR(255) NULL,
+  measurement_id INT NOT NULL,
+  mesh_id INT NOT NULL,
+  mohair_id INT NOT NULL,
+  mohair_position VARCHAR(255) NULL,
+  top_adapter_id INT NOT NULL,
+  build_out_id INT NOT NULL,
+  bottom_adapter_id INT NOT NULL,
+  btm_adapter_color VARCHAR(255) NULL,
+  PRIMARY KEY (general_retract_control_id)
+) ENGINE=InnoDB;
 
 
 -- -----------------------------------------------------
@@ -305,90 +295,82 @@ CREATE TABLE IF NOT EXISTS general_retract_control
 -- Table mirage
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS mirage
-(
-  mirage_id SERIAL,
-  mirage_build_out CHARACTER VARYING NOT NULL,
-  CONSTRAINT mirage_pk PRIMARY KEY (mirage_id)
-);
+CREATE TABLE IF NOT EXISTS mirage (
+  mirage_id INT AUTO_INCREMENT,
+  mirage_build_out VARCHAR(255) NOT NULL,
+  PRIMARY KEY (mirage_id)
+) ENGINE=InnoDB;
 
 -- -----------------------------------------------------
 -- Table mirage_3500
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS mirage_3500 
-(
-  mirage_3500_id SERIAL,
-  mirage_3500_handle CHARACTER VARYING NOT NULL,
-  CONSTRAINT mirage_3500_pk PRIMARY KEY (mirage_3500_id)
-);
+CREATE TABLE IF NOT EXISTS mirage_3500 (
+  mirage_3500_id INT AUTO_INCREMENT,
+  mirage_3500_handle VARCHAR(255) NOT NULL,
+  PRIMARY KEY (mirage_3500_id)
+) ENGINE=InnoDB;
 
 -- -----------------------------------------------------
 -- Table frame_size
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS frame_size 
-(
-  frame_size_id SERIAL,
-  size_type CHARACTER VARYING NOT NULL,
-  CONSTRAINT frame_size_pk PRIMARY KEY (frame_size_id)
-);
+CREATE TABLE IF NOT EXISTS frame_size (
+  frame_size_id INT AUTO_INCREMENT,
+  size_type VARCHAR(255) NOT NULL,
+  PRIMARY KEY (frame_size_id)
+) ENGINE=InnoDB;
 
 -- -----------------------------------------------------
 -- Table fabric
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS fabric
-(
-  fabric_id SERIAL,
-  fabric_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT fabric_pk PRIMARY KEY (fabric_id)
-);
+CREATE TABLE IF NOT EXISTS fabric (
+  fabric_id INT AUTO_INCREMENT,
+  fabric_name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (fabric_id)
+ ) ENGINE=InnoDB;
 
 -- -----------------------------------------------------
 -- Table fastener
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS fastener 
-(
-  fastener_id SERIAL,
-  fastener_type CHARACTER VARYING NOT NULL,
-  CONSTRAINT fastener_pk PRIMARY KEY (fastener_id)
-);
+CREATE TABLE IF NOT EXISTS fastener (
+  fastener_id INT AUTO_INCREMENT,
+  fastener_type VARCHAR(255) NOT NULL,
+  PRIMARY KEY (fastener_id)
+) ENGINE=InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table mesh
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS mesh 
-(
-  mesh_id SERIAL,
-  mesh_type CHARACTER VARYING NOT NULL,
-  CONSTRAINT mesh_pk PRIMARY KEY (mesh_id)
-);
+CREATE TABLE IF NOT EXISTS mesh (
+  mesh_id INT AUTO_INCREMENT,
+  mesh_type VARCHAR(255) NOT NULL,
+  PRIMARY KEY (mesh_id)
+) ENGINE=InnoDB;
 
 -- -----------------------------------------------------
 -- Table color
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS color 
-(
-  color_id SERIAL,
-  color_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT color_pk PRIMARY KEY (color_id)
-);
+CREATE TABLE IF NOT EXISTS color (
+  color_id INT AUTO_INCREMENT,
+  color_name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (color_id)
+) ENGINE=InnoDB;
 
 -- -----------------------------------------------------
 -- Table product_color
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS product_color
-(
-  product_color_id SERIAL,
-  product_id INTEGER NOT NULL,
-  color_id INTEGER NOT NULL,
-  CONSTRAINT product_color_pk PRIMARY KEY (product_color_id),
+CREATE TABLE IF NOT EXISTS product_color (
+  product_color_id INT AUTO_INCREMENT,
+  product_id INT NOT NULL,
+  color_id INT NOT NULL,
+  PRIMARY KEY (product_color_id),
   CONSTRAINT product_color_fk1
     FOREIGN KEY (product_id)
     REFERENCES product (product_id)
@@ -399,20 +381,19 @@ CREATE TABLE IF NOT EXISTS product_color
     REFERENCES color (color_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-);
+) ENGINE=InnoDB;
 
 -- -----------------------------------------------------
 -- Table product_mesh
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS product_mesh
-(
-  product_mesh_id SERIAL,
-  product_id INTEGER NULL,
-  mesh_id INTEGER NULL,
-  product_color_id INTEGER NULL,
-  fabric_id INTEGER NULL,
-  CONSTRAINT product_mesh_pk PRIMARY KEY (product_mesh_id),
+CREATE TABLE IF NOT EXISTS product_mesh (
+  product_mesh_id INT AUTO_INCREMENT,
+  product_id INT NULL,
+  mesh_id INT NULL,
+  product_color_id INT NULL,
+  fabric_id INT NULL,
+  PRIMARY KEY (product_mesh_id),
     CONSTRAINT product_mesh_fk1
     FOREIGN KEY (product_id)
     REFERENCES product (product_id)
@@ -433,31 +414,29 @@ CREATE TABLE IF NOT EXISTS product_mesh
     REFERENCES fabric (fabric_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-);
+) ENGINE=InnoDB;
 
 -- -----------------------------------------------------
 -- Table tab_spring
 -- -----------------------------------------------------
-CREATE TABLE tab_spring
-(
-  tab_spring_id SERIAL,
-  tab_spring_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT tab_spring_pk PRIMARY KEY (tab_spring_id)
-);
+CREATE TABLE tab_spring (
+  tab_spring_id INT AUTO_INCREMENT,
+  tab_spring_name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (tab_spring_id)
+) ENGINE=InnoDB;
 
 -- -----------------------------------------------------
 -- Table window
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS public.window 
-(
-  window_id SERIAL,
-  tab_spring_id INTEGER NOT NULL,
-  color_id INTEGER NOT NULL,
-  frame_size_id INTEGER NOT NULL,
-  fastener_id INTEGER NOT NULL,
-  mesh_id INTEGER NOT NULL,
-  CONSTRAINT window_pk PRIMARY KEY (window_id),
+CREATE TABLE IF NOT EXISTS `window` (
+  window_id INT AUTO_INCREMENT,
+  tab_spring_id INT NOT NULL,
+  color_id INT NOT NULL,
+  frame_size_id INT NOT NULL,
+  fastener_id INT NOT NULL,
+  mesh_id INT NOT NULL,
+  PRIMARY KEY (window_id),
   CONSTRAINT window_fk1
     FOREIGN KEY (color_id)
     REFERENCES color (color_id)
@@ -478,36 +457,34 @@ CREATE TABLE IF NOT EXISTS public.window
     REFERENCES mesh (mesh_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-);
+) ENGINE=InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table phantom
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS new_window_screen 
-(
-  nws_id SERIAL,
-  width_inch BOOLEAN NULL,
-  height_inch BOOLEAN NULL,
-  window_id INTEGER NOT NULL,
-  CONSTRAINT nws_pk PRIMARY KEY (nws_id),
+CREATE TABLE IF NOT EXISTS new_window_screen (
+  nws_id INT AUTO_INCREMENT,
+  width_inch TINYINT(1) NULL,
+  height_inch TINYINT(1) NULL,
+  window_id INT NOT NULL,
+  PRIMARY KEY (nws_id),
   CONSTRAINT nws_fk1
     FOREIGN KEY (window_id)
-    REFERENCES public.window (window_id)
+    REFERENCES `window` (window_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-);
+) ENGINE=InnoDB;
 
 -- -----------------------------------------------------
 -- Table handle_color
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS handle_color
-(
-  handle_color_id SERIAL,
-  product_color_id INTEGER NOT NULL,
-  mirage_3500_id INTEGER NOT NULL,
-  CONSTRAINT handle_color_pk PRIMARY KEY (handle_color_id),
+CREATE TABLE IF NOT EXISTS handle_color (
+  handle_color_id INT AUTO_INCREMENT,
+  product_color_id INT NOT NULL,
+  mirage_3500_id INT NOT NULL,
+  PRIMARY KEY (handle_color_id),
   CONSTRAINT handle_color_fk1
     FOREIGN KEY (product_color_id)
     REFERENCES product_color (product_color_id)
@@ -518,67 +495,63 @@ CREATE TABLE IF NOT EXISTS handle_color
     REFERENCES mirage_3500 (mirage_3500_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-);
+) ENGINE=InnoDB;
 
 -- -----------------------------------------------------
 -- Table hardware_color
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS hardware_color
-(
-  hardware_color_id SERIAL,
-  product_color_id INTEGER NOT NULL,
-  CONSTRAINT hardware_color_pk PRIMARY KEY (hardware_color_id),
+CREATE TABLE IF NOT EXISTS hardware_color (
+  hardware_color_id INT AUTO_INCREMENT,
+  product_color_id INT NOT NULL,
+  PRIMARY KEY (hardware_color_id),
   CONSTRAINT hardware_color_fk1
     FOREIGN KEY (product_color_id)
     REFERENCES product_color (product_color_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-);
+) ENGINE=InnoDB;
 
 -- -----------------------------------------------------
 -- Table pivot_pro_color
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS pivot_pro_color
-(
-  pivot_pro_color_id SERIAL,
-  product_color_id INTEGER NOT NULL,
-  CONSTRAINT pivot_pro_color_pk PRIMARY KEY (pivot_pro_color_id),
+CREATE TABLE IF NOT EXISTS pivot_pro_color (
+  pivot_pro_color_id INT AUTO_INCREMENT,
+  product_color_id INT NOT NULL,
+  PRIMARY KEY (pivot_pro_color_id),
   CONSTRAINT pivot_pro_color_fk1
     FOREIGN KEY (product_color_id)
     REFERENCES product_color (product_color_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-);
+) ENGINE=InnoDB;
 
 -- -----------------------------------------------------
 -- Table top_adapter_color
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS top_adapter_color
-(
-  top_adapter_color_id SERIAL,
-  product_color_id INTEGER NOT NULL,
-  CONSTRAINT top_adapter_color_pk PRIMARY KEY (top_adapter_color_id),
+CREATE TABLE IF NOT EXISTS top_adapter_color (
+  top_adapter_color_id INT AUTO_INCREMENT,
+  product_color_id INT NOT NULL,
+  PRIMARY KEY (top_adapter_color_id),
   CONSTRAINT top_adapter_color_fk1
     FOREIGN KEY (product_color_id)
     REFERENCES product_color (product_color_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-);
+) ENGINE=InnoDB;
 
 -- -----------------------------------------------------
 -- Table rainier_zipper_color
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS rainier_zipper_color
-(
-  rainier_zipper_color_id SERIAL,
-  product_color_id INTEGER NOT NULL,
-  CONSTRAINT rainier_zipper_color_pk PRIMARY KEY (rainier_zipper_color_id),
+CREATE TABLE IF NOT EXISTS rainier_zipper_color (
+  rainier_zipper_color_id INT AUTO_INCREMENT,
+  product_color_id INT NOT NULL,
+  PRIMARY KEY (rainier_zipper_color_id),
   CONSTRAINT rainier_zipper_color_fk1
     FOREIGN KEY (product_color_id)
     REFERENCES product_color (product_color_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-);
+) ENGINE=InnoDB;
 
 -- -----------------------------------------------------
 -- Table pilebrush
@@ -611,206 +584,181 @@ CREATE TABLE IF NOT EXISTS rainier_zipper_color
 -- Table housing
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS housing
-(
-  housing_id SERIAL,
-  housing_series_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT housing_pk PRIMARY KEY (housing_id)
-);
+CREATE TABLE IF NOT EXISTS housing (
+  housing_id INT AUTO_INCREMENT,
+  housing_series_name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (housing_id)
+) ENGINE=InnoDB;
 
 -- -----------------------------------------------------
 -- Table placement
 -- -----------------------------------------------------
 -- 
-CREATE TABLE IF NOT EXISTS placement
-(
-  placement_id SERIAL,
-  placement_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT placement_pk PRIMARY KEY (placement_id)
-);
+CREATE TABLE IF NOT EXISTS placement (
+  placement_id INT AUTO_INCREMENT,
+  placement_name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (placement_id)
+ ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS drive_side
-(
-  drive_side_id SERIAL,
-  drive_side_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT drive_side_pk PRIMARY KEY (drive_side_id)
-);
+CREATE TABLE IF NOT EXISTS drive_side (
+  drive_side_id INT AUTO_INCREMENT,
+  drive_side_name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (drive_side_id)
+) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS hembar
-(
-  hembar_id SERIAL,
-  hembar_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT hembar_pk PRIMARY KEY (hembar_id)
-);
+CREATE TABLE IF NOT EXISTS hembar (
+  hembar_id INT AUTO_INCREMENT,
+  hembar_name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (hembar_id)
+) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS pilebrush
-(
-  pilebrush_id SERIAL,
-  pilebrush_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT pilebrush_pk PRIMARY KEY (pilebrush_id)
-);
+CREATE TABLE IF NOT EXISTS pilebrush (
+  pilebrush_id INT AUTO_INCREMENT,
+  pilebrush_name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (pilebrush_id)
+) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS brush_location
-(
-  brush_location_id SERIAL,
-  brush_location_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT brush_location_pk PRIMARY KEY (brush_location_id)
-);
+CREATE TABLE IF NOT EXISTS brush_location (
+  brush_location_id INT AUTO_INCREMENT,
+  brush_location_name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (brush_location_id)
+) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS cord_length
-(
-  cord_length_id SERIAL,
-  cord_length_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT cord_length_pk PRIMARY KEY (cord_length_id)
-);
+CREATE TABLE IF NOT EXISTS cord_length (
+  cord_length_id INT AUTO_INCREMENT,
+  cord_length_name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (cord_length_id)
+) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS mount_type
-(
-  mount_type_id SERIAL,
-  mount_type_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT mount_type_pk PRIMARY KEY (mount_type_id)
-);
+CREATE TABLE IF NOT EXISTS mount_type (
+  mount_type_id INT AUTO_INCREMENT,
+  mount_type_name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (mount_type_id)
+) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS top_opening_width
-(
-  top_opening_width_id SERIAL,
-  top_opening_width_name CHARACTER VARYING NULL,
-  CONSTRAINT top_opening_width_pk PRIMARY KEY (top_opening_width_id) 
-);
+CREATE TABLE IF NOT EXISTS top_opening_width (
+  top_opening_width_id INT AUTO_INCREMENT,
+  top_opening_width_name VARCHAR(255) NULL,
+  PRIMARY KEY (top_opening_width_id) 
+) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS top_level
-(
-  top_level_id SERIAL,
-  top_level_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT top_level_pk PRIMARY KEY (top_level_id)
-);
+CREATE TABLE IF NOT EXISTS top_level (
+  top_level_id INT AUTO_INCREMENT,
+  top_level_name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (top_level_id)
+) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS top_adapter
-(
-  top_adapter_id SERIAL,
-  top_adapter_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT top_adapter_pk PRIMARY KEY (top_adapter_id)
-);
+CREATE TABLE IF NOT EXISTS top_adapter (
+  top_adapter_id INT AUTO_INCREMENT,
+  top_adapter_name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (top_adapter_id)
+) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS bottom_adapter
-(
-  bottom_adapter_id SERIAL,
-  bottom_adapter_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT bottom_adapter_pk PRIMARY KEY (bottom_adapter_id)
-);
+CREATE TABLE IF NOT EXISTS bottom_adapter (
+  bottom_adapter_id INT AUTO_INCREMENT,
+  bottom_adapter_name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (bottom_adapter_id)
+) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS bottom_level
-(
-  bottom_level_id SERIAL,
-  bottom_level_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT bottom_level_pk PRIMARY KEY (bottom_level_id)
-);
+CREATE TABLE IF NOT EXISTS bottom_level (
+  bottom_level_id INT AUTO_INCREMENT,
+  bottom_level_name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (bottom_level_id)
+) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS bottom_opening_width
-(
-  bottom_opening_width_id SERIAL,
-  bottom_opening_width_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT bottom_opening_width_pk PRIMARY KEY (bottom_opening_width_id)
-);
+CREATE TABLE IF NOT EXISTS bottom_opening_width (
+  bottom_opening_width_id INT AUTO_INCREMENT,
+  bottom_opening_width_name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (bottom_opening_width_id)
+) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS right_opening_height
-(
-  right_opening_height_id SERIAL,
-  right_opening_height_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT right_opening_height_pk PRIMARY KEY (right_opening_height_id)
-);
+CREATE TABLE IF NOT EXISTS right_opening_height (
+  right_opening_height_id INT AUTO_INCREMENT,
+  right_opening_height_name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (right_opening_height_id)
+) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS left_opening_height
-(
-  left_opening_height_id SERIAL,
-  left_opening_height_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT left_opening_height_pk PRIMARY KEY (left_opening_height_id)
-);
+CREATE TABLE IF NOT EXISTS left_opening_height (
+  left_opening_height_id INT AUTO_INCREMENT,
+  left_opening_height_name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (left_opening_height_id)
+) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS right_plumb
-(
-  right_plumb_id SERIAL,
-  right_plumb_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT right_plumb_pk PRIMARY KEY (right_plumb_id)
-);
+CREATE TABLE IF NOT EXISTS right_plumb (
+  right_plumb_id INT AUTO_INCREMENT,
+  right_plumb_name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (right_plumb_id)
+) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS left_plumb
-(
-  left_plumb_id SERIAL,
-  left_plumb_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT left_plumb_pk PRIMARY KEY (left_plumb_id)
-);
+CREATE TABLE IF NOT EXISTS left_plumb (
+  left_plumb_id INT AUTO_INCREMENT,
+  left_plumb_name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (left_plumb_id)
+) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS right_buildout
-(
-  right_buildout_id SERIAL,
-  right_buildout_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT right_buildout_pk PRIMARY KEY (right_buildout_id)
-);
+CREATE TABLE IF NOT EXISTS right_buildout (
+  right_buildout_id INT AUTO_INCREMENT,
+  right_buildout_name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (right_buildout_id)
+) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS left_buildout
-(
-  left_buildout_id SERIAL,
-  left_buildout_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT left_buildout_pk PRIMARY KEY (left_buildout_id)
-);
+CREATE TABLE IF NOT EXISTS left_buildout (
+  left_buildout_id INT AUTO_INCREMENT,
+  left_buildout_name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (left_buildout_id)
+) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS add_buildout
-(
-  add_buildout_id SERIAL,
-  add_buildout_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT add_buildout_pk PRIMARY KEY (add_buildout_id)
-);
+CREATE TABLE IF NOT EXISTS add_buildout (
+  add_buildout_id INT AUTO_INCREMENT,
+  add_buildout_name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (add_buildout_id)
+) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS left_track
-(
-  left_track_id SERIAL,
-  left_track_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT left_track_pk PRIMARY KEY (left_track_id)
-);
+CREATE TABLE IF NOT EXISTS left_track (
+  left_track_id INT AUTO_INCREMENT,
+  left_track_name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (left_track_id)
+) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS right_track
-(
-  right_track_id SERIAL,
-  right_track_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT right_track_pk PRIMARY KEY (right_track_id)
-);
+CREATE TABLE IF NOT EXISTS right_track (
+  right_track_id INT AUTO_INCREMENT,
+  right_track_name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (right_track_id)
+) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS starting_point
-(
-  starting_point_id SERIAL,
-  starting_point_name CHARACTER VARYING NOT NULL,
-  CONSTRAINT starting_point_pk PRIMARY KEY (starting_point_id)
-);
+CREATE TABLE IF NOT EXISTS starting_point (
+  starting_point_id INT AUTO_INCREMENT,
+  starting_point_name VARCHAR(255) NOT NULL,
+  PRIMARY KEY (starting_point_id)
+) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS rainier 
-(
-  rainier_id SERIAL,
-  housing_id INTEGER NOT NULL,
-  placement_id INTEGER NOT NULL,
-  drive_side_id INTEGER NOT NULL,
-  hembar_id INTEGER NOT NULL,
-  pilebrush_id INTEGER NOT NULL,
-  brush_location_id INTEGER NOT NULL,
-  cord_length_id INTEGER NOT NULL,
-  mount_type_id INTEGER NOT NULL,
-  top_opening_width_id INTEGER NOT NULL,
-  top_level_id INTEGER NOT NULL,
-  bottom_level_id INTEGER NOT NULL,
-  bottom_opening_width_id INTEGER NOT NULL,
-  right_opening_height_id INTEGER NOT NULL,
-  right_plumb_id INTEGER NOT NULL,
-  left_plumb_id INTEGER NOT NULL,
-  right_buildout_id INTEGER NOT NULL,
-  left_buildout_id INTEGER NOT NULL,
-  add_buildout_id INTEGER NOT NULL,
-  left_track_id INTEGER NOT NULL,
-  right_track_id INTEGER NOT NULL,
-  fabric_id INTEGER NOT NULL,
-  is_estimate BOOLEAN NULL,
-  is_confirmed BOOLEAN NULL,
+CREATE TABLE IF NOT EXISTS rainier (
+  rainier_id INT AUTO_INCREMENT,
+  housing_id INT NOT NULL,
+  placement_id INT NOT NULL,
+  drive_side_id INT NOT NULL,
+  hembar_id INT NOT NULL,
+  pilebrush_id INT NOT NULL,
+  brush_location_id INT NOT NULL,
+  cord_length_id INT NOT NULL,
+  mount_type_id INT NOT NULL,
+  top_opening_width_id INT NOT NULL,
+  top_level_id INT NOT NULL,
+  bottom_level_id INT NOT NULL,
+  bottom_opening_width_id INT NOT NULL,
+  right_opening_height_id INT NOT NULL,
+  right_plumb_id INT NOT NULL,
+  left_plumb_id INT NOT NULL,
+  right_buildout_id INT NOT NULL,
+  left_buildout_id INT NOT NULL,
+  add_buildout_id INT NOT NULL,
+  left_track_id INT NOT NULL,
+  right_track_id INT NOT NULL,
+  fabric_id INT NOT NULL,
+  is_estimate TINYINT(1) NULL,
+  is_confirmed TINYINT(1) NULL,
 
-  CONSTRAINT rainier_pk PRIMARY KEY (rainier_id),
+  PRIMARY KEY (rainier_id),
   CONSTRAINT rainier_fk1
     FOREIGN KEY (housing_id)
     REFERENCES housing (housing_id)
@@ -876,7 +824,7 @@ CREATE TABLE IF NOT EXISTS rainier
     REFERENCES right_opening_height (right_opening_height_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-);
+) ENGINE=InnoDB;
 
 -- -----------------------------------------------------
 -- Table sunscreen
@@ -946,27 +894,25 @@ CREATE TABLE IF NOT EXISTS rainier
 -- Table measurement
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS measurement 
-(
-  measurement_id SERIAL,
-  measurement_name CHARACTER VARYING NULL,
-  CONSTRAINT measurement_pk PRIMARY KEY (measurement_id)
-);
+CREATE TABLE IF NOT EXISTS measurement (
+  measurement_id INT AUTO_INCREMENT,
+  measurement_name VARCHAR(255) NULL,
+  PRIMARY KEY (measurement_id)
+) ENGINE=InnoDB;
 
 -- -----------------------------------------------------
 -- Table nws_measurement
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS nws_measurement 
-(
-  nws_measurement_id SERIAL,
-  measurement_id INTEGER NOT NULL,
-  nws_id INTEGER NOT NULL,
-  width_fraction CHARACTER VARYING NULL,
-  width_plus_minus CHARACTER(1) NULL,
-  height_fraction CHARACTER VARYING NULL,
-  height_plus_minus CHARACTER(1) NULL,
-  CONSTRAINT nws_measurement_pk PRIMARY KEY (nws_measurement_id),
+CREATE TABLE IF NOT EXISTS nws_measurement (
+  nws_measurement_id INT AUTO_INCREMENT,
+  measurement_id INT NOT NULL,
+  nws_id INT NOT NULL,
+  width_fraction VARCHAR(255) NULL,
+  width_plus_minus CHAR(1) NULL,
+  height_fraction VARCHAR(255) NULL,
+  height_plus_minus CHAR(1) NULL,
+  PRIMARY KEY (nws_measurement_id),
   CONSTRAINT nws_measurement_fk1
     FOREIGN KEY (measurement_id)
     REFERENCES measurement (measurement_id)
@@ -977,17 +923,16 @@ CREATE TABLE IF NOT EXISTS nws_measurement
     REFERENCES new_window_screen (nws_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-);
+) ENGINE=InnoDB;
 
 -- -----------------------------------------------------
 -- Table loh_measurement
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS loh_measurement
-(
-  loh_measurement_id SERIAL,
-  measurement_id INTEGER NOT NULL,
-  left_opening_height_id INTEGER NOT NULL,
-  CONSTRAINT loh_measurement_pk PRIMARY KEY (loh_measurement_id),
+CREATE TABLE IF NOT EXISTS loh_measurement (
+  loh_measurement_id INT AUTO_INCREMENT,
+  measurement_id INT NOT NULL,
+  left_opening_height_id INT NOT NULL,
+  PRIMARY KEY (loh_measurement_id),
   CONSTRAINT loh_measurement_fk1
     FOREIGN KEY (measurement_id)
     REFERENCES measurement (measurement_id)
@@ -998,17 +943,16 @@ CREATE TABLE IF NOT EXISTS loh_measurement
     REFERENCES left_opening_height (left_opening_height_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-);
+) ENGINE=InnoDB;
 
 -- -----------------------------------------------------
 -- Table roh_measurement
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS roh_measurement
-(
-  roh_measurement_id SERIAL,
-  measurement_id INTEGER NOT NULL,
-  right_opening_height_id INTEGER NOT NULL,
-  CONSTRAINT roh_measurement_pk PRIMARY KEY (roh_measurement_id),
+CREATE TABLE IF NOT EXISTS roh_measurement (
+  roh_measurement_id INT AUTO_INCREMENT,
+  measurement_id INT NOT NULL,
+  right_opening_height_id INT NOT NULL,
+  PRIMARY KEY (roh_measurement_id),
   CONSTRAINT roh_measurement_fk1
     FOREIGN KEY (measurement_id)
     REFERENCES measurement (measurement_id)
@@ -1019,17 +963,16 @@ CREATE TABLE IF NOT EXISTS roh_measurement
     REFERENCES right_opening_height (right_opening_height_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-);
+) ENGINE=InnoDB;
 
 -- -----------------------------------------------------
 -- Table bow_measurement
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS bow_measurement
-(
-  bow_measurement_id SERIAL,
-  measurement_id INTEGER NOT NULL,
-  bottom_opening_width_id INTEGER NOT NULL,
-  CONSTRAINT bow_measurement_pk PRIMARY KEY (bow_measurement_id),
+CREATE TABLE IF NOT EXISTS bow_measurement (
+  bow_measurement_id INT AUTO_INCREMENT,
+  measurement_id INT NOT NULL,
+  bottom_opening_width_id INT NOT NULL,
+  PRIMARY KEY (bow_measurement_id),
   CONSTRAINT bow_measurement_fk1
     FOREIGN KEY (measurement_id)
     REFERENCES measurement (measurement_id)
@@ -1040,17 +983,16 @@ CREATE TABLE IF NOT EXISTS bow_measurement
     REFERENCES bottom_opening_width (bottom_opening_width_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-);
+) ENGINE=InnoDB;
 
 -- -----------------------------------------------------
 -- Table bow_measurement
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS tow_measurement
-(
-  tow_measurement_id SERIAL,
-  measurement_id INTEGER NOT NULL,
-  top_opening_width_id INTEGER NOT NULL,
-  CONSTRAINT tow_measurement_pk PRIMARY KEY (tow_measurement_id),
+CREATE TABLE IF NOT EXISTS tow_measurement (
+  tow_measurement_id INT AUTO_INCREMENT,
+  measurement_id INT NOT NULL,
+  top_opening_width_id INT NOT NULL,
+  PRIMARY KEY (tow_measurement_id),
   CONSTRAINT tow_measurement_fk1
     FOREIGN KEY (measurement_id)
     REFERENCES measurement (measurement_id)
@@ -1061,24 +1003,24 @@ CREATE TABLE IF NOT EXISTS tow_measurement
     REFERENCES top_opening_width (top_opening_width_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-);
+) ENGINE=InnoDB;
 
 -- -----------------------------------------------------
 -- Table customization
 -- -----------------------------------------------------
   CREATE TABLE IF NOT EXISTS customization
   (
-    customization_id SERIAL,
-    product_id INTEGER NOT NULL,
-    measurement_id INTEGER NOT NULL,
-    frame_size_id INTEGER NOT NULL,
-    fastener_id INTEGER NOT NULL,
-    color_id INTEGER NOT NULL,
-    mesh_id INTEGER NOT NULL,
-    product_mesh_id INTEGER NOT NULL,
-    mirage_3500_id INTEGER NULL,
-    mirage_id INTEGER NULL,
-    rainier_id INTEGER NULL,
+    customization_id INT AUTO_INCREMENT,
+    product_id INT NOT NULL,
+    measurement_id INT NOT NULL,
+    frame_size_id INT NOT NULL,
+    fastener_id INT NOT NULL,
+    color_id INT NOT NULL,
+    mesh_id INT NOT NULL,
+    product_mesh_id INT NOT NULL,
+    mirage_3500_id INT NULL,
+    mirage_id INT NULL,
+    rainier_id INT NULL,
     -- door_id INTEGER NULL,
     -- hale_screen_model_id INTEGER NULL,
     -- phantom_id INTEGER NULL,
@@ -1087,10 +1029,10 @@ CREATE TABLE IF NOT EXISTS tow_measurement
     -- sunscreen_id INTEGER NULL,
     -- hale_door_id INTEGER NULL,
     general_retract_control_id INTEGER NULL,
-    nws_measurement_id INTEGER NULL,
-    is_estimate BOOLEAN NULL,
-    is_confirmed BOOLEAN NULL,
-    CONSTRAINT customization_pk PRIMARY KEY (customization_id),
+  nws_measurement_id INTEGER NULL,
+  is_estimate TINYINT(1) NULL,
+  is_confirmed TINYINT(1) NULL,
+  PRIMARY KEY (customization_id),
     CONSTRAINT customization_fk1
       FOREIGN KEY (product_id)
       REFERENCES product (product_id)
@@ -1176,7 +1118,7 @@ CREATE TABLE IF NOT EXISTS tow_measurement
       REFERENCES nws_measurement (nws_measurement_id)
       ON DELETE CASCADE
       ON UPDATE CASCADE
-  );
+  ) ENGINE=InnoDB;
 
 
 
