@@ -14,6 +14,25 @@
             </ul>
             <% } %>
 
+<%
+// Define fraction options for reuse
+const fractions = ['1/16', '1/8', '3/16', '1/4', '5/16', '3/8', '7/16', '1/2', '9/16', '5/8', '11/16', '3/4', '13/16', '7/8', '15/16'];
+
+// Define color options for reuse
+const colors = [
+    'Midnight Black', 'Slate Grey', 'Limen Cream', 'Rindeau Brown', 'Bronze', 'Sandalwood',
+    'Tudor Brown', 'Polar White', 'Ex Pebble Grey', 'Hatford Green', 'Ansi 49 Grey', 'Almond',
+    'Autumn Leaf', 'Burgundy', 'Charcoal', 'Dk Bronze Metallic', 'Evergreen', 'Furniture White',
+    'Gloss Brown', 'Metro Brown', 'Mocha', 'Metallic Silver', 'Oyster Grey', 'Seal Beach Green',
+    'Sundried Tomato', 'Signal White', 'Wicker', 'Charcoal/Black', 'Custom', 'White', 'Black',
+    'Tan', 'CB', 'Mill', 'Bright White', 'Off White', 'Gray', 'Navajo', 'Desert Sand', 'Brown',
+    'Green', 'Silver', 'Varies (Specify in Notes)', 'RAL (Specify in Notes)', 'Textured Dark Gray',
+    'Textured Tan', 'Textured Copper Bronze', 'Textured Black', 'Textured Rust',
+    'Textured Varies (Specify in Notes)', 'Dark Bronze', 'Dark Gray', 'Tobacco', 'Carbon',
+    'Stone Texture', 'Shadow Texture', 'Sand', 'Expresso', 'Mushroom (Safari Cashmere)',
+    'Quartz', 'Twill Tobacco', 'Twill Charcoal', 'Twill Black'
+];
+%>
 
 <form action="" method="post">
     <div class="container">
@@ -22,21 +41,10 @@
         </label><br>
         <label><b>Top Opening Width Fraction</b>
             <select name="top_opening_width_fraction" id="top_opening_width_fraction">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
+                <option value="">Select</option>
+                <% fractions.forEach(fraction => { %>
+                    <option value="<%= fraction %>"><%= fraction %></option>
+                <% }) %>
             </select>
         </label><br>
 
@@ -45,21 +53,10 @@
         </label><br>
         <label><b>Middle Opening Width Fraction</b>
             <select name="middle_opening_width_fraction" id="middle_opening_width_fraction">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
+                <option value="">Select</option>
+                <% fractions.forEach(fraction => { %>
+                    <option value="<%= fraction %>"><%= fraction %></option>
+                <% }) %>
             </select>
         </label><br>
 
@@ -68,21 +65,10 @@
         </label><br>
         <label><b>Bottom Opening Width Fraction</b>
             <select name="bottom_opening_width_fraction" id="bottom_opening_width_fraction">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
+                <option value="">Select</option>
+                <% fractions.forEach(fraction => { %>
+                    <option value="<%= fraction %>"><%= fraction %></option>
+                <% }) %>
             </select>
         </label><br>
 
@@ -91,21 +77,10 @@
         </label><br>
         <label><b>Left Opening Height Fraction</b>
             <select name="left_opening_height_fraction" id="left_opening_height_fraction">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
+                <option value="">Select</option>
+                <% fractions.forEach(fraction => { %>
+                    <option value="<%= fraction %>"><%= fraction %></option>
+                <% }) %>
             </select>
         </label><br>
 
@@ -114,21 +89,10 @@
         </label><br>
         <label><b>Middle Opening Height Fraction</b>
             <select name="middle_opening_height_fraction" id="middle_opening_height_fraction">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
+                <option value="">Select</option>
+                <% fractions.forEach(fraction => { %>
+                    <option value="<%= fraction %>"><%= fraction %></option>
+                <% }) %>
             </select>
         </label><br>
 
@@ -137,25 +101,15 @@
         </label><br>
         <label><b>Right Opening Height Fraction</b>
             <select name="right_opening_height_fraction" id="right_opening_height_fraction">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
+                <option value="">Select</option>
+                <% fractions.forEach(fraction => { %>
+                    <option value="<%= fraction %>"><%= fraction %></option>
+                <% }) %>
             </select>
         </label><br>
 
         <label><b>Top Level</b>
+            <!-- There are no inserts for this -->
             <select name="top_level" id="top_level">
                 <option value="">1</option>
                 <option value="">2</option>
@@ -166,6 +120,7 @@
         </label><br>
 
         <label><b>Bottom Level</b>
+            <!-- There are no inserts for this -->
             <select name="bottom_level" id="bottom_level">
                 <option value="">1</option>
                 <option value="">2</option>
@@ -176,6 +131,7 @@
         </label><br>
 
         <label><b>Left Plumb</b>
+            <!-- There are no inserts for this -->
             <select name="left_plumb" id="left_plumb">
                 <option value="">1</option>
                 <option value="">2</option>
@@ -186,6 +142,7 @@
         </label><br>
 
         <label><b>Right Plumb</b>
+            <!-- There are no inserts for this -->
             <select name="right_plumb" id="right_plumb">
                 <option value="">1</option>
                 <option value="">2</option>
@@ -196,6 +153,7 @@
         </label><br>
 
         <label><b>Starting Point</b>
+            <!-- There are no inserts for this -->
             <select name="starting_point" id="starting_point">
                 <option value="">1</option>
                 <option value="">2</option>
@@ -216,15 +174,15 @@
 
         <label><b>Color</b>
             <select  name="color_name" id="color">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
+                <option value="">Select</option>
+                <% colors.forEach(color => { %>
+                    <option value="<%= color %>"><%= color %></option>
+                <% }) %>
             </select>
         </label><br>
 
         <label><b>Handle</b>
+            <!-- can't find handle table in database -->
             <select  name="handle" id="handle">
                 <option value="">1</option>
                 <option value="">2</option>
@@ -236,124 +194,87 @@
 
         <label><b>Handle Color</b>
             <select  maxlength="10" name="handle_color" id="handle_color">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
+                <option value="">Select</option>
+                <% colors.forEach(color => { %>
+                    <option value="<%= color %>"><%= color %></option>
+                <% }) %>
             </select>
         </label><br>
 
        <label><b>Top Adapter</b>
             <select name="top_adapter" id="top_adapter">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
+                <option value="">Select</option>
+                <option value="TrimSill">TrimSill</option>
+                <option value="1' Sq">1' Sq</option>
+                <option value="1/2&quot; Sq">1/2" Sq</option>
+                <option value="None">None</option>
             </select>
         </label><br>
 
         <label><b>Top Adapter Color</b>
             <select name="top_adapter_color" id="top_adapter_color">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
+                <option value="">Select</option>
+                <% colors.forEach(color => { %>
+                    <option value="<%= color %>"><%= color %></option>
+                <% }) %>
             </select>
         </label><br>
-        <!-- top adapter color not found in database -->
 
          <label><b>Top Adapter Width</b>
             <input type="text" name="top_adapter_width" id="top_adapter_width">
         </label><br>
         <label><b>Top Adapter Width Fraction</b>
             <select name="top_adapter_width_fraction" id="top_adapter_width_fraction">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
+                <option value="">Select</option>
+                <% fractions.forEach(fraction => { %>
+                    <option value="<%= fraction %>"><%= fraction %></option>
+                <% }) %>
             </select>
         </label><br>
-         <!-- top adapter width not found in database -->
 
         <label><b>Unit Height</b>
             <input type="text" name="unit_height" id="unit_height">
         </label><br>
         <label><b>Unit Height Fraction</b>
             <select name="unit_height_fraction" id="unit_height_fraction">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
+                <option value="">Select</option>
+                <% fractions.forEach(fraction => { %>
+                    <option value="<%= fraction %>"><%= fraction %></option>
+                <% }) %>
             </select>
         </label><br>
-        <!-- unit height not found in database -->
 
         <label><b>Pivot Pro Height</b>
             <input type="text" name="pivot_pro_height" id="pivot_pro_height">
         </label><br>
         <label><b>Pivot Pro Height Fraction</b>
             <select name="pivot_pro_height_fraction" id="pivot_pro_height_fraction">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
+                <option value="">Select</option>
+                <% fractions.forEach(fraction => { %>
+                    <option value="<%= fraction %>"><%= fraction %></option>
+                <% }) %>
             </select>
         </label><br>
-        <!-- pivot pro height not found in database -->
 
         <label><b>Bottom Adapter</b>
             <select name="btm_adapter" id="btm_adapter">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
+                <option value="">Select</option>
+                <option value="Ramp Sill">Ramp Sill</option>
+                <option value="Top Sill">Top Sill</option>
+                <option value="Break Sill">Break Sill</option>
+                <option value="2&quot; In Sill">2" In Sill</option>
+                <option value="5&quot; In Sill">5" In Sill</option>
+                <option value="Out Sill">Out Sill</option>
+                <option value="None">None</option>
             </select>
         </label><br>
 
         <label><b>Bottom Adapter Color</b>
             <select name="btm_adapter_color" id="btm_adapter_color">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
+                <option value="">Select</option>
+                <% colors.forEach(color => { %>
+                    <option value="<%= color %>"><%= color %></option>
+                <% }) %>
             </select>
         </label><br>
 
@@ -362,24 +283,12 @@
         </label><br>
         <label><b>Bottom Adapter Width Fraction</b>
             <select name="btm_adapter_width_fraction" id="btm_adapter_width_fraction">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
+                <option value="">Select</option>
+                <% fractions.forEach(fraction => { %>
+                    <option value="<%= fraction %>"><%= fraction %></option>
+                <% }) %>
             </select>
         </label><br>
-        <!-- bottom adapter width not found in database -->
 
         <label><b>Build Out</b>
             <select name="" id="build_out">
@@ -397,37 +306,27 @@
         </label><br>
         <label><b>Build Out Dimension Fraction</b>
             <select name="" id="build_out_dimension_fraction">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
+                <option value="">Select</option>
+                <% fractions.forEach(fraction => { %>
+                    <option value="<%= fraction %>"><%= fraction %></option>
+                <% }) %>
             </select>
         </label><br>
-        <!-- build out dimension not found in database (goes here) -->
 
         <label><b>Mesh</b>
             <select name="" id="mesh">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
+                <option value="">Select</option>
+                <option value="BV">BV</option>
+                <option value="Bug">Bug</option>
+                <option value="Patio">Patio</option>
+                <option value="Tuff">Tuff</option>
+                <option value="Pet">Pet</option>
+                <option value="SS">SS</option>
             </select>
         </label><br>
-        <!-- There are a lot of different mesh variables and I am unsure of which one to use here -->
 
         <label><b>Mohair</b>
+            <!-- this table not found in database -->
             <select name="mohair" id="mohair">
                 <option value="">1</option>
                 <option value="">2</option>
@@ -438,6 +337,7 @@
         </label><br>
 
         <label><b>Mohair Position</b>
+            <!-- this table not found in database -->
             <select name="mohair_position" id="mohair_position">
                 <option value="">1</option>
                 <option value="">2</option>
@@ -452,6 +352,7 @@
         <!-- slide bolt goes here (not found in db) -->
 
         <label><b>Mohair Size</b>
+            <!-- this table not found in database -->
             <select name="mohair_size" id="mohair_size">
                 <option value="">1</option>
                 <option value="">2</option>
