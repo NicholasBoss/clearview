@@ -45,7 +45,20 @@ async function createOrder(product_name, measurement_name, size_type, fastener_t
 
 async function createMirage3500Order(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type, mirage_3500_handle) {
     try {
+        const mirage3500Sql = 'INSERT INTO mirage_3500 (mirage_3500_handle) VALUES ($1) RETURNING mirage_3500_id'
+        const mirage3500Result = await pool.query(mirage3500Sql, [mirage_3500_handle])
+        const mirage3500Id = mirage3500Result.rows[0].mirage_3500_id
 
+        const productSql = 'SELECT product_id FROM product WHERE product_name = $1'
+        const productResult = await pool.query(productSql, [product_name])
+        const productId = productResult.rows[0].product_id
+
+        const customizationSql = `INSERT INTO customization 
+            (product_id, mirage_3500_id, is_estimate, is_confirmed) 
+            VALUES ($1, $2, true, false) RETURNING customization_id`
+        const customizationResult = await pool.query(customizationSql, [productId, mirage3500Id])
+        
+        return customizationResult.rows[0]
     } catch (error) {
         return error.message
     }
