@@ -1,0 +1,19 @@
+Some info:
+
+10/29/25
+
+Things added:
+
+- Added form action towards confirmMirage3500.ejs in the createMirage3500 form
+- Added a function to get measurements in the ordersModel.js file
+- Updated the controller to pass fractions to the view in the ordersController.js file
+- Added post routes to ordersRoute.js
+- Created function for processing mirage3500 form in ordersController.js
+- Rewrote the confirmMirage3500.ejs form to match the create order form 
+- Created a final save route in ordersRoute.js
+- Updated ordersModel to handle all the INSERT/SELECT logic for Mirage 3500
+- Added new functions to exports in ordersModel.js
+- Created controller function to handle final save in ordersController.js
+- Added logic for handling measurements in the ordersModel
+
+THIS BRANCH FROM THIS POINT FORWARD SHOULD NOT BE MERGED INTO DATABASE! (reminder for myself lol)

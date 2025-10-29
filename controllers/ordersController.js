@@ -81,23 +81,53 @@ ordersController.insertProduct = async function(req, res){
 
 // individual order creation functions
 ordersController.buildCreateMirage3500 = async function(req, res){
-
-    measurements = await ordersModel.getMeasurements()
-    // console.log(measurements)
-
+    const fractions = await ordersModel.getMeasurements()
     res.render('orders/createMirage3500', {
         title: 'Create Mirage 3500 order',
         link: 'orders/createMirage3500',
         errors: null,
-        fractions: measurements
+        fractions: fractions || []
     })
 }
+ordersController.processMirage3500Form = async function(req, res){
+    // Store form data in session
+    req.session.mirage3500Data = req.body
+    res.redirect('/orders/confirmMirage3500')
+}
+
 ordersController.buildConfirmMirage3500 = async function(req, res){
+    const formData = req.session.mirage3500Data || {}
+    const fractions = await ordersModel.getMeasurements()
     res.render('orders/confirmMirage3500', {
         title: 'Confirm Mirage 3500 order',
         link: 'orders/confirmMirage3500',
-        errors: null
+        errors: null,
+        formData: formData,
+        fractions: fractions || []
     })
+}
+
+ordersController.saveMirage3500Order = async function(req, res){
+    try {
+        // Get form data from session
+        const formData = req.session.mirage3500Data || {}
+
+        // Save all the data (INSERT or SELECT as needed)
+        const result = await ordersModel.saveMirage3500Data(formData)
+
+        // Clear session data
+        delete req.session.mirage3500Data
+
+        // Set success message
+        req.flash('success', 'Mirage 3500 order created successfully!')
+
+        // Redirect to account page or orders list
+        res.redirect('/account')
+    } catch (error) {
+        console.error('Error saving Mirage 3500 order:', error)
+        req.flash('error', 'Failed to save Mirage 3500 order. Please try again.')
+        res.redirect('/orders/confirmMirage3500')
+    }
 }
 
 ordersController.buildCreateMirage = async function(req, res){

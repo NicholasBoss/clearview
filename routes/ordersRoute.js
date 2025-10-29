@@ -11,7 +11,9 @@ router.get("/update", util.checkLogin, util.handleErrors(ordersController.buildU
 router.get("/delete", util.checkLogin, util.handleErrors(ordersController.buildDelete))
 
 router.get("/createMirage3500", util.checkLogin, util.handleErrors(ordersController.buildCreateMirage3500))
+router.post("/confirmMirage3500", util.checkLogin, util.handleErrors(ordersController.processMirage3500Form))
 router.get("/confirmMirage3500", util.checkLogin, util.handleErrors(ordersController.buildConfirmMirage3500))
+router.post("/saveMirage3500", util.checkLogin, util.handleErrors(ordersController.saveMirage3500Order))
 
 router.get("/createMirage", util.checkLogin, util.handleErrors(ordersController.buildCreateMirage))
 router.get("/confirmMirage", util.checkLogin, util.handleErrors(ordersController.buildConfirmMirage))
