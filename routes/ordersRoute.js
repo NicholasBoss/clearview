@@ -1,8 +1,9 @@
-// Needed Resources 
+// Needed Resources
 const express = require("express")
 const router = new express.Router()
 const ordersController = require("../controllers/ordersController")
 const util = require("../utilities")
+const ordersValidation = require("../utilities/ordersValidation")
 
 // Orders CRUD Routes
 router.get("/create", util.checkLogin, util.handleErrors(ordersController.buildCreate))
@@ -11,7 +12,11 @@ router.get("/update", util.checkLogin, util.handleErrors(ordersController.buildU
 router.get("/delete", util.checkLogin, util.handleErrors(ordersController.buildDelete))
 
 router.get("/createMirage3500", util.checkLogin, util.handleErrors(ordersController.buildCreateMirage3500))
-router.post("/confirmMirage3500", util.checkLogin, util.handleErrors(ordersController.processMirage3500Form))
+router.post("/confirmMirage3500",
+    util.checkLogin,
+    ordersValidation.mirage3500Rules(),
+    ordersValidation.checkMirage3500Data,
+    util.handleErrors(ordersController.processMirage3500Form))
 router.get("/confirmMirage3500", util.checkLogin, util.handleErrors(ordersController.buildConfirmMirage3500))
 router.post("/saveMirage3500", util.checkLogin, util.handleErrors(ordersController.saveMirage3500Order))
 

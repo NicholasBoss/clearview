@@ -82,11 +82,47 @@ ordersController.insertProduct = async function(req, res){
 // individual order creation functions
 ordersController.buildCreateMirage3500 = async function(req, res){
     const fractions = await ordersModel.getMeasurements()
+    const colors = await ordersModel.getColors()
+    const handles = await ordersModel.getHandles()
+    const topAdapters = await ordersModel.getTopAdapters()
+    const bottomAdapters = await ordersModel.getBottomAdapters()
+    const rightBuildouts = await ordersModel.getRightBuildouts()
+    const leftBuildouts = await ordersModel.getLeftBuildouts()
+    const meshTypes = await ordersModel.getMeshTypes()
+
+    // Check for validation errors from session (POST/Redirect/GET pattern)
+    let errors = null
+    let formData = {}
+
+    if (req.session.validationErrors) {
+        // Store in local variables before clearing session
+        const validationErrors = req.session.validationErrors
+        const sessionFormData = req.session.formData || {}
+
+        // Clear the session data
+        delete req.session.validationErrors
+        delete req.session.formData
+
+        // Convert error array back to validationResult format
+        errors = {
+            array: () => validationErrors
+        }
+        formData = sessionFormData
+    }
+
     res.render('orders/createMirage3500', {
         title: 'Create Mirage 3500 order',
         link: 'orders/createMirage3500',
-        errors: null,
-        fractions: fractions || []
+        errors: errors,
+        fractions: fractions || [],
+        colors: colors || [],
+        handles: handles || [],
+        topAdapters: topAdapters || [],
+        bottomAdapters: bottomAdapters || [],
+        rightBuildouts: rightBuildouts || [],
+        leftBuildouts: leftBuildouts || [],
+        meshTypes: meshTypes || [],
+        formData: formData
     })
 }
 ordersController.processMirage3500Form = async function(req, res){
@@ -98,12 +134,27 @@ ordersController.processMirage3500Form = async function(req, res){
 ordersController.buildConfirmMirage3500 = async function(req, res){
     const formData = req.session.mirage3500Data || {}
     const fractions = await ordersModel.getMeasurements()
+    const colors = await ordersModel.getColors()
+    const handles = await ordersModel.getHandles()
+    const topAdapters = await ordersModel.getTopAdapters()
+    const bottomAdapters = await ordersModel.getBottomAdapters()
+    const rightBuildouts = await ordersModel.getRightBuildouts()
+    const leftBuildouts = await ordersModel.getLeftBuildouts()
+    const meshTypes = await ordersModel.getMeshTypes()
+
     res.render('orders/confirmMirage3500', {
         title: 'Confirm Mirage 3500 order',
         link: 'orders/confirmMirage3500',
         errors: null,
         formData: formData,
-        fractions: fractions || []
+        fractions: fractions || [],
+        colors: colors || [],
+        handles: handles || [],
+        topAdapters: topAdapters || [],
+        bottomAdapters: bottomAdapters || [],
+        rightBuildouts: rightBuildouts || [],
+        leftBuildouts: leftBuildouts || [],
+        meshTypes: meshTypes || []
     })
 }
 

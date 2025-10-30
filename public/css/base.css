@@ -194,12 +194,14 @@ form input[type="submit"]:hover {
     box-shadow: 1px 1px 4px black;
 }
 
-form input:required {
-    border-right: solid 8px red;
+form input:required,
+form select:required {
+    border-left: solid 4px #dc2626;
 }
 
-form input:required:valid {
-    border-right: solid 8px green;
+form input:required:valid,
+form select:required:valid {
+    border-left: solid 4px #16a34a;
 }
 
 .container {
@@ -257,4 +259,158 @@ input[type=email], input[type=password], input[type=text], input[type=tel], inpu
 }
 
 /* --------- TEMPORARY FORM STYLING ---------- */
+
+
+/* --------- MIRAGE 3500 FORM STYLING ---------- */
+
+/* Validation error styling */
+.error-input {
+    border: 2px solid red;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    display: block;
+    margin-top: 5px;
+}
+
+/* Notice boxes */
+.mirage-notice {
+    background-color: #fff3cd;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ffc107;
+    border-radius: 5px;
+}
+
+.confirmation-notice {
+    background-color: #f0f0f0;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.confirmation-notice h2 {
+    margin-top: 0;
+}
+
+.confirmation-notice p {
+    margin-bottom: 10px;
+}
+
+.confirmation-note {
+    color: #666;
+    font-style: italic;
+}
+
+/* Confirmation page action buttons */
+.confirmation-actions {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #e8f4f8;
+    border-radius: 5px;
+}
+
+.btn-confirm {
+    background-color: #28a745;
+    color: white;
+    padding: 15px 30px;
+    font-size: 18px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-confirm:hover {
+    background-color: #218838;
+}
+
+.btn-back {
+    padding: 15px 30px;
+    background-color: #6c757d;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.btn-back:hover {
+    background-color: #5a6268;
+}
+
+/* Error Banner Styles */
+.error-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px 20px;
+    margin: 20px 0;
+    background-color: #fee2e2;
+    border: 1px solid #ef4444;
+    border-left: 4px solid #dc2626;
+    border-radius: 8px;
+    color: #991b1b;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.error-banner svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: #dc2626;
+}
+
+.error-banner div {
+    flex: 1;
+}
+
+.error-banner strong {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #7f1d1d;
+}
+
+.error-banner p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #991b1b;
+}
+
+/* Inline Error Message Styles */
+.error-message {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 4px 8px;
+    background-color: #fee2e2;
+    color: #dc2626;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 4px;
+    border: 1px solid #fca5a5;
+}
+
+.required-field label {
+    font-weight: 600;
+}
+
+/* Secondary Form Button Styles */
+.formbtn-secondary {
+    margin-left: 15px;
+    padding: 15px 30px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.formbtn-secondary:hover {
+    background-color: #5a6268;
+    box-shadow: 1px 1px 4px black;
+}
 

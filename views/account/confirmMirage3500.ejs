@@ -33,7 +33,7 @@
             <input type="text" name="top_opening_width" id="top_opening_width" value="<%= formData.top_opening_width || '' %>" readonly>
         </label><br>
         <label><b>Top Opening Width Fraction</b>
-            <select name="top_opening_width_fraction" id="top_opening_width_fraction">
+            <select name="top_opening_width_fraction" id="top_opening_width_fraction" disabled>
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
                     <option value="<%= fraction.measurement_name %>" <%= formData.top_opening_width_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
@@ -45,7 +45,7 @@
             <input type="text" name="middle_opening_width" id="middle_opening_width" value="<%= formData.middle_opening_width || '' %>" readonly>
         </label><br>
         <label><b>Middle Opening Width Fraction</b>
-            <select name="middle_opening_width_fraction" id="middle_opening_width_fraction">
+            <select name="middle_opening_width_fraction" id="middle_opening_width_fraction" disabled>
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
                     <option value="<%= fraction.measurement_name %>" <%= formData.middle_opening_width_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
@@ -57,7 +57,7 @@
             <input type="text" name="bottom_opening_width" id="bottom_opening_width" value="<%= formData.bottom_opening_width || '' %>" readonly>
         </label><br>
         <label><b>Bottom Opening Width Fraction</b>
-            <select name="bottom_opening_width_fraction" id="bottom_opening_width_fraction">
+            <select name="bottom_opening_width_fraction" id="bottom_opening_width_fraction" disabled>
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
                     <option value="<%= fraction.measurement_name %>" <%= formData.bottom_opening_width_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
@@ -69,7 +69,7 @@
             <input type="text" name="left_opening_height" id="left_opening_height" value="<%= formData.left_opening_height || '' %>" readonly>
         </label><br>
         <label><b>Left Opening Height Fraction</b>
-            <select name="left_opening_height_fraction" id="left_opening_height_fraction">
+            <select name="left_opening_height_fraction" id="left_opening_height_fraction" disabled>
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
                     <option value="<%= fraction.measurement_name %>" <%= formData.left_opening_height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
@@ -81,7 +81,7 @@
             <input type="text" name="middle_opening_height" id="middle_opening_height" value="<%= formData.middle_opening_height || '' %>" readonly>
         </label><br>
         <label><b>Middle Opening Height Fraction</b>
-            <select name="middle_opening_height_fraction" id="middle_opening_height_fraction">
+            <select name="middle_opening_height_fraction" id="middle_opening_height_fraction" disabled>
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
                     <option value="<%= fraction.measurement_name %>" <%= formData.middle_opening_height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
@@ -93,7 +93,7 @@
             <input type="text" name="right_opening_height" id="right_opening_height" value="<%= formData.right_opening_height || '' %>" readonly>
         </label><br>
         <label><b>Right Opening Height Fraction</b>
-            <select name="right_opening_height_fraction" id="right_opening_height_fraction">
+            <select name="right_opening_height_fraction" id="right_opening_height_fraction" disabled>
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
                     <option value="<%= fraction.measurement_name %>" <%= formData.right_opening_height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
@@ -126,7 +126,7 @@
         </label><br>
 
         <label><b>Color</b>
-            <select  name="color_name" id="color">
+            <select  name="color_name" id="color" disabled>
                 <option value="">Select</option>
                 <% colors.forEach(color => { %>
                     <option value="<%= color.color_name %>" <%= formData.color_name === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
@@ -135,7 +135,7 @@
         </label><br>
 
         <label><b>Handle</b>
-            <select  name="handle" id="handle">
+            <select  name="handle" id="handle" disabled>
                 <option value="">Select</option>
                 <% handles.forEach(handle => { %>
                     <option value="<%= handle.mirage_3500_handle %>" <%= formData.handle === handle.mirage_3500_handle ? 'selected' : '' %>><%= handle.mirage_3500_handle %></option>
@@ -144,7 +144,7 @@
         </label><br>
 
         <label><b>Handle Color</b>
-            <select  maxlength="10" name="handle_color" id="handle_color">
+            <select  maxlength="10" name="handle_color" id="handle_color" disabled>
                 <option value="">Select</option>
                 <% colors.forEach(color => { %>
                     <option value="<%= color.color_name %>" <%= formData.handle_color === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
@@ -153,7 +153,7 @@
         </label><br>
 
        <label><b>Top Adapter</b>
-            <select name="top_adapter" id="top_adapter">
+            <select name="top_adapter" id="top_adapter" disabled>
                 <option value="">Select</option>
                 <% topAdapters.forEach(adapter => { %>
                     <option value="<%= adapter.top_adapter_name %>" <%= formData.top_adapter === adapter.top_adapter_name ? 'selected' : '' %>><%= adapter.top_adapter_name %></option>
@@ -162,7 +162,7 @@
         </label><br>
 
         <label><b>Top Adapter Color</b>
-            <select name="top_adapter_color" id="top_adapter_color">
+            <select name="top_adapter_color" id="top_adapter_color" disabled>
                 <option value="">Select</option>
                 <% colors.forEach(color => { %>
                     <option value="<%= color.color_name %>" <%= formData.top_adapter_color === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
@@ -174,7 +174,7 @@
             <input type="text" name="top_adapter_width" id="top_adapter_width" value="<%= formData.top_adapter_width || '' %>" readonly>
         </label><br>
         <label><b>Top Adapter Width Fraction</b>
-            <select name="top_adapter_width_fraction" id="top_adapter_width_fraction">
+            <select name="top_adapter_width_fraction" id="top_adapter_width_fraction" disabled>
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
                     <option value="<%= fraction.measurement_name %>" <%= formData.top_adapter_width_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
@@ -186,7 +186,7 @@
             <input type="text" name="unit_height" id="unit_height" value="<%= formData.unit_height || '' %>" readonly>
         </label><br>
         <label><b>Unit Height Fraction</b>
-            <select name="unit_height_fraction" id="unit_height_fraction">
+            <select name="unit_height_fraction" id="unit_height_fraction" disabled>
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
                     <option value="<%= fraction.measurement_name %>" <%= formData.unit_height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
@@ -198,7 +198,7 @@
             <input type="text" name="pivot_pro_height" id="pivot_pro_height" value="<%= formData.pivot_pro_height || '' %>" readonly>
         </label><br>
         <label><b>Pivot Pro Height Fraction</b>
-            <select name="pivot_pro_height_fraction" id="pivot_pro_height_fraction">
+            <select name="pivot_pro_height_fraction" id="pivot_pro_height_fraction" disabled>
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
                     <option value="<%= fraction.measurement_name %>" <%= formData.pivot_pro_height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
@@ -207,7 +207,7 @@
         </label><br>
 
         <label><b>Bottom Adapter</b>
-            <select name="btm_adapter" id="btm_adapter">
+            <select name="btm_adapter" id="btm_adapter" disabled>
                 <option value="">Select</option>
                 <% bottomAdapters.forEach(adapter => { %>
                     <option value="<%= adapter.bottom_adapter_name %>" <%= formData.btm_adapter === adapter.bottom_adapter_name ? 'selected' : '' %>><%= adapter.bottom_adapter_name %></option>
@@ -216,7 +216,7 @@
         </label><br>
 
         <label><b>Bottom Adapter Color</b>
-            <select name="btm_adapter_color" id="btm_adapter_color">
+            <select name="btm_adapter_color" id="btm_adapter_color" disabled>
                 <option value="">Select</option>
                 <% colors.forEach(color => { %>
                     <option value="<%= color.color_name %>" <%= formData.btm_adapter_color === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
@@ -228,7 +228,7 @@
             <input type="text" name="btm_adapter_width" id="btm_adapter_width" value="<%= formData.btm_adapter_width || '' %>" readonly>
         </label><br>
         <label><b>Bottom Adapter Width Fraction</b>
-            <select name="btm_adapter_width_fraction" id="btm_adapter_width_fraction">
+            <select name="btm_adapter_width_fraction" id="btm_adapter_width_fraction" disabled>
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
                     <option value="<%= fraction.measurement_name %>" <%= formData.btm_adapter_width_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
@@ -237,7 +237,7 @@
         </label><br>
 
         <label><b>Right Build Out</b>
-            <select name="right_build_out" id="right_build_out">
+            <select name="right_build_out" id="right_build_out" disabled>
                 <option value="">Select</option>
                 <% rightBuildouts.forEach(buildout => { %>
                     <option value="<%= buildout.right_buildout_name %>" <%= formData.right_build_out === buildout.right_buildout_name ? 'selected' : '' %>><%= buildout.right_buildout_name %></option>
@@ -246,7 +246,7 @@
         </label><br>
 
         <label><b>Left Build Out</b>
-            <select name="left_build_out" id="left_build_out">
+            <select name="left_build_out" id="left_build_out" disabled>
                 <option value="">Select</option>
                 <% leftBuildouts.forEach(buildout => { %>
                     <option value="<%= buildout.left_buildout_name %>" <%= formData.left_build_out === buildout.left_buildout_name ? 'selected' : '' %>><%= buildout.left_buildout_name %></option>
@@ -258,7 +258,7 @@
             <input type="text" name="build_out_dimension" id="build_out_dimension" value="<%= formData.build_out_dimension || '' %>" readonly>
         </label><br>
         <label><b>Build Out Dimension Fraction</b>
-            <select name="build_out_dimension_fraction" id="build_out_dimension_fraction">
+            <select name="build_out_dimension_fraction" id="build_out_dimension_fraction" disabled>
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
                     <option value="<%= fraction.measurement_name %>" <%= formData.build_out_dimension_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
@@ -267,7 +267,7 @@
         </label><br>
 
         <label><b>Mesh</b>
-            <select name="mesh" id="mesh">
+            <select name="mesh" id="mesh" disabled>
                 <option value="">Select</option>
                 <% meshTypes.forEach(mesh => { %>
                     <option value="<%= mesh.mesh_type %>" <%= formData.mesh === mesh.mesh_type ? 'selected' : '' %>><%= mesh.mesh_type %></option>
@@ -276,7 +276,7 @@
         </label><br>
 
         <label><b>Mohair</b>
-            <select name="mohair" id="mohair">
+            <select name="mohair" id="mohair" disabled>
                 <option value="">Select</option>
                 <option value=".200 MoHair X.187" <%= formData.mohair === '.200 MoHair X.187' ? 'selected' : '' %>>.200 MoHair X.187</option>
                 <option value=".250 MoHair X.187" <%= formData.mohair === '.250 MoHair X.187' ? 'selected' : '' %>>.250 MoHair X.187</option>
@@ -286,7 +286,7 @@
         </label><br>
 
         <label><b>Mohair Position</b>
-            <select name="mohair_position" id="mohair_position">
+            <select name="mohair_position" id="mohair_position" disabled>
                 <option value="">Select</option>
                 <option value="Edge" <%= formData.mohair_position === 'Edge' ? 'selected' : '' %>>Edge</option>
                 <option value="Inside" <%= formData.mohair_position === 'Inside' ? 'selected' : '' %>>Inside</option>
@@ -294,7 +294,7 @@
         </label><br>
 
         <label><b>Mohair Size</b>
-            <select name="mohair_size" id="mohair_size">
+            <select name="mohair_size" id="mohair_size" disabled>
                 <option value="">Select</option>
                 <option value=".2" <%= formData.mohair_size === '.2' ? 'selected' : '' %>>.2</option>
                 <option value=".25" <%= formData.mohair_size === '.25' ? 'selected' : '' %>>.25</option>
@@ -316,7 +316,7 @@
         </label><br>
 
         <label><b>Markup Mutliplier</b>
-            <select name="markup_multiplier" id="markup_multiplier">
+            <select name="markup_multiplier" id="markup_multiplier" disabled>
                 <option value="">Select</option>
                 <option value="2" <%= formData.markup_multiplier === '2' ? 'selected' : '' %>>2</option>
                 <option value="1.9" <%= formData.markup_multiplier === '1.9' ? 'selected' : '' %>>1.9</option>
@@ -337,7 +337,7 @@
         </label><br>
 
         <label><b>Sold</b>
-            <input type="checkbox" name="is_sold" id="is_sold" <%= formData.is_sold ? 'checked' : '' %>>
+            <input type="checkbox" name="is_sold" id="is_sold" <%= formData.is_sold ? 'checked' : '' %> disabled>
         </label><br>
 
         <label><b>Date Sold</b>
@@ -350,6 +350,7 @@
 
         <div class="confirmation-actions">
             <button class="btn-confirm" type="submit">Confirm Order</button>
+            <a href="/orders/createMirage3500" class="btn-back">Back to Edit</a>
         </div>
 
     </div>

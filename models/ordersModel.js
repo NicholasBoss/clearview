@@ -360,6 +360,83 @@ async function getMeasurements() {
     }
 }
 
+async function getColors() {
+    try {
+        const sql = 'SELECT DISTINCT color_name FROM color ORDER BY color_name'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting colors:', error)
+        return []
+    }
+}
+
+async function getHandles() {
+    try {
+        const sql = 'SELECT DISTINCT mirage_3500_handle FROM mirage_3500 ORDER BY mirage_3500_handle'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting handles:', error)
+        return []
+    }
+}
+
+async function getTopAdapters() {
+    try {
+        const sql = 'SELECT DISTINCT top_adapter_name FROM top_adapter ORDER BY top_adapter_name'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting top adapters:', error)
+        return []
+    }
+}
+
+async function getBottomAdapters() {
+    try {
+        const sql = 'SELECT DISTINCT bottom_adapter_name FROM bottom_adapter ORDER BY bottom_adapter_name'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting bottom adapters:', error)
+        return []
+    }
+}
+
+async function getRightBuildouts() {
+    try {
+        const sql = 'SELECT DISTINCT right_buildout_name FROM right_buildout ORDER BY right_buildout_name'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting right buildouts:', error)
+        return []
+    }
+}
+
+async function getLeftBuildouts() {
+    try {
+        const sql = 'SELECT DISTINCT left_buildout_name FROM left_buildout ORDER BY left_buildout_name'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting left buildouts:', error)
+        return []
+    }
+}
+
+async function getMeshTypes() {
+    try {
+        const sql = 'SELECT DISTINCT mesh_type FROM mesh ORDER BY mesh_type'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting mesh types:', error)
+        return []
+    }
+}
+
 // Helper function to get or insert a value in a simple table
 async function getOrInsert(tableName, columnName, value, idColumnName) {
     try {
@@ -657,5 +734,12 @@ module.exports = {
     getOrderById,
     getMeasurements,
     saveMirage3500Data,
-    getOrInsert
+    getOrInsert,
+    getColors,
+    getHandles,
+    getTopAdapters,
+    getBottomAdapters,
+    getRightBuildouts,
+    getLeftBuildouts,
+    getMeshTypes
 }
