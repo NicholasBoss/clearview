@@ -259,9 +259,6 @@ VALUES
 , ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Sheereave 2703'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Charcoal')))
 , ((SELECT fabric_id FROM fabric WHERE fabric_name = 'Solar 90%'), (SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Tobacco')));
 
-INSERT INTO frame_size (size_type)
-VALUES ('1/4"'), ('5/16"'), ('3/8"'), ('7/16"'), ('1"'), ('OC'), ('IC');
-
 INSERT INTO mirage ( mirage_build_out )
 VALUES ( 'None')
         , ('Bug Flap Black')

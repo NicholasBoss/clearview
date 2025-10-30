@@ -1088,8 +1088,6 @@ CREATE TABLE IF NOT EXISTS tow_measurement
     -- hale_door_id INTEGER NULL,
     general_retract_control_id INTEGER NULL,
     nws_measurement_id INTEGER NULL,
-    is_estimate BOOLEAN NULL,
-    is_confirmed BOOLEAN NULL,
     CONSTRAINT customization_pk PRIMARY KEY (customization_id),
     CONSTRAINT customization_fk1
       FOREIGN KEY (product_id)
@@ -1177,6 +1175,31 @@ CREATE TABLE IF NOT EXISTS tow_measurement
       ON DELETE CASCADE
       ON UPDATE CASCADE
   );
+
+-- -----------------------------------------------------
+-- TABLE ORDER CUSTOMIZATION
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS order_customization
+(
+  order_customization_id SERIAL,
+  order_id INTEGER NOT NULL,
+  customization_id INTEGER NOT NULL,
+  is_estimate BOOLEAN NULL,
+  is_confirmed BOOLEAN NULL,
+  is_completed BOOLEAN NULL,
+  is_cancelled BOOLEAN NULL,
+  CONSTRAINT order_customization_pk PRIMARY KEY (order_customization_id),
+  CONSTRAINT order_customization_fk1
+    FOREIGN KEY (order_id)
+    REFERENCES public.order (order_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT order_customization_fk2
+    FOREIGN KEY (customization_id)
+    REFERENCES customization (customization_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
 
 
 
