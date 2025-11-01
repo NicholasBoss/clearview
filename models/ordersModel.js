@@ -55,6 +55,38 @@ async function getMeasurements() {
     }
 }
 
+async function getColors() {
+    try {
+        const sql = `
+            SELECT DISTINCT c.color_id, c.color_name 
+            FROM color c
+            INNER JOIN product_color pc ON c.color_id = pc.color_id
+            ORDER BY c.color_name;
+        `
+        const colors = await pool.query(sql)
+        return colors.rows
+    } catch (error) {
+        return error.message
+    }
+}
+
+async function getColorsByProduct(product_name) {
+    try {
+        const sql = `
+            SELECT c.color_id, c.color_name 
+            FROM color c
+            INNER JOIN product_color pc ON c.color_id = pc.color_id
+            INNER JOIN product p ON pc.product_id = p.product_id
+            WHERE p.product_name = $1
+            ORDER BY c.color_name;
+        `
+        const colors = await pool.query(sql, [product_name])
+        return colors.rows
+    } catch (error) {
+        return error.message
+    }
+}
+
 async function createMirage3500Order(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type, mirage_3500_handle) {
     try {
         // Select existing mirage_3500 record by handle
@@ -211,5 +243,7 @@ async function createNWSOrder(product_name, measurement_name, size_type, fastene
 
 module.exports = {
     createOrder,
-    getMeasurements
+    getMeasurements,
+    getColors,
+    getColorsByProduct
 }
