@@ -1,38 +1,33 @@
 
 <h1>Create New Window Screen Order</h1>
 
-<form id="form" action="/orders/create" method="post">
+<form action="/orders/create" method="post">
     <div class="container">
         <label><b>Quantity</b>
             <input type="text" name="quantity" id="">
         </label><br>
-        <label><b>Fab</b>
-            <select name="fab" id="">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
+        <label><b>Fabric</b>
+            <select name="fabric" id="fabric_id">
+                <option value="">Select</option>
+                <% fabrics.forEach(fabric => { %>
+                    <option value="<%= fabric.fabric_name %>" <%= formData.fabric_id === fabric.fabric_name ? 'selected' : '' %>><%= fabric.fabric_name %></option>
+                <% }) %>
             </select>
         </label><br>
-        <label><b>Frame</b>
-            <select name="frame" id="">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
+        <label><b>Frame_size</b>
+            <select name="frame_size" id="frame_size_id">
+                <option value="">Select</option>
+                <% frame_sizes.forEach(frame_size => { %>
+                    <option value="<%= frame_size.size_type %>" <%= formData.frame_size_id === frame_size.size_type ? 'selected' : '' %>><%= frame_size.size_type %></option>
+                <% }) %>
             </select>
         </label><br>
         <label><b>Color</b>
-            <select name="color" id="">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
+            <select name="color" id="color_id">
+                <option value="">Select</option>
+                <% colors.forEach(color => { %>
+                    <option value="<%= color.color_name %>" <%= formData.color_id === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
+                <% }) %>
             </select>
         </label><br>
         <label><b>Width</b>
@@ -42,27 +37,15 @@
         </label><br>
         <label><b>W / F</b>
             <select name="measurement_name" id="">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
+                <option value="">Select</option>
+                <% fractions.forEach(fraction => { %>
+                <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
+                <% }) %> 
             </select>
         </label><br>
         <label><b>+ / -</b>
             <select name="plus_minus" id="">
-                <option value="">1</option>
-                <option value="">2</option>
+                <input type="text" name="plus_minus" id="">
             </select>
         </label><br>
         <label><b>Height</b>
@@ -72,21 +55,10 @@
         </label><br>
         <label><b>H / F</b>
             <select name="height_fraction" id="">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
+                <option value="">Select</option>
+                <% fractions.forEach(fraction => { %>
+                <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
+                <% }) %> 
             </select>
         </label><br>
         <label><b>+ / -</b>
@@ -119,20 +91,12 @@
                 <option value="">6</option>
             </select>
         </label><br>
-        <label><b>Fasteners</b>
-            <select name="fasteners" id="">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
+        <label><b>Fastener</b>
+            <select name="fastener" id="fastener_id">
+                <option value="">Select</option>
+                <% fasteners.forEach(fastener => { %>
+                    <option value="<%= fastener.fastener_type %>" <%= formData.fastener_id === fastener.fastener_type ? 'selected' : '' %>><%= fastener.fastener_type %></option>
+                <% }) %>
             </select>
         </label><br>
         <label><b>Fastener Location</b>
