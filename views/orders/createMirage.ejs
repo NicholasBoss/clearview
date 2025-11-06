@@ -47,22 +47,18 @@
         <!-- pivot pro color not found in database -->
 
         <label><b>Top Adapter</b>
-            <select name="top_adapter" id="top_adapter">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
+            <select name="top_adapter" id="top_adapter_id">
+                <% top_adapters.forEach(top_adapter => { %>
+                    <option value="<%= top_adapter.top_adapter_name %>" <%= formData.top_adapter_id === top_adapter.top_adapter_name ? 'selected' : '' %>><%= top_adapter.top_adapter_name %></option>
+                <% }) %>
             </select>
         </label><br>
 
         <label><b>Top Adapter Color</b>
             <select name="top_adapter_color" id="top_adapter_color">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
+                <% top_adapt_colors.forEach(top_adapt_color => { %>
+                    <option value="<%= top_adapter_color.product_color_id %>" <%= formData.top_adapter_color_id === top_adapter_color.product_color_id ? 'selected' : '' %>><%= top_adapter_color.product_color_id %></option>
+                <% }) %>
             </select>
         </label><br>
         <!-- top adapter color not found in database -->
@@ -72,21 +68,9 @@
         </label><br>
         <label><b>Top Adapter Width Fraction</b>
             <select name="top_adapter_width_fraction" id="top_adapter_width_fraction">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
+                <% fractions.forEach(fraction => { %>
+                <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
+                <% }) %>
             </select>
         </label><br>
          <!-- top adapter width not found in database -->
@@ -96,21 +80,9 @@
         </label><br>
         <label><b>Opening Height Fraction</b>
             <select name="opening_height_fraction" id="opening_height_fraction">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
+                <% fractions.forEach(fraction => { %>
+                <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
+                <% }) %>
             </select>
         </label><br>
         <!-- Not sure if right_opening_height is the same as opening height -->
@@ -120,21 +92,9 @@
         </label><br>
         <label><b>Unit Height Fraction</b>
             <select name="unit_height_fraction" id="unit_height_fraction">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
+                <% fractions.forEach(fraction => { %>
+                <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
+                <% }) %>
             </select>
         </label><br>
         <!-- unit height not found in database -->
@@ -144,42 +104,26 @@
         </label><br>
         <label><b>Pivot Pro Height Fraction</b>
             <select name="pivot_pro_height_fraction" id="pivot_pro_height_fraction">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
+                <% fractions.forEach(fraction => { %>
+                <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
+                <% }) %>
             </select>
         </label><br>
         <!-- pivot pro height not found in database -->
 
         <label><b>Bottom Adapter</b>
             <select name="btm_adapter" id="btm_adapter">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
+                <% bottom_adapters.forEach(bottom_adapter => { %>
+                    <option value="<%= bottom_adapter.bottom_adapter_name %>" <%= formData.bottom_adapter_id === bottom_adapter.bottom_adapter_name ? 'selected' : '' %>><%= bottom_adapter.bottom_adapter_name %></option>
+                <% }) %>
             </select>
         </label><br>
 
         <label><b>Bottom Adapter Color</b>
             <select name="btm_adapter_color" id="btm_adapter_color">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
+                <% btm_adapt_colors.forEach(btm_adapt_color => { %>
+                    <option value="<%= bottom_adapter_color.product_color_id %>" <%= formData.bottom_adapter_color_id === bottom_adapter_color.product_color_id ? 'selected' : '' %>><%= bottom_adapter_color.product_color_id %></option>
+                <% }) %>
             </select>
         </label><br>
 
@@ -188,32 +132,18 @@
         </label><br>
         <label><b>Bottom Adapter Width Fraction</b>
             <select name="btm_adapter_width_fraction" id="btm_adapter_width_fraction">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
+                <% fractions.forEach(fraction => { %>
+                    <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
+                <% }) %>
             </select>
         </label><br>
         <!-- bottom adapter width not found in database -->
 
         <label><b>Build Out</b>
             <select name="" id="build_out">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
+                <% build_outs.forEach(build_out => { %>
+                    <option value="<%= buildout.buildout_name %>" <%= formData.buildout_id === buildout.buildout_name ? 'selected' : '' %>><%= buildout.buildout_name %></option>
+                <% }) %>
             </select>
         </label><br>
         <!-- build out for M3500 goes here (not sure which variable in db is correct) -->
@@ -223,32 +153,18 @@
         </label><br>
         <label><b>Build Out Dimension Fraction</b>
             <select name="" id="build_out_dimension_fraction">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
+                <% fractions.forEach(fraction => { %>
+                <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
+                <% }) %>
             </select>
         </label><br>
         <!-- build out dimension not found in database (goes here) -->
 
         <label><b>Mesh</b>
             <select name="" id="mesh">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
+                <% meshes.forEach(mesh => { %>
+                    <option value="<%= mesh.mesh_type %>" <%= formData.mesh_id === mesh.mesh_type ? 'selected' : '' %>><%= mesh.mesh_type %></option>
+                <% }) %>
             </select>
         </label><br>
         <!-- There are a lot of different mesh variables and I am unsure of which one to use here -->
