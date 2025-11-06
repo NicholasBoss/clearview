@@ -661,55 +661,104 @@ async function saveMirage3500Data(formData) {
 
         console.log('All measurements processed successfully')
 
-        // Return all collected data
+        // TODO: The customization table currently only has basic columns
+        // Coordinate with database person about adding columns for:
+        // - dimension IDs (top_opening_width_id, bottom_opening_width_id, etc.)
+        // - adapter IDs (top_adapter_id, bottom_adapter_id)
+        // - buildout IDs (left_buildout_id, right_buildout_id)
+        // - level/plumb IDs, pricing fields, mohair settings, etc.
+
+        // For now, we'll need to determine what measurement_id to use
+        // Using the top_opening_width fraction as the primary measurement for now
+        const primaryMeasurementId = await getMeasurementId(formData.top_opening_width_fraction) || 1
+
+        // Get product_mesh_id
+        const productMeshSql = 'SELECT product_mesh_id FROM product_mesh WHERE product_id = $1 AND mesh_id = $2'
+        const productMeshResult = await pool.query(productMeshSql, [productId, meshId])
+
+        let productMeshId
+        if (productMeshResult.rows.length > 0) {
+            productMeshId = productMeshResult.rows[0].product_mesh_id
+        } else {
+            // Create product_mesh entry if it doesn't exist
+            const insertProductMeshSql = 'INSERT INTO product_mesh (product_id, mesh_id) VALUES ($1, $2) RETURNING product_mesh_id'
+            const insertResult = await pool.query(insertProductMeshSql, [productId, meshId])
+            productMeshId = insertResult.rows[0].product_mesh_id
+        }
+
+        // Get or create a default fastener (since form doesn't currently collect this)
+        const defaultFastenerSql = 'SELECT fastener_id FROM fastener LIMIT 1'
+        const fastenerResult = await pool.query(defaultFastenerSql)
+        const fastenerId = fastenerResult.rows[0]?.fastener_id || 1
+
+        // Get or create a default frame_size (since form doesn't currently collect this)
+        const defaultFrameSizeSql = 'SELECT frame_size_id FROM frame_size LIMIT 1'
+        const frameSizeResult = await pool.query(defaultFrameSizeSql)
+        const frameSizeId = frameSizeResult.rows[0]?.frame_size_id || 1
+
+        // 18. INSERT into customization table with is_estimate=true
+        // Using only the columns that currently exist in the schema
+        const customizationSql = `
+            INSERT INTO customization (
+                product_id,
+                measurement_id,
+                frame_size_id,
+                fastener_id,
+                color_id,
+                mesh_id,
+                product_mesh_id,
+                mirage_3500_id,
+                is_estimate,
+                is_confirmed
+            ) VALUES (
+                $1, $2, $3, $4, $5, $6, $7, $8, true, false
+            ) RETURNING customization_id
+        `
+
+        const customizationResult = await pool.query(customizationSql, [
+            productId,           // $1
+            primaryMeasurementId,// $2
+            frameSizeId,         // $3
+            fastenerId,          // $4
+            colorId,             // $5
+            meshId,              // $6
+            productMeshId,       // $7
+            mirage3500Id         // $8
+        ])
+
+        const customizationId = customizationResult.rows[0].customization_id
+
+        console.log('Order saved with customization_id:', customizationId)
+
+        // Return the customization_id
         return {
-            mirage3500Id,
-            colorId,
-            handleColorId,
-            topAdapterColorId,
-            btmAdapterColorId,
-            topAdapterId,
-            btmAdapterId,
-            rightBuildoutId,
-            leftBuildoutId,
-            startingPointId,
-            topLevelId,
-            bottomLevelId,
-            leftPlumbId,
-            rightPlumbId,
-            meshId,
-            productId,
-            // Measurement IDs
-            topOpeningWidthId,
-            bottomOpeningWidthId,
-            leftOpeningHeightId,
-            rightOpeningHeightId,
-            // Combined measurements (for fields without dedicated tables)
-            middleOpeningWidth,
-            middleOpeningHeight,
-            topAdapterWidth,
-            unitHeight,
-            pivotProHeight,
-            btmAdapterWidth,
-            buildOutDimension,
-            // Other form data
-            mount: formData.mount,
-            mohair: formData.mohair,
-            mohairPosition: formData.mohair_position,
-            mohairSize: formData.mohair_size,
-            bumperPads: formData.bumper_pads,
-            siliconSpray: formData.silicone_spray,
-            wholesalePrice: formData.wholesale_price,
-            markupMultiplier: formData.markup_multiplier,
-            retailPrice: formData.retail_price,
-            customAddons: formData.custom_addons,
-            piaObstaclesHelper: formData.pia_obstacles_helper,
-            isSold: formData.is_sold,
-            dateSold: formData.date_sold,
-            qcTechDate: formData.qc_tech_date
+            customization_id: customizationId
         }
     } catch (error) {
         console.error('Error in saveMirage3500Data:', error)
+        throw error
+    }
+}
+
+// Function to confirm Mirage 3500 order (update is_confirmed flag)
+async function confirmMirage3500Order(customizationId) {
+    try {
+        const sql = `
+            UPDATE customization
+            SET is_confirmed = true, is_estimate = false
+            WHERE customization_id = $1
+            RETURNING customization_id
+        `
+        const result = await pool.query(sql, [customizationId])
+
+        if (result.rows.length === 0) {
+            throw new Error('Order not found')
+        }
+
+        console.log('Order confirmed with customization_id:', customizationId)
+        return result.rows[0]
+    } catch (error) {
+        console.error('Error in confirmMirage3500Order:', error)
         throw error
     }
 }
@@ -734,6 +783,7 @@ module.exports = {
     getOrderById,
     getMeasurements,
     saveMirage3500Data,
+    confirmMirage3500Order,
     getOrInsert,
     getColors,
     getHandles,

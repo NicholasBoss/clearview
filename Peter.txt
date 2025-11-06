@@ -71,7 +71,5 @@ MIRAGE 3500      John Doe     Completed     [VIEW ORDER DETAILS]
 
 NEXT ON THE AGENDA
 - fix localstorage issue where going back to create page removes all the data
-- decide if we want a "clear form" button or not
-- decide if we want a "return to create form" button or not 
 - once the forms are in order, change it so that the create form inserts rather than the confirm form 
 - start on the account page

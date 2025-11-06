@@ -126,9 +126,24 @@ ordersController.buildCreateMirage3500 = async function(req, res){
     })
 }
 ordersController.processMirage3500Form = async function(req, res){
-    // Store form data in session
-    req.session.mirage3500Data = req.body
-    res.redirect('/orders/confirmMirage3500')
+    try {
+        // Store form data in session
+        req.session.mirage3500Data = req.body
+
+        // Save to database with is_estimate=true
+        const result = await ordersModel.saveMirage3500Data(req.body)
+
+        // Store customization_id in session to prevent duplicate inserts
+        req.session.mirage3500OrderId = result.customization_id
+
+        console.log('Order created with is_estimate=true, customization_id:', result.customization_id)
+
+        res.redirect('/orders/confirmMirage3500')
+    } catch (error) {
+        console.error('Error processing Mirage 3500 form:', error)
+        req.flash('error', 'Failed to save order. Please try again.')
+        res.redirect('/orders/createMirage3500')
+    }
 }
 
 ordersController.buildConfirmMirage3500 = async function(req, res){
@@ -160,23 +175,30 @@ ordersController.buildConfirmMirage3500 = async function(req, res){
 
 ordersController.saveMirage3500Order = async function(req, res){
     try {
-        // Get form data from session
-        const formData = req.session.mirage3500Data || {}
+        // Get customization_id from session
+        const customizationId = req.session.mirage3500OrderId
 
-        // Save all the data (INSERT or SELECT as needed)
-        const result = await ordersModel.saveMirage3500Data(formData)
+        if (!customizationId) {
+            throw new Error('No order found to confirm. Please start over.')
+        }
+
+        // Update order to set is_confirmed=true, is_estimate=false
+        const result = await ordersModel.confirmMirage3500Order(customizationId)
 
         // Clear session data
         delete req.session.mirage3500Data
+        delete req.session.mirage3500OrderId
+
+        console.log('Order confirmed successfully, customization_id:', customizationId)
 
         // Set success message
-        req.flash('success', 'Mirage 3500 order created successfully!')
+        req.flash('success', 'Mirage 3500 order confirmed successfully!')
 
         // Redirect to account page or orders list
         res.redirect('/account')
     } catch (error) {
-        console.error('Error saving Mirage 3500 order:', error)
-        req.flash('error', 'Failed to save Mirage 3500 order. Please try again.')
+        console.error('Error confirming Mirage 3500 order:', error)
+        req.flash('error', 'Failed to confirm Mirage 3500 order. Please try again.')
         res.redirect('/orders/confirmMirage3500')
     }
 }
