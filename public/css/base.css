@@ -137,6 +137,71 @@ form {
     margin: 0 auto;
 }
 
+form label {
+    display: block;
+    padding-top: 1rem;
+    font-size: .9rem;
+    color: black;
+    font-weight: bold;
+}
+
+form div {
+    padding-top: 1rem;
+    color: #445ba9;
+    font-size: .9rem;
+}
+
+form input[type="text"],
+form input[type="password"],
+form input[type="tel"],
+form input[type="email"],
+form input[type="url"],
+form input[type="date"],
+form select,
+form input[type="number"] {
+    background-color: #eee;
+    display: block;
+    border: solid 1px #999;
+    border-radius: 6px;
+    padding: .75rem;
+    color: #555;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+form input[type="radio"],
+form input[type="checkbox"] {
+    margin-right: 6px;
+}
+
+form input[type="submit"] {
+    border-radius: 7px;
+    border: outset;
+    background-color: #eee;
+    background-image: linear-gradient(#eee, #fff);
+    width: 50%;
+    color: #445ba9;
+    font-weight: bold;
+    padding: 5px;
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 30px;
+    max-width: 300px;
+}
+
+form input[type="submit"]:hover {
+    box-shadow: 1px 1px 4px black;
+}
+
+form input:required {
+    border-right: solid 8px red;
+}
+
+form input:required:valid {
+    border-right: solid 8px green;
+}
+
 .container {
 	padding-left: 100px;
     padding-top: 20px;
@@ -190,3 +255,6 @@ input[type=email], input[type=password], input[type=text], input[type=tel], inpu
     color: var(--accent4-color);
     text-decoration: none;
 }
+
+/* --------- TEMPORARY FORM STYLING ---------- */
+

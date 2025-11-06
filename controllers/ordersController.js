@@ -81,10 +81,15 @@ ordersController.insertProduct = async function(req, res){
 
 // individual order creation functions
 ordersController.buildCreateMirage3500 = async function(req, res){
+
+    measurements = await ordersModel.getMeasurements()
+    // console.log(measurements)
+
     res.render('orders/createMirage3500', {
         title: 'Create Mirage 3500 order',
         link: 'orders/createMirage3500',
-        errors: null
+        errors: null,
+        fractions: measurements
     })
 }
 ordersController.buildConfirmMirage3500 = async function(req, res){

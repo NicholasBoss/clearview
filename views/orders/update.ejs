@@ -1,6 +1,6 @@
 <h1>Update order</h1>
 
-<form action="/orders/update" method="post">
+<form id="form" action="/orders/update" method="post">
     <input type="hidden" name="id" value="<%= order.order_id %>">
     <label for="customer_name"><b>Customer Name:</b>
         <input disabled type="text" name="customer_name" value="<%= order.customer_fname %> <%= order.customer_lname  %>">
