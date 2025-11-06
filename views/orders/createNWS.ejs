@@ -44,8 +44,10 @@
             </select>
         </label><br>
         <label><b>+ / -</b>
-            <select name="plus_minus" id="">
-                <input type="text" name="plus_minus" id="">
+            <select name="plus_minus" id="width_plus_minus">
+                <option value="">Select</option>
+                <option value="+">+</option>
+                <option value="-">-</option>
             </select>
         </label><br>
         <label><b>Height</b>
@@ -62,33 +64,34 @@
             </select>
         </label><br>
         <label><b>+ / -</b>
-            <select name="plus_minus" id="">
-                <option value="">1</option>
-                <option value="">2</option>
+            <select name="plus_minus" id="height_plus_minus">
+                <option value="">Select</option>
+                <option value="+">+</option>
+                <option value="-">-</option>
             </select>
         </label><br>
         <label><b>Tabs</b>
             <select name="tabs" id="">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
+                <option value="">Select</option>
+                <option value="L">L</option>
+                <option value="S">S</option>
+                <option value="None">None</option>
             </select>
         </label><br>
         <label><b>Spring</b>
-            <select name="spring" id="">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
+            <select name="spring" id="tab_spring_id">
+                <option value="">Select</option>
+                <% springs.forEach(spring => { %>
+                    <option value="<%= spring.tab_spring_name %>" <%= formData.tab_spring_id === spring.tab_spring_name ? 'selected' : '' %>><%= spring.tab_spring_name %></option>
+                <% }) %>
             </select>
         </label><br>
         <label><b>Mesh</b>
-            <select name="mesh" id="">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
+            <select name="mesh" id="mesh_id">
+                <option value="">Select</option>
+                <% meshs.forEach(mesh => { %>
+                    <option value="<%= mesh.mesh_type %>" <%= formData.mesh_id === mesh.mesh_type ? 'selected' : '' %>><%= mesh.mesh_type %></option>
+                <% }) %>
             </select>
         </label><br>
         <label><b>Fastener</b>
