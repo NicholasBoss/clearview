@@ -402,58 +402,58 @@
             <% if (errors) { const error = errors.array().find(e => e.path === 'mohair_size'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
         </label><br>
 
-         <label class="required-field"><b>Bumper Pads</b>
-            <input type="text" name="bumper_pads" id="bumper_pads" value="<%= formData.bumper_pads || '' %>" placeholder="Enter quantity or description" required <%= errors && errors.array().find(e => e.path === 'bumper_pads') ? 'class="error-input"' : '' %>>
-            <% if (errors) { const error = errors.array().find(e => e.path === 'bumper_pads'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+         <!-- <label class="required-field"><b>Bumper Pads</b>
+            <input type="text" name="bumper_pads" id="bumper_pads" value="<%#= formData.bumper_pads || '' %>" placeholder="Enter quantity or description" required <%#= errors && errors.array().find(e => e.path === 'bumper_pads') ? 'class="error-input"' : '' %>>
+            <%# if (errors) { const error = errors.array().find(e => e.path === 'bumper_pads'); if (error) { %><span class="error-message"><%#= error.msg %></span><%# }} %>
         </label><br>
 
         <label class="required-field"><b>Silicone Spray</b>
-            <input type="text" name="silicone_spray" id="silicone_spray" value="<%= formData.silicone_spray || '' %>" placeholder="Enter quantity or description" required <%= errors && errors.array().find(e => e.path === 'silicone_spray') ? 'class="error-input"' : '' %>>
-            <% if (errors) { const error = errors.array().find(e => e.path === 'silicone_spray'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+            <input type="text" name="silicone_spray" id="silicone_spray" value="<%#= formData.silicone_spray || '' %>" placeholder="Enter quantity or description" required <%#= errors && errors.array().find(e => e.path === 'silicone_spray') ? 'class="error-input"' : '' %>>
+            <%# if (errors) { const error = errors.array().find(e => e.path === 'silicone_spray'); if (error) { %><span class="error-message"><%#= error.msg %></span><%# }} %>
         </label><br>
 
         <label class="required-field"><b>WholeSale Price</b>
-            <input type="text" name="wholesale_price" id="wholesale_price" value="<%= formData.wholesale_price || '' %>" placeholder="Enter price (numbers only)" required <%= errors && errors.array().find(e => e.path === 'wholesale_price') ? 'class="error-input"' : '' %>>
-            <% if (errors) { const error = errors.array().find(e => e.path === 'wholesale_price'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+            <input type="text" name="wholesale_price" id="wholesale_price" value="<%#= formData.wholesale_price || '' %>" placeholder="Enter price (numbers only)" required <%#= errors && errors.array().find(e => e.path === 'wholesale_price') ? 'class="error-input"' : '' %>>
+            <%# if (errors) { const error = errors.array().find(e => e.path === 'wholesale_price'); if (error) { %><span class="error-message"><%#= error.msg %></span><%# }} %>
         </label><br>
 
         <label class="required-field"><b>Markup Mutliplier</b>
-            <select name="markup_multiplier" id="markup_multiplier" required <%= errors && errors.array().find(e => e.path === 'markup_multiplier') ? 'class="error-input"' : '' %>>
+            <select name="markup_multiplier" id="markup_multiplier" required <%#= errors && errors.array().find(e => e.path === 'markup_multiplier') ? 'class="error-input"' : '' %>>
                 <option value="">Select</option>
-                <option value="2" <%= formData.markup_multiplier === '2' ? 'selected' : '' %>>2</option>
-                <option value="1.9" <%= formData.markup_multiplier === '1.9' ? 'selected' : '' %>>1.9</option>
-                <option value="1.8" <%= formData.markup_multiplier === '1.8' ? 'selected' : '' %>>1.8</option>
+                <option value="2" <%#= formData.markup_multiplier === '2' ? 'selected' : '' %>>2</option>
+                <option value="1.9" <%#= formData.markup_multiplier === '1.9' ? 'selected' : '' %>>1.9</option>
+                <option value="1.8" <%#= formData.markup_multiplier === '1.8' ? 'selected' : '' %>>1.8</option>
             </select>
-            <% if (errors) { const error = errors.array().find(e => e.path === 'markup_multiplier'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+            <%# if (errors) { const error = errors.array().find(e => e.path === 'markup_multiplier'); if (error) { %><span class="error-message"><%#= error.msg %></span><%# }} %>
         </label><br>
 
         <label class="required-field"><b>Retail Price</b>
-            <input type="text" name="retail_price" id="retail_price" value="<%= formData.retail_price || '' %>" placeholder="Enter price (numbers only)" required <%= errors && errors.array().find(e => e.path === 'retail_price') ? 'class="error-input"' : '' %>>
-            <% if (errors) { const error = errors.array().find(e => e.path === 'retail_price'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+            <input type="text" name="retail_price" id="retail_price" value="<%#= formData.retail_price || '' %>" placeholder="Enter price (numbers only)" required <%#= errors && errors.array().find(e => e.path === 'retail_price') ? 'class="error-input"' : '' %>>
+            <%# if (errors) { const error = errors.array().find(e => e.path === 'retail_price'); if (error) { %><span class="error-message"><%#= error.msg %></span><%# }} %>
         </label><br>
 
         <label class="required-field"><b>Custom Add-ons</b>
-            <input type="text" name="custom_addons" id="custom_addons" value="<%= formData.custom_addons || '' %>" placeholder="Enter custom add-ons description" required <%= errors && errors.array().find(e => e.path === 'custom_addons') ? 'class="error-input"' : '' %>>
-            <% if (errors) { const error = errors.array().find(e => e.path === 'custom_addons'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+            <input type="text" name="custom_addons" id="custom_addons" value="<%#= formData.custom_addons || '' %>" placeholder="Enter custom add-ons description" required <%#= errors && errors.array().find(e => e.path === 'custom_addons') ? 'class="error-input"' : '' %>>
+            <%# if (errors) { const error = errors.array().find(e => e.path === 'custom_addons'); if (error) { %><span class="error-message"><%#= error.msg %></span><%# }} %>
         </label><br>
 
         <label class="required-field"><b>PIA Obstacles Helper</b>
-            <input type="text" name="pia_obstacles_helper" id="pia_obstacles_helper" value="<%= formData.pia_obstacles_helper || '' %>" placeholder="Enter obstacles information" required <%= errors && errors.array().find(e => e.path === 'pia_obstacles_helper') ? 'class="error-input"' : '' %>>
-            <% if (errors) { const error = errors.array().find(e => e.path === 'pia_obstacles_helper'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+            <input type="text" name="pia_obstacles_helper" id="pia_obstacles_helper" value="<%#= formData.pia_obstacles_helper || '' %>" placeholder="Enter obstacles information" required <%#= errors && errors.array().find(e => e.path === 'pia_obstacles_helper') ? 'class="error-input"' : '' %>>
+            <%# if (errors) { const error = errors.array().find(e => e.path === 'pia_obstacles_helper'); if (error) { %><span class="error-message"><%#= error.msg %></span><%# }} %>
         </label><br>
 
         <label><b>Sold</b>
-            <input type="checkbox" name="is_sold" id="is_sold" <%= formData.is_sold ? 'checked' : '' %>>
+            <input type="checkbox" name="is_sold" id="is_sold" <%#= formData.is_sold ? 'checked' : '' %>>
         </label><br>
 
         <label><b>Date Sold</b>
-            <input type="date" name="date_sold" id="date_sold" value="<%= formData.date_sold || '' %>">
+            <input type="date" name="date_sold" id="date_sold" value="<%#= formData.date_sold || '' %>">
         </label><br>
 
         <label class="required-field"><b>QC Tech and Date</b>
-            <input type="text" name="qc_tech_date" id="qc_tech_date" value="<%= formData.qc_tech_date || '' %>" placeholder="Enter tech name and date" required <%= errors && errors.array().find(e => e.path === 'qc_tech_date') ? 'class="error-input"' : '' %>>
-            <% if (errors) { const error = errors.array().find(e => e.path === 'qc_tech_date'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
-        </label><br>
+            <input type="text" name="qc_tech_date" id="qc_tech_date" value="<%#= formData.qc_tech_date || '' %>" placeholder="Enter tech name and date" required <%#= errors && errors.array().find(e => e.path === 'qc_tech_date') ? 'class="error-input"' : '' %>>
+            <%# if (errors) { const error = errors.array().find(e => e.path === 'qc_tech_date'); if (error) { %><span class="error-message"><%#= error.msg %></span><%# }} %>
+        </label><br> -->
 
 
         <button class="formbtn" type="submit">Submit</button>
