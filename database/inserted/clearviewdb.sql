@@ -1,7 +1,13 @@
 -- -----------------------------------------------------
 -- Drop Statements
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS order_customization;
 DROP TABLE IF EXISTS customization;
+DROP TABLE IF EXISTS middle_opening_height;
+DROP TABLE IF EXISTS middle_opening_width;
+DROP TABLE IF EXISTS unit_height;
+DROP TABLE IF EXISTS pivot_pro_height;
+DROP TABLE IF EXISTS buildout;
 DROP TABLE IF EXISTS tow_measurement;
 DROP TABLE IF EXISTS bow_measurement;
 DROP TABLE IF EXISTS roh_measurement;
@@ -9,6 +15,10 @@ DROP TABLE IF EXISTS loh_measurement;
 DROP TABLE IF EXISTS nws_measurement;
 DROP TABLE IF EXISTS measurement;
 DROP TABLE IF EXISTS rainier;
+DROP TABLE IF EXISTS hembar;
+DROP TABLE IF EXISTS pilebrush;
+DROP TABLE IF EXISTS cord_length;
+DROP TABLE IF EXISTS mount_type;
 DROP TABLE IF EXISTS brush_location;
 DROP TABLE IF EXISTS starting_point;
 DROP TABLE IF EXISTS right_track;
@@ -21,6 +31,7 @@ DROP TABLE IF EXISTS bottom_adapter;
 DROP TABLE IF EXISTS left_plumb;
 DROP TABLE IF EXISTS right_plumb;
 DROP TABLE IF EXISTS right_opening_height;
+DROP TABLE IF EXISTS left_opening_height;
 DROP TABLE IF EXISTS bottom_opening_width;
 DROP TABLE IF EXISTS bottom_level;
 DROP TABLE IF EXISTS top_level;
@@ -29,18 +40,20 @@ DROP TABLE IF EXISTS drive_side;
 DROP TABLE IF EXISTS placement;
 DROP TABLE IF EXISTS housing;
 DROP TABLE IF EXISTS new_window_screen;
+DROP TABLE IF EXISTS tab_spring;
 DROP TABLE IF EXISTS public.window;
 DROP TABLE IF EXISTS product_mesh;
 DROP TABLE IF EXISTS mesh;
 DROP TABLE IF EXISTS fabric;
 DROP TABLE IF EXISTS fastener;
 DROP TABLE IF EXISTS frame_size;
-DROP TABLE IF EXISTS fabric_color;
+-- DROP TABLE IF EXISTS fabric_color;
 DROP TABLE IF EXISTS handle_color;
 DROP TABLE IF EXISTS hardware_color;
-DROP TABLE IF EXISTS nws_color;
+-- DROP TABLE IF EXISTS nws_color;
 DROP TABLE IF EXISTS pivot_pro_color;
 DROP TABLE IF EXISTS top_adapter_color;
+DROP TABLE IF EXISTS bottom_adapter_color;
 DROP TABLE IF EXISTS rainier_zipper_color;
 DROP TABLE IF EXISTS product_color;
 DROP TABLE IF EXISTS color;
@@ -257,7 +270,7 @@ CREATE TABLE IF NOT EXISTS general_retract_control
   mohair_id INTEGER NOT NULL,
   mohair_position CHARACTER VARYING NULL,
   top_adapter_id INTEGER NOT NULL,
-  build_out_id INTEGER NOT NULL,
+  buildout_id INTEGER NOT NULL,
   bottom_adapter_id INTEGER NOT NULL,
   btm_adapter_color CHARACTER VARYING NULL,
   CONSTRAINT grc_pk PRIMARY KEY (general_retract_control_id)
@@ -565,6 +578,18 @@ CREATE TABLE IF NOT EXISTS top_adapter_color
     ON UPDATE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS bottom_adapter_color
+(
+  bottom_adapter_color_id SERIAL,
+  product_color_id INTEGER NOT NULL,
+  CONSTRAINT bottom_adapter_color_pk PRIMARY KEY (bottom_adapter_color_id),
+  CONSTRAINT bottom_adapter_color_fk1
+    FOREIGN KEY (product_color_id)
+    REFERENCES product_color (product_color_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
 -- -----------------------------------------------------
 -- Table rainier_zipper_color
 -- -----------------------------------------------------
@@ -781,6 +806,13 @@ CREATE TABLE IF NOT EXISTS starting_point
   starting_point_id SERIAL,
   starting_point_name CHARACTER VARYING NOT NULL,
   CONSTRAINT starting_point_pk PRIMARY KEY (starting_point_id)
+);
+
+CREATE TABLE IF NOT EXISTS buildout
+(
+  buildout_id SERIAL,
+  buildout_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT buildout_pk PRIMARY KEY (buildout_id)
 );
 
 CREATE TABLE IF NOT EXISTS rainier 
@@ -1063,6 +1095,34 @@ CREATE TABLE IF NOT EXISTS tow_measurement
     ON UPDATE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS middle_opening_height
+(
+  middle_opening_height_id SERIAL,
+  middle_opening_height_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT middle_opening_height_pk PRIMARY KEY (middle_opening_height_id)
+);
+
+CREATE TABLE IF NOT EXISTS middle_opening_width
+(
+  middle_opening_width_id SERIAL,
+  middle_opening_width_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT middle_opening_width_pk PRIMARY KEY (middle_opening_width_id)
+);
+
+CREATE TABLE IF NOT EXISTS unit_height
+(
+  unit_height_id SERIAL,
+  unit_height_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT unit_height_pk PRIMARY KEY (unit_height_id)
+);
+
+CREATE TABLE IF NOT EXISTS pivot_pro_height
+(
+  pivot_pro_height_id SERIAL,
+  pivot_pro_height_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT pivot_pro_height_pk PRIMARY KEY (pivot_pro_height_id)
+);
+
 -- -----------------------------------------------------
 -- Table customization
 -- -----------------------------------------------------
@@ -1088,6 +1148,24 @@ CREATE TABLE IF NOT EXISTS tow_measurement
     -- hale_door_id INTEGER NULL,
     general_retract_control_id INTEGER NULL,
     nws_measurement_id INTEGER NULL,
+    buildout_id INTEGER NULL,
+    top_opening_width_id INTEGER NULL,
+    middle_opening_width_id INTEGER NULL,
+    bottom_opening_width_id INTEGER NULL,
+    left_opening_height_id INTEGER NULL,
+    middle_opening_height_id INTEGER NULL,
+    right_opening_height_id INTEGER NULL,
+    top_level_id INTEGER NULL,
+    bottom_level_id INTEGER NULL,
+    left_plumb_id INTEGER NULL,
+    right_plumb_id INTEGER NULL,
+    starting_point_id INTEGER NULL,
+    mount_type_id INTEGER NULL,
+    top_adapter_width_id INTEGER NULL,
+    bottom_adapter_width_id INTEGER NULL,
+    unit_height_id INTEGER NULL,
+    pivot_pro_height_id INTEGER NULL,
+    add_buildout_id INTEGER NULL,
     CONSTRAINT customization_pk PRIMARY KEY (customization_id),
     CONSTRAINT customization_fk1
       FOREIGN KEY (product_id)
@@ -1172,6 +1250,86 @@ CREATE TABLE IF NOT EXISTS tow_measurement
     CONSTRAINT customization_fk17
       FOREIGN KEY (nws_measurement_id)
       REFERENCES nws_measurement (nws_measurement_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk18
+      FOREIGN KEY (buildout_id)
+      REFERENCES buildout (buildout_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk19
+      FOREIGN KEY (top_opening_width_id)
+      REFERENCES top_opening_width (top_opening_width_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk20
+      FOREIGN KEY (bottom_opening_width_id)
+      REFERENCES bottom_opening_width (bottom_opening_width_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk21
+      FOREIGN KEY (left_opening_height_id)
+      REFERENCES left_opening_height (left_opening_height_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk22
+      FOREIGN KEY (right_opening_height_id)
+      REFERENCES right_opening_height (right_opening_height_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk23
+      FOREIGN KEY (top_level_id)
+      REFERENCES top_level (top_level_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk24
+      FOREIGN KEY (bottom_level_id)
+      REFERENCES bottom_level (bottom_level_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk25
+      FOREIGN KEY (left_plumb_id)
+      REFERENCES left_plumb (left_plumb_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk26
+      FOREIGN KEY (right_plumb_id)
+      REFERENCES right_plumb (right_plumb_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk27
+      FOREIGN KEY (starting_point_id)
+      REFERENCES starting_point (starting_point_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk28
+      FOREIGN KEY (mount_type_id)
+      REFERENCES mount_type (mount_type_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk29
+      FOREIGN KEY (top_adapter_width_id)
+      REFERENCES top_adapter (top_adapter_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk30
+      FOREIGN KEY (bottom_adapter_width_id)
+      REFERENCES bottom_adapter (bottom_adapter_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk31
+      FOREIGN KEY (unit_height_id)
+      REFERENCES handle_color (handle_color_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk32
+      FOREIGN KEY (pivot_pro_height_id)
+      REFERENCES pivot_pro_height (pivot_pro_height_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk33
+      FOREIGN KEY (add_buildout_id)
+      REFERENCES add_buildout (add_buildout_id)
       ON DELETE CASCADE
       ON UPDATE CASCADE
   );
