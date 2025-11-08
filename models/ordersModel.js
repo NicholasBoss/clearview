@@ -107,6 +107,38 @@ async function getColorsByProduct(product_name) {
     }
 }
 
+async function getColors() {
+    try {
+        const sql = `
+            SELECT DISTINCT c.color_id, c.color_name 
+            FROM color c
+            INNER JOIN product_color pc ON c.color_id = pc.color_id
+            ORDER BY c.color_name;
+        `
+        const colors = await pool.query(sql)
+        return colors.rows
+    } catch (error) {
+        return error.message
+    }
+}
+
+async function getColorsByProduct(product_name) {
+    try {
+        const sql = `
+            SELECT c.color_id, c.color_name 
+            FROM color c
+            INNER JOIN product_color pc ON c.color_id = pc.color_id
+            INNER JOIN product p ON pc.product_id = p.product_id
+            WHERE p.product_name = $1
+            ORDER BY c.color_name;
+        `
+        const colors = await pool.query(sql, [product_name])
+        return colors.rows
+    } catch (error) {
+        return error.message
+    }
+}
+
 async function createMirage3500Order(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type, mirage_3500_handle) {
     try {
         // Select existing mirage_3500 record by handle
@@ -725,15 +757,7 @@ async function saveMirage3500Data(formData) {
 
         console.log('All measurements processed successfully')
 
-        // TODO: The customization table currently only has basic columns
-        // Coordinate with database person about adding columns for:
-        // - dimension IDs (top_opening_width_id, bottom_opening_width_id, etc.)
-        // - adapter IDs (top_adapter_id, bottom_adapter_id)
-        // - buildout IDs (left_buildout_id, right_buildout_id)
-        // - level/plumb IDs, pricing fields, mohair settings, etc.
-
-        // For now, we'll need to determine what measurement_id to use
-        // Using the top_opening_width fraction as the primary measurement for now
+        // Get primary measurement_id for the form
         const primaryMeasurementId = await getMeasurementId(formData.top_opening_width_fraction) || 1
 
         // Get product_mesh_id
@@ -760,8 +784,18 @@ async function saveMirage3500Data(formData) {
         const frameSizeResult = await pool.query(defaultFrameSizeSql)
         const frameSizeId = frameSizeResult.rows[0]?.frame_size_id || 1
 
-        // 18. INSERT into customization table with is_estimate=true
-        // Using only the columns that currently exist in the schema
+        // TODO: The following form fields have no corresponding columns in customization table:
+        // - handle_color, top_adapter_color, btm_adapter_color
+        // - top_adapter, btm_adapter (as separate IDs from widths)
+        // - right_build_out, left_build_out (buildout_id exists but not separate left/right)
+        // - mohair, mohair_position, mohair_size
+        // - bumper_pads, silicone_spray
+        // - wholesale_price, markup_multiplier, retail_price
+        // - custom_addons, pia_obstacles_helper
+        // - is_sold, date_sold, qc_tech_date
+        // NOTE: is_estimate and is_confirmed moved to order_customization table
+
+        // 18. INSERT into customization table
         const customizationSql = `
             INSERT INTO customization (
                 product_id,
@@ -772,22 +806,57 @@ async function saveMirage3500Data(formData) {
                 mesh_id,
                 product_mesh_id,
                 mirage_3500_id,
-                is_estimate,
-                is_confirmed
+                top_opening_width_id,
+                middle_opening_width_id,
+                bottom_opening_width_id,
+                left_opening_height_id,
+                middle_opening_height_id,
+                right_opening_height_id,
+                top_level_id,
+                bottom_level_id,
+                left_plumb_id,
+                right_plumb_id,
+                starting_point_id,
+                mount_type_id,
+                top_adapter_width_id,
+                bottom_adapter_width_id,
+                unit_height_id,
+                pivot_pro_height_id,
+                add_buildout_id
             ) VALUES (
-                $1, $2, $3, $4, $5, $6, $7, $8, true, false
+                $1, $2, $3, $4, $5, $6, $7, $8,
+                $9, $10, $11, $12, $13, $14,
+                $15, $16, $17, $18, $19, $20,
+                $21, $22, $23, $24, $25
             ) RETURNING customization_id
         `
 
         const customizationResult = await pool.query(customizationSql, [
-            productId,           // $1
-            primaryMeasurementId,// $2
-            frameSizeId,         // $3
-            fastenerId,          // $4
-            colorId,             // $5
-            meshId,              // $6
-            productMeshId,       // $7
-            mirage3500Id         // $8
+            productId,                  // $1
+            primaryMeasurementId,       // $2
+            frameSizeId,                // $3
+            fastenerId,                 // $4
+            colorId,                    // $5
+            meshId,                     // $6
+            productMeshId,              // $7
+            mirage3500Id,               // $8
+            topOpeningWidthId,          // $9
+            middleOpeningWidth ? await getOrInsert('middle_opening_width', 'middle_opening_width_name', middleOpeningWidth, 'middle_opening_width_id') : null,  // $10
+            bottomOpeningWidthId,       // $11
+            leftOpeningHeightId,        // $12
+            middleOpeningHeight ? await getOrInsert('middle_opening_height', 'middle_opening_height_name', middleOpeningHeight, 'middle_opening_height_id') : null,  // $13
+            rightOpeningHeightId,       // $14
+            topLevelId,                 // $15
+            bottomLevelId,              // $16
+            leftPlumbId,                // $17
+            rightPlumbId,               // $18
+            startingPointId,            // $19
+            formData.mount ? await getOrInsert('mount_type', 'mount_type_name', formData.mount, 'mount_type_id') : null,  // $20
+            topAdapterWidth ? await getOrInsert('top_adapter', 'top_adapter_name', topAdapterWidth, 'top_adapter_id') : null,  // $21 - NOTE: Storing width value in adapter table
+            btmAdapterWidth ? await getOrInsert('bottom_adapter', 'bottom_adapter_name', btmAdapterWidth, 'bottom_adapter_id') : null,  // $22 - NOTE: Storing width value in adapter table
+            unitHeight ? await getOrInsert('unit_height', 'unit_height_name', unitHeight, 'unit_height_id') : null,  // $23
+            pivotProHeight ? await getOrInsert('pivot_pro_height', 'pivot_pro_height_name', pivotProHeight, 'pivot_pro_height_id') : null,  // $24
+            buildOutDimension ? await getOrInsert('add_buildout', 'add_buildout_name', buildOutDimension, 'add_buildout_id') : null  // $25
         ])
 
         const customizationId = customizationResult.rows[0].customization_id
@@ -804,23 +873,25 @@ async function saveMirage3500Data(formData) {
     }
 }
 
-// Function to confirm Mirage 3500 order (update is_confirmed flag)
+// Function to confirm Mirage 3500 order
 async function confirmMirage3500Order(customizationId) {
     try {
-        const sql = `
-            UPDATE customization
-            SET is_confirmed = true, is_estimate = false
-            WHERE customization_id = $1
-            RETURNING customization_id
-        `
-        const result = await pool.query(sql, [customizationId])
+        // TODO: Implement order_customization workflow
+        // The new schema has is_estimate and is_confirmed in order_customization table
+        // We need to:
+        // 1. Create an order entry (or get existing order_id)
+        // 2. Create/Update order_customization entry with is_confirmed=true, is_estimate=false
+
+        // For now, just verify the customization exists
+        const checkSql = 'SELECT customization_id FROM customization WHERE customization_id = $1'
+        const result = await pool.query(checkSql, [customizationId])
 
         if (result.rows.length === 0) {
             throw new Error('Order not found')
         }
 
         console.log('Order confirmed with customization_id:', customizationId)
-        return result.rows[0]
+        return { customization_id: customizationId }
     } catch (error) {
         console.error('Error in confirmMirage3500Order:', error)
         throw error

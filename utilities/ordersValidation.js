@@ -282,54 +282,47 @@ validate.mirage3500Rules = () => {
         .isIn(['.2', '.25', '.3', '.35'])
         .withMessage("Invalid mohair size selected."),
 
-        // Bumper Pads - required
+        // Bumper Pads - optional (not used yet)
         body("bumper_pads")
-        .notEmpty()
-        .withMessage("Bumper Pads is required.")
+        .optional({ checkFalsy: true })
         .trim()
         .escape(),
 
-        // Silicone Spray - required
+        // Silicone Spray - optional (not used yet)
         body("silicone_spray")
-        .notEmpty()
-        .withMessage("Silicone Spray is required.")
+        .optional({ checkFalsy: true })
         .trim()
         .escape(),
 
-        // Wholesale Price - required numeric
+        // Wholesale Price - optional (not used yet)
         body("wholesale_price")
-        .notEmpty()
-        .withMessage("Wholesale Price is required.")
+        .optional({ checkFalsy: true })
         .trim()
         .isNumeric()
         .withMessage("Wholesale Price must be a number."),
 
-        // Markup Multiplier - required
+        // Markup Multiplier - optional (not used yet)
         body("markup_multiplier")
-        .notEmpty()
-        .withMessage("Markup Multiplier is required.")
+        .optional({ checkFalsy: true })
         .isIn(['2', '1.9', '1.8'])
         .withMessage("Invalid markup multiplier selected."),
 
-        // Retail Price - required numeric
+        // Retail Price - optional (not used yet)
         body("retail_price")
-        .notEmpty()
-        .withMessage("Retail Price is required.")
+        .optional({ checkFalsy: true })
         .trim()
         .isNumeric()
         .withMessage("Retail Price must be a number."),
 
-        // Custom Add-ons - required
+        // Custom Add-ons - optional (not used yet)
         body("custom_addons")
-        .notEmpty()
-        .withMessage("Custom Add-ons is required.")
+        .optional({ checkFalsy: true })
         .trim()
         .escape(),
 
-        // PIA Obstacles Helper - required
+        // PIA Obstacles Helper - optional (not used yet)
         body("pia_obstacles_helper")
-        .notEmpty()
-        .withMessage("PIA Obstacles Helper is required.")
+        .optional({ checkFalsy: true })
         .trim()
         .escape(),
 
@@ -339,10 +332,9 @@ validate.mirage3500Rules = () => {
         .isISO8601()
         .withMessage("Invalid date format."),
 
-        // QC Tech Date - required
+        // QC Tech Date - optional (not used yet)
         body("qc_tech_date")
-        .notEmpty()
-        .withMessage("QC Tech Date is required.")
+        .optional({ checkFalsy: true })
         .trim()
         .escape()
     ]
