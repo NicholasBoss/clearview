@@ -1,9 +1,67 @@
-<h1>Account</h1>
+<div class="account-container">
+    <h1>My Account</h1>
 
-<h2 id="workOrders">WORK ORDERS</h2>
-<ul class="navigation">
-    <li><a href="/orders/create">Create</a></li>
-    <li><a href="/orders/delete">Delete</a></li>
-    <li><a href="/orders/read">Read</a></li>
-    <li><a href="/orders/update">Update</a></li>
-</ul>
+    <div class="account-actions">
+        <a href="/orders/create" class="btn-primary">Create New Order</a>
+    </div>
+
+    <h2>My Orders</h2>
+
+    <% if (orders && orders.length > 0) { %>
+        <div class="orders-table-container">
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Details</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% orders.forEach(order => { %>
+                        <tr>
+                            <td class="product-name"><%= order.product_name %></td>
+                            <td class="order-details">
+                                <% if (order.mirage_3500_handle) { %>
+                                    Handle: <%= order.mirage_3500_handle %>
+                                <% } else if (order.mirage_build_out) { %>
+                                    Build Out: <%= order.mirage_build_out %>
+                                <% } else { %>
+                                    Order #<%= order.customization_id %>
+                                <% } %>
+                            </td>
+                            <td class="order-status">
+                                <% if (order.is_cancelled) { %>
+                                    <span class="status-badge status-cancelled">Cancelled</span>
+                                <% } else if (order.is_completed) { %>
+                                    <span class="status-badge status-completed">Completed</span>
+                                <% } else if (order.is_confirmed) { %>
+                                    <span class="status-badge status-confirmed">Confirmed</span>
+                                <% } else if (order.is_estimate) { %>
+                                    <span class="status-badge status-estimate">Needs Confirmation</span>
+                                <% } else { %>
+                                    <span class="status-badge status-pending">Pending</span>
+                                <% } %>
+                            </td>
+                            <td class="order-actions">
+                                <% if (order.is_estimate && !order.is_confirmed) { %>
+                                    <a href="/orders/confirmMirage3500" class="btn-action btn-confirm">Confirm</a>
+                                <% } %>
+                                <a href="/orders/viewMirage3500/<%= order.customization_id %>" class="btn-action btn-view">View Details</a>
+                                <% if (order.is_confirmed && !order.is_completed) { %>
+                                    <button class="btn-action btn-complete">Complete Order</button>
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    <% } else { %>
+        <div class="no-orders">
+            <p>You don't have any orders yet.</p>
+            <p><a href="/orders/create">Create your first order</a></p>
+        </div>
+    <% } %>
+</div>

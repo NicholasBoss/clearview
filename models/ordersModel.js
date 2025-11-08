@@ -75,70 +75,6 @@ async function getColorsByProduct(product_name) {
     }
 }
 
-async function getColors() {
-    try {
-        const sql = `
-            SELECT DISTINCT c.color_id, c.color_name 
-            FROM color c
-            INNER JOIN product_color pc ON c.color_id = pc.color_id
-            ORDER BY c.color_name;
-        `
-        const colors = await pool.query(sql)
-        return colors.rows
-    } catch (error) {
-        return error.message
-    }
-}
-
-async function getColorsByProduct(product_name) {
-    try {
-        const sql = `
-            SELECT c.color_id, c.color_name 
-            FROM color c
-            INNER JOIN product_color pc ON c.color_id = pc.color_id
-            INNER JOIN product p ON pc.product_id = p.product_id
-            WHERE p.product_name = $1
-            ORDER BY c.color_name;
-        `
-        const colors = await pool.query(sql, [product_name])
-        return colors.rows
-    } catch (error) {
-        return error.message
-    }
-}
-
-async function getColors() {
-    try {
-        const sql = `
-            SELECT DISTINCT c.color_id, c.color_name 
-            FROM color c
-            INNER JOIN product_color pc ON c.color_id = pc.color_id
-            ORDER BY c.color_name;
-        `
-        const colors = await pool.query(sql)
-        return colors.rows
-    } catch (error) {
-        return error.message
-    }
-}
-
-async function getColorsByProduct(product_name) {
-    try {
-        const sql = `
-            SELECT c.color_id, c.color_name 
-            FROM color c
-            INNER JOIN product_color pc ON c.color_id = pc.color_id
-            INNER JOIN product p ON pc.product_id = p.product_id
-            WHERE p.product_name = $1
-            ORDER BY c.color_name;
-        `
-        const colors = await pool.query(sql, [product_name])
-        return colors.rows
-    } catch (error) {
-        return error.message
-    }
-}
-
 async function createMirage3500Order(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type, mirage_3500_handle) {
     try {
         // Select existing mirage_3500 record by handle
@@ -416,18 +352,34 @@ async function deleteOrder(customization_id){
 
 async function getOrdersByAccountId(account_id){
     try {
-        const sql = `SELECT c.customization_id, c.product_id, p.product_name, c.is_estimate, c.is_confirmed,
-                     m3.mirage_3500_handle, m.mirage_build_out
-                     FROM customization c
-                     JOIN product p ON c.product_id = p.product_id
-                     LEFT JOIN mirage_3500 m3 ON c.mirage_3500_id = m3.mirage_3500_id
-                     LEFT JOIN mirage m ON c.mirage_id = m.mirage_id
-                     WHERE c.account_id = $1
-                     ORDER BY c.customization_id DESC`
-        const result = await pool.query(sql, [account_id])
+        // TODO: customization table needs account_id column to link orders to users
+        // For now, this will return all customizations (not filtered by account)
+        // Database person needs to add: ALTER TABLE customization ADD COLUMN account_id INTEGER REFERENCES account(account_id);
+
+        const sql = `
+            SELECT
+                c.customization_id,
+                c.product_id,
+                p.product_name,
+                oc.is_estimate,
+                oc.is_confirmed,
+                oc.is_completed,
+                oc.is_cancelled,
+                oc.order_id,
+                m3.mirage_3500_handle,
+                m.mirage_build_out
+            FROM customization c
+            JOIN product p ON c.product_id = p.product_id
+            LEFT JOIN order_customization oc ON c.customization_id = oc.customization_id
+            LEFT JOIN mirage_3500 m3 ON c.mirage_3500_id = m3.mirage_3500_id
+            LEFT JOIN mirage m ON c.mirage_id = m.mirage_id
+            ORDER BY c.customization_id DESC
+        `
+        const result = await pool.query(sql)
         return result.rows
     } catch (error) {
-        return error.message
+        console.error('Error in getOrdersByAccountId:', error)
+        return []
     }
 }
 
@@ -453,17 +405,6 @@ async function getMeasurements() {
         return result.rows
     } catch (error) {
         return error.message
-    }
-}
-
-async function getColors() {
-    try {
-        const sql = 'SELECT DISTINCT color_name FROM color ORDER BY color_name'
-        const result = await pool.query(sql)
-        return result.rows
-    } catch (error) {
-        console.error('Error getting colors:', error)
-        return []
     }
 }
 
@@ -783,17 +724,6 @@ async function saveMirage3500Data(formData) {
         const defaultFrameSizeSql = 'SELECT frame_size_id FROM frame_size LIMIT 1'
         const frameSizeResult = await pool.query(defaultFrameSizeSql)
         const frameSizeId = frameSizeResult.rows[0]?.frame_size_id || 1
-
-        // TODO: The following form fields have no corresponding columns in customization table:
-        // - handle_color, top_adapter_color, btm_adapter_color
-        // - top_adapter, btm_adapter (as separate IDs from widths)
-        // - right_build_out, left_build_out (buildout_id exists but not separate left/right)
-        // - mohair, mohair_position, mohair_size
-        // - bumper_pads, silicone_spray
-        // - wholesale_price, markup_multiplier, retail_price
-        // - custom_addons, pia_obstacles_helper
-        // - is_sold, date_sold, qc_tech_date
-        // NOTE: is_estimate and is_confirmed moved to order_customization table
 
         // 18. INSERT into customization table
         const customizationSql = `

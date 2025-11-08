@@ -248,6 +248,47 @@ ordersController.buildConfirmNWS = async function(req, res){
     })
 }
 
+ordersController.buildViewMirage3500 = async function(req, res){
+    try {
+        const customizationId = req.params.id
+        const orderData = await ordersModel.getOrderById(customizationId)
+
+        if (!orderData) {
+            req.flash('error', 'Order not found')
+            return res.redirect('/account')
+        }
+
+        // Get all dropdown options
+        const fractions = await ordersModel.getMeasurements()
+        const colors = await ordersModel.getColors()
+        const handles = await ordersModel.getHandles()
+        const topAdapters = await ordersModel.getTopAdapters()
+        const bottomAdapters = await ordersModel.getBottomAdapters()
+        const rightBuildouts = await ordersModel.getRightBuildouts()
+        const leftBuildouts = await ordersModel.getLeftBuildouts()
+        const meshTypes = await ordersModel.getMeshTypes()
+
+        res.render('account/viewMirage3500', {
+            title: 'View Mirage 3500 Order',
+            link: 'account/viewMirage3500',
+            errors: null,
+            orderData: orderData,
+            fractions: fractions || [],
+            colors: colors || [],
+            handles: handles || [],
+            topAdapters: topAdapters || [],
+            bottomAdapters: bottomAdapters || [],
+            rightBuildouts: rightBuildouts || [],
+            leftBuildouts: leftBuildouts || [],
+            meshTypes: meshTypes || []
+        })
+    } catch (error) {
+        console.error('Error loading order:', error)
+        req.flash('error', 'Failed to load order details')
+        res.redirect('/account')
+    }
+}
+
 
 
 module.exports = ordersController

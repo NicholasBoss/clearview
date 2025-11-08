@@ -73,3 +73,15 @@ NEXT ON THE AGENDA
 - fix localstorage issue where going back to create page removes all the data
 - once the forms are in order, change it so that the create form inserts rather than the confirm form 
 - start on the account page
+
+
+TO DO:
+
+- start getting the customer information and add a customer input to the mirage3500 forms
+- add hidden elements for sold and date sold on the forms 
+- configure the orders to be filtered by customers
+- incorporate customers into the forms and account page
+
+INFO: 
+
+- the account_id is connected to the customization table but it is connected using JOINS 

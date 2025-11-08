@@ -23,113 +23,111 @@
 
 <div class="confirmation-notice">
     <h2>Review Your Order</h2>
-    <p>Please review the information below. If everything is correct, click "Confirm Order" to submit.</p>
-    <p class="confirmation-note">Note: All fields were required during creation.</p>
 </div>
 
 <form id="form" action="/orders/saveMirage3500" method="post">
     <div class="container">
         <label><b>Top Opening Width</b>
-            <input type="text" name="top_opening_width" id="top_opening_width" value="<%= formData.top_opening_width || '' %>" readonly>
+            <input type="text" name="top_opening_width" id="top_opening_width" value="<% orderData.top_opening_width || '' %>" readonly>
         </label><br>
         <label><b>Top Opening Width Fraction</b>
             <select name="top_opening_width_fraction" id="top_opening_width_fraction" disabled>
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction.measurement_name %>" <%= formData.top_opening_width_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                    <option value="<%= fraction.measurement_name %>" <% orderData.top_opening_width_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
         </label><br>
 
         <label><b>Middle Opening Width</b>
-            <input type="text" name="middle_opening_width" id="middle_opening_width" value="<%= formData.middle_opening_width || '' %>" readonly>
+            <input type="text" name="middle_opening_width" id="middle_opening_width" value="<% orderData.middle_opening_width || '' %>" readonly>
         </label><br>
         <label><b>Middle Opening Width Fraction</b>
             <select name="middle_opening_width_fraction" id="middle_opening_width_fraction" disabled>
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction.measurement_name %>" <%= formData.middle_opening_width_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                    <option value="<%= fraction.measurement_name %>" <% orderData.middle_opening_width_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
         </label><br>
 
         <label><b>Bottom Opening Width</b>
-            <input type="text" name="bottom_opening_width" id="bottom_opening_width" value="<%= formData.bottom_opening_width || '' %>" readonly>
+            <input type="text" name="bottom_opening_width" id="bottom_opening_width" value="<% orderData.bottom_opening_width || '' %>" readonly>
         </label><br>
         <label><b>Bottom Opening Width Fraction</b>
             <select name="bottom_opening_width_fraction" id="bottom_opening_width_fraction" disabled>
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction.measurement_name %>" <%= formData.bottom_opening_width_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                    <option value="<%= fraction.measurement_name %>" <% orderData.bottom_opening_width_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
         </label><br>
 
         <label><b>Left Opening Height</b>
-            <input type="text" name="left_opening_height" id="left_opening_height" value="<%= formData.left_opening_height || '' %>" readonly>
+            <input type="text" name="left_opening_height" id="left_opening_height" value="<% orderData.left_opening_height || '' %>" readonly>
         </label><br>
         <label><b>Left Opening Height Fraction</b>
             <select name="left_opening_height_fraction" id="left_opening_height_fraction" disabled>
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction.measurement_name %>" <%= formData.left_opening_height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                    <option value="<%= fraction.measurement_name %>" <% orderData.left_opening_height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
         </label><br>
 
         <label><b>Middle Opening Height</b>
-            <input type="text" name="middle_opening_height" id="middle_opening_height" value="<%= formData.middle_opening_height || '' %>" readonly>
+            <input type="text" name="middle_opening_height" id="middle_opening_height" value="<% orderData.middle_opening_height || '' %>" readonly>
         </label><br>
         <label><b>Middle Opening Height Fraction</b>
             <select name="middle_opening_height_fraction" id="middle_opening_height_fraction" disabled>
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction.measurement_name %>" <%= formData.middle_opening_height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                    <option value="<%= fraction.measurement_name %>" <% orderData.middle_opening_height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
         </label><br>
 
         <label><b>Right Opening Height</b>
-            <input type="text" name="right_opening_height" id="right_opening_height" value="<%= formData.right_opening_height || '' %>" readonly>
+            <input type="text" name="right_opening_height" id="right_opening_height" value="<% orderData.right_opening_height || '' %>" readonly>
         </label><br>
         <label><b>Right Opening Height Fraction</b>
             <select name="right_opening_height_fraction" id="right_opening_height_fraction" disabled>
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction.measurement_name %>" <%= formData.right_opening_height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                    <option value="<%= fraction.measurement_name %>" <% orderData.right_opening_height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
         </label><br>
 
         <label><b>Top Level</b>
-            <input type="text" name="top_level" id="top_level" value="<%= formData.top_level || '' %>" readonly>
+            <input type="text" name="top_level" id="top_level" value="<% orderData.top_level || '' %>" readonly>
         </label><br>
 
         <label><b>Bottom Level</b>
-            <input type="text" name="bottom_level" id="bottom_level" value="<%= formData.bottom_level || '' %>" readonly>
+            <input type="text" name="bottom_level" id="bottom_level" value="<% orderData.bottom_level || '' %>" readonly>
         </label><br>
 
         <label><b>Left Plumb</b>
-            <input type="text" name="left_plumb" id="left_plumb" value="<%= formData.left_plumb || '' %>" readonly>
+            <input type="text" name="left_plumb" id="left_plumb" value="<% orderData.left_plumb || '' %>" readonly>
         </label><br>
 
         <label><b>Right Plumb</b>
-            <input type="text" name="right_plumb" id="right_plumb" value="<%= formData.right_plumb || '' %>" readonly>
+            <input type="text" name="right_plumb" id="right_plumb" value="<% orderData.right_plumb || '' %>" readonly>
         </label><br>
 
         <label><b>Starting Point</b>
-            <input type="text" name="starting_point" id="starting_point" value="<%= formData.starting_point || '' %>" readonly>
+            <input type="text" name="starting_point" id="starting_point" value="<% orderData.starting_point || '' %>" readonly>
         </label><br>
 
         <label><b>Mount</b>
-            <input type="text" name="mount" id="mount" value="<%= formData.mount || '' %>" readonly>
+            <input type="text" name="mount" id="mount" value="<% orderData.mount || '' %>" readonly>
         </label><br>
 
         <label><b>Color</b>
             <select  name="color_name" id="color" disabled>
                 <option value="">Select</option>
                 <% colors.forEach(color => { %>
-                    <option value="<%= color.color_name %>" <%= formData.color_name === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
+                    <option value="<%= color.color_name %>" <% orderData.color_name === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
                 <% }) %>
             </select>
         </label><br>
@@ -138,7 +136,7 @@
             <select  name="handle" id="handle" disabled>
                 <option value="">Select</option>
                 <% handles.forEach(handle => { %>
-                    <option value="<%= handle.mirage_3500_handle %>" <%= formData.handle === handle.mirage_3500_handle ? 'selected' : '' %>><%= handle.mirage_3500_handle %></option>
+                    <option value="<%= handle.mirage_3500_handle %>" <% orderData.handle === handle.mirage_3500_handle ? 'selected' : '' %>><%= handle.mirage_3500_handle %></option>
                 <% }) %>
             </select>
         </label><br>
@@ -147,7 +145,7 @@
             <select  maxlength="10" name="handle_color" id="handle_color" disabled>
                 <option value="">Select</option>
                 <% colors.forEach(color => { %>
-                    <option value="<%= color.color_name %>" <%= formData.handle_color === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
+                    <option value="<%= color.color_name %>" <% orderData.handle_color === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
                 <% }) %>
             </select>
         </label><br>
@@ -156,7 +154,7 @@
             <select name="top_adapter" id="top_adapter" disabled>
                 <option value="">Select</option>
                 <% topAdapters.forEach(adapter => { %>
-                    <option value="<%= adapter.top_adapter_name %>" <%= formData.top_adapter === adapter.top_adapter_name ? 'selected' : '' %>><%= adapter.top_adapter_name %></option>
+                    <option value="<%= adapter.top_adapter_name %>" <% orderData.top_adapter === adapter.top_adapter_name ? 'selected' : '' %>><%= adapter.top_adapter_name %></option>
                 <% }) %>
             </select>
         </label><br>
@@ -165,43 +163,43 @@
             <select name="top_adapter_color" id="top_adapter_color" disabled>
                 <option value="">Select</option>
                 <% colors.forEach(color => { %>
-                    <option value="<%= color.color_name %>" <%= formData.top_adapter_color === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
+                    <option value="<%= color.color_name %>" <% orderData.top_adapter_color === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
                 <% }) %>
             </select>
         </label><br>
 
          <label><b>Top Adapter Width</b>
-            <input type="text" name="top_adapter_width" id="top_adapter_width" value="<%= formData.top_adapter_width || '' %>" readonly>
+            <input type="text" name="top_adapter_width" id="top_adapter_width" value="<% orderData.top_adapter_width || '' %>" readonly>
         </label><br>
         <label><b>Top Adapter Width Fraction</b>
             <select name="top_adapter_width_fraction" id="top_adapter_width_fraction" disabled>
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction.measurement_name %>" <%= formData.top_adapter_width_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                    <option value="<%= fraction.measurement_name %>" <% orderData.top_adapter_width_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
         </label><br>
 
         <label><b>Unit Height</b>
-            <input type="text" name="unit_height" id="unit_height" value="<%= formData.unit_height || '' %>" readonly>
+            <input type="text" name="unit_height" id="unit_height" value="<% orderData.unit_height || '' %>" readonly>
         </label><br>
         <label><b>Unit Height Fraction</b>
             <select name="unit_height_fraction" id="unit_height_fraction" disabled>
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction.measurement_name %>" <%= formData.unit_height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                    <option value="<%= fraction.measurement_name %>" <% orderData.unit_height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
         </label><br>
 
         <label><b>Pivot Pro Height</b>
-            <input type="text" name="pivot_pro_height" id="pivot_pro_height" value="<%= formData.pivot_pro_height || '' %>" readonly>
+            <input type="text" name="pivot_pro_height" id="pivot_pro_height" value="<% orderData.pivot_pro_height || '' %>" readonly>
         </label><br>
         <label><b>Pivot Pro Height Fraction</b>
             <select name="pivot_pro_height_fraction" id="pivot_pro_height_fraction" disabled>
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction.measurement_name %>" <%= formData.pivot_pro_height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                    <option value="<%= fraction.measurement_name %>" <% orderData.pivot_pro_height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
         </label><br>
@@ -210,7 +208,7 @@
             <select name="btm_adapter" id="btm_adapter" disabled>
                 <option value="">Select</option>
                 <% bottomAdapters.forEach(adapter => { %>
-                    <option value="<%= adapter.bottom_adapter_name %>" <%= formData.btm_adapter === adapter.bottom_adapter_name ? 'selected' : '' %>><%= adapter.bottom_adapter_name %></option>
+                    <option value="<%= adapter.bottom_adapter_name %>" <% orderData.btm_adapter === adapter.bottom_adapter_name ? 'selected' : '' %>><%= adapter.bottom_adapter_name %></option>
                 <% }) %>
             </select>
         </label><br>
@@ -219,19 +217,19 @@
             <select name="btm_adapter_color" id="btm_adapter_color" disabled>
                 <option value="">Select</option>
                 <% colors.forEach(color => { %>
-                    <option value="<%= color.color_name %>" <%= formData.btm_adapter_color === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
+                    <option value="<%= color.color_name %>" <% orderData.btm_adapter_color === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
                 <% }) %>
             </select>
         </label><br>
 
         <label><b>Bottom Adapter Width</b>
-            <input type="text" name="btm_adapter_width" id="btm_adapter_width" value="<%= formData.btm_adapter_width || '' %>" readonly>
+            <input type="text" name="btm_adapter_width" id="btm_adapter_width" value="<% orderData.btm_adapter_width || '' %>" readonly>
         </label><br>
         <label><b>Bottom Adapter Width Fraction</b>
             <select name="btm_adapter_width_fraction" id="btm_adapter_width_fraction" disabled>
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction.measurement_name %>" <%= formData.btm_adapter_width_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                    <option value="<%= fraction.measurement_name %>" <% orderData.btm_adapter_width_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
         </label><br>
@@ -240,7 +238,7 @@
             <select name="right_build_out" id="right_build_out" disabled>
                 <option value="">Select</option>
                 <% rightBuildouts.forEach(buildout => { %>
-                    <option value="<%= buildout.right_buildout_name %>" <%= formData.right_build_out === buildout.right_buildout_name ? 'selected' : '' %>><%= buildout.right_buildout_name %></option>
+                    <option value="<%= buildout.right_buildout_name %>" <% orderData.right_build_out === buildout.right_buildout_name ? 'selected' : '' %>><%= buildout.right_buildout_name %></option>
                 <% }) %>
             </select>
         </label><br>
@@ -249,19 +247,19 @@
             <select name="left_build_out" id="left_build_out" disabled>
                 <option value="">Select</option>
                 <% leftBuildouts.forEach(buildout => { %>
-                    <option value="<%= buildout.left_buildout_name %>" <%= formData.left_build_out === buildout.left_buildout_name ? 'selected' : '' %>><%= buildout.left_buildout_name %></option>
+                    <option value="<%= buildout.left_buildout_name %>" <% orderData.left_build_out === buildout.left_buildout_name ? 'selected' : '' %>><%= buildout.left_buildout_name %></option>
                 <% }) %>
             </select>
         </label><br>
 
          <label><b>Build Out Dimension</b>
-            <input type="text" name="build_out_dimension" id="build_out_dimension" value="<%= formData.build_out_dimension || '' %>" readonly>
+            <input type="text" name="build_out_dimension" id="build_out_dimension" value="<% orderData.build_out_dimension || '' %>" readonly>
         </label><br>
         <label><b>Build Out Dimension Fraction</b>
             <select name="build_out_dimension_fraction" id="build_out_dimension_fraction" disabled>
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction.measurement_name %>" <%= formData.build_out_dimension_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                    <option value="<%= fraction.measurement_name %>" <% orderData.build_out_dimension_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
         </label><br>
@@ -270,7 +268,7 @@
             <select name="mesh" id="mesh" disabled>
                 <option value="">Select</option>
                 <% meshTypes.forEach(mesh => { %>
-                    <option value="<%= mesh.mesh_type %>" <%= formData.mesh === mesh.mesh_type ? 'selected' : '' %>><%= mesh.mesh_type %></option>
+                    <option value="<%= mesh.mesh_type %>" <% orderData.mesh === mesh.mesh_type ? 'selected' : '' %>><%= mesh.mesh_type %></option>
                 <% }) %>
             </select>
         </label><br>
@@ -278,80 +276,80 @@
         <label><b>Mohair</b>
             <select name="mohair" id="mohair" disabled>
                 <option value="">Select</option>
-                <option value=".200 MoHair X.187" <%= formData.mohair === '.200 MoHair X.187' ? 'selected' : '' %>>.200 MoHair X.187</option>
-                <option value=".250 MoHair X.187" <%= formData.mohair === '.250 MoHair X.187' ? 'selected' : '' %>>.250 MoHair X.187</option>
-                <option value=".300 MoHair X.187" <%= formData.mohair === '.300 MoHair X.187' ? 'selected' : '' %>>.300 MoHair X.187</option>
-                <option value=".350 MoHair X.187" <%= formData.mohair === '.350 MoHair X.187' ? 'selected' : '' %>>.350 MoHair X.187</option>
+                <option value=".200 MoHair X.187" <% orderData.mohair === '.200 MoHair X.187' ? 'selected' : '' %>>.200 MoHair X.187</option>
+                <option value=".250 MoHair X.187" <% orderData.mohair === '.250 MoHair X.187' ? 'selected' : '' %>>.250 MoHair X.187</option>
+                <option value=".300 MoHair X.187" <% orderData.mohair === '.300 MoHair X.187' ? 'selected' : '' %>>.300 MoHair X.187</option>
+                <option value=".350 MoHair X.187" <% orderData.mohair === '.350 MoHair X.187' ? 'selected' : '' %>>.350 MoHair X.187</option>
             </select>
         </label><br>
 
         <label><b>Mohair Position</b>
             <select name="mohair_position" id="mohair_position" disabled>
                 <option value="">Select</option>
-                <option value="Edge" <%= formData.mohair_position === 'Edge' ? 'selected' : '' %>>Edge</option>
-                <option value="Inside" <%= formData.mohair_position === 'Inside' ? 'selected' : '' %>>Inside</option>
+                <option value="Edge" <% orderData.mohair_position === 'Edge' ? 'selected' : '' %>>Edge</option>
+                <option value="Inside" <% orderData.mohair_position === 'Inside' ? 'selected' : '' %>>Inside</option>
             </select>
         </label><br>
 
         <label><b>Mohair Size</b>
             <select name="mohair_size" id="mohair_size" disabled>
                 <option value="">Select</option>
-                <option value=".2" <%= formData.mohair_size === '.2' ? 'selected' : '' %>>.2</option>
-                <option value=".25" <%= formData.mohair_size === '.25' ? 'selected' : '' %>>.25</option>
-                <option value=".3" <%= formData.mohair_size === '.3' ? 'selected' : '' %>>.3</option>
-                <option value=".35" <%= formData.mohair_size === '.35' ? 'selected' : '' %>>.35</option>
+                <option value=".2" <% orderData.mohair_size === '.2' ? 'selected' : '' %>>.2</option>
+                <option value=".25" <% orderData.mohair_size === '.25' ? 'selected' : '' %>>.25</option>
+                <option value=".3" <% orderData.mohair_size === '.3' ? 'selected' : '' %>>.3</option>
+                <option value=".35" <% orderData.mohair_size === '.35' ? 'selected' : '' %>>.35</option>
             </select>
         </label><br>
 
-         <label><b>Bumper Pads</b>
-            <input type="text" name="bumper_pads" id="bumper_pads" value="<%= formData.bumper_pads || '' %>" readonly>
+         <!-- <label><b>Bumper Pads</b>
+            <input type="text" name="bumper_pads" id="bumper_pads" value="<%# orderData.bumper_pads || '' %>" readonly>
         </label><br>
 
         <label><b>Silicone Spray</b>
-            <input type="text" name="silicone_spray" id="silicone_spray" value="<%= formData.silicone_spray || '' %>" readonly>
+            <input type="text" name="silicone_spray" id="silicone_spray" value="<%# orderData.silicone_spray || '' %>" readonly>
         </label><br>
 
         <label><b>WholeSale Price</b>
-            <input type="text" name="wholesale_price" id="wholesale_price" value="<%= formData.wholesale_price || '' %>" readonly>
+            <input type="text" name="wholesale_price" id="wholesale_price" value="<%# orderData.wholesale_price || '' %>" readonly>
         </label><br>
 
         <label><b>Markup Mutliplier</b>
             <select name="markup_multiplier" id="markup_multiplier" disabled>
                 <option value="">Select</option>
-                <option value="2" <%= formData.markup_multiplier === '2' ? 'selected' : '' %>>2</option>
-                <option value="1.9" <%= formData.markup_multiplier === '1.9' ? 'selected' : '' %>>1.9</option>
-                <option value="1.8" <%= formData.markup_multiplier === '1.8' ? 'selected' : '' %>>1.8</option>
+                <option value="2" <%# orderData.markup_multiplier === '2' ? 'selected' : '' %>>2</option>
+                <option value="1.9" <%# orderData.markup_multiplier === '1.9' ? 'selected' : '' %>>1.9</option>
+                <option value="1.8" <%# orderData.markup_multiplier === '1.8' ? 'selected' : '' %>>1.8</option>
             </select>
         </label><br>
 
         <label><b>Retail Price</b>
-            <input type="text" name="retail_price" id="retail_price" value="<%= formData.retail_price || '' %>" readonly>
+            <input type="text" name="retail_price" id="retail_price" value="<%# orderData.retail_price || '' %>" readonly>
         </label><br>
 
         <label><b>Custom Add-ons</b>
-            <input type="text" name="custom_addons" id="custom_addons" value="<%= formData.custom_addons || '' %>" readonly>
+            <input type="text" name="custom_addons" id="custom_addons" value="<%# orderData.custom_addons || '' %>" readonly>
         </label><br>
 
         <label><b>PIA Obstacles Helper</b>
-            <input type="text" name="pia_obstacles_helper" id="pia_obstacles_helper" value="<%= formData.pia_obstacles_helper || '' %>" readonly>
+            <input type="text" name="pia_obstacles_helper" id="pia_obstacles_helper" value="<%# orderData.pia_obstacles_helper || '' %>" readonly>
         </label><br>
 
         <label><b>Sold</b>
-            <input type="checkbox" name="is_sold" id="is_sold" <%= formData.is_sold ? 'checked' : '' %> disabled>
+            <input type="checkbox" name="is_sold" id="is_sold" <%# orderData.is_sold ? 'checked' : '' %> disabled>
         </label><br>
 
         <label><b>Date Sold</b>
-            <input type="date" name="date_sold" id="date_sold" value="<%= formData.date_sold || '' %>" readonly>
+            <input type="date" name="date_sold" id="date_sold" value="<%# orderData.date_sold || '' %>" readonly>
         </label><br>
 
         <label><b>QC Tech and Date</b>
-            <input type="text" name="qc_tech_date" id="qc_tech_date" value="<%= formData.qc_tech_date || '' %>" readonly>
-        </label><br>
+            <input type="text" name="qc_tech_date" id="qc_tech_date" value="<%# orderData.qc_tech_date || '' %>" readonly>
+        </label><br> -->
 
-        <div class="confirmation-actions">
+        <!-- <div class="confirmation-actions">
             <button class="btn-confirm" type="submit">Confirm Order</button>
             <a href="/orders/createMirage3500" class="btn-back">Back to Edit</a>
-        </div>
+        </div> -->
 
     </div>
 </form>
