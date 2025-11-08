@@ -119,7 +119,8 @@ ordersController.buildCreateRainier = async function(req, res){
     res.render('orders/createRainier', {
         title: 'Create order',
         link: 'orders/createRainier',
-        errors: null
+        errors: null,
+        mount_types: ["hi"]
     })
 }
 ordersController.buildConfirmRainier = async function(req, res){
