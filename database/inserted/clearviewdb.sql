@@ -3,6 +3,7 @@
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS order_customization;
 DROP TABLE IF EXISTS customization;
+DROP TABLE IF EXISTS general_retract_control;
 DROP TABLE IF EXISTS middle_opening_height;
 DROP TABLE IF EXISTS middle_opening_width;
 DROP TABLE IF EXISTS unit_height;
@@ -59,7 +60,8 @@ DROP TABLE IF EXISTS product_color;
 DROP TABLE IF EXISTS color;
 DROP TABLE IF EXISTS mirage_3500;
 DROP TABLE IF EXISTS mirage;
-DROP TABLE IF EXISTS general_retract_control;
+DROP TABLE IF EXISTS mohair;
+DROP TABLE IF EXISTS mohair_position;
 -- DROP TABLE IF EXISTS account;
 -- DROP TYPE IF EXISTS account_type;
 DROP TABLE IF EXISTS product;
@@ -256,26 +258,21 @@ CREATE TABLE IF NOT EXISTS account
 -- );
 
 -- -----------------------------------------------------
--- Table general_retract_control
+-- Table mohair
 -- -----------------------------------------------------
-
-CREATE TABLE IF NOT EXISTS general_retract_control 
+CREATE TABLE IF NOT EXISTS mohair 
 (
-  general_retract_control_id SERIAL,
-  door_type CHARACTER VARYING NULL,
-  door_mount CHARACTER VARYING NULL,
-  opening_side CHARACTER VARYING NULL,
-  measurement_id INTEGER NOT NULL,
-  mesh_id INTEGER NOT NULL,
-  mohair_id INTEGER NOT NULL,
-  mohair_position CHARACTER VARYING NULL,
-  top_adapter_id INTEGER NOT NULL,
-  buildout_id INTEGER NOT NULL,
-  bottom_adapter_id INTEGER NOT NULL,
-  btm_adapter_color CHARACTER VARYING NULL,
-  CONSTRAINT grc_pk PRIMARY KEY (general_retract_control_id)
+  mohair_id SERIAL,
+  mohair_type CHARACTER VARYING NOT NULL,
+  CONSTRAINT mohair_pk PRIMARY KEY (mohair_id)
 );
 
+CREATE TABLE IF NOT EXISTS mohair_position
+(
+  mohair_position_id SERIAL,
+  mohair_position_name CHARACTER VARYING NOT NULL,
+  CONSTRAINT mohair_position_pk PRIMARY KEY (mohair_position_id)
+);
 
 -- -----------------------------------------------------
 -- Table hale_door
@@ -838,10 +835,7 @@ CREATE TABLE IF NOT EXISTS rainier
   add_buildout_id INTEGER NOT NULL,
   left_track_id INTEGER NOT NULL,
   right_track_id INTEGER NOT NULL,
-  fabric_id INTEGER NOT NULL,
-  is_estimate BOOLEAN NULL,
-  is_confirmed BOOLEAN NULL,
-
+  product_mesh_id INTEGER NOT NULL,
   CONSTRAINT rainier_pk PRIMARY KEY (rainier_id),
   CONSTRAINT rainier_fk1
     FOREIGN KEY (housing_id)
@@ -906,6 +900,46 @@ CREATE TABLE IF NOT EXISTS rainier
   CONSTRAINT rainier_fk13
     FOREIGN KEY (right_opening_height_id)
     REFERENCES right_opening_height (right_opening_height_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT rainier_fk14
+    FOREIGN KEY (right_plumb_id)
+    REFERENCES right_plumb (right_plumb_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT rainier_fk15
+    FOREIGN KEY (left_plumb_id)
+    REFERENCES left_plumb (left_plumb_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT rainier_fk16
+    FOREIGN KEY (right_buildout_id)
+    REFERENCES right_buildout (right_buildout_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT rainier_fk17
+    FOREIGN KEY (left_buildout_id)
+    REFERENCES left_buildout (left_buildout_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT rainier_fk18
+    FOREIGN KEY (add_buildout_id)
+    REFERENCES add_buildout (add_buildout_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT rainier_fk19
+    FOREIGN KEY (left_track_id)
+    REFERENCES left_track (left_track_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT rainier_fk20
+    FOREIGN KEY (right_track_id)
+    REFERENCES right_track (right_track_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT rainier_fk21
+    FOREIGN KEY (product_mesh_id)
+    REFERENCES product_mesh (product_mesh_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
@@ -1121,6 +1155,62 @@ CREATE TABLE IF NOT EXISTS pivot_pro_height
   pivot_pro_height_id SERIAL,
   pivot_pro_height_name CHARACTER VARYING NOT NULL,
   CONSTRAINT pivot_pro_height_pk PRIMARY KEY (pivot_pro_height_id)
+);
+
+-- -----------------------------------------------------
+-- Table general_retract_control
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS general_retract_control 
+(
+  general_retract_control_id SERIAL,
+  door_type CHARACTER VARYING NULL,
+  door_mount CHARACTER VARYING NULL,
+  opening_side CHARACTER VARYING NULL,
+  measurement_id INTEGER NOT NULL,
+  mesh_id INTEGER NOT NULL,
+  mohair_id INTEGER NOT NULL,
+  mohair_position_id INTEGER NOT NULL,
+  top_adapter_id INTEGER NOT NULL,
+  buildout_id INTEGER NOT NULL,
+  bottom_adapter_id INTEGER NOT NULL,
+  btm_adapter_color CHARACTER VARYING NULL,
+  CONSTRAINT grc_pk PRIMARY KEY (general_retract_control_id),
+  CONSTRAINT grc_fk1
+    FOREIGN KEY (measurement_id)
+    REFERENCES measurement (measurement_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT grc_fk2
+    FOREIGN KEY (mesh_id)
+    REFERENCES mesh (mesh_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT grc_fk3
+    FOREIGN KEY (mohair_id)
+    REFERENCES mohair (mohair_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT grc_fk4
+    FOREIGN KEY (mohair_position_id)
+    REFERENCES mohair_position (mohair_position_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT grc_fk5
+    FOREIGN KEY (top_adapter_id)
+    REFERENCES top_adapter (top_adapter_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT grc_fk6
+    FOREIGN KEY (buildout_id)
+    REFERENCES buildout (buildout_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT grc_fk7
+    FOREIGN KEY (bottom_adapter_id)
+    REFERENCES bottom_adapter (bottom_adapter_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 );
 
 -- -----------------------------------------------------

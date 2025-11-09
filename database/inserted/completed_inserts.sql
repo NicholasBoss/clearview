@@ -559,3 +559,15 @@ INSERT INTO rainier_zipper_color (product_color_id)
 VALUES
 ((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Black'))),
 ((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Rainier') AND color_id = (SELECT color_id FROM color WHERE color_name = 'White')));
+
+INSERT INTO mohair (mohair_type)
+VALUES
+('.200 MoHair X .187')
+, ('.250 MoHair X .187')
+, ('.300 MoHair X .187')
+, ('.350 MoHair X .187');
+
+INSERT INTO mohair_position (mohair_position_name)
+VALUES
+('Edge')
+, ('Inside');
