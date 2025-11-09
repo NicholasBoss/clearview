@@ -89,77 +89,74 @@ validate.mirage3500Rules = () => {
         .notEmpty()
         .withMessage("Top Level is required.")
         .trim()
-        .escape(),
+,
 
         // Bottom Level - required
         body("bottom_level")
         .notEmpty()
         .withMessage("Bottom Level is required.")
         .trim()
-        .escape(),
+,
 
         // Left Plumb - required
         body("left_plumb")
         .notEmpty()
         .withMessage("Left Plumb is required.")
         .trim()
-        .escape(),
+,
 
         // Right Plumb - required
         body("right_plumb")
         .notEmpty()
         .withMessage("Right Plumb is required.")
         .trim()
-        .escape(),
+,
 
         // Starting Point - required
         body("starting_point")
         .notEmpty()
         .withMessage("Starting Point is required.")
         .trim()
-        .escape(),
+,
 
         // Mount - required
         body("mount")
         .notEmpty()
         .withMessage("Mount is required.")
         .trim()
-        .escape(),
+,
 
         // Color - required
         body("color_name")
         .notEmpty()
         .withMessage("Please select a color.")
         .trim()
-        .escape(),
+,
 
         // Handle - required
         body("handle")
         .notEmpty()
         .withMessage("Please select a handle type.")
-        .trim()
-        .escape(),
+        .trim(),
 
         // Handle Color - required
         body("handle_color")
         .notEmpty()
         .withMessage("Please select a handle color.")
-        .trim()
-        .escape(),
+        .trim(),
 
         // Top Adapter - required
         body("top_adapter")
         .notEmpty()
         .withMessage("Top Adapter is required.")
-        .trim()
-        .escape(),
+        .trim(),
 
         // Top Adapter Color - required
         body("top_adapter_color")
         .notEmpty()
         .withMessage("Top Adapter Color is required.")
         .trim()
-        .escape(),
+,
 
         // Top Adapter Width - required numeric
         body("top_adapter_width")
@@ -204,15 +201,14 @@ validate.mirage3500Rules = () => {
         body("btm_adapter")
         .notEmpty()
         .withMessage("Bottom Adapter is required.")
-        .trim()
-        .escape(),
+        .trim(),
 
         // Bottom Adapter Color - required
         body("btm_adapter_color")
         .notEmpty()
         .withMessage("Bottom Adapter Color is required.")
         .trim()
-        .escape(),
+,
 
         // Bottom Adapter Width - required numeric
         body("btm_adapter_width")
@@ -231,15 +227,13 @@ validate.mirage3500Rules = () => {
         body("right_build_out")
         .notEmpty()
         .withMessage("Right Build Out is required.")
-        .trim()
-        .escape(),
+        .trim(),
 
         // Left Build Out - required
         body("left_build_out")
         .notEmpty()
         .withMessage("Left Build Out is required.")
-        .trim()
-        .escape(),
+        .trim(),
 
         // Build Out Dimension - required numeric
         body("build_out_dimension")
@@ -258,41 +252,37 @@ validate.mirage3500Rules = () => {
         body("mesh")
         .notEmpty()
         .withMessage("Please select a mesh type.")
-        .trim()
-        .escape(),
+        .trim(),
 
         // Mohair - required
         body("mohair")
         .notEmpty()
         .withMessage("Mohair is required.")
-        .isIn(['.200 MoHair X.187', '.250 MoHair X.187', '.300 MoHair X.187', '.350 MoHair X.187'])
-        .withMessage("Invalid mohair selected."),
+        .trim(),
 
         // Mohair Position - required
         body("mohair_position")
         .notEmpty()
         .withMessage("Mohair Position is required.")
-        .isIn(['Edge', 'Inside'])
-        .withMessage("Invalid mohair position selected."),
+        .trim(),
 
-        // Mohair Size - required
-        body("mohair_size")
-        .notEmpty()
-        .withMessage("Mohair Size is required.")
-        .isIn(['.2', '.25', '.3', '.35'])
-        .withMessage("Invalid mohair size selected."),
+        // Mohair Size - optional (not used yet)
+        // body("mohair_size")
+        // .optional({ checkFalsy: true })
+        // .isIn(['.2', '.25', '.3', '.35'])
+        // .withMessage("Invalid mohair size selected."),
 
         // Bumper Pads - optional (not used yet)
         body("bumper_pads")
         .optional({ checkFalsy: true })
         .trim()
-        .escape(),
+,
 
         // Silicone Spray - optional (not used yet)
         body("silicone_spray")
         .optional({ checkFalsy: true })
         .trim()
-        .escape(),
+,
 
         // Wholesale Price - optional (not used yet)
         body("wholesale_price")
@@ -318,13 +308,13 @@ validate.mirage3500Rules = () => {
         body("custom_addons")
         .optional({ checkFalsy: true })
         .trim()
-        .escape(),
+,
 
         // PIA Obstacles Helper - optional (not used yet)
         body("pia_obstacles_helper")
         .optional({ checkFalsy: true })
         .trim()
-        .escape(),
+,
 
         // Date Sold - optional (can be empty)
         body("date_sold")
@@ -336,7 +326,7 @@ validate.mirage3500Rules = () => {
         body("qc_tech_date")
         .optional({ checkFalsy: true })
         .trim()
-        .escape()
+         
     ]
 }
 

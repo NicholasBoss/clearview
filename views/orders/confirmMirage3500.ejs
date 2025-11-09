@@ -278,30 +278,30 @@
         <label><b>Mohair</b>
             <select name="mohair" id="mohair">
                 <option value="">Select</option>
-                <option value=".200 MoHair X.187" <%= formData.mohair === '.200 MoHair X.187' ? 'selected' : '' %>>.200 MoHair X.187</option>
-                <option value=".250 MoHair X.187" <%= formData.mohair === '.250 MoHair X.187' ? 'selected' : '' %>>.250 MoHair X.187</option>
-                <option value=".300 MoHair X.187" <%= formData.mohair === '.300 MoHair X.187' ? 'selected' : '' %>>.300 MoHair X.187</option>
-                <option value=".350 MoHair X.187" <%= formData.mohair === '.350 MoHair X.187' ? 'selected' : '' %>>.350 MoHair X.187</option>
+                <% mohairOptions.forEach(mohair => { %>
+                    <option value="<%= mohair.mohair_type %>" <%= formData.mohair === mohair.mohair_type ? 'selected' : '' %>><%= mohair.mohair_type %></option>
+                <% }) %>
             </select>
         </label><br>
 
         <label><b>Mohair Position</b>
             <select name="mohair_position" id="mohair_position">
                 <option value="">Select</option>
-                <option value="Edge" <%= formData.mohair_position === 'Edge' ? 'selected' : '' %>>Edge</option>
-                <option value="Inside" <%= formData.mohair_position === 'Inside' ? 'selected' : '' %>>Inside</option>
+                <% mohairPositions.forEach(position => { %>
+                    <option value="<%= position.mohair_position_name %>" <%= formData.mohair_position === position.mohair_position_name ? 'selected' : '' %>><%= position.mohair_position_name %></option>
+                <% }) %>
             </select>
         </label><br>
 
-        <label><b>Mohair Size</b>
+        <!-- <label><b>Mohair Size</b>
             <select name="mohair_size" id="mohair_size">
                 <option value="">Select</option>
-                <option value=".2" <%= formData.mohair_size === '.2' ? 'selected' : '' %>>.2</option>
-                <option value=".25" <%= formData.mohair_size === '.25' ? 'selected' : '' %>>.25</option>
-                <option value=".3" <%= formData.mohair_size === '.3' ? 'selected' : '' %>>.3</option>
-                <option value=".35" <%= formData.mohair_size === '.35' ? 'selected' : '' %>>.35</option>
+                <option value=".2" <%#= formData.mohair_size === '.2' ? 'selected' : '' %>>.2</option>
+                <option value=".25" <%#= formData.mohair_size === '.25' ? 'selected' : '' %>>.25</option>
+                <option value=".3" <%#= formData.mohair_size === '.3' ? 'selected' : '' %>>.3</option>
+                <option value=".35" <%#= formData.mohair_size === '.35' ? 'selected' : '' %>>.35</option>
             </select>
-        </label><br>
+        </label><br> -->
 
          <!-- <label><b>Bumper Pads</b>
             <input type="text" name="bumper_pads" id="bumper_pads" value="<%#= formData.bumper_pads || '' %>" readonly>

@@ -14,6 +14,7 @@
                     <tr>
                         <th>Product</th>
                         <th>Details</th>
+                        <th>Date Created</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -31,6 +32,13 @@
                                     Order #<%= order.customization_id %>
                                 <% } %>
                             </td>
+                            <td class="order-date">
+                                <% if (order.order_date) { %>
+                                    <%= new Date(order.order_date + 'T00:00:00').toLocaleDateString() %>
+                                <% } else { %>
+                                    N/A
+                                <% } %>
+                            </td>
                             <td class="order-status">
                                 <% if (order.is_cancelled) { %>
                                     <span class="status-badge status-cancelled">Cancelled</span>
@@ -46,11 +54,13 @@
                             </td>
                             <td class="order-actions">
                                 <% if (order.is_estimate && !order.is_confirmed) { %>
-                                    <a href="/orders/confirmMirage3500" class="btn-action btn-confirm">Confirm</a>
+                                    <a href="/orders/editMirage3500/<%= order.customization_id %>" class="btn-action btn-confirm">Confirm</a>
                                 <% } %>
                                 <a href="/orders/viewMirage3500/<%= order.customization_id %>" class="btn-action btn-view">View Details</a>
                                 <% if (order.is_confirmed && !order.is_completed) { %>
-                                    <button class="btn-action btn-complete">Complete Order</button>
+                                    <form action="/orders/completeMirage3500/<%= order.customization_id %>" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to mark this order as complete?');">
+                                        <button type="submit" class="btn-action btn-complete">Complete Order</button>
+                                    </form>
                                 <% } %>
                             </td>
                         </tr>

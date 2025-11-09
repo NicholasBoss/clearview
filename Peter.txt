@@ -56,12 +56,12 @@ Things to change:
 7. There should be a pop up when the second submit button is clicked to make sure that they want to complete the order
 8. Authentication is needed so that Gary can see every order, and have the orders soft deleted for everyone else (pass in the role that users are at when they log in)
 9. Have an is_complete boolean flag, and if it is complete, soft delete the orders for all except the top admin (third check)
-10. ONLY soft deletions unless order is for sure canceled (as an option for Gary only) Add an extra flag for is_cancelled
+10. ONLY soft deletions unless order is for sure canceled (as an option for Gary the CEO, only)
 11. Validate forms to make sure the correct kind of data is entered 
 
 
 Process:
-After the create form is created, is_estimated is checked true. After that, the confirm order is available, and is able to be edited, but not from the account page (the page will redirect to the original confirm page). Once the order is confirmed, an admin needs to mark is_completed as true. Gary can cancel the order at any time.
+After the create form is created, is_estimated is checked true. After that, the confirm order is available, and is able to be edited, but not from the account page (the page will redirect to the original confirm page). Once the order is confirmed, an admin needs to mark is_completed as true. Gary, the CEO, can cancel the order at any time. is_estimated should be checked true after create form is completed and the data should be inserted into the database so that it isn't lost. is_confirmed should be checked true after confirm form is completed and if they are both checked true, the order is finalized and cannot be edited and can be viewed on the account page
 
 
 What ------------ Who ------- Status ------ ... [if is_estimate = T && is_confirmed = F: CONFIRM, i_e = T && i_c = T: COMPLETE ORDER]
@@ -69,19 +69,14 @@ MIRAGE 3500      John Doe     Needs Conf    [CONFIRM] [VIEW ORDER DETAILS]
 MIRAGE 3500      John Doe     Confirmed     [VIEW ORDER DETAILS] [COMPLETE ORDER]
 MIRAGE 3500      John Doe     Completed     [VIEW ORDER DETAILS]
 
-NEXT ON THE AGENDA
-- fix localstorage issue where going back to create page removes all the data
-- once the forms are in order, change it so that the create form inserts rather than the confirm form 
-- start on the account page
-
-
 TO DO:
 
 - start getting the customer information and add a customer input to the mirage3500 forms
 - add hidden elements for sold and date sold on the forms 
 - configure the orders to be filtered by customers
 - incorporate customers into the forms and account page
-
-INFO: 
-
-- the account_id is connected to the customization table but it is connected using JOINS 
+- work on getting soft deletes to work 
+- make sure user authentication is integrated (including for Gary specifically)
+- change the popups to say data will be inserted after the create form is submitted and not when the confirm form is
+- make sure there are popups before each action 
+- Fix some of the form fields not populating after create form is submitted 

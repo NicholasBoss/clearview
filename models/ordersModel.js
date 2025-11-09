@@ -352,9 +352,9 @@ async function deleteOrder(customization_id){
 
 async function getOrdersByAccountId(account_id){
     try {
-        // TODO: customization table needs account_id column to link orders to users
-        // For now, this will return all customizations (not filtered by account)
-        // Database person needs to add: ALTER TABLE customization ADD COLUMN account_id INTEGER REFERENCES account(account_id);
+        // NOTE: All users are admins/employees who create orders for customers
+        // This function returns ALL orders for display on the account page
+        // Orders are not filtered by logged-in user since all users need to see all orders
 
         const sql = `
             SELECT
@@ -366,11 +366,13 @@ async function getOrdersByAccountId(account_id){
                 oc.is_completed,
                 oc.is_cancelled,
                 oc.order_id,
+                o.order_date,
                 m3.mirage_3500_handle,
                 m.mirage_build_out
             FROM customization c
             JOIN product p ON c.product_id = p.product_id
             LEFT JOIN order_customization oc ON c.customization_id = oc.customization_id
+            LEFT JOIN public.order o ON oc.order_id = o.order_id
             LEFT JOIN mirage_3500 m3 ON c.mirage_3500_id = m3.mirage_3500_id
             LEFT JOIN mirage m ON c.mirage_id = m.mirage_id
             ORDER BY c.customization_id DESC
@@ -385,16 +387,122 @@ async function getOrdersByAccountId(account_id){
 
 async function getOrderById(customization_id){
     try {
-        const sql = `SELECT c.*, p.product_name, m3.mirage_3500_handle, m.mirage_build_out
-                     FROM customization c
-                     JOIN product p ON c.product_id = p.product_id
-                     LEFT JOIN mirage_3500 m3 ON c.mirage_3500_id = m3.mirage_3500_id
-                     LEFT JOIN mirage m ON c.mirage_id = m.mirage_id
-                     WHERE c.customization_id = $1`
+        const sql = `
+            SELECT
+                c.*,
+                p.product_name,
+                col.color_name,
+                m3.mirage_3500_handle,
+                m.mirage_build_out,
+                mesh.mesh_type,
+                tow.top_opening_width_name,
+                bow.bottom_opening_width_name,
+                loh.left_opening_height_name,
+                roh.right_opening_height_name,
+                mow.middle_opening_width_name,
+                moh.middle_opening_height_name,
+                tl.top_level_name,
+                bl.bottom_level_name,
+                lp.left_plumb_name,
+                rp.right_plumb_name,
+                sp.starting_point_name,
+                mt.mount_type_name,
+                ta.top_adapter_name,
+                ba.bottom_adapter_name,
+                uh.unit_height_name,
+                pph.pivot_pro_height_name,
+                ab.add_buildout_name
+            FROM customization c
+            JOIN product p ON c.product_id = p.product_id
+            LEFT JOIN color col ON c.color_id = col.color_id
+            LEFT JOIN mirage_3500 m3 ON c.mirage_3500_id = m3.mirage_3500_id
+            LEFT JOIN mirage m ON c.mirage_id = m.mirage_id
+            LEFT JOIN mesh ON c.mesh_id = mesh.mesh_id
+            LEFT JOIN top_opening_width tow ON c.top_opening_width_id = tow.top_opening_width_id
+            LEFT JOIN bottom_opening_width bow ON c.bottom_opening_width_id = bow.bottom_opening_width_id
+            LEFT JOIN left_opening_height loh ON c.left_opening_height_id = loh.left_opening_height_id
+            LEFT JOIN right_opening_height roh ON c.right_opening_height_id = roh.right_opening_height_id
+            LEFT JOIN middle_opening_width mow ON c.middle_opening_width_id = mow.middle_opening_width_id
+            LEFT JOIN middle_opening_height moh ON c.middle_opening_height_id = moh.middle_opening_height_id
+            LEFT JOIN top_level tl ON c.top_level_id = tl.top_level_id
+            LEFT JOIN bottom_level bl ON c.bottom_level_id = bl.bottom_level_id
+            LEFT JOIN left_plumb lp ON c.left_plumb_id = lp.left_plumb_id
+            LEFT JOIN right_plumb rp ON c.right_plumb_id = rp.right_plumb_id
+            LEFT JOIN starting_point sp ON c.starting_point_id = sp.starting_point_id
+            LEFT JOIN mount_type mt ON c.mount_type_id = mt.mount_type_id
+            LEFT JOIN top_adapter ta ON c.top_adapter_width_id = ta.top_adapter_id
+            LEFT JOIN bottom_adapter ba ON c.bottom_adapter_width_id = ba.bottom_adapter_id
+            LEFT JOIN unit_height uh ON c.unit_height_id = uh.unit_height_id
+            LEFT JOIN pivot_pro_height pph ON c.pivot_pro_height_id = pph.pivot_pro_height_id
+            LEFT JOIN add_buildout ab ON c.add_buildout_id = ab.add_buildout_id
+            WHERE c.customization_id = $1
+        `
         const result = await pool.query(sql, [customization_id])
-        return result.rows[0]
+        const row = result.rows[0]
+
+        if (!row) return null
+
+        // Helper function to split combined measurement "36 1/4" into integer and fraction
+        const splitMeasurement = (combinedValue) => {
+            if (!combinedValue) return { integer: '', fraction: '' }
+            const parts = combinedValue.trim().split(' ')
+            return {
+                integer: parts[0] || '',
+                fraction: parts[1] || ''
+            }
+        }
+
+        // Parse all measurements into separate integer and fraction fields
+        const topOpeningWidth = splitMeasurement(row.top_opening_width_name)
+        const bottomOpeningWidth = splitMeasurement(row.bottom_opening_width_name)
+        const leftOpeningHeight = splitMeasurement(row.left_opening_height_name)
+        const rightOpeningHeight = splitMeasurement(row.right_opening_height_name)
+        const middleOpeningWidth = splitMeasurement(row.middle_opening_width_name)
+        const middleOpeningHeight = splitMeasurement(row.middle_opening_height_name)
+        const topAdapterWidth = splitMeasurement(row.top_adapter_name)
+        const btmAdapterWidth = splitMeasurement(row.bottom_adapter_name)
+        const unitHeight = splitMeasurement(row.unit_height_name)
+        const pivotProHeight = splitMeasurement(row.pivot_pro_height_name)
+        const buildOutDimension = splitMeasurement(row.add_buildout_name)
+
+        // Return data in the format expected by the view (matching form field names)
+        return {
+            ...row,
+            top_opening_width: topOpeningWidth.integer,
+            top_opening_width_fraction: topOpeningWidth.fraction,
+            bottom_opening_width: bottomOpeningWidth.integer,
+            bottom_opening_width_fraction: bottomOpeningWidth.fraction,
+            left_opening_height: leftOpeningHeight.integer,
+            left_opening_height_fraction: leftOpeningHeight.fraction,
+            right_opening_height: rightOpeningHeight.integer,
+            right_opening_height_fraction: rightOpeningHeight.fraction,
+            middle_opening_width: middleOpeningWidth.integer,
+            middle_opening_width_fraction: middleOpeningWidth.fraction,
+            middle_opening_height: middleOpeningHeight.integer,
+            middle_opening_height_fraction: middleOpeningHeight.fraction,
+            top_adapter_width: topAdapterWidth.integer,
+            top_adapter_width_fraction: topAdapterWidth.fraction,
+            btm_adapter_width: btmAdapterWidth.integer,
+            btm_adapter_width_fraction: btmAdapterWidth.fraction,
+            unit_height: unitHeight.integer,
+            unit_height_fraction: unitHeight.fraction,
+            pivot_pro_height: pivotProHeight.integer,
+            pivot_pro_height_fraction: pivotProHeight.fraction,
+            build_out_dimension: buildOutDimension.integer,
+            build_out_dimension_fraction: buildOutDimension.fraction,
+            color_name: row.color_name,
+            handle: row.mirage_3500_handle,
+            mesh: row.mesh_type,
+            top_level: row.top_level_name,
+            bottom_level: row.bottom_level_name,
+            left_plumb: row.left_plumb_name,
+            right_plumb: row.right_plumb_name,
+            starting_point: row.starting_point_name,
+            mount: row.mount_type_name
+        }
     } catch (error) {
-        return error.message
+        console.error('Error in getOrderById:', error)
+        return null
     }
 }
 
@@ -793,6 +901,32 @@ async function saveMirage3500Data(formData) {
 
         console.log('Order saved with customization_id:', customizationId)
 
+        // Create order entry (basic order record)
+        // Provide required NOT NULL fields: order_date, estimated_date, estimated_cost, quantity
+        const orderSql = `
+            INSERT INTO public.order (order_date, estimated_date, estimated_cost, quantity)
+            VALUES (CURRENT_DATE, CURRENT_DATE, 0.00, 1)
+            RETURNING order_id
+        `
+        const orderResult = await pool.query(orderSql)
+        const orderId = orderResult.rows[0].order_id
+
+        // Create order_customization entry with is_estimate = TRUE
+        const orderCustomizationSql = `
+            INSERT INTO order_customization (
+                order_id,
+                customization_id,
+                is_estimate,
+                is_confirmed,
+                is_completed,
+                is_cancelled
+            ) VALUES ($1, $2, TRUE, FALSE, FALSE, FALSE)
+            RETURNING order_customization_id
+        `
+        await pool.query(orderCustomizationSql, [orderId, customizationId])
+
+        console.log('Order_customization created with is_estimate = TRUE')
+
         // Return the customization_id
         return {
             customization_id: customizationId
@@ -806,25 +940,74 @@ async function saveMirage3500Data(formData) {
 // Function to confirm Mirage 3500 order
 async function confirmMirage3500Order(customizationId) {
     try {
-        // TODO: Implement order_customization workflow
-        // The new schema has is_estimate and is_confirmed in order_customization table
-        // We need to:
-        // 1. Create an order entry (or get existing order_id)
-        // 2. Create/Update order_customization entry with is_confirmed=true, is_estimate=false
-
-        // For now, just verify the customization exists
-        const checkSql = 'SELECT customization_id FROM customization WHERE customization_id = $1'
-        const result = await pool.query(checkSql, [customizationId])
+        // Update order_customization to set is_confirmed = TRUE
+        // Both is_estimate and is_confirmed should be TRUE after confirmation (per Peter.txt line 64)
+        const updateSql = `
+            UPDATE order_customization
+            SET is_confirmed = TRUE
+            WHERE customization_id = $1
+            RETURNING order_customization_id
+        `
+        const result = await pool.query(updateSql, [customizationId])
 
         if (result.rows.length === 0) {
-            throw new Error('Order not found')
+            throw new Error('Order customization not found')
         }
 
-        console.log('Order confirmed with customization_id:', customizationId)
+        console.log('Order confirmed: is_confirmed set to TRUE for customization_id:', customizationId)
         return { customization_id: customizationId }
     } catch (error) {
         console.error('Error in confirmMirage3500Order:', error)
         throw error
+    }
+}
+
+// Function to complete Mirage 3500 order
+async function completeMirage3500Order(customizationId) {
+    try {
+        // Update order_customization to set is_completed = TRUE
+        const updateSql = `
+            UPDATE order_customization
+            SET is_completed = TRUE
+            WHERE customization_id = $1
+            RETURNING order_customization_id
+        `
+        const result = await pool.query(updateSql, [customizationId])
+
+        if (result.rows.length === 0) {
+            throw new Error('Order customization not found')
+        }
+
+        console.log('Order completed: is_completed set to TRUE for customization_id:', customizationId)
+
+        return { customization_id: customizationId }
+    } catch (error) {
+        console.error('Error in completeMirage3500Order:', error)
+        throw error
+    }
+}
+
+// Function to get all mohair options
+async function getMohair() {
+    try {
+        const sql = 'SELECT mohair_id, mohair_type FROM mohair ORDER BY mohair_type'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error in getMohair:', error)
+        return []
+    }
+}
+
+// Function to get all mohair position options
+async function getMohairPositions() {
+    try {
+        const sql = 'SELECT mohair_position_id, mohair_position_name FROM mohair_position ORDER BY mohair_position_name'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error in getMohairPositions:', error)
+        return []
     }
 }
 
@@ -849,6 +1032,7 @@ module.exports = {
     getMeasurements,
     saveMirage3500Data,
     confirmMirage3500Order,
+    completeMirage3500Order,
     getOrInsert,
     getColors,
     getHandles,
@@ -858,5 +1042,7 @@ module.exports = {
     getLeftBuildouts,
     getMeshTypes,
     getColors,
-    getColorsByProduct
+    getColorsByProduct,
+    getMohair,
+    getMohairPositions
 }

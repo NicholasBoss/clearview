@@ -1,9 +1,14 @@
 const baseController = {}
 
 baseController.buildHome = async function(req, res){
+    // If user is already logged in, redirect to account page
+    if (res.locals.loggedin) {
+        return res.redirect('/account')
+    }
+
     res.render('index', {
-        title: 'Home', 
-        link: '', 
+        title: 'Home',
+        link: '',
         errors: null
     })
 }

@@ -202,3 +202,4 @@ async function getData() {
 
 **Development Notes:**
 - `Peter.txt` - Current development status and TODO list
+- Make sure to not use the bash command to start a development server by running npm run dev or npm start. This only causes problems

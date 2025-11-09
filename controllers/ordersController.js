@@ -89,6 +89,8 @@ ordersController.buildCreateMirage3500 = async function(req, res){
     const rightBuildouts = await ordersModel.getRightBuildouts()
     const leftBuildouts = await ordersModel.getLeftBuildouts()
     const meshTypes = await ordersModel.getMeshTypes()
+    const mohairOptions = await ordersModel.getMohair()
+    const mohairPositions = await ordersModel.getMohairPositions()
 
     // Check for validation errors from session (POST/Redirect/GET pattern)
     let errors = null
@@ -122,6 +124,8 @@ ordersController.buildCreateMirage3500 = async function(req, res){
         rightBuildouts: rightBuildouts || [],
         leftBuildouts: leftBuildouts || [],
         meshTypes: meshTypes || [],
+        mohairOptions: mohairOptions || [],
+        mohairPositions: mohairPositions || [],
         formData: formData
     })
 }
@@ -148,6 +152,20 @@ ordersController.processMirage3500Form = async function(req, res){
 
 ordersController.buildConfirmMirage3500 = async function(req, res){
     const formData = req.session.mirage3500Data || {}
+
+    // DEBUG: Log form data to see what values we have
+    console.log('=== CONFIRM PAGE FORM DATA ===')
+    console.log('handle_color:', formData.handle_color)
+    console.log('top_adapter:', formData.top_adapter)
+    console.log('top_adapter_color:', formData.top_adapter_color)
+    console.log('btm_adapter:', formData.btm_adapter)
+    console.log('btm_adapter_color:', formData.btm_adapter_color)
+    console.log('right_build_out:', formData.right_build_out)
+    console.log('left_build_out:', formData.left_build_out)
+    console.log('mohair:', formData.mohair)
+    console.log('mohair_position:', formData.mohair_position)
+    console.log('==============================')
+
     const fractions = await ordersModel.getMeasurements()
     const colors = await ordersModel.getColors()
     const handles = await ordersModel.getHandles()
@@ -156,6 +174,19 @@ ordersController.buildConfirmMirage3500 = async function(req, res){
     const rightBuildouts = await ordersModel.getRightBuildouts()
     const leftBuildouts = await ordersModel.getLeftBuildouts()
     const meshTypes = await ordersModel.getMeshTypes()
+    const mohairOptions = await ordersModel.getMohair()
+    const mohairPositions = await ordersModel.getMohairPositions()
+
+    // DEBUG: Log first few values from database
+    console.log('=== DATABASE VALUES ===')
+    console.log('Sample colors:', colors.slice(0, 3).map(c => c.color_name))
+    console.log('Sample topAdapters:', topAdapters.slice(0, 3).map(a => a.top_adapter_name))
+    console.log('Sample bottomAdapters:', bottomAdapters.slice(0, 3).map(a => a.bottom_adapter_name))
+    console.log('Sample rightBuildouts:', rightBuildouts.slice(0, 3).map(b => b.right_buildout_name))
+    console.log('Sample leftBuildouts:', leftBuildouts.slice(0, 3).map(b => b.left_buildout_name))
+    console.log('Sample mohair:', mohairOptions.slice(0, 3).map(m => m.mohair_type))
+    console.log('Sample mohairPositions:', mohairPositions.map(p => p.mohair_position_name))
+    console.log('========================')
 
     res.render('orders/confirmMirage3500', {
         title: 'Confirm Mirage 3500 order',
@@ -169,7 +200,9 @@ ordersController.buildConfirmMirage3500 = async function(req, res){
         bottomAdapters: bottomAdapters || [],
         rightBuildouts: rightBuildouts || [],
         leftBuildouts: leftBuildouts || [],
-        meshTypes: meshTypes || []
+        meshTypes: meshTypes || [],
+        mohairOptions: mohairOptions || [],
+        mohairPositions: mohairPositions || []
     })
 }
 
@@ -267,6 +300,8 @@ ordersController.buildViewMirage3500 = async function(req, res){
         const rightBuildouts = await ordersModel.getRightBuildouts()
         const leftBuildouts = await ordersModel.getLeftBuildouts()
         const meshTypes = await ordersModel.getMeshTypes()
+        const mohairOptions = await ordersModel.getMohair()
+        const mohairPositions = await ordersModel.getMohairPositions()
 
         res.render('account/viewMirage3500', {
             title: 'View Mirage 3500 Order',
@@ -280,7 +315,9 @@ ordersController.buildViewMirage3500 = async function(req, res){
             bottomAdapters: bottomAdapters || [],
             rightBuildouts: rightBuildouts || [],
             leftBuildouts: leftBuildouts || [],
-            meshTypes: meshTypes || []
+            meshTypes: meshTypes || [],
+            mohairOptions: mohairOptions || [],
+            mohairPositions: mohairPositions || []
         })
     } catch (error) {
         console.error('Error loading order:', error)
@@ -289,6 +326,51 @@ ordersController.buildViewMirage3500 = async function(req, res){
     }
 }
 
+// Load existing order for editing and redirect to confirm page
+ordersController.editMirage3500 = async function(req, res){
+    try {
+        const customizationId = req.params.id
+        const orderData = await ordersModel.getOrderById(customizationId)
+
+        if (!orderData) {
+            req.flash('error', 'Order not found')
+            return res.redirect('/account')
+        }
+
+        // Store order data in session so confirmMirage3500 can display it
+        req.session.mirage3500Data = orderData
+        req.session.mirage3500OrderId = customizationId
+
+        // Redirect to confirm page (which is editable)
+        res.redirect('/orders/confirmMirage3500')
+    } catch (error) {
+        console.error('Error loading order for editing:', error)
+        req.flash('error', 'Failed to load order for editing')
+        res.redirect('/account')
+    }
+}
+
+// Complete Mirage 3500 order (set is_completed = TRUE)
+ordersController.completeMirage3500 = async function(req, res){
+    try {
+        const customizationId = req.params.id
+
+        if (!customizationId) {
+            req.flash('error', 'Invalid order ID')
+            return res.redirect('/account')
+        }
+
+        // Update order to set is_completed = TRUE
+        await ordersModel.completeMirage3500Order(customizationId)
+
+        req.flash('notice', 'Order marked as complete successfully!')
+        res.redirect('/account')
+    } catch (error) {
+        console.error('Error completing order:', error)
+        req.flash('error', 'Failed to complete order. Please try again.')
+        res.redirect('/account')
+    }
+}
 
 
 module.exports = ordersController
