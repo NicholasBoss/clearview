@@ -131,10 +131,23 @@ ordersController.buildConfirmRainier = async function(req, res){
 }
 
 ordersController.buildCreateNWS = async function(req, res){
+    colors = await ordersModel.getColorsByProduct("New Window Screen")
+    console.log(colors)
+    mesh = await ordersModel.getMeshByProduct("New Window Screen")
+    console.log(mesh)
+
     res.render('orders/createNWS', {
         title: 'Create order',
         link: 'orders/createNWS',
-        errors: null
+        errors: null,
+        colors: colors,
+        fabrics: ["dummy code1", "dummy code 2"],
+        frame_sizes: ["dummy code1", "dummy code 2"],
+        fractions: ["dummy code1", "dummy code 2"],
+        springs: ["dummy code1", "dummy code 2"],
+        meshs: mesh,
+        fasteners: ["dummy code1", "dummy code 2"],
+        formData: {}
     })
 }
 ordersController.buildConfirmNWS = async function(req, res){
