@@ -56,7 +56,7 @@
 
         <label><b>Top Adapter Color</b>
             <select name="top_adapter_color" id="top_adapter_color">
-                <% top_adapt_colors.forEach(top_adapt_color => { %>
+                <% top_adapter_colors.forEach(top_adapter_color => { %>
                     <option value="<%= top_adapter_color.product_color_id %>" <%= formData.top_adapter_color_id === top_adapter_color.product_color_id ? 'selected' : '' %>><%= top_adapter_color.product_color_id %></option>
                 <% }) %>
             </select>
@@ -67,9 +67,10 @@
             <input type="text" name="top_adapter_width" id="top_adapter_width">
         </label><br>
         <label><b>Top Adapter Width Fraction</b>
-            <select name="top_adapter_width_fraction" id="top_adapter_width_fraction">
+            <select name="top_adapter_width_fraction" id="">
+                <option calue="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
+                    <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
         </label><br>
@@ -79,7 +80,8 @@
             <input type="text" name="opening_height" id="opening_height">
         </label><br>
         <label><b>Opening Height Fraction</b>
-            <select name="opening_height_fraction" id="opening_height_fraction">
+            <select name="opening_height_fraction" id="">
+                <option calue="">Select</option>
                 <% fractions.forEach(fraction => { %>
                 <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
                 <% }) %>
@@ -91,7 +93,8 @@
             <input type="text" name="unit_height" id="unit_height">
         </label><br>
         <label><b>Unit Height Fraction</b>
-            <select name="unit_height_fraction" id="unit_height_fraction">
+            <select name="unit_height_fraction" id="">
+                <option calue="">Select</option>
                 <% fractions.forEach(fraction => { %>
                 <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
                 <% }) %>
@@ -103,7 +106,8 @@
             <input type="text" name="pivot_pro_height" id="pivot_pro_height">
         </label><br>
         <label><b>Pivot Pro Height Fraction</b>
-            <select name="pivot_pro_height_fraction" id="pivot_pro_height_fraction">
+            <select name="pivot_pro_height_fraction" id="">
+                <option calue="">Select</option>
                 <% fractions.forEach(fraction => { %>
                 <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
                 <% }) %>
@@ -131,7 +135,8 @@
             <input type="text" name="btm_adapter_width" id="btm_adapter_width">
         </label><br>
         <label><b>Bottom Adapter Width Fraction</b>
-            <select name="btm_adapter_width_fraction" id="btm_adapter_width_fraction">
+            <select name="btm_adapter_width_fraction" id="">
+                <option calue="">Select</option>
                 <% fractions.forEach(fraction => { %>
                     <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
                 <% }) %>
@@ -152,7 +157,8 @@
             <input type="text" name="" id="build_out_dimension">
         </label><br>
         <label><b>Build Out Dimension Fraction</b>
-            <select name="" id="build_out_dimension_fraction">
+            <select name="" id="">
+                <option calue="">Select</option>
                 <% fractions.forEach(fraction => { %>
                 <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
                 <% }) %>

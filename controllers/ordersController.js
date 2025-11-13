@@ -101,10 +101,20 @@ ordersController.buildConfirmMirage3500 = async function(req, res){
 }
 
 ordersController.buildCreateMirage = async function(req, res){
+    colors = await ordersModel.getColorsByProduct("Mirage")
+    console.log(colors)
+
     res.render('orders/createMirage', {
         title: 'Create Mirage order',
         link: 'orders/createMirage',
-        errors: null
+        errors: null,
+        colors: colors,
+        top_adapters: ["Standard Top Adapter", "Heavy Duty Top Adapter", "No Top Adapter"],
+        bottom_adapters: null,
+        top_adapter_colors: ["Black", "White", "Beige"],
+        bottom_adapt_colors: ["Black", "White", "Beige"],
+        formData: {},
+        fractions: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
     })
 }
 ordersController.buildConfirmMirage = async function(req, res){
