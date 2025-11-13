@@ -248,11 +248,15 @@ async function buildAccount (req, res) {
     // Get all orders for this user
     const orders = await ordersModel.getOrdersByAccountId(accountId);
 
+    // Get all customers for filtering
+    const customers = await ordersModel.getAllCustomers();
+
     res.render('account/account', {
       title: 'Account',
       link: 'account',
       errors: null,
-      orders: orders || []
+      orders: orders || [],
+      customers: customers || []
     });
   } catch (error) {
     console.error('Error building account page:', error);
@@ -260,7 +264,8 @@ async function buildAccount (req, res) {
       title: 'Account',
       link: 'account',
       errors: null,
-      orders: []
+      orders: [],
+      customers: []
     });
   }
 };

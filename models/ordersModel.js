@@ -368,11 +368,16 @@ async function getOrdersByAccountId(account_id){
                 oc.order_id,
                 o.order_date,
                 m3.mirage_3500_handle,
-                m.mirage_build_out
+                m.mirage_build_out,
+                cust.customer_id,
+                cust.customer_firstname,
+                cust.customer_lastname
             FROM customization c
             JOIN product p ON c.product_id = p.product_id
             LEFT JOIN order_customization oc ON c.customization_id = oc.customization_id
             LEFT JOIN public.order o ON oc.order_id = o.order_id
+            LEFT JOIN cust_order co ON o.order_id = co.order_id
+            LEFT JOIN customer cust ON co.customer_id = cust.customer_id
             LEFT JOIN mirage_3500 m3 ON c.mirage_3500_id = m3.mirage_3500_id
             LEFT JOIN mirage m ON c.mirage_id = m.mirage_id
             ORDER BY c.customization_id DESC
@@ -927,6 +932,55 @@ async function saveMirage3500Data(formData) {
 
         console.log('Order_customization created with is_estimate = TRUE')
 
+        // Create cust_order entry linking customer to order
+        if (formData.customer_firstname && formData.customer_lastname) {
+            // Get or create customer by name
+            const customerId = await getOrCreateCustomer(formData.customer_firstname, formData.customer_lastname)
+
+            // Get or create customer_address for this customer
+            let customerAddressId
+
+            // Check if customer already has an address
+            const checkAddressSql = `
+                SELECT customer_address_id
+                FROM customer_address
+                WHERE customer_id = $1
+                LIMIT 1
+            `
+            const addressCheck = await pool.query(checkAddressSql, [customerId])
+
+            if (addressCheck.rows.length > 0) {
+                customerAddressId = addressCheck.rows[0].customer_address_id
+            } else {
+                // Create a default address for this customer
+                const createAddressSql = `
+                    INSERT INTO address (address_line1, address_line2, address_city, address_state, address_zip)
+                    VALUES ('TBD', '', 'TBD', 'UT', '00000')
+                    RETURNING address_id
+                `
+                const addressResult = await pool.query(createAddressSql)
+                const addressId = addressResult.rows[0].address_id
+
+                // Link address to customer
+                const createCustAddressSql = `
+                    INSERT INTO customer_address (customer_id, address_id)
+                    VALUES ($1, $2)
+                    RETURNING customer_address_id
+                `
+                const custAddressResult = await pool.query(createCustAddressSql, [customerId, addressId])
+                customerAddressId = custAddressResult.rows[0].customer_address_id
+            }
+
+            // Create cust_order record
+            const custOrderSql = `
+                INSERT INTO cust_order (customer_id, order_id, customer_address_id)
+                VALUES ($1, $2, $3)
+                RETURNING cust_order_id
+            `
+            await pool.query(custOrderSql, [customerId, orderId, customerAddressId])
+            console.log('cust_order created linking customer to order')
+        }
+
         // Return the customization_id
         return {
             customization_id: customizationId
@@ -1011,6 +1065,83 @@ async function getMohairPositions() {
     }
 }
 
+// Customer Management Functions
+// Function to get all customers
+async function getAllCustomers() {
+    try {
+        const sql = `
+            SELECT customer_id, customer_firstname, customer_lastname
+            FROM customer
+            ORDER BY customer_lastname, customer_firstname
+        `
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error in getAllCustomers:', error)
+        return []
+    }
+}
+
+// Function to create a new customer
+async function createCustomer(firstname, lastname) {
+    try {
+        const sql = `
+            INSERT INTO customer (customer_firstname, customer_lastname)
+            VALUES ($1, $2)
+            RETURNING customer_id, customer_firstname, customer_lastname
+        `
+        const result = await pool.query(sql, [firstname, lastname])
+        return result.rows[0]
+    } catch (error) {
+        console.error('Error in createCustomer:', error)
+        throw error
+    }
+}
+
+// Function to get customer by ID
+async function getCustomerById(customerId) {
+    try {
+        const sql = 'SELECT customer_id, customer_firstname, customer_lastname FROM customer WHERE customer_id = $1'
+        const result = await pool.query(sql, [customerId])
+        return result.rows[0]
+    } catch (error) {
+        console.error('Error in getCustomerById:', error)
+        return null
+    }
+}
+
+// Function to get or create customer by name
+async function getOrCreateCustomer(firstname, lastname) {
+    try {
+        // First try to find existing customer
+        const findSql = `
+            SELECT customer_id
+            FROM customer
+            WHERE LOWER(customer_firstname) = LOWER($1)
+            AND LOWER(customer_lastname) = LOWER($2)
+        `
+        const findResult = await pool.query(findSql, [firstname, lastname])
+
+        if (findResult.rows.length > 0) {
+            console.log('Found existing customer:', findResult.rows[0].customer_id)
+            return findResult.rows[0].customer_id
+        }
+
+        // Customer doesn't exist, create new one
+        const createSql = `
+            INSERT INTO customer (customer_firstname, customer_lastname)
+            VALUES ($1, $2)
+            RETURNING customer_id
+        `
+        const createResult = await pool.query(createSql, [firstname, lastname])
+        console.log('Created new customer:', createResult.rows[0].customer_id)
+        return createResult.rows[0].customer_id
+    } catch (error) {
+        console.error('Error in getOrCreateCustomer:', error)
+        throw error
+    }
+}
+
 module.exports = {
     createOrder,
     createMirage3500Order,
@@ -1044,5 +1175,9 @@ module.exports = {
     getColors,
     getColorsByProduct,
     getMohair,
-    getMohairPositions
+    getMohairPositions,
+    getAllCustomers,
+    createCustomer,
+    getCustomerById,
+    getOrCreateCustomer
 }

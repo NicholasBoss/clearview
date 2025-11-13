@@ -29,6 +29,14 @@
 
 <form id="form" action="/orders/saveMirage3500" method="post">
     <div class="container">
+        <label><b>Customer First Name</b>
+            <input type="text" name="customer_firstname" id="customer_firstname" value="<%= formData.customer_firstname || '' %>" readonly>
+        </label><br>
+
+        <label><b>Customer Last Name</b>
+            <input type="text" name="customer_lastname" id="customer_lastname" value="<%= formData.customer_lastname || '' %>" readonly>
+        </label><br>
+
         <label><b>Top Opening Width</b>
             <input type="text" name="top_opening_width" id="top_opening_width" value="<%= formData.top_opening_width || '' %>" readonly>
         </label><br>

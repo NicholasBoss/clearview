@@ -80,3 +80,104 @@ TO DO:
 - change the popups to say data will be inserted after the create form is submitted and not when the confirm form is
 - make sure there are popups before each action 
 - Fix some of the form fields not populating after create form is submitted 
+
+Things to Fix:
+
+I found the root cause! The issue is with the database schema itself.
+
+  The Problem:
+
+  The code in saveMirage3500Data (ordersModel.js:679-697) correctly captures all these values:
+  - handleColorId
+  - topAdapterColorId
+  - btmAdapterColorId
+  - topAdapterId
+  - btmAdapterId
+  - rightBuildoutId
+  - leftBuildoutId
+
+  And retrieves mohair values, but the customization table schema is missing columns to store these values!
+
+  Looking at the database schema (clearviewdb.sql:1219-1258), the customization table only has:
+  - color_id - for the main color
+  - top_adapter_width_id - for the adapter WIDTH (not the adapter type)
+  - bottom_adapter_width_id - for the adapter WIDTH (not the adapter type)
+
+  Missing columns:
+  1. handle_color_id - to store handle color
+  2. top_adapter_id - to store top adapter type
+  3. top_adapter_color_id - to store top adapter color
+  4. bottom_adapter_id - to store bottom adapter type
+  5. bottom_adapter_color_id - to store bottom adapter color
+  6. right_buildout_id - to store right buildout
+  7. left_buildout_id - to store left buildout
+  8. mohair_id - to store mohair type
+  9. mohair_position_id - to store mohair position
+
+  The Fix:
+
+  I need to:
+  1. Add these missing columns to the customization table (ALTER TABLE)
+  2. Update the INSERT statement in saveMirage3500Data to include these values
+  3. Update getOrderById to JOIN these new columns so the viewMirage3500 page can display them
+
+  Should I proceed with adding these columns to the database schema? This will require running ALTER TABLE statements against your PostgreSQL database.
+
+> I'm confused. Why can't you just query the handle_color table for the handle_color_id? Instead of having EVERYTHING in the customization table 
+
+● You're absolutely right to question this! Let me look more carefully at the database structure to see if there are existing junction tables or relationships       
+  I'm missing.
+
+● You're making me think harder about the database architecture! I see there's a handle_color junction table, but I'm confused about how to link a specific
+  order's handle color choice.
+
+  The handle_color table links:
+  - mirage_3500_id (the handle type)
+  - product_color_id (the color)
+
+  But in the code, mirage_3500_id is shared across all orders with the same handle type (line 673: getOrInsert on mirage_3500_handle). So if we just query the       
+  handle_color table by mirage_3500_id, we might get colors from OTHER people's orders with the same handle type.
+
+  My question: How should we link a specific customization/order to its unique color choices?
+
+  Should we:
+  1. Add handle_color_id, top_adapter_color_id, bottom_adapter_color_id columns to the customization table to store the foreign keys?
+  2. Or is there a different architecture pattern I'm missing?
+
+  The current code gets these IDs (lines 679-685) but never stores them anywhere, which is why they're lost when we try to retrieve the order later.
+
+> Why not just use the same query for the view details page as the confirm page? They should basically just be the same page but the one from the account page       
+should not be able to be edited. That's the only difference 
+
+● You're absolutely right! That's a much simpler way to think about it. Both pages should display the same data - the confirm page just happens to be editable       
+  and the view page is read-only.
+
+● The problem is simple: in saveMirage3500Data (ordersModel.js), we're getting these IDs but never storing them in the database:
+
+  - Lines 679-697: We call getOrInsert for handleColorId, topAdapterColorId, btmAdapterColorId, topAdapterId, btmAdapterId, rightBuildoutId, leftBuildoutId
+  - Lines 837-898: The INSERT statement doesn't include any of these IDs!
+
+  So when the confirm page gets data from session, it has everything. But when the view page queries the database, those values were never saved.
+
+  Let me check what columns the customization table actually has available, then we can store these values properly:
+
+● Read(database\inserted\clearviewdb.sql)
+  ⎿  Read 45 lines
+
+● The customization table is missing columns for these values! We need to add:
+
+  - handle_color_id
+  - top_adapter_id
+  - top_adapter_color_id
+  - bottom_adapter_id
+  - bottom_adapter_color_id
+  - right_buildout_id
+  - left_buildout_id
+  - mohair_id
+  - mohair_position_id
+
+  This would let us store the values we're already retrieving. Should I create an ALTER TABLE migration script to add these columns to the customization table? 
+
+  Note for Nick:
+
+  It's possible we need more stuff in the customization table. Many of the columns are not populating in the confirm form. Check lines 678-697 of ordersModel.js

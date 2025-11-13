@@ -91,6 +91,7 @@ ordersController.buildCreateMirage3500 = async function(req, res){
     const meshTypes = await ordersModel.getMeshTypes()
     const mohairOptions = await ordersModel.getMohair()
     const mohairPositions = await ordersModel.getMohairPositions()
+    const customers = await ordersModel.getAllCustomers()
 
     // Check for validation errors from session (POST/Redirect/GET pattern)
     let errors = null
@@ -126,12 +127,13 @@ ordersController.buildCreateMirage3500 = async function(req, res){
         meshTypes: meshTypes || [],
         mohairOptions: mohairOptions || [],
         mohairPositions: mohairPositions || [],
+        customers: customers || [],
         formData: formData
     })
 }
 ordersController.processMirage3500Form = async function(req, res){
     try {
-        // Store form data in session
+        // Store form data in session for confirm page
         req.session.mirage3500Data = req.body
 
         // Save to database with is_estimate=true
@@ -153,19 +155,6 @@ ordersController.processMirage3500Form = async function(req, res){
 ordersController.buildConfirmMirage3500 = async function(req, res){
     const formData = req.session.mirage3500Data || {}
 
-    // DEBUG: Log form data to see what values we have
-    console.log('=== CONFIRM PAGE FORM DATA ===')
-    console.log('handle_color:', formData.handle_color)
-    console.log('top_adapter:', formData.top_adapter)
-    console.log('top_adapter_color:', formData.top_adapter_color)
-    console.log('btm_adapter:', formData.btm_adapter)
-    console.log('btm_adapter_color:', formData.btm_adapter_color)
-    console.log('right_build_out:', formData.right_build_out)
-    console.log('left_build_out:', formData.left_build_out)
-    console.log('mohair:', formData.mohair)
-    console.log('mohair_position:', formData.mohair_position)
-    console.log('==============================')
-
     const fractions = await ordersModel.getMeasurements()
     const colors = await ordersModel.getColors()
     const handles = await ordersModel.getHandles()
@@ -176,17 +165,7 @@ ordersController.buildConfirmMirage3500 = async function(req, res){
     const meshTypes = await ordersModel.getMeshTypes()
     const mohairOptions = await ordersModel.getMohair()
     const mohairPositions = await ordersModel.getMohairPositions()
-
-    // DEBUG: Log first few values from database
-    console.log('=== DATABASE VALUES ===')
-    console.log('Sample colors:', colors.slice(0, 3).map(c => c.color_name))
-    console.log('Sample topAdapters:', topAdapters.slice(0, 3).map(a => a.top_adapter_name))
-    console.log('Sample bottomAdapters:', bottomAdapters.slice(0, 3).map(a => a.bottom_adapter_name))
-    console.log('Sample rightBuildouts:', rightBuildouts.slice(0, 3).map(b => b.right_buildout_name))
-    console.log('Sample leftBuildouts:', leftBuildouts.slice(0, 3).map(b => b.left_buildout_name))
-    console.log('Sample mohair:', mohairOptions.slice(0, 3).map(m => m.mohair_type))
-    console.log('Sample mohairPositions:', mohairPositions.map(p => p.mohair_position_name))
-    console.log('========================')
+    const customers = await ordersModel.getAllCustomers()
 
     res.render('orders/confirmMirage3500', {
         title: 'Confirm Mirage 3500 order',
@@ -202,7 +181,8 @@ ordersController.buildConfirmMirage3500 = async function(req, res){
         leftBuildouts: leftBuildouts || [],
         meshTypes: meshTypes || [],
         mohairOptions: mohairOptions || [],
-        mohairPositions: mohairPositions || []
+        mohairPositions: mohairPositions || [],
+        customers: customers || []
     })
 }
 

@@ -8,11 +8,24 @@
     <h2>My Orders</h2>
 
     <% if (orders && orders.length > 0) { %>
+        <div class="filter-container" style="margin-bottom: 1rem;">
+            <label for="customerFilter" style="margin-right: 0.5rem;"><b>Filter by Customer:</b></label>
+            <select id="customerFilter" style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+                <option value="">All Customers</option>
+                <% customers.forEach(customer => { %>
+                    <option value="<%= customer.customer_id %>">
+                        <%= customer.customer_lastname %>, <%= customer.customer_firstname %>
+                    </option>
+                <% }) %>
+            </select>
+        </div>
+
         <div class="orders-table-container">
             <table class="orders-table">
                 <thead>
                     <tr>
                         <th>Product</th>
+                        <th>Customer</th>
                         <th>Details</th>
                         <th>Date Created</th>
                         <th>Status</th>
@@ -21,8 +34,15 @@
                 </thead>
                 <tbody>
                     <% orders.forEach(order => { %>
-                        <tr>
+                        <tr data-customer-id="<%= order.customer_id || '' %>">
                             <td class="product-name"><%= order.product_name %></td>
+                            <td class="customer-name">
+                                <% if (order.customer_firstname && order.customer_lastname) { %>
+                                    <%= order.customer_lastname %>, <%= order.customer_firstname %>
+                                <% } else { %>
+                                    N/A
+                                <% } %>
+                            </td>
                             <td class="order-details">
                                 <% if (order.mirage_3500_handle) { %>
                                     Handle: <%= order.mirage_3500_handle %>
@@ -75,3 +95,23 @@
         </div>
     <% } %>
 </div>
+
+<% if (orders && orders.length > 0) { %>
+<script>
+    // Customer filter functionality
+    document.getElementById('customerFilter').addEventListener('change', function() {
+        const selectedCustomerId = this.value;
+        const rows = document.querySelectorAll('.orders-table tbody tr');
+
+        rows.forEach(row => {
+            const rowCustomerId = row.getAttribute('data-customer-id');
+
+            if (selectedCustomerId === '' || rowCustomerId === selectedCustomerId) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+</script>
+<% } %>
