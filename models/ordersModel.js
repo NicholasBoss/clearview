@@ -449,11 +449,17 @@ async function getOrderById(customization_id){
             LEFT JOIN unit_height uh ON c.unit_height_id = uh.unit_height_id
             LEFT JOIN pivot_pro_height pph ON c.pivot_pro_height_id = pph.pivot_pro_height_id
             LEFT JOIN add_buildout ab ON c.add_buildout_id = ab.add_buildout_id
-            LEFT JOIN color hc ON c.handle_color_id = hc.color_id
+            LEFT JOIN handle_color hcj ON c.handle_color_id = hcj.handle_color_id
+            LEFT JOIN product_color hcpc ON hcj.product_color_id = hcpc.product_color_id
+            LEFT JOIN color hc ON hcpc.color_id = hc.color_id
             LEFT JOIN top_adapter ta2 ON c.top_adapter_id = ta2.top_adapter_id
-            LEFT JOIN color tac ON c.top_adapter_color_id = tac.color_id
+            LEFT JOIN top_adapter_color tacj ON c.top_adapter_color_id = tacj.top_adapter_color_id
+            LEFT JOIN product_color tacpc ON tacj.product_color_id = tacpc.product_color_id
+            LEFT JOIN color tac ON tacpc.color_id = tac.color_id
             LEFT JOIN bottom_adapter ba2 ON c.bottom_adapter_id = ba2.bottom_adapter_id
-            LEFT JOIN color bac ON c.bottom_adapter_color_id = bac.color_id
+            LEFT JOIN bottom_adapter_color bacj ON c.bottom_adapter_color_id = bacj.bottom_adapter_color_id
+            LEFT JOIN product_color bacpc ON bacj.product_color_id = bacpc.product_color_id
+            LEFT JOIN color bac ON bacpc.color_id = bac.color_id
             LEFT JOIN right_buildout rb ON c.right_buildout_id = rb.right_buildout_id
             LEFT JOIN left_buildout lb ON c.left_buildout_id = lb.left_buildout_id
             -- LEFT JOIN mohair moh2 ON c.mohair_id = moh2.mohair_id -- TEMPORARILY REMOVED
@@ -664,6 +670,98 @@ async function getMeasurementId(fractionValue) {
     }
 }
 
+// Helper function to get or create product_color entry
+async function getOrCreateProductColor(productId, colorId) {
+    try {
+        if (!colorId) return null
+
+        // Check if product_color entry exists
+        const selectSql = 'SELECT product_color_id FROM product_color WHERE product_id = $1 AND color_id = $2'
+        const selectResult = await pool.query(selectSql, [productId, colorId])
+
+        if (selectResult.rows.length > 0) {
+            return selectResult.rows[0].product_color_id
+        }
+
+        // Create product_color entry
+        const insertSql = 'INSERT INTO product_color (product_id, color_id) VALUES ($1, $2) RETURNING product_color_id'
+        const insertResult = await pool.query(insertSql, [productId, colorId])
+        return insertResult.rows[0].product_color_id
+    } catch (error) {
+        console.error('Error in getOrCreateProductColor:', error)
+        throw error
+    }
+}
+
+// Helper function to get or create handle_color junction entry
+async function getOrCreateHandleColor(productColorId, mirage3500Id) {
+    try {
+        if (!productColorId || !mirage3500Id) return null
+
+        // Check if handle_color entry exists
+        const selectSql = 'SELECT handle_color_id FROM handle_color WHERE product_color_id = $1 AND mirage_3500_id = $2'
+        const selectResult = await pool.query(selectSql, [productColorId, mirage3500Id])
+
+        if (selectResult.rows.length > 0) {
+            return selectResult.rows[0].handle_color_id
+        }
+
+        // Create handle_color entry
+        const insertSql = 'INSERT INTO handle_color (product_color_id, mirage_3500_id) VALUES ($1, $2) RETURNING handle_color_id'
+        const insertResult = await pool.query(insertSql, [productColorId, mirage3500Id])
+        return insertResult.rows[0].handle_color_id
+    } catch (error) {
+        console.error('Error in getOrCreateHandleColor:', error)
+        throw error
+    }
+}
+
+// Helper function to get or create top_adapter_color junction entry
+async function getOrCreateTopAdapterColor(productColorId) {
+    try {
+        if (!productColorId) return null
+
+        // Check if top_adapter_color entry exists
+        const selectSql = 'SELECT top_adapter_color_id FROM top_adapter_color WHERE product_color_id = $1'
+        const selectResult = await pool.query(selectSql, [productColorId])
+
+        if (selectResult.rows.length > 0) {
+            return selectResult.rows[0].top_adapter_color_id
+        }
+
+        // Create top_adapter_color entry
+        const insertSql = 'INSERT INTO top_adapter_color (product_color_id) VALUES ($1) RETURNING top_adapter_color_id'
+        const insertResult = await pool.query(insertSql, [productColorId])
+        return insertResult.rows[0].top_adapter_color_id
+    } catch (error) {
+        console.error('Error in getOrCreateTopAdapterColor:', error)
+        throw error
+    }
+}
+
+// Helper function to get or create bottom_adapter_color junction entry
+async function getOrCreateBottomAdapterColor(productColorId) {
+    try {
+        if (!productColorId) return null
+
+        // Check if bottom_adapter_color entry exists
+        const selectSql = 'SELECT bottom_adapter_color_id FROM bottom_adapter_color WHERE product_color_id = $1'
+        const selectResult = await pool.query(selectSql, [productColorId])
+
+        if (selectResult.rows.length > 0) {
+            return selectResult.rows[0].bottom_adapter_color_id
+        }
+
+        // Create bottom_adapter_color entry
+        const insertSql = 'INSERT INTO bottom_adapter_color (product_color_id) VALUES ($1) RETURNING bottom_adapter_color_id'
+        const insertResult = await pool.query(insertSql, [productColorId])
+        return insertResult.rows[0].bottom_adapter_color_id
+    } catch (error) {
+        console.error('Error in getOrCreateBottomAdapterColor:', error)
+        throw error
+    }
+}
+
 // Handle measurement dimensions with junction tables
 async function handleMeasurementWithJunction(dimensionTable, dimensionColumn, dimensionIdColumn,
                                               junctionTable, measurementIntPart, measurementFraction) {
@@ -757,7 +855,29 @@ async function saveMirage3500Data(formData) {
         const productResult = await pool.query(productSql, ['Mirage 3500'])
         const productId = productResult.rows[0].product_id
 
-        // 17. Handle all measurements with their fractions
+        // 19. Create product_color and junction table entries for colors
+        // Handle color - create product_color entry, then handle_color junction entry
+        let handleColorJunctionId = null
+        if (handleColorId) {
+            const handleProductColorId = await getOrCreateProductColor(productId, handleColorId)
+            handleColorJunctionId = await getOrCreateHandleColor(handleProductColorId, mirage3500Id)
+        }
+
+        // Top adapter color - create product_color entry, then top_adapter_color junction entry
+        let topAdapterColorJunctionId = null
+        if (topAdapterColorId) {
+            const topAdapterProductColorId = await getOrCreateProductColor(productId, topAdapterColorId)
+            topAdapterColorJunctionId = await getOrCreateTopAdapterColor(topAdapterProductColorId)
+        }
+
+        // Bottom adapter color - create product_color entry, then bottom_adapter_color junction entry
+        let btmAdapterColorJunctionId = null
+        if (btmAdapterColorId) {
+            const btmAdapterProductColorId = await getOrCreateProductColor(productId, btmAdapterColorId)
+            btmAdapterColorJunctionId = await getOrCreateBottomAdapterColor(btmAdapterProductColorId)
+        }
+
+        // 20. Handle all measurements with their fractions
         console.log('Processing measurements...')
 
         // Top Opening Width
@@ -942,11 +1062,11 @@ async function saveMirage3500Data(formData) {
             unitHeight ? await getOrInsert('unit_height', 'unit_height_name', unitHeight, 'unit_height_id') : null,  // $23
             pivotProHeight ? await getOrInsert('pivot_pro_height', 'pivot_pro_height_name', pivotProHeight, 'pivot_pro_height_id') : null,  // $24
             buildOutDimension ? await getOrInsert('add_buildout', 'add_buildout_name', buildOutDimension, 'add_buildout_id') : null,  // $25
-            handleColorId,              // $26
+            handleColorJunctionId,      // $26 - using junction table ID
             topAdapterId,               // $27
-            topAdapterColorId,          // $28
+            topAdapterColorJunctionId,  // $28 - using junction table ID
             btmAdapterId,               // $29
-            btmAdapterColorId,          // $30
+            btmAdapterColorJunctionId,  // $30 - using junction table ID
             rightBuildoutId,            // $31
             leftBuildoutId              // $32
             // mohairId,                   // $33 - TEMPORARILY REMOVED
