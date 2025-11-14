@@ -416,7 +416,16 @@ async function getOrderById(customization_id){
                 ba.bottom_adapter_name,
                 uh.unit_height_name,
                 pph.pivot_pro_height_name,
-                ab.add_buildout_name
+                ab.add_buildout_name,
+                hc.color_name AS handle_color_name,
+                ta2.top_adapter_name AS top_adapter_type,
+                tac.color_name AS top_adapter_color_name,
+                ba2.bottom_adapter_name AS bottom_adapter_type,
+                bac.color_name AS bottom_adapter_color_name,
+                rb.right_buildout_name,
+                lb.left_buildout_name
+                -- moh2.mohair_type, -- TEMPORARILY REMOVED
+                -- mp.mohair_position_name -- TEMPORARILY REMOVED
             FROM customization c
             JOIN product p ON c.product_id = p.product_id
             LEFT JOIN color col ON c.color_id = col.color_id
@@ -440,6 +449,15 @@ async function getOrderById(customization_id){
             LEFT JOIN unit_height uh ON c.unit_height_id = uh.unit_height_id
             LEFT JOIN pivot_pro_height pph ON c.pivot_pro_height_id = pph.pivot_pro_height_id
             LEFT JOIN add_buildout ab ON c.add_buildout_id = ab.add_buildout_id
+            LEFT JOIN color hc ON c.handle_color_id = hc.color_id
+            LEFT JOIN top_adapter ta2 ON c.top_adapter_id = ta2.top_adapter_id
+            LEFT JOIN color tac ON c.top_adapter_color_id = tac.color_id
+            LEFT JOIN bottom_adapter ba2 ON c.bottom_adapter_id = ba2.bottom_adapter_id
+            LEFT JOIN color bac ON c.bottom_adapter_color_id = bac.color_id
+            LEFT JOIN right_buildout rb ON c.right_buildout_id = rb.right_buildout_id
+            LEFT JOIN left_buildout lb ON c.left_buildout_id = lb.left_buildout_id
+            -- LEFT JOIN mohair moh2 ON c.mohair_id = moh2.mohair_id -- TEMPORARILY REMOVED
+            -- LEFT JOIN mohair_position mp ON c.mohair_position_id = mp.mohair_position_id -- TEMPORARILY REMOVED
             WHERE c.customization_id = $1
         `
         const result = await pool.query(sql, [customization_id])
@@ -503,7 +521,16 @@ async function getOrderById(customization_id){
             left_plumb: row.left_plumb_name,
             right_plumb: row.right_plumb_name,
             starting_point: row.starting_point_name,
-            mount: row.mount_type_name
+            mount: row.mount_type_name,
+            handle_color: row.handle_color_name,
+            top_adapter: row.top_adapter_type,
+            top_adapter_color: row.top_adapter_color_name,
+            btm_adapter: row.bottom_adapter_type,
+            btm_adapter_color: row.bottom_adapter_color_name,
+            right_build_out: row.right_buildout_name,
+            left_build_out: row.left_buildout_name
+            // mohair: row.mohair_type, // TEMPORARILY REMOVED
+            // mohair_position: row.mohair_position_name // TEMPORARILY REMOVED
         }
     } catch (error) {
         console.error('Error in getOrderById:', error)
@@ -719,7 +746,13 @@ async function saveMirage3500Data(formData) {
         // 15. Handle mesh
         const meshId = await getOrInsert('mesh', 'mesh_type', formData.mesh, 'mesh_id')
 
-        // 16. Get product_id for Mirage 3500
+        // 16. Handle mohair
+        const mohairId = await getOrInsert('mohair', 'mohair_type', formData.mohair, 'mohair_id')
+
+        // 17. Handle mohair position
+        const mohairPositionId = await getOrInsert('mohair_position', 'mohair_position_name', formData.mohair_position, 'mohair_position_id')
+
+        // 18. Get product_id for Mirage 3500
         const productSql = 'SELECT product_id FROM product WHERE product_name = $1'
         const productResult = await pool.query(productSql, ['Mirage 3500'])
         const productId = productResult.rows[0].product_id
@@ -838,7 +871,8 @@ async function saveMirage3500Data(formData) {
         const frameSizeResult = await pool.query(defaultFrameSizeSql)
         const frameSizeId = frameSizeResult.rows[0]?.frame_size_id || 1
 
-        // 18. INSERT into customization table
+        // 19. INSERT into customization table
+        // NOTE: mohair_id and mohair_position_id temporarily removed until database is updated
         const customizationSql = `
             INSERT INTO customization (
                 product_id,
@@ -865,12 +899,20 @@ async function saveMirage3500Data(formData) {
                 bottom_adapter_width_id,
                 unit_height_id,
                 pivot_pro_height_id,
-                add_buildout_id
+                add_buildout_id,
+                handle_color_id,
+                top_adapter_id,
+                top_adapter_color_id,
+                bottom_adapter_id,
+                bottom_adapter_color_id,
+                right_buildout_id,
+                left_buildout_id
             ) VALUES (
                 $1, $2, $3, $4, $5, $6, $7, $8,
                 $9, $10, $11, $12, $13, $14,
                 $15, $16, $17, $18, $19, $20,
-                $21, $22, $23, $24, $25
+                $21, $22, $23, $24, $25, $26,
+                $27, $28, $29, $30, $31, $32
             ) RETURNING customization_id
         `
 
@@ -899,7 +941,16 @@ async function saveMirage3500Data(formData) {
             btmAdapterWidth ? await getOrInsert('bottom_adapter', 'bottom_adapter_name', btmAdapterWidth, 'bottom_adapter_id') : null,  // $22 - NOTE: Storing width value in adapter table
             unitHeight ? await getOrInsert('unit_height', 'unit_height_name', unitHeight, 'unit_height_id') : null,  // $23
             pivotProHeight ? await getOrInsert('pivot_pro_height', 'pivot_pro_height_name', pivotProHeight, 'pivot_pro_height_id') : null,  // $24
-            buildOutDimension ? await getOrInsert('add_buildout', 'add_buildout_name', buildOutDimension, 'add_buildout_id') : null  // $25
+            buildOutDimension ? await getOrInsert('add_buildout', 'add_buildout_name', buildOutDimension, 'add_buildout_id') : null,  // $25
+            handleColorId,              // $26
+            topAdapterId,               // $27
+            topAdapterColorId,          // $28
+            btmAdapterId,               // $29
+            btmAdapterColorId,          // $30
+            rightBuildoutId,            // $31
+            leftBuildoutId              // $32
+            // mohairId,                   // $33 - TEMPORARILY REMOVED
+            // mohairPositionId            // $34 - TEMPORARILY REMOVED
         ])
 
         const customizationId = customizationResult.rows[0].customization_id

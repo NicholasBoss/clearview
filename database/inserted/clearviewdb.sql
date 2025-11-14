@@ -1256,6 +1256,13 @@ CREATE TABLE IF NOT EXISTS general_retract_control
     unit_height_id INTEGER NULL,
     pivot_pro_height_id INTEGER NULL,
     add_buildout_id INTEGER NULL,
+    top_adapter_id INTEGER NULL,
+    bottom_adapter_id INTEGER NULL,
+    right_buildout_id INTEGER NULL,
+    left_buildout_id INTEGER NULL,
+    top_adapter_color_id INTEGER NULL,
+    bottom_adapter_color_id INTEGER NULL,
+    handle_color_id INTEGER NULL,
     CONSTRAINT customization_pk PRIMARY KEY (customization_id),
     CONSTRAINT customization_fk1
       FOREIGN KEY (product_id)
@@ -1399,7 +1406,7 @@ CREATE TABLE IF NOT EXISTS general_retract_control
       ON UPDATE CASCADE,
     CONSTRAINT customization_fk29
       FOREIGN KEY (top_adapter_width_id)
-      REFERENCES top_adapter (top_adapter_id)
+      REFERENCES measurement (measurement_id)
       ON DELETE CASCADE
       ON UPDATE CASCADE,
     CONSTRAINT customization_fk30
@@ -1420,6 +1427,41 @@ CREATE TABLE IF NOT EXISTS general_retract_control
     CONSTRAINT customization_fk33
       FOREIGN KEY (add_buildout_id)
       REFERENCES add_buildout (add_buildout_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk34
+      FOREIGN KEY (top_adapter_id)
+      REFERENCES top_adapter (top_adapter_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk35
+      FOREIGN KEY (bottom_adapter_id)
+      REFERENCES bottom_adapter (bottom_adapter_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk36
+      FOREIGN KEY (right_buildout_id)
+      REFERENCES right_buildout (right_buildout_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk37
+      FOREIGN KEY (left_buildout_id)
+      REFERENCES left_buildout (left_buildout_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk38
+      FOREIGN KEY (top_adapter_color_id)
+      REFERENCES top_adapter_color (top_adapter_color_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk39
+      FOREIGN KEY (bottom_adapter_color_id)
+      REFERENCES bottom_adapter_color (bottom_adapter_color_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk40
+      FOREIGN KEY (handle_color_id)
+      REFERENCES handle_color (handle_color_id)
       ON DELETE CASCADE
       ON UPDATE CASCADE
   );
