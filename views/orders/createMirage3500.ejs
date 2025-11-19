@@ -196,6 +196,21 @@
         </label><br>
         <!-- in Vs Surface -->
 
+        <label class="required-field"><b>Door Type</b>
+            <input type="text" name="door_type" id="door_type" value="<%= formData.door_type || '' %>" placeholder="Enter door type" required <%= errors && errors.array().find(e => e.path === 'door_type') ? 'class="error-input"' : '' %>>
+            <% if (errors) { const error = errors.array().find(e => e.path === 'door_type'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+        </label><br>
+
+        <label class="required-field"><b>Door Mount</b>
+            <input type="text" name="door_mount" id="door_mount" value="<%= formData.door_mount || '' %>" placeholder="Enter door mount" required <%= errors && errors.array().find(e => e.path === 'door_mount') ? 'class="error-input"' : '' %>>
+            <% if (errors) { const error = errors.array().find(e => e.path === 'door_mount'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+        </label><br>
+
+        <label class="required-field"><b>Opening Side</b>
+            <input type="text" name="opening_side" id="opening_side" value="<%= formData.opening_side || '' %>" placeholder="Enter opening side" required <%= errors && errors.array().find(e => e.path === 'opening_side') ? 'class="error-input"' : '' %>>
+            <% if (errors) { const error = errors.array().find(e => e.path === 'opening_side'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+        </label><br>
+
         <!-- handing to be placed here (create a table for specifically the mirages)-->
 
         <label class="required-field"><b>Color</b>
@@ -389,9 +404,9 @@
             <% } %>
         </label><br>
 
-        <label class="required-field"><b>Mohair</b>
-            <select name="mohair" id="mohair" required <%= errors && errors.array().find(e => e.path === 'mohair') ? 'class="error-input"' : '' %>>
-                <option value="">Select</option>
+        <label><b>Mohair (Optional)</b>
+            <select name="mohair" id="mohair" <%= errors && errors.array().find(e => e.path === 'mohair') ? 'class="error-input"' : '' %>>
+                <option value="">Select (Optional)</option>
                 <% mohairOptions.forEach(mohair => { %>
                     <option value="<%= mohair.mohair_type %>" <%= formData.mohair === mohair.mohair_type ? 'selected' : '' %>><%= mohair.mohair_type %></option>
                 <% }) %>
@@ -399,9 +414,9 @@
             <% if (errors) { const error = errors.array().find(e => e.path === 'mohair'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
         </label><br>
 
-        <label class="required-field"><b>Mohair Position</b>
-            <select name="mohair_position" id="mohair_position" required <%= errors && errors.array().find(e => e.path === 'mohair_position') ? 'class="error-input"' : '' %>>
-                <option value="">Select</option>
+        <label><b>Mohair Position (Optional)</b>
+            <select name="mohair_position" id="mohair_position" <%= errors && errors.array().find(e => e.path === 'mohair_position') ? 'class="error-input"' : '' %>>
+                <option value="">Select (Optional)</option>
                 <% mohairPositions.forEach(position => { %>
                     <option value="<%= position.mohair_position_name %>" <%= formData.mohair_position === position.mohair_position_name ? 'selected' : '' %>><%= position.mohair_position_name %></option>
                 <% }) %>

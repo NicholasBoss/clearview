@@ -79,105 +79,28 @@ TO DO:
 - make sure user authentication is integrated (including for Gary specifically)
 - change the popups to say data will be inserted after the create form is submitted and not when the confirm form is
 - make sure there are popups before each action 
-- Fix some of the form fields not populating after create form is submitted 
+- Fix some of the form fields not populating after create form is submitted  
 
-Things to Fix:
+  NOT REQUIRED FIELDS MIRAGE3500:
 
-I found the root cause! The issue is with the database schema itself.
+  mohair and mohair position
 
-  The Problem:
+  Changes needed: 
 
-  The code in saveMirage3500Data (ordersModel.js:679-697) correctly captures all these values:
-  - handleColorId
-  - topAdapterColorId
-  - btmAdapterColorId
-  - topAdapterId
-  - btmAdapterId
-  - rightBuildoutId
-  - leftBuildoutId
+  - there should be an EXTRA admin page that will get all orders without soft deleting any of them. No WHERE clause for the admin page (should be the same as account page but with ALL orders and the ones completed on the regular account page should be soft deleted. Not deleted from the database, but removed from view. )
+  - ADMIN (Gary) should be able to change and reassign employees to another order (this means that for ADMIN, the account page should have an employee section that tells him what employee is working on the order) 
+  - ADMIN should have the same permissions as all employees
+- mobile view for account page: one column with collapsable sections instead of a side scrolling option
+- mirage and mirage3500 both REQUIRE retractable controls (general_retract_control table)
+- mirage by itself is pivot pro handle only 
+- mirage 3500 has more options for the handle
+- if mirage3500 pivot pro is selected, the pivot pro color must appear as a new option
 
-  And retrieves mohair values, but the customization table schema is missing columns to store these values!
 
-  Looking at the database schema (clearviewdb.sql:1219-1258), the customization table only has:
-  - color_id - for the main color
-  - top_adapter_width_id - for the adapter WIDTH (not the adapter type)
-  - bottom_adapter_width_id - for the adapter WIDTH (not the adapter type)
 
-  Missing columns:
-  1. handle_color_id - to store handle color
-  2. top_adapter_id - to store top adapter type
-  3. top_adapter_color_id - to store top adapter color
-  4. bottom_adapter_id - to store bottom adapter type
-  5. bottom_adapter_color_id - to store bottom adapter color
-  6. right_buildout_id - to store right buildout
-  7. left_buildout_id - to store left buildout
-  8. mohair_id - to store mohair type
-  9. mohair_position_id - to store mohair position
+NOTE TO ASK GARY (NICK):
 
-  The Fix:
+We need to verify what columns are needed for each product we're working on and which fields are needed/required and out of those fields, are any of them specifc to the retractable controlling feature. For example, if you order mirage, does it automatically require retractable controls, or not? And if true, we need to make sure we have all of those pieces. 
 
-  I need to:
-  1. Add these missing columns to the customization table (ALTER TABLE)
-  2. Update the INSERT statement in saveMirage3500Data to include these values
-  3. Update getOrderById to JOIN these new columns so the viewMirage3500 page can display them
-
-  Should I proceed with adding these columns to the database schema? This will require running ALTER TABLE statements against your PostgreSQL database.
-
-> I'm confused. Why can't you just query the handle_color table for the handle_color_id? Instead of having EVERYTHING in the customization table 
-
-● You're absolutely right to question this! Let me look more carefully at the database structure to see if there are existing junction tables or relationships       
-  I'm missing.
-
-● You're making me think harder about the database architecture! I see there's a handle_color junction table, but I'm confused about how to link a specific
-  order's handle color choice.
-
-  The handle_color table links:
-  - mirage_3500_id (the handle type)
-  - product_color_id (the color)
-
-  But in the code, mirage_3500_id is shared across all orders with the same handle type (line 673: getOrInsert on mirage_3500_handle). So if we just query the       
-  handle_color table by mirage_3500_id, we might get colors from OTHER people's orders with the same handle type.
-
-  My question: How should we link a specific customization/order to its unique color choices?
-
-  Should we:
-  1. Add handle_color_id, top_adapter_color_id, bottom_adapter_color_id columns to the customization table to store the foreign keys?
-  2. Or is there a different architecture pattern I'm missing?
-
-  The current code gets these IDs (lines 679-685) but never stores them anywhere, which is why they're lost when we try to retrieve the order later.
-
-> Why not just use the same query for the view details page as the confirm page? They should basically just be the same page but the one from the account page       
-should not be able to be edited. That's the only difference 
-
-● You're absolutely right! That's a much simpler way to think about it. Both pages should display the same data - the confirm page just happens to be editable       
-  and the view page is read-only.
-
-● The problem is simple: in saveMirage3500Data (ordersModel.js), we're getting these IDs but never storing them in the database:
-
-  - Lines 679-697: We call getOrInsert for handleColorId, topAdapterColorId, btmAdapterColorId, topAdapterId, btmAdapterId, rightBuildoutId, leftBuildoutId
-  - Lines 837-898: The INSERT statement doesn't include any of these IDs!
-
-  So when the confirm page gets data from session, it has everything. But when the view page queries the database, those values were never saved.
-
-  Let me check what columns the customization table actually has available, then we can store these values properly:
-
-● Read(database\inserted\clearviewdb.sql)
-  ⎿  Read 45 lines
-
-● The customization table is missing columns for these values! We need to add:
-
-  - handle_color_id
-  - top_adapter_id
-  - top_adapter_color_id
-  - bottom_adapter_id
-  - bottom_adapter_color_id
-  - right_buildout_id
-  - left_buildout_id
-  - mohair_id
-  - mohair_position_id
-
-  This would let us store the values we're already retrieving. Should I create an ALTER TABLE migration script to add these columns to the customization table? 
-
-  Note for Nick:
-
-  It's possible we need more stuff in the customization table. Many of the columns are not populating in the confirm form. Check lines 678-697 of ordersModel.js
+NOTE FOR NICK: 
+ we need to drop the customization table columns that were recently added so that I can test the new mirage3500 create form, which is now updated to handle the general_retract_control table in addition to the customization table 
