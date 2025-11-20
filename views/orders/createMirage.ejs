@@ -176,22 +176,18 @@
         <!-- There are a lot of different mesh variables and I am unsure of which one to use here -->
 
         <label><b>Mohair</b>
-            <select name="mohair" id="mohair">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
+            <select name="" id="mohair">
+                <% mohairs.forEach(mohair => { %>
+                    <option value="<%= mohair.mohair_type %>" <%= formData.mohair_id === mohair.mohair_type ? 'selected' : '' %>><%= mohair.mohair_type %></option>
+                <% }) %>
             </select>
         </label><br>
 
         <label><b>Mohair Position</b>
-            <select name="mohair_position" id="mohair_position">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
+            <select name="" id="mohair_position">
+                <% mohair_poses.forEach(mohair_pos => { %>
+                    <option value="<%= mohair_position.mohair_position_name %>" <%= formData.mohair_position_id === mohair_position.mohair_position_name ? 'selected' : '' %>><%= mohair_position.mohair_position_name %></option>
+                <% }) %>
             </select>
         </label><br>
 
