@@ -1412,6 +1412,7 @@ CREATE TABLE IF NOT EXISTS general_retract_control
     CONSTRAINT customization_fk29
       FOREIGN KEY (top_adapter_width_id)
       REFERENCES measurement (measurement_id)
+      REFERENCES measurement (measurement_id)
       ON DELETE CASCADE
       ON UPDATE CASCADE,
     CONSTRAINT customization_fk30
