@@ -70,6 +70,7 @@ async function getColors() {
     }
 }
 
+
 async function getColorsByProduct(product_name) {
     try {
         const sql = `
@@ -86,6 +87,38 @@ async function getColorsByProduct(product_name) {
         return error.message
     }
 }
+async function getMesh() {
+    try {
+        const sql = `
+        SELECT DISTINCT m.mesh_type
+        FROM mesh AS m
+        INNER JOIN product_mesh AS pm ON m.mesh_id = pm.mesh_id
+        ORDER BY m.mesh_type;
+        `
+        const mesh = await pool.query(sql)
+        return mesh.rows
+    } catch (error) {
+        return error.message
+        }
+}
+
+async function getMeshByProduct(product_name) {
+    try {
+        const sql = `
+            SELECT m.mesh_type 
+            FROM mesh AS m
+            INNER JOIN product_mesh pm ON m.mesh_id = pm.mesh_id
+            INNER JOIN product AS p ON pm.product_id = p.product_id
+            WHERE p.product_name = $1
+            ORDER BY m.mesh_type;
+        `
+        const mesh = await pool.query(sql, [product_name])
+        return mesh.rows
+    } catch (error) {
+        return error.message
+    }
+}
+
 
 async function createMirage3500Order(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type, mirage_3500_handle) {
     try {
@@ -245,5 +278,8 @@ module.exports = {
     createOrder,
     getMeasurements,
     getColors,
-    getColorsByProduct
+    getColorsByProduct,
+    getMesh,
+    getMeshByProduct,
+    getFrameSizes
 }

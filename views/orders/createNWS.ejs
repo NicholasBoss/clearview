@@ -6,13 +6,8 @@
         <label><b>Quantity</b>
             <input type="text" name="quantity" id="">
         </label><br>
-        <label><b>Fabric</b>
-            <select name="fabric" id="fabric_id">
-                <option value="">Select</option>
-                <% fabrics.forEach(fabric => { %>
-                    <option value="<%= fabric.fabric_name %>" <%= formData.fabric_id === fabric.fabric_name ? 'selected' : '' %>><%= fabric.fabric_name %></option>
-                <% }) %>
-            </select>
+        <label><b>Fab</b>
+            <input type="text" name="width_input" id="">
         </label><br>
         <label><b>Frame</b>
             <select name="frame_size" id="frame_size_id">
@@ -31,9 +26,7 @@
             </select>
         </label><br>
         <label><b>Width</b>
-            <select name="width" id="">
-                <input type="text" name="width_input" id="">
-            </select>
+            <input type="text" name="width_input" id="">
         </label><br>
         <label><b>W / F</b>
             <select name="measurement_name" id="">
@@ -51,9 +44,7 @@
             </select>
         </label><br>
         <label><b>Height</b>
-            <select name="height" id="">
-                <input type="text" name="height_input" id="">
-            </select>
+            <input type="text" name="height_input" id="">
         </label><br>
         <label><b>H / F</b>
             <select name="height_fraction" id="">
