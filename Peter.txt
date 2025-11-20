@@ -103,4 +103,14 @@ NOTE TO ASK GARY (NICK):
 We need to verify what columns are needed for each product we're working on and which fields are needed/required and out of those fields, are any of them specifc to the retractable controlling feature. For example, if you order mirage, does it automatically require retractable controls, or not? And if true, we need to make sure we have all of those pieces. 
 
 NOTE FOR NICK: 
- we need to drop the customization table columns that were recently added so that I can test the new mirage3500 create form, which is now updated to handle the general_retract_control table in addition to the customization table 
+
+We need to drop the columns in the customization table that we added before for the mirage3500 form to work: 
+
+ ALTER TABLE customization ALTER COLUMN mesh_id DROP NOT NULL;
+  ALTER TABLE customization ALTER COLUMN mohair_id DROP NOT NULL;
+  ALTER TABLE customization ALTER COLUMN mohair_position_id DROP NOT NULL;
+  ALTER TABLE customization ALTER COLUMN top_adapter_id DROP NOT NULL;
+  ALTER TABLE customization ALTER COLUMN bottom_adapter_id DROP NOT NULL;
+  ALTER TABLE customization ALTER COLUMN right_buildout_id DROP NOT NULL;
+  ALTER TABLE customization ALTER COLUMN left_buildout_id DROP NOT NULL;
+  ALTER TABLE customization ALTER COLUMN add_buildout_id DROP NOT NULL;
