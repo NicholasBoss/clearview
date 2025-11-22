@@ -232,10 +232,88 @@ ordersController.buildConfirmMirage = async function(req, res){
 }
 
 ordersController.buildCreateRainier = async function(req, res){
+    const fractions = await ordersModel.getMeasurements()
+    const rainierPlacements = await ordersModel.getRainierPlacements()
+    const rainierColors = await ordersModel.getRainierColors()
+    const hardwareColors = await ordersModel.getHardwareColors()
+    const rainierFabricColors = await ordersModel.getRainierFabricColors()
+    const housingSeries = await ordersModel.getHousingSeries()
+    const driveSides = await ordersModel.getDriveSides()
+    const hembars = await ordersModel.getHembars()
+    const pileBrushes = await ordersModel.getPileBrushes()
+    const brushLocations = await ordersModel.getBrushLocations()
+    const zipperColors = await ordersModel.getZipperColors()
+    const cordLengths = await ordersModel.getCordLengths()
+    const mountTypes = await ordersModel.getMountTypes()
+    const tracks = await ordersModel.getTracks()
+    const leftTracks = await ordersModel.getLeftTracks()
+    const rightBuildouts = await ordersModel.getRightBuildouts()
+    const leftBuildouts = await ordersModel.getLeftBuildouts()
+    const topOpeningWidths = await ordersModel.getTopOpeningWidths()
+    const topLevels = await ordersModel.getTopLevels()
+    const bottomOpeningWidths = await ordersModel.getBottomOpeningWidths()
+    const bottomLevels = await ordersModel.getBottomLevels()
+    const leftOpeningHeights = await ordersModel.getLeftOpeningHeights()
+    const rightOpeningHeights = await ordersModel.getRightOpeningHeights()
+    const leftPlumbs = await ordersModel.getLeftPlumbs()
+    const startingPoints = await ordersModel.getStartingPoints()
+    const addBuildouts = await ordersModel.getAddBuildouts()
+    const rightPlumbs = await ordersModel.getRightPlumbs()
+    const customers = await ordersModel.getAllCustomers()
+
+    // Check for validation errors from session (POST/Redirect/GET pattern)
+    let errors = null
+    let formData = {}
+
+    if (req.session.validationErrors) {
+        // Store in local variables before clearing session
+        const validationErrors = req.session.validationErrors
+        const sessionFormData = req.session.formData || {}
+
+        // Clear the session data
+        delete req.session.validationErrors
+        delete req.session.formData
+
+        // Convert error array back to validationResult format
+        errors = {
+            array: () => validationErrors
+        }
+        formData = sessionFormData
+    }
+
     res.render('orders/createRainier', {
-        title: 'Create order',
+        title: 'Create Rainier Order',
         link: 'orders/createRainier',
-        errors: null
+        errors: errors,
+        formData: formData,
+        fractions: fractions || [],
+        rainierPlacements: rainierPlacements || [],
+        rainierColors: rainierColors || [],
+        hardwareColors: hardwareColors || [],
+        rainierFabricColors: rainierFabricColors || [],
+        housingSeries: housingSeries || [],
+        driveSides: driveSides || [],
+        hembars: hembars || [],
+        pileBrushes: pileBrushes || [],
+        brushLocations: brushLocations || [],
+        zipperColors: zipperColors || [],
+        cordLengths: cordLengths || [],
+        mountTypes: mountTypes || [],
+        tracks: tracks || [],
+        leftTracks: leftTracks || [],
+        rightBuildouts: rightBuildouts || [],
+        leftBuildouts: leftBuildouts || [],
+        topOpeningWidths: topOpeningWidths || [],
+        topLevels: topLevels || [],
+        bottomOpeningWidths: bottomOpeningWidths || [],
+        bottomLevels: bottomLevels || [],
+        leftOpeningHeights: leftOpeningHeights || [],
+        rightOpeningHeights: rightOpeningHeights || [],
+        leftPlumbs: leftPlumbs || [],
+        startingPoints: startingPoints || [],
+        addBuildouts: addBuildouts || [],
+        rightPlumbs: rightPlumbs || [],
+        customers: customers || []
     })
 }
 ordersController.buildConfirmRainier = async function(req, res){
