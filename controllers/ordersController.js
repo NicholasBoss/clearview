@@ -1,4 +1,5 @@
 const ordersModel = require('../models/ordersModel')
+const jfOrdersModel = require('../models/jfOrdersModel')
 const ordersController = {}
 
 ordersController.buildCreate = async function(req, res){
@@ -116,11 +117,42 @@ ordersController.buildConfirmMirage = async function(req, res){
 }
 
 ordersController.buildCreateRainier = async function(req, res){
+    const placement = await jfOrdersModel.getPlacement()
+    const colors = await ordersModel.getColors()
+    const housing = await jfOrdersModel.getHousing()
+    const driveSide = await jfOrdersModel.getdriveSide()
+    const hembar = await jfOrdersModel.gethembar()
+    const pilebrush = await jfOrdersModel.getpilebrush()
+    const brushLocation = await jfOrdersModel.getbrushLocation()
+    const zipperColor = await jfOrdersModel.getzipperColor()
+    const cordLength = await jfOrdersModel.getcordLength()
+    const mountTypes = await jfOrdersModel.getmountTypes()
+    const fractions = await ordersModel.getMeasurements()
+    const leftBuildout = await jfOrdersModel.getleftBuildout()
+    const rightBuildout = await jfOrdersModel.getrightBuildout()
+    const leftTrack = await jfOrdersModel.getleftTrack()
+    const rightTrack = await jfOrdersModel.getrightTrack()
+
     res.render('orders/createRainier', {
         title: 'Create order',
         link: 'orders/createRainier',
         errors: null,
-        mount_types: ["hi"]
+        placement: placement || [],
+        colors: colors || [],
+        housing: housing || [],
+        driveSide: driveSide || [],
+        hembar: hembar || [],
+        pilebrush: pilebrush || [],
+        brushLocation: brushLocation || [],
+        zipperColor: zipperColor || [],
+        cordLength: cordLength || [],
+        mountTypes: mountTypes || [],
+        fractions: fractions || [],
+        leftBuildout: leftBuildout || [],
+        rightBuildout: rightBuildout || [],
+        leftTrack: leftTrack || [],
+        rightTrack: rightTrack || []
+
     })
 }
 ordersController.buildConfirmRainier = async function(req, res){
