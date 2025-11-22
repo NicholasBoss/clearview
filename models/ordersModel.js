@@ -417,11 +417,10 @@ async function getOrderById(customization_id){
                 pph.pivot_pro_height_name,
                 hc.color_name AS handle_color_name,
                 tac.color_name AS top_adapter_color_name,
-                bac.color_name AS bottom_adapter_color_name,
                 grc.door_type,
                 grc.door_mount,
                 grc.opening_side,
-                grc.btm_adapter_color,
+                grc_bac_color.color_name AS grc_bottom_adapter_color,
                 grc_mesh.mesh_type,
                 grc_mohair.mohair_type,
                 grc_mohair_pos.mohair_position_name,
@@ -457,15 +456,15 @@ async function getOrderById(customization_id){
             LEFT JOIN top_adapter_color tacj ON c.top_adapter_color_id = tacj.top_adapter_color_id
             LEFT JOIN product_color tacpc ON tacj.product_color_id = tacpc.product_color_id
             LEFT JOIN color tac ON tacpc.color_id = tac.color_id
-            LEFT JOIN bottom_adapter_color bacj ON c.bottom_adapter_color_id = bacj.bottom_adapter_color_id
-            LEFT JOIN product_color bacpc ON bacj.product_color_id = bacpc.product_color_id
-            LEFT JOIN color bac ON bacpc.color_id = bac.color_id
             LEFT JOIN general_retract_control grc ON c.general_retract_control_id = grc.general_retract_control_id
             LEFT JOIN mesh grc_mesh ON grc.mesh_id = grc_mesh.mesh_id
             LEFT JOIN mohair grc_mohair ON grc.mohair_id = grc_mohair.mohair_id
             LEFT JOIN mohair_position grc_mohair_pos ON grc.mohair_position_id = grc_mohair_pos.mohair_position_id
             LEFT JOIN top_adapter grc_top_adapter ON grc.top_adapter_id = grc_top_adapter.top_adapter_id
             LEFT JOIN bottom_adapter grc_bottom_adapter ON grc.bottom_adapter_id = grc_bottom_adapter.bottom_adapter_id
+            LEFT JOIN bottom_adapter_color grc_bac_junction ON grc.bottom_adapter_color_id = grc_bac_junction.bottom_adapter_color_id
+            LEFT JOIN product_color grc_bac_pc ON grc_bac_junction.product_color_id = grc_bac_pc.product_color_id
+            LEFT JOIN color grc_bac_color ON grc_bac_pc.color_id = grc_bac_color.color_id
             LEFT JOIN buildout grc_buildout ON grc.buildout_id = grc_buildout.buildout_id
             LEFT JOIN right_buildout grc_rb ON grc_buildout.buildout_name = grc_rb.right_buildout_name
             LEFT JOIN left_buildout grc_lb ON grc_buildout.buildout_name = grc_lb.left_buildout_name
@@ -537,7 +536,7 @@ async function getOrderById(customization_id){
             top_adapter: row.top_adapter_type,
             top_adapter_color: row.top_adapter_color_name,
             btm_adapter: row.bottom_adapter_type,
-            btm_adapter_color: row.btm_adapter_color,
+            btm_adapter_color: row.grc_bottom_adapter_color,
             right_build_out: row.right_buildout_name,
             left_build_out: row.left_buildout_name,
             mohair: row.mohair_type,
@@ -1034,7 +1033,7 @@ async function saveMirage3500Data(formData) {
                 top_adapter_id,
                 buildout_id,
                 bottom_adapter_id,
-                btm_adapter_color
+                bottom_adapter_color_id
             ) VALUES (
                 $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11
             ) RETURNING general_retract_control_id
@@ -1051,7 +1050,7 @@ async function saveMirage3500Data(formData) {
             topAdapterId,                 // $8
             buildoutId,                   // $9
             btmAdapterId,                 // $10
-            formData.btm_adapter_color    // $11
+            btmAdapterColorJunctionId     // $11 - using junction table ID
         ])
 
         const generalRetractControlId = generalRetractControlResult.rows[0].general_retract_control_id
@@ -1060,7 +1059,7 @@ async function saveMirage3500Data(formData) {
         // 20. INSERT into customization table
         // NOTE: Removed duplicate fields that are now in general_retract_control:
         // mesh_id, mohair_id, mohair_position_id, top_adapter_id, bottom_adapter_id,
-        // right_buildout_id, left_buildout_id, add_buildout_id
+        // right_buildout_id, left_buildout_id, add_buildout_id, bottom_adapter_color_id
         const customizationSql = `
             INSERT INTO customization (
                 product_id,
@@ -1088,14 +1087,13 @@ async function saveMirage3500Data(formData) {
                 pivot_pro_height_id,
                 handle_color_id,
                 top_adapter_color_id,
-                bottom_adapter_color_id,
                 general_retract_control_id
             ) VALUES (
                 $1, $2, $3, $4, $5, $6, $7,
                 $8, $9, $10, $11, $12, $13,
                 $14, $15, $16, $17, $18, $19,
                 $20, $21, $22, $23, $24, $25,
-                $26, $27
+                $26
             ) RETURNING customization_id
         `
 
@@ -1125,8 +1123,7 @@ async function saveMirage3500Data(formData) {
             pivotProHeight ? await getOrInsert('pivot_pro_height', 'pivot_pro_height_name', pivotProHeight, 'pivot_pro_height_id') : null,  // $23
             handleColorJunctionId,      // $24 - using junction table ID
             topAdapterColorJunctionId,  // $25 - using junction table ID
-            btmAdapterColorJunctionId,  // $26 - using junction table ID
-            generalRetractControlId     // $27 - foreign key to general_retract_control
+            generalRetractControlId     // $26 - foreign key to general_retract_control
         ])
 
         const customizationId = customizationResult.rows[0].customization_id
