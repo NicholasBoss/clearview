@@ -404,9 +404,9 @@
             <% } %>
         </label><br>
 
-        <label><b>Mohair (Optional)</b>
-            <select name="mohair" id="mohair" <%= errors && errors.array().find(e => e.path === 'mohair') ? 'class="error-input"' : '' %>>
-                <option value="">Select (Optional)</option>
+        <label class="required-field"><b>Mohair</b>
+            <select name="mohair" id="mohair" required <%= errors && errors.array().find(e => e.path === 'mohair') ? 'class="error-input"' : '' %>>
+                <option value="">Select</option>
                 <% mohairOptions.forEach(mohair => { %>
                     <option value="<%= mohair.mohair_type %>" <%= formData.mohair === mohair.mohair_type ? 'selected' : '' %>><%= mohair.mohair_type %></option>
                 <% }) %>
@@ -414,9 +414,9 @@
             <% if (errors) { const error = errors.array().find(e => e.path === 'mohair'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
         </label><br>
 
-        <label><b>Mohair Position (Optional)</b>
-            <select name="mohair_position" id="mohair_position" <%= errors && errors.array().find(e => e.path === 'mohair_position') ? 'class="error-input"' : '' %>>
-                <option value="">Select (Optional)</option>
+        <label class="required-field"><b>Mohair Position</b>
+            <select name="mohair_position" id="mohair_position" required <%= errors && errors.array().find(e => e.path === 'mohair_position') ? 'class="error-input"' : '' %>>
+                <option value="">Select</option>
                 <% mohairPositions.forEach(position => { %>
                     <option value="<%= position.mohair_position_name %>" <%= formData.mohair_position === position.mohair_position_name ? 'selected' : '' %>><%= position.mohair_position_name %></option>
                 <% }) %>

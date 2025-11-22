@@ -54,7 +54,7 @@
                             </td>
                             <td class="order-date">
                                 <% if (order.order_date) { %>
-                                    <%= new Date(order.order_date + 'T00:00:00').toLocaleDateString() %>
+                                    <%= new Date(order.order_date).toLocaleDateString() %>
                                 <% } else { %>
                                     N/A
                                 <% } %>

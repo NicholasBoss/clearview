@@ -397,67 +397,29 @@ async function getOrderById(customization_id){
                 c.*,
                 p.product_name,
                 col.color_name,
+                mesh.mesh_type,
                 m3.mirage_3500_handle,
                 m.mirage_build_out,
-                tow.top_opening_width_name,
-                bow.bottom_opening_width_name,
-                loh.left_opening_height_name,
-                roh.right_opening_height_name,
-                mow.middle_opening_width_name,
-                moh.middle_opening_height_name,
-                tl.top_level_name,
-                bl.bottom_level_name,
-                lp.left_plumb_name,
-                rp.right_plumb_name,
-                sp.starting_point_name,
-                mt.mount_type_name,
-                ta.top_adapter_name,
-                ba.bottom_adapter_name,
-                uh.unit_height_name,
-                pph.pivot_pro_height_name,
-                hc.color_name AS handle_color_name,
-                tac.color_name AS top_adapter_color_name,
                 grc.door_type,
                 grc.door_mount,
                 grc.opening_side,
                 grc_bac_color.color_name AS grc_bottom_adapter_color,
-                grc_mesh.mesh_type,
                 grc_mohair.mohair_type,
                 grc_mohair_pos.mohair_position_name,
                 grc_top_adapter.top_adapter_name AS top_adapter_type,
                 grc_bottom_adapter.bottom_adapter_name AS bottom_adapter_type,
                 grc_buildout.buildout_name,
-                grc_rb.right_buildout_name,
-                grc_lb.left_buildout_name
+                tow_dim.top_opening_width_name,
+                bow_dim.bottom_opening_width_name,
+                loh_dim.left_opening_height_name,
+                roh_dim.right_opening_height_name
             FROM customization c
             JOIN product p ON c.product_id = p.product_id
             LEFT JOIN color col ON c.color_id = col.color_id
+            LEFT JOIN mesh ON c.mesh_id = mesh.mesh_id
             LEFT JOIN mirage_3500 m3 ON c.mirage_3500_id = m3.mirage_3500_id
             LEFT JOIN mirage m ON c.mirage_id = m.mirage_id
-            LEFT JOIN top_opening_width tow ON c.top_opening_width_id = tow.top_opening_width_id
-            LEFT JOIN bottom_opening_width bow ON c.bottom_opening_width_id = bow.bottom_opening_width_id
-            LEFT JOIN left_opening_height loh ON c.left_opening_height_id = loh.left_opening_height_id
-            LEFT JOIN right_opening_height roh ON c.right_opening_height_id = roh.right_opening_height_id
-            LEFT JOIN middle_opening_width mow ON c.middle_opening_width_id = mow.middle_opening_width_id
-            LEFT JOIN middle_opening_height moh ON c.middle_opening_height_id = moh.middle_opening_height_id
-            LEFT JOIN top_level tl ON c.top_level_id = tl.top_level_id
-            LEFT JOIN bottom_level bl ON c.bottom_level_id = bl.bottom_level_id
-            LEFT JOIN left_plumb lp ON c.left_plumb_id = lp.left_plumb_id
-            LEFT JOIN right_plumb rp ON c.right_plumb_id = rp.right_plumb_id
-            LEFT JOIN starting_point sp ON c.starting_point_id = sp.starting_point_id
-            LEFT JOIN mount_type mt ON c.mount_type_id = mt.mount_type_id
-            LEFT JOIN top_adapter ta ON c.top_adapter_width_id = ta.top_adapter_id
-            LEFT JOIN bottom_adapter ba ON c.bottom_adapter_width_id = ba.bottom_adapter_id
-            LEFT JOIN unit_height uh ON c.unit_height_id = uh.unit_height_id
-            LEFT JOIN pivot_pro_height pph ON c.pivot_pro_height_id = pph.pivot_pro_height_id
-            LEFT JOIN handle_color hcj ON c.handle_color_id = hcj.handle_color_id
-            LEFT JOIN product_color hcpc ON hcj.product_color_id = hcpc.product_color_id
-            LEFT JOIN color hc ON hcpc.color_id = hc.color_id
-            LEFT JOIN top_adapter_color tacj ON c.top_adapter_color_id = tacj.top_adapter_color_id
-            LEFT JOIN product_color tacpc ON tacj.product_color_id = tacpc.product_color_id
-            LEFT JOIN color tac ON tacpc.color_id = tac.color_id
             LEFT JOIN general_retract_control grc ON c.general_retract_control_id = grc.general_retract_control_id
-            LEFT JOIN mesh grc_mesh ON grc.mesh_id = grc_mesh.mesh_id
             LEFT JOIN mohair grc_mohair ON grc.mohair_id = grc_mohair.mohair_id
             LEFT JOIN mohair_position grc_mohair_pos ON grc.mohair_position_id = grc_mohair_pos.mohair_position_id
             LEFT JOIN top_adapter grc_top_adapter ON grc.top_adapter_id = grc_top_adapter.top_adapter_id
@@ -466,8 +428,14 @@ async function getOrderById(customization_id){
             LEFT JOIN product_color grc_bac_pc ON grc_bac_junction.product_color_id = grc_bac_pc.product_color_id
             LEFT JOIN color grc_bac_color ON grc_bac_pc.color_id = grc_bac_color.color_id
             LEFT JOIN buildout grc_buildout ON grc.buildout_id = grc_buildout.buildout_id
-            LEFT JOIN right_buildout grc_rb ON grc_buildout.buildout_name = grc_rb.right_buildout_name
-            LEFT JOIN left_buildout grc_lb ON grc_buildout.buildout_name = grc_lb.left_buildout_name
+            LEFT JOIN tow_measurement tow ON c.measurement_id = tow.measurement_id
+            LEFT JOIN top_opening_width tow_dim ON tow.top_opening_width_id = tow_dim.top_opening_width_id
+            LEFT JOIN bow_measurement bow ON c.measurement_id = bow.measurement_id
+            LEFT JOIN bottom_opening_width bow_dim ON bow.bottom_opening_width_id = bow_dim.bottom_opening_width_id
+            LEFT JOIN loh_measurement loh ON c.measurement_id = loh.measurement_id
+            LEFT JOIN left_opening_height loh_dim ON loh.left_opening_height_id = loh_dim.left_opening_height_id
+            LEFT JOIN roh_measurement roh ON c.measurement_id = roh.measurement_id
+            LEFT JOIN right_opening_height roh_dim ON roh.right_opening_height_id = roh_dim.right_opening_height_id
             WHERE c.customization_id = $1
         `
         const result = await pool.query(sql, [customization_id])
@@ -475,75 +443,25 @@ async function getOrderById(customization_id){
 
         if (!row) return null
 
-        // Helper function to split combined measurement "36 1/4" into integer and fraction
-        const splitMeasurement = (combinedValue) => {
-            if (!combinedValue) return { integer: '', fraction: '' }
-            const parts = combinedValue.trim().split(' ')
-            return {
-                integer: parts[0] || '',
-                fraction: parts[1] || ''
-            }
-        }
-
-        // Parse all measurements into separate integer and fraction fields
-        const topOpeningWidth = splitMeasurement(row.top_opening_width_name)
-        const bottomOpeningWidth = splitMeasurement(row.bottom_opening_width_name)
-        const leftOpeningHeight = splitMeasurement(row.left_opening_height_name)
-        const rightOpeningHeight = splitMeasurement(row.right_opening_height_name)
-        const middleOpeningWidth = splitMeasurement(row.middle_opening_width_name)
-        const middleOpeningHeight = splitMeasurement(row.middle_opening_height_name)
-        const topAdapterWidth = splitMeasurement(row.top_adapter_name)
-        const btmAdapterWidth = splitMeasurement(row.bottom_adapter_name)
-        const unitHeight = splitMeasurement(row.unit_height_name)
-        const pivotProHeight = splitMeasurement(row.pivot_pro_height_name)
-        const buildOutDimension = splitMeasurement(row.buildout_name)
-
         // Return data in the format expected by the view (matching form field names)
         return {
             ...row,
-            top_opening_width: topOpeningWidth.integer,
-            top_opening_width_fraction: topOpeningWidth.fraction,
-            bottom_opening_width: bottomOpeningWidth.integer,
-            bottom_opening_width_fraction: bottomOpeningWidth.fraction,
-            left_opening_height: leftOpeningHeight.integer,
-            left_opening_height_fraction: leftOpeningHeight.fraction,
-            right_opening_height: rightOpeningHeight.integer,
-            right_opening_height_fraction: rightOpeningHeight.fraction,
-            middle_opening_width: middleOpeningWidth.integer,
-            middle_opening_width_fraction: middleOpeningWidth.fraction,
-            middle_opening_height: middleOpeningHeight.integer,
-            middle_opening_height_fraction: middleOpeningHeight.fraction,
-            top_adapter_width: topAdapterWidth.integer,
-            top_adapter_width_fraction: topAdapterWidth.fraction,
-            btm_adapter_width: btmAdapterWidth.integer,
-            btm_adapter_width_fraction: btmAdapterWidth.fraction,
-            unit_height: unitHeight.integer,
-            unit_height_fraction: unitHeight.fraction,
-            pivot_pro_height: pivotProHeight.integer,
-            pivot_pro_height_fraction: pivotProHeight.fraction,
-            build_out_dimension: buildOutDimension.integer,
-            build_out_dimension_fraction: buildOutDimension.fraction,
             color_name: row.color_name,
             handle: row.mirage_3500_handle,
             mesh: row.mesh_type,
-            top_level: row.top_level_name,
-            bottom_level: row.bottom_level_name,
-            left_plumb: row.left_plumb_name,
-            right_plumb: row.right_plumb_name,
-            starting_point: row.starting_point_name,
-            mount: row.mount_type_name,
-            handle_color: row.handle_color_name,
             top_adapter: row.top_adapter_type,
-            top_adapter_color: row.top_adapter_color_name,
             btm_adapter: row.bottom_adapter_type,
             btm_adapter_color: row.grc_bottom_adapter_color,
-            right_build_out: row.right_buildout_name,
-            left_build_out: row.left_buildout_name,
+            buildout: row.buildout_name,
             mohair: row.mohair_type,
             mohair_position: row.mohair_position_name,
             door_type: row.door_type,
             door_mount: row.door_mount,
-            opening_side: row.opening_side
+            opening_side: row.opening_side,
+            top_opening_width: row.top_opening_width_name,
+            bottom_opening_width: row.bottom_opening_width_name,
+            left_opening_height: row.left_opening_height_name,
+            right_opening_height: row.right_opening_height_name
         }
     } catch (error) {
         console.error('Error in getOrderById:', error)
@@ -1057,9 +975,7 @@ async function saveMirage3500Data(formData) {
         console.log('General retract control created with ID:', generalRetractControlId)
 
         // 20. INSERT into customization table
-        // NOTE: Removed duplicate fields that are now in general_retract_control:
-        // mesh_id, mohair_id, mohair_position_id, top_adapter_id, bottom_adapter_id,
-        // right_buildout_id, left_buildout_id, add_buildout_id, bottom_adapter_color_id
+        // NOTE: New simplified schema - most fields moved to general_retract_control
         const customizationSql = `
             INSERT INTO customization (
                 product_id,
@@ -1067,33 +983,12 @@ async function saveMirage3500Data(formData) {
                 frame_size_id,
                 fastener_id,
                 color_id,
+                mesh_id,
                 product_mesh_id,
                 mirage_3500_id,
-                top_opening_width_id,
-                middle_opening_width_id,
-                bottom_opening_width_id,
-                left_opening_height_id,
-                middle_opening_height_id,
-                right_opening_height_id,
-                top_level_id,
-                bottom_level_id,
-                left_plumb_id,
-                right_plumb_id,
-                starting_point_id,
-                mount_type_id,
-                top_adapter_width_id,
-                bottom_adapter_width_id,
-                unit_height_id,
-                pivot_pro_height_id,
-                handle_color_id,
-                top_adapter_color_id,
                 general_retract_control_id
             ) VALUES (
-                $1, $2, $3, $4, $5, $6, $7,
-                $8, $9, $10, $11, $12, $13,
-                $14, $15, $16, $17, $18, $19,
-                $20, $21, $22, $23, $24, $25,
-                $26
+                $1, $2, $3, $4, $5, $6, $7, $8, $9
             ) RETURNING customization_id
         `
 
@@ -1103,27 +998,10 @@ async function saveMirage3500Data(formData) {
             frameSizeId,                // $3
             fastenerId,                 // $4
             colorId,                    // $5
-            productMeshId,              // $6
-            mirage3500Id,               // $7
-            topOpeningWidthId,          // $8
-            middleOpeningWidth ? await getOrInsert('middle_opening_width', 'middle_opening_width_name', middleOpeningWidth, 'middle_opening_width_id') : null,  // $9
-            bottomOpeningWidthId,       // $10
-            leftOpeningHeightId,        // $11
-            middleOpeningHeight ? await getOrInsert('middle_opening_height', 'middle_opening_height_name', middleOpeningHeight, 'middle_opening_height_id') : null,  // $12
-            rightOpeningHeightId,       // $13
-            topLevelId,                 // $14
-            bottomLevelId,              // $15
-            leftPlumbId,                // $16
-            rightPlumbId,               // $17
-            startingPointId,            // $18
-            formData.mount ? await getOrInsert('mount_type', 'mount_type_name', formData.mount, 'mount_type_id') : null,  // $19
-            topAdapterWidth ? await getOrInsert('top_adapter', 'top_adapter_name', topAdapterWidth, 'top_adapter_id') : null,  // $20 - NOTE: Storing width value in adapter table
-            btmAdapterWidth ? await getOrInsert('bottom_adapter', 'bottom_adapter_name', btmAdapterWidth, 'bottom_adapter_id') : null,  // $21 - NOTE: Storing width value in adapter table
-            unitHeight ? await getOrInsert('unit_height', 'unit_height_name', unitHeight, 'unit_height_id') : null,  // $22
-            pivotProHeight ? await getOrInsert('pivot_pro_height', 'pivot_pro_height_name', pivotProHeight, 'pivot_pro_height_id') : null,  // $23
-            handleColorJunctionId,      // $24 - using junction table ID
-            topAdapterColorJunctionId,  // $25 - using junction table ID
-            generalRetractControlId     // $26 - foreign key to general_retract_control
+            meshId,                     // $6
+            productMeshId,              // $7
+            mirage3500Id,               // $8
+            generalRetractControlId     // $9 - foreign key to general_retract_control
         ])
 
         const customizationId = customizationResult.rows[0].customization_id

@@ -1247,7 +1247,7 @@ CREATE TABLE IF NOT EXISTS general_retract_control
     CONSTRAINT customization_fk1
       FOREIGN KEY (product_id)
       REFERENCES product (product_id)
-      ON DELETE CASCADE
+      ON DELETE CASCADEWai
       ON UPDATE CASCADE,
     CONSTRAINT customization_fk2
       FOREIGN KEY (measurement_id)
@@ -1328,110 +1328,6 @@ CREATE TABLE IF NOT EXISTS general_retract_control
       FOREIGN KEY (nws_measurement_id)
       REFERENCES nws_measurement (nws_measurement_id)
       ON DELETE CASCADE
-<<<<<<< HEAD
-=======
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk18
-      FOREIGN KEY (buildout_id)
-      REFERENCES buildout (buildout_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk19
-      FOREIGN KEY (top_opening_width_id)
-      REFERENCES top_opening_width (top_opening_width_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk20
-      FOREIGN KEY (bottom_opening_width_id)
-      REFERENCES bottom_opening_width (bottom_opening_width_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk21
-      FOREIGN KEY (left_opening_height_id)
-      REFERENCES left_opening_height (left_opening_height_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk22
-      FOREIGN KEY (right_opening_height_id)
-      REFERENCES right_opening_height (right_opening_height_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk23
-      FOREIGN KEY (top_level_id)
-      REFERENCES top_level (top_level_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk24
-      FOREIGN KEY (bottom_level_id)
-      REFERENCES bottom_level (bottom_level_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk25
-      FOREIGN KEY (left_plumb_id)
-      REFERENCES left_plumb (left_plumb_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk26
-      FOREIGN KEY (right_plumb_id)
-      REFERENCES right_plumb (right_plumb_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk27
-      FOREIGN KEY (starting_point_id)
-      REFERENCES starting_point (starting_point_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk28
-      FOREIGN KEY (mount_type_id)
-      REFERENCES mount_type (mount_type_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk29
-      FOREIGN KEY (top_adapter_width_id)
-      REFERENCES measurement (measurement_id)
-      REFERENCES measurement (measurement_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk30
-      FOREIGN KEY (bottom_adapter_width_id)
-      REFERENCES bottom_adapter (bottom_adapter_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk31
-      FOREIGN KEY (unit_height_id)
-      REFERENCES handle_color (handle_color_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk32
-      FOREIGN KEY (pivot_pro_height_id)
-      REFERENCES pivot_pro_height (pivot_pro_height_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk33
-      FOREIGN KEY (add_buildout_id)
-      REFERENCES add_buildout (add_buildout_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk34
-      FOREIGN KEY (right_buildout_id)
-      REFERENCES right_buildout (right_buildout_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk35
-      FOREIGN KEY (left_buildout_id)
-      REFERENCES left_buildout (left_buildout_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk36
-      FOREIGN KEY (top_adapter_color_id)
-      REFERENCES top_adapter_color (top_adapter_color_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk37
-      FOREIGN KEY (handle_color_id)
-      REFERENCES handle_color (handle_color_id)
-      ON DELETE CASCADE
->>>>>>> 93d96b0225a62cb2b7b95cdea81684e1bd2ba24b
       ON UPDATE CASCADE
   );
 
