@@ -514,7 +514,7 @@ async function getBottomAdapters() {
 
 async function getRightBuildouts() {
     try {
-        const sql = 'SELECT DISTINCT right_buildout_name FROM right_buildout ORDER BY right_buildout_name'
+        const sql = 'SELECT right_buildout_id, right_buildout_name FROM right_buildout ORDER BY right_buildout_name'
         const result = await pool.query(sql)
         return result.rows
     } catch (error) {
@@ -525,7 +525,7 @@ async function getRightBuildouts() {
 
 async function getLeftBuildouts() {
     try {
-        const sql = 'SELECT DISTINCT left_buildout_name FROM left_buildout ORDER BY left_buildout_name'
+        const sql = 'SELECT left_buildout_id, left_buildout_name FROM left_buildout ORDER BY left_buildout_name'
         const result = await pool.query(sql)
         return result.rows
     } catch (error) {
@@ -541,6 +541,288 @@ async function getMeshTypes() {
         return result.rows
     } catch (error) {
         console.error('Error getting mesh types:', error)
+        return []
+    }
+}
+
+async function getRainierPlacements() {
+    try {
+        const sql = 'SELECT placement_id, placement_name FROM placement ORDER BY placement_name'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting rainier placements:', error)
+        return []
+    }
+}
+
+async function getRainierColors() {
+    try {
+        const sql = `
+            SELECT DISTINCT c.color_id, c.color_name 
+            FROM color c
+            INNER JOIN product_color pc ON c.color_id = pc.color_id
+            INNER JOIN product p ON pc.product_id = p.product_id
+            WHERE p.product_name = 'Rainier'
+            ORDER BY c.color_name
+        `
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting rainier colors:', error)
+        return []
+    }
+}
+
+async function getHardwareColors() {
+    try {
+        const sql = `
+            SELECT DISTINCT hc.hardware_color_id, c.color_id, c.color_name
+            FROM hardware_color hc
+            INNER JOIN product_color pc ON hc.product_color_id = pc.product_color_id
+            INNER JOIN color c ON pc.color_id = c.color_id
+            ORDER BY c.color_name
+        `
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting hardware colors:', error)
+        return []
+    }
+}
+
+async function getRainierFabricColors() {
+    try {
+        const sql = 'SELECT fabric_id, fabric_name FROM fabric ORDER BY fabric_name'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting rainier fabric colors:', error)
+        return []
+    }
+}
+
+async function getHousingSeries() {
+    try {
+        const sql = 'SELECT housing_id, housing_series_name FROM housing ORDER BY housing_series_name'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting housing series:', error)
+        return []
+    }
+}
+
+async function getDriveSides() {
+    try {
+        const sql = 'SELECT drive_side_id, drive_side_name FROM drive_side ORDER BY drive_side_name'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting drive sides:', error)
+        return []
+    }
+}
+
+async function getHembars() {
+    try {
+        const sql = 'SELECT hembar_id, hembar_name FROM hembar ORDER BY hembar_name'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting hembars:', error)
+        return []
+    }
+}
+
+async function getPileBrushes() {
+    try {
+        const sql = 'SELECT pilebrush_id, pilebrush_name FROM pilebrush ORDER BY pilebrush_name'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting pile brushes:', error)
+        return []
+    }
+}
+
+async function getBrushLocations() {
+    try {
+        const sql = 'SELECT brush_location_id, brush_location_name FROM brush_location ORDER BY brush_location_name'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting brush locations:', error)
+        return []
+    }
+}
+
+async function getZipperColors() {
+    try {
+        const sql = `
+            SELECT DISTINCT c.color_id, c.color_name 
+            FROM color c
+            INNER JOIN rainier_zipper_color rzc ON c.color_id = rzc.product_color_id
+            ORDER BY c.color_name
+        `
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting zipper colors:', error)
+        return []
+    }
+}
+
+async function getCordLengths() {
+    try {
+        const sql = 'SELECT cord_length_id, cord_length_name FROM cord_length ORDER BY cord_length_name'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting cord lengths:', error)
+        return []
+    }
+}
+
+async function getMountTypes() {
+    try {
+        const sql = 'SELECT DISTINCT mount_type_name FROM mount_type ORDER BY mount_type_name'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting mount types:', error)
+        return []
+    }
+}
+
+async function getTracks() {
+    try {
+        const sql = 'SELECT right_track_id, right_track_name FROM right_track ORDER BY right_track_name'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting tracks:', error)
+        return []
+    }
+}
+
+async function getLeftTracks() {
+    try {
+        const sql = 'SELECT left_track_id, left_track_name FROM left_track ORDER BY left_track_name'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting left tracks:', error)
+        return []
+    }
+}
+
+async function getTopOpeningWidths() {
+    try {
+        const sql = 'SELECT top_opening_width_id, top_opening_width_name FROM top_opening_width ORDER BY top_opening_width_name'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting top opening widths:', error)
+        return []
+    }
+}
+
+async function getTopLevels() {
+    try {
+        const sql = 'SELECT top_level_id, top_level_name FROM top_level ORDER BY top_level_name'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting top levels:', error)
+        return []
+    }
+}
+
+async function getBottomOpeningWidths() {
+    try {
+        const sql = 'SELECT bottom_opening_width_id, bottom_opening_width_name FROM bottom_opening_width ORDER BY bottom_opening_width_name'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting bottom opening widths:', error)
+        return []
+    }
+}
+
+async function getBottomLevels() {
+    try {
+        const sql = 'SELECT bottom_level_id, bottom_level_name FROM bottom_level ORDER BY bottom_level_name'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting bottom levels:', error)
+        return []
+    }
+}
+
+async function getLeftOpeningHeights() {
+    try {
+        const sql = 'SELECT left_opening_height_id, left_opening_height_name FROM left_opening_height ORDER BY left_opening_height_name'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting left opening heights:', error)
+        return []
+    }
+}
+
+async function getRightOpeningHeights() {
+    try {
+        const sql = 'SELECT right_opening_height_id, right_opening_height_name FROM right_opening_height ORDER BY right_opening_height_name'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting right opening heights:', error)
+        return []
+    }
+}
+
+async function getLeftPlumbs() {
+    try {
+        const sql = 'SELECT left_plumb_id, left_plumb_name FROM left_plumb ORDER BY left_plumb_name'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting left plumbs:', error)
+        return []
+    }
+}
+
+async function getStartingPoints() {
+    try {
+        const sql = 'SELECT starting_point_id, starting_point_name FROM starting_point ORDER BY starting_point_name'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting starting points:', error)
+        return []
+    }
+}
+
+async function getAddBuildouts() {
+    try {
+        const sql = 'SELECT buildout_id, buildout_name FROM buildout ORDER BY buildout_name'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting add buildouts:', error)
+        return []
+    }
+}
+
+async function getRightPlumbs() {
+    try {
+        const sql = 'SELECT right_plumb_id, right_plumb_name FROM right_plumb ORDER BY right_plumb_name'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting right plumbs:', error)
         return []
     }
 }
@@ -1281,5 +1563,29 @@ module.exports = {
     getAllCustomers,
     createCustomer,
     getCustomerById,
-    getOrCreateCustomer
+    getOrCreateCustomer,
+    getRainierPlacements,
+    getRainierColors,
+    getHardwareColors,
+    getRainierFabricColors,
+    getHousingSeries,
+    getDriveSides,
+    getHembars,
+    getPileBrushes,
+    getBrushLocations,
+    getZipperColors,
+    getCordLengths,
+    getMountTypes,
+    getTracks,
+    getLeftTracks,
+    getTopOpeningWidths,
+    getTopLevels,
+    getBottomOpeningWidths,
+    getBottomLevels,
+    getLeftOpeningHeights,
+    getRightOpeningHeights,
+    getLeftPlumbs,
+    getStartingPoints,
+    getAddBuildouts,
+    getRightPlumbs
 }
