@@ -103,7 +103,9 @@ VALUES
 , ('Textured Black'), ('Textured Rust'), ('Textured Varies (Specify in Notes)')
 -- Rainier fabric colors
 , ('Dark Bronze'), ('Dark Gray'), ('Tobacco'), ('Carbon'), ('Stone Texture'), ('Shadow Texture'), ('Sand')
-, ('Expresso'), ('Mushroom (Safari Cashmere)'), ('Quartz'), ('Twill Tobacco'), ('Twill Charcoal'), ('Twill Black');
+, ('Expresso'), ('Mushroom (Safari Cashmere)'), ('Quartz'), ('Twill Tobacco'), ('Twill Charcoal'), ('Twill Black')
+-- Bottom Adapter Colors
+, ('Black Anodized'), ('Bronze Anodized');
 
 
 INSERT INTO product_color (product_id, color_id)
@@ -207,7 +209,11 @@ VALUES
 , ((SELECT product_id FROM product WHERE product_name = 'Mirage 3500'), (SELECT color_id FROM color WHERE color_name = 'Seal Beach Green')) -- 92
 , ((SELECT product_id FROM product WHERE product_name = 'Mirage 3500'), (SELECT color_id FROM color WHERE color_name = 'Bronze')) -- 93
 , ((SELECT product_id FROM product WHERE product_name = 'Mirage 3500'), (SELECT color_id FROM color WHERE color_name = 'Charcoal/Black')) -- 94
-, ((SELECT product_id FROM product WHERE product_name = 'Mirage 3500'), (SELECT color_id FROM color WHERE color_name = 'Custom')); -- 95
+, ((SELECT product_id FROM product WHERE product_name = 'Mirage 3500'), (SELECT color_id FROM color WHERE color_name = 'Custom')) -- 95
+, ((SELECT product_id FROM product WHERE product_name = 'Mirage'), (SELECT color_id FROM color WHERE color_name = 'Black Anodized')) -- 96
+, ((SELECT product_id FROM product WHERE product_name = 'Mirage'), (SELECT color_id FROM color WHERE color_name = 'Bronze Anodized')) -- 97
+, ((SELECT product_id FROM product WHERE product_name = 'Mirage'), (SELECT color_id FROM color WHERE color_name = 'Mill')) -- 98
+, ((SELECT product_id FROM product WHERE product_name = 'Mirage'), (SELECT color_id FROM color WHERE color_name = 'White')); -- 99
 
 
 INSERT INTO fabric (fabric_name)
@@ -532,6 +538,13 @@ VALUES
 ((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Signal White'))),
 ((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Wicker'))),
 ((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Custom')));
+
+INSERT INTO bottom_adapter_color (product_color_id)
+VALUES
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Black Anodized'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Bronze Anodized'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'Mill'))),
+((SELECT product_color_id FROM product_color WHERE product_id = (SELECT product_id FROM product WHERE product_name = 'Mirage') AND color_id = (SELECT color_id FROM color WHERE color_name = 'White')));
 
 INSERT INTO hardware_color (product_color_id)
 VALUES
