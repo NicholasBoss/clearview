@@ -1,4 +1,5 @@
 const ordersModel = require('../models/ordersModel')
+const jaOrdersModel = require('../models/jaOrdersModel')
 const ordersController = {}
 
 ordersController.buildCreate = async function(req, res){
@@ -131,10 +132,24 @@ ordersController.buildConfirmRainier = async function(req, res){
 }
 
 ordersController.buildCreateNWS = async function(req, res){
+    colors = await ordersModel.getColorsByProduct("New Window Screen")
+    mesh = await ordersModel.getMeshByProduct("New Window Screen")
+    measurements = await ordersModel.getMeasurements("New Window Screen")
+    frame_sizes = await jaOrdersModel.getFrameSizes("New Window Screen")
+    fasteners = await jaOrdersModel.getFasteners("New Window Screen")
+    springs = await jaOrdersModel.getTabSpring("New Window Screen")
+
     res.render('orders/createNWS', {
         title: 'Create order',
         link: 'orders/createNWS',
-        errors: null
+        errors: null,
+        colors: colors || [],
+        frame_sizes: frame_sizes || [],
+        fractions: measurements || [],
+        springs: springs || [],
+        meshs: mesh || [],
+        fasteners: fasteners || [],
+        formData: {}
     })
 }
 ordersController.buildConfirmNWS = async function(req, res){

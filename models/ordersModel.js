@@ -70,6 +70,7 @@ async function getColors() {
     }
 }
 
+
 async function getColorsByProduct(product_name) {
     try {
         const sql = `
