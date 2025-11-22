@@ -1,6 +1,6 @@
 @media screen and (min-width: 900px) {
     #main-header {
-        grid-template-columns: 150px 1fr 1fr;
+        grid-template-columns: 200px 1fr 1fr;
     }
     #loggedin img, #loggedout img {
         width: 15%;
@@ -41,5 +41,8 @@
     .types {
         display: grid;
         grid-template-columns: 1fr 1fr;
+    }
+    form {
+        width: 50%;
     }
 }
