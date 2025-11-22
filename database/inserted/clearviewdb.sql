@@ -1238,24 +1238,6 @@ CREATE TABLE IF NOT EXISTS general_retract_control
     -- hale_door_id INTEGER NULL,
     general_retract_control_id INTEGER NULL,
     nws_measurement_id INTEGER NULL,
-    buildout_id INTEGER NULL,
-    top_opening_width_id INTEGER NULL,
-    middle_opening_width_id INTEGER NULL,
-    bottom_opening_width_id INTEGER NULL,
-    left_opening_height_id INTEGER NULL,
-    middle_opening_height_id INTEGER NULL,
-    right_opening_height_id INTEGER NULL,
-    top_level_id INTEGER NULL,
-    bottom_level_id INTEGER NULL,
-    left_plumb_id INTEGER NULL,
-    right_plumb_id INTEGER NULL,
-    starting_point_id INTEGER NULL,
-    mount_type_id INTEGER NULL,
-    top_adapter_width_id INTEGER NULL,
-    bottom_adapter_width_id INTEGER NULL,
-    unit_height_id INTEGER NULL,
-    pivot_pro_height_id INTEGER NULL,
-    add_buildout_id INTEGER NULL,
     CONSTRAINT customization_pk PRIMARY KEY (customization_id),
     CONSTRAINT customization_fk1
       FOREIGN KEY (product_id)
@@ -1340,86 +1322,6 @@ CREATE TABLE IF NOT EXISTS general_retract_control
     CONSTRAINT customization_fk17
       FOREIGN KEY (nws_measurement_id)
       REFERENCES nws_measurement (nws_measurement_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk18
-      FOREIGN KEY (buildout_id)
-      REFERENCES buildout (buildout_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk19
-      FOREIGN KEY (top_opening_width_id)
-      REFERENCES top_opening_width (top_opening_width_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk20
-      FOREIGN KEY (bottom_opening_width_id)
-      REFERENCES bottom_opening_width (bottom_opening_width_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk21
-      FOREIGN KEY (left_opening_height_id)
-      REFERENCES left_opening_height (left_opening_height_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk22
-      FOREIGN KEY (right_opening_height_id)
-      REFERENCES right_opening_height (right_opening_height_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk23
-      FOREIGN KEY (top_level_id)
-      REFERENCES top_level (top_level_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk24
-      FOREIGN KEY (bottom_level_id)
-      REFERENCES bottom_level (bottom_level_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk25
-      FOREIGN KEY (left_plumb_id)
-      REFERENCES left_plumb (left_plumb_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk26
-      FOREIGN KEY (right_plumb_id)
-      REFERENCES right_plumb (right_plumb_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk27
-      FOREIGN KEY (starting_point_id)
-      REFERENCES starting_point (starting_point_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk28
-      FOREIGN KEY (mount_type_id)
-      REFERENCES mount_type (mount_type_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk29
-      FOREIGN KEY (top_adapter_width_id)
-      REFERENCES top_adapter (top_adapter_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk30
-      FOREIGN KEY (bottom_adapter_width_id)
-      REFERENCES bottom_adapter (bottom_adapter_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk31
-      FOREIGN KEY (unit_height_id)
-      REFERENCES handle_color (handle_color_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk32
-      FOREIGN KEY (pivot_pro_height_id)
-      REFERENCES pivot_pro_height (pivot_pro_height_id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE,
-    CONSTRAINT customization_fk33
-      FOREIGN KEY (add_buildout_id)
-      REFERENCES add_buildout (add_buildout_id)
       ON DELETE CASCADE
       ON UPDATE CASCADE
   );

@@ -70,6 +70,7 @@ async function getColors() {
     }
 }
 
+
 async function getColorsByProduct(product_name) {
     try {
         const sql = `
@@ -82,6 +83,233 @@ async function getColorsByProduct(product_name) {
         `
         const colors = await pool.query(sql, [product_name])
         return colors.rows
+    } catch (error) {
+        return error.message
+    }
+}
+async function getMesh() {
+    try {
+        const sql = `
+        SELECT DISTINCT m.mesh_type
+        FROM mesh AS m
+        INNER JOIN product_mesh AS pm ON m.mesh_id = pm.mesh_id
+        ORDER BY m.mesh_type;
+        `
+        const mesh = await pool.query(sql)
+        return mesh.rows
+    } catch (error) {
+        return error.message
+        }
+}
+
+async function getMeshByProduct(product_name) {
+    try {
+            const sql = `
+            SELECT m.mesh_type 
+            FROM mesh AS m
+            INNER JOIN product_mesh pm ON m.mesh_id = pm.mesh_id
+            INNER JOIN product AS p ON pm.product_id = p.product_id
+            WHERE p.product_name = $1
+            ORDER BY m.mesh_type;
+            `
+        const mesh = await pool.query(sql, [product_name])
+        return mesh.rows
+    } catch (error) {
+        return error.message
+    }
+}
+
+async function getFrameSizes() {
+    try {
+        const sql = `
+            SELECT DISTINCT fs.size_type
+            FROM frame_size AS fs
+            ORDER BY fs.size_type;
+        `
+        const frameSizes = await pool.query(sql)
+        return frameSizes.rows
+    } catch (error) {
+        return error.message
+    }
+}
+
+async function getMohair() {
+    try {
+        const sql = `
+            SELECT mohair_type
+            FROM mohair
+            ORDER BY mohair_type;
+        `
+        const mohair = await pool.query(sql)
+        return mohair.rows
+    } catch (error) {
+        return error.message
+    }
+}
+
+async function getMohairPositions() {
+    try {
+        const sql = `
+            SELECT mohair_position_name
+            FROM mohair_position
+            ORDER BY mohair_position_name;
+        `
+        const mohairPositions = await pool.query(sql)
+        return mohairPositions.rows
+    } catch (error) {
+        return error.message
+    }
+}
+
+async function getLeftPlumb() {
+    try {
+        const sql = `
+            SELECT left_plumb_name
+            FROM left_plumb
+            ORDER BY left_plumb_name;
+        `
+        const leftPlumb = await pool.query(sql)
+        return leftPlumb.rows
+    } catch (error) {
+        return error.message
+    }
+}
+
+async function getRightPlumb() {
+    try {
+        const sql = `
+            SELECT right_plumb_name
+            FROM right_plumb
+            ORDER BY right_plumb_name;
+        `
+        const rightPlumb = await pool.query(sql)
+        return rightPlumb.rows
+    } catch (error) {
+        return error.message
+    }
+}
+
+async function getStartingPoints() {
+    try {
+        const sql = `
+            SELECT starting_point_name
+            FROM starting_point
+            ORDER BY starting_point_name;
+        `
+        const startingPoints = await pool.query(sql)
+        return startingPoints.rows
+    } catch (error) {
+        return error.message
+    }
+}
+
+async function getMountTypes() {
+    try {
+        const sql = `
+            SELECT mount_type_name
+            FROM mount_type
+            ORDER BY mount_type_name;
+        `
+        const mountTypes = await pool.query(sql)
+        return mountTypes.rows
+    } catch (error) {
+        return error.message
+    }
+}
+
+async function getTopAdapters() {
+    try {
+        const sql = `
+            SELECT top_adapter_name
+            FROM top_adapter
+            ORDER BY top_adapter_name;
+        `
+        const topAdapters = await pool.query(sql)
+        return topAdapters.rows
+    } catch (error) {
+        return error.message
+    }
+}
+
+async function getUnitHeights() {
+    try {
+        const sql = `
+            SELECT unit_height_name
+            FROM unit_height
+            ORDER BY unit_height_name;
+        `
+        const unitHeights = await pool.query(sql)
+        return unitHeights.rows
+    } catch (error) {
+        return error.message
+    }
+}
+
+async function getPivotProHeights() {
+    try {
+        const sql = `
+            SELECT pivot_pro_height_name
+            FROM pivot_pro_height
+            ORDER BY pivot_pro_height_name;
+        `
+        const pivotProHeights = await pool.query(sql)
+        return pivotProHeights.rows
+    } catch (error) {
+        return error.message
+    }
+}
+
+async function getTopLevels() {
+    try {
+        const sql = `
+            SELECT top_level_name
+            FROM top_level
+            ORDER BY top_level_name;
+        `
+        const topLevels = await pool.query(sql)
+        return topLevels.rows
+    } catch (error) {
+        return error.message
+    }
+}
+
+async function getBottomLevels() {
+    try {
+        const sql = `
+            SELECT bottom_level_name
+            FROM bottom_level
+            ORDER BY bottom_level_name;
+        `
+        const bottomLevels = await pool.query(sql)
+        return bottomLevels.rows
+    } catch (error) {
+        return error.message
+    }
+}
+
+async function getLeftBuildouts() {
+    try {
+        const sql = `
+            SELECT left_buildout_name
+            FROM left_buildout
+            ORDER BY left_buildout_name;
+        `
+        const leftBuildouts = await pool.query(sql)
+        return leftBuildouts.rows
+    } catch (error) {
+        return error.message
+    }
+}
+
+async function getRightBuildouts() {
+    try {
+        const sql = `
+            SELECT right_buildout_name
+            FROM right_buildout
+            ORDER BY right_buildout_name;
+        `
+        const rightBuildouts = await pool.query(sql)
+        return rightBuildouts.rows
     } catch (error) {
         return error.message
     }
@@ -245,5 +473,21 @@ module.exports = {
     createOrder,
     getMeasurements,
     getColors,
-    getColorsByProduct
+    getColorsByProduct,
+    getMesh,
+    getMeshByProduct,
+    getFrameSizes,
+    getMohair,
+    getMohairPositions,
+    getLeftPlumb,
+    getRightPlumb,
+    getStartingPoints,
+    getMountTypes,
+    getTopAdapters,
+    getUnitHeights,
+    getPivotProHeights,
+    getTopLevels,
+    getBottomLevels,
+    getLeftBuildouts,
+    getRightBuildouts
 }

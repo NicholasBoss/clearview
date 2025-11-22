@@ -571,3 +571,9 @@ INSERT INTO mohair_position (mohair_position_name)
 VALUES
 ('Edge')
 , ('Inside');
+
+INSERT INTO tab_spring (tab_spring_name)
+VALUES
+('L')
+, ('S')
+, ('None');
