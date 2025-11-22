@@ -596,7 +596,7 @@ async function getBottomAdapters() {
 
 async function getRightBuildouts() {
     try {
-        const sql = 'SELECT buildout_id, buildout_name FROM buildout ORDER BY buildout_name'
+        const sql = 'SELECT right_buildout_id, right_buildout_name FROM right_buildout ORDER BY right_buildout_name'
         const result = await pool.query(sql)
         return result.rows
     } catch (error) {
@@ -607,7 +607,7 @@ async function getRightBuildouts() {
 
 async function getLeftBuildouts() {
     try {
-        const sql = 'SELECT buildout_id, buildout_name FROM buildout ORDER BY buildout_name'
+        const sql = 'SELECT left_buildout_id, left_buildout_name FROM left_buildout ORDER BY left_buildout_name'
         const result = await pool.query(sql)
         return result.rows
     } catch (error) {

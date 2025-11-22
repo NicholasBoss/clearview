@@ -308,7 +308,7 @@
                 <option value="">Select Left Build Out</option>
                 <% if (leftBuildouts && leftBuildouts.length > 0) { %>
                     <% leftBuildouts.forEach(function(item) { %>
-                        <option value="<%= item.buildout_name %>" <%= formData.left_build_out === item.buildout_name ? 'selected' : '' %>><%= item.buildout_name %></option>
+                        <option value="<%= item.left_buildout_name %>" <%= formData.left_build_out === item.left_buildout_name ? 'selected' : '' %>><%= item.left_buildout_name %></option>
                     <% }); %>
                 <% } %>
             </select>
@@ -320,7 +320,7 @@
                 <option value="">Select Right Build Out</option>
                 <% if (rightBuildouts && rightBuildouts.length > 0) { %>
                     <% rightBuildouts.forEach(function(item) { %>
-                        <option value="<%= item.buildout_name %>" <%= formData.right_build_out === item.buildout_name ? 'selected' : '' %>><%= item.buildout_name %></option>
+                        <option value="<%= item.right_buildout_name %>" <%= formData.right_build_out === item.right_buildout_name ? 'selected' : '' %>><%= item.right_buildout_name %></option>
                     <% }); %>
                 <% } %>
             </select>
