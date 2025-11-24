@@ -571,3 +571,9 @@ INSERT INTO mohair_position (mohair_position_name)
 VALUES
 ('Edge')
 , ('Inside');
+
+INSERT INTO mount_type (mount_type_name)
+VALUES
+('Full Cassette')
+, ('Cassette w/ NO Cover')
+, ('Brackets Only');
