@@ -63,7 +63,7 @@ async function getpilebrush() {
             const sql = `
                 SELECT DISTINCT pi.pilebrush_name
                 FROM pilebrush pi
-                ORDER BY pi.pilebursh_name ASC;
+                ORDER BY pi.pilebrush_name ASC;
             `
             const placement = await pool.query(sql)
             return placement.rows
@@ -91,8 +91,8 @@ async function getzipperColor() {
             const sql = `
                 SELECT DISTINCT co.color_name
                 FROM rainier_zipper_color zc
-                    INNER JOIN product p ON zc.product_color_id = p.product_color_id
-                    INNER JOIN color co ON p.color_id = co.color_id
+                    INNER JOIN product_color pc ON zc.product_color_id = pc.product_color_id
+                    INNER JOIN color co ON pc.color_id = co.color_id
                 ORDER BY co.color_name ASC;
             `
             const placement = await pool.query(sql)
@@ -107,7 +107,7 @@ async function getcordLength() {
             const sql = `
                 SELECT DISTINCT cl.cord_length_name
                 FROM cord_length cl
-                ORDER BY cl.cord_length ASC;
+                ORDER BY cl.cord_length_name ASC;
             `
             const placement = await pool.query(sql)
             return placement.rows

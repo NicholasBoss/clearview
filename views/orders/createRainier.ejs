@@ -34,8 +34,8 @@
         <label class="required-field"><b>Placement</b>
             <select name="rainier_placement" id="rainier_placement" required <%= errors && errors.array().find(e => e.path === 'rainier_placement') ? 'class="error-input"' : '' %>>
                 <option value="">Select Placement</option>
-                <% if (rainierPlacements && rainierPlacements.length > 0) { %>
-                    <% rainierPlacements.forEach(function(item) { %>
+                <% if (placement && placement.length > 0) { %>
+                    <% placement.forEach(function(item) { %>
                         <option value="<%= item.placement_name %>" <%= formData.rainier_placement === item.placement_name ? 'selected' : '' %>><%= item.placement_name %></option>
                     <% }); %>
                 <% } %>
@@ -233,125 +233,6 @@
                 <% }) %>
             </select>
             <% if (errors) { const error = errors.array().find(e => e.path === 'left_opening_height_fraction'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
-        </label><br>
-
-        <label class="required-field"><b>Left Plumb</b>
-            <select name="left_plumb" id="left_plumb" required <%= errors && errors.array().find(e => e.path === 'left_plumb') ? 'class="error-input"' : '' %>>
-                <option value="">Select Left Plumb</option>
-                <% if (leftPlumbs && leftPlumbs.length > 0) { %>
-                    <% leftPlumbs.forEach(function(item) { %>
-                        <option value="<%= item.left_plumb_name %>" <%= formData.left_plumb === item.left_plumb_name ? 'selected' : '' %>><%= item.left_plumb_name %></option>
-                    <% }); %>
-                <% } %>
-            </select>
-            <% if (errors) { const error = errors.array().find(e => e.path === 'left_plumb'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
-        </label><br>
-
-        <label class="required-field"><b>Right Opening Height</b>
-            <select name="right_opening_height" id="right_opening_height" required <%= errors && errors.array().find(e => e.path === 'right_opening_height') ? 'class="error-input"' : '' %>>
-                <option value="">Select Right Opening Height</option>
-                <% if (rightOpeningHeights && rightOpeningHeights.length > 0) { %>
-                    <% rightOpeningHeights.forEach(function(item) { %>
-                        <option value="<%= item.right_opening_height_name %>" <%= formData.right_opening_height === item.right_opening_height_name ? 'selected' : '' %>><%= item.right_opening_height_name %></option>
-                    <% }); %>
-                <% } %>
-            </select>
-            <% if (errors) { const error = errors.array().find(e => e.path === 'right_opening_height'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
-        </label><br>
-        <label class="required-field"><b>Right Opening Height Fraction</b>
-            <select name="right_opening_height_fraction" id="right_opening_height_fraction" required <%= errors && errors.array().find(e => e.path === 'right_opening_height_fraction') ? 'class="error-input"' : '' %>>
-                <option value="">Select Fraction</option>
-                <% if (fractions && fractions.length > 0) { %>
-                    <% fractions.forEach(function(fraction) { %>
-                        <option value="<%= fraction.measurement_name %>" <%= formData.right_opening_height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
-                    <% }); %>
-                <% } %>
-            </select>
-            <% if (errors) { const error = errors.array().find(e => e.path === 'right_opening_height_fraction'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
-        </label><br>
-
-        <label class="required-field"><b>Right Plumb</b>
-            <select name="right_plumb" id="right_plumb" required <%= errors && errors.array().find(e => e.path === 'right_plumb') ? 'class="error-input"' : '' %>>
-                <option value="">Select Right Plumb</option>
-                <% if (rightPlumbs && rightPlumbs.length > 0) { %>
-                    <% rightPlumbs.forEach(function(item) { %>
-                        <option value="<%= item.right_plumb_name %>" <%= formData.right_plumb === item.right_plumb_name ? 'selected' : '' %>><%= item.right_plumb_name %></option>
-                    <% }); %>
-                <% } %>
-            </select>
-            <% if (errors) { const error = errors.array().find(e => e.path === 'right_plumb'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
-        </label><br>
-
-        <label class="required-field"><b>Left Build Out</b>
-            <select name="left_build_out" id="left_build_out" required <%= errors && errors.array().find(e => e.path === 'left_build_out') ? 'class="error-input"' : '' %>>
-                <option value="">Select Left Build Out</option>
-                <% if (leftBuildouts && leftBuildouts.length > 0) { %>
-                    <% leftBuildouts.forEach(function(item) { %>
-                        <option value="<%= item.left_buildout_name %>" <%= formData.left_build_out === item.left_buildout_name ? 'selected' : '' %>><%= item.left_buildout_name %></option>
-                    <% }); %>
-                <% } %>
-            </select>
-            <% if (errors) { const error = errors.array().find(e => e.path === 'left_build_out'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
-        </label><br>
-
-        <label class="required-field"><b>Right Build Out</b>
-            <select name="right_build_out" id="right_build_out" required <%= errors && errors.array().find(e => e.path === 'right_build_out') ? 'class="error-input"' : '' %>>
-                <option value="">Select Right Build Out</option>
-                <% if (rightBuildouts && rightBuildouts.length > 0) { %>
-                    <% rightBuildouts.forEach(function(item) { %>
-                        <option value="<%= item.right_buildout_name %>" <%= formData.right_build_out === item.right_buildout_name ? 'selected' : '' %>><%= item.right_buildout_name %></option>
-                    <% }); %>
-                <% } %>
-            </select>
-            <% if (errors) { const error = errors.array().find(e => e.path === 'right_build_out'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
-        </label><br>
-
-        <label class="required-field"><b>Add Build Out</b>
-            <select name="add_build_out" id="add_build_out" required <%= errors && errors.array().find(e => e.path === 'add_build_out') ? 'class="error-input"' : '' %>>
-                <option value="">Select Add Build Out</option>
-                <% if (addBuildouts && addBuildouts.length > 0) { %>
-                    <% addBuildouts.forEach(function(item) { %>
-                        <option value="<%= item.buildout_name %>" <%= formData.add_build_out === item.buildout_name ? 'selected' : '' %>><%= item.buildout_name %></option>
-                    <% }); %>
-                <% } %>
-            </select>
-            <% if (errors) { const error = errors.array().find(e => e.path === 'add_build_out'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
-        </label><br>
-
-        <label class="required-field"><b>Left Track</b>
-            <select name="left_track" id="left_track" required <%= errors && errors.array().find(e => e.path === 'left_track') ? 'class="error-input"' : '' %>>
-                <option value="">Select Left Track</option>
-                <% if (leftTracks && leftTracks.length > 0) { %>
-                    <% leftTracks.forEach(function(item) { %>
-                        <option value="<%= item.left_track_name %>" <%= formData.left_track === item.left_track_name ? 'selected' : '' %>><%= item.left_track_name %></option>
-                    <% }); %>
-                <% } %>
-            </select>
-            <% if (errors) { const error = errors.array().find(e => e.path === 'left_track'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
-        </label><br>
-
-        <label class="required-field"><b>Right Track</b>
-            <select name="right_track" id="right_track" required <%= errors && errors.array().find(e => e.path === 'right_track') ? 'class="error-input"' : '' %>>
-                <option value="">Select Right Track</option>
-                <% if (tracks && tracks.length > 0) { %>
-                    <% tracks.forEach(function(item) { %>
-                        <option value="<%= item.right_track_name %>" <%= formData.right_track === item.right_track_name ? 'selected' : '' %>><%= item.right_track_name %></option>
-                    <% }); %>
-                <% } %>
-            </select>
-            <% if (errors) { const error = errors.array().find(e => e.path === 'right_track'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
-        </label><br>
-
-        <label class="required-field"><b>Starting Point</b>
-            <select name="starting_point" id="starting_point" required <%= errors && errors.array().find(e => e.path === 'starting_point') ? 'class="error-input"' : '' %>>
-                <option value="">Select Starting Point</option>
-                <% if (startingPoints && startingPoints.length > 0) { %>
-                    <% startingPoints.forEach(function(item) { %>
-                        <option value="<%= item.starting_point_name %>" <%= formData.starting_point === item.starting_point_name ? 'selected' : '' %>><%= item.starting_point_name %></option>
-                    <% }); %>
-                <% } %>
-            </select>
-            <% if (errors) { const error = errors.array().find(e => e.path === 'starting_point'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
         </label><br>
         
         <div class="form-actions">

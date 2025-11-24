@@ -249,12 +249,35 @@ ordersController.buildCreateRainier = async function(req, res){
     const rightBuildout = await jfOrdersModel.getrightBuildout()
     const leftTrack = await jfOrdersModel.getleftTrack()
     const rightTrack = await jfOrdersModel.getrightTrack()
+    const rainierFabricColors = await ordersModel.getRainierFabricColors()
+
+    // Check for validation errors from session (POST/Redirect/GET pattern)
+    let errors = null
+    let formData = {}
+
+    if (req.session.validationErrors) {
+        // Store in local variables before clearing session
+        const validationErrors = req.session.validationErrors
+        const sessionFormData = req.session.formData || {}
+
+        // Clear the session data
+        delete req.session.validationErrors
+        delete req.session.formData
+
+        // Convert error array back to validationResult format
+        errors = {
+            array: () => validationErrors
+        }
+        formData = sessionFormData
+    }
 
     res.render('orders/createRainier', {
         title: 'Create Rainier Order',
         link: 'orders/createRainier',
         errors: null,
+        formData: formData,
         placement: placement || [],
+        rainierFabricColors: rainierFabricColors || [],
         colors: colors || [],
         housing: housing || [],
         driveSide: driveSide || [],
