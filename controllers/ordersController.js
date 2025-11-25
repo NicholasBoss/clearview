@@ -512,5 +512,225 @@ ordersController.completeMirage3500 = async function(req, res){
     }
 }
 
+// Mirage (regular) controllers
+ordersController.buildViewMirage = async function(req, res){
+    try {
+        const customizationId = req.params.id
+        const orderData = await ordersModel.getOrderById(customizationId)
+
+        if (!orderData) {
+            req.flash('error', 'Order not found')
+            return res.redirect('/account')
+        }
+
+        // Get all dropdown options
+        const fractions = await ordersModel.getMeasurements()
+        const colors = await ordersModel.getColors()
+        const handles = await ordersModel.getHandles()
+        const topAdapters = await ordersModel.getTopAdapters()
+        const bottomAdapters = await ordersModel.getBottomAdapters()
+        const rightBuildouts = await ordersModel.getRightBuildouts()
+        const leftBuildouts = await ordersModel.getLeftBuildouts()
+        const meshTypes = await ordersModel.getMeshTypes()
+        const mohairOptions = await ordersModel.getMohair()
+        const mohairPositions = await ordersModel.getMohairPositions()
+        const pivotProColors = await ordersModel.getPivotProColors()
+
+        res.render('account/viewMirage', {
+            title: 'View Mirage Order',
+            link: 'account/viewMirage',
+            errors: null,
+            formData: orderData,
+            fractions: fractions || [],
+            colors: colors || [],
+            handles: handles || [],
+            topAdapters: topAdapters || [],
+            bottomAdapters: bottomAdapters || [],
+            rightBuildouts: rightBuildouts || [],
+            leftBuildouts: leftBuildouts || [],
+            meshTypes: meshTypes || [],
+            mohairOptions: mohairOptions || [],
+            mohairPositions: mohairPositions || [],
+            pivotProColors: pivotProColors || []
+        })
+    } catch (error) {
+        console.error('Error loading order:', error)
+        req.flash('error', 'Failed to load order details')
+        res.redirect('/account')
+    }
+}
+
+ordersController.editMirage = async function(req, res){
+    try {
+        const customizationId = req.params.id
+        req.flash('notice', 'Editing for Mirage orders is not yet implemented.')
+        res.redirect('/account')
+    } catch (error) {
+        console.error('Error loading order for editing:', error)
+        req.flash('error', 'Failed to load order for editing')
+        res.redirect('/account')
+    }
+}
+
+ordersController.completeMirage = async function(req, res){
+    try {
+        const customizationId = req.params.id
+        await ordersModel.completeOrder(customizationId)
+        req.flash('notice', 'Mirage order marked as complete successfully!')
+        res.redirect('/account')
+    } catch (error) {
+        console.error('Error completing order:', error)
+        req.flash('error', 'Failed to complete order. Please try again.')
+        res.redirect('/account')
+    }
+}
+
+// Rainier controllers
+ordersController.buildViewRainier = async function(req, res){
+    try {
+        const customizationId = req.params.id
+        const orderData = await ordersModel.getOrderById(customizationId)
+
+        if (!orderData) {
+            req.flash('error', 'Order not found')
+            return res.redirect('/account')
+        }
+
+        // Get all dropdown options for Rainier
+        const fractions = await ordersModel.getMeasurements()
+        const placement = await ordersModel.getRainierPlacements()
+        const colors = await ordersModel.getRainierColors()
+        const rainierFabricColors = await ordersModel.getRainierFabricColors()
+        const housing = await ordersModel.getHousingSeries()
+        const driveSide = await ordersModel.getDriveSides()
+        const hembar = await ordersModel.getHembars()
+        const pilebrush = await ordersModel.getPileBrushes()
+        const brushLocation = await ordersModel.getBrushLocations()
+        const zipperColor = await ordersModel.getZipperColors()
+        const cordLength = await ordersModel.getCordLengths()
+        const mountTypes = await ordersModel.getMountTypes()
+        const leftTrack = await ordersModel.getLeftTracks()
+        const rightTrack = await ordersModel.getTracks()
+        const leftBuildout = await ordersModel.getLeftBuildouts()
+        const rightBuildout = await ordersModel.getRightBuildouts()
+
+        res.render('account/viewRainier', {
+            title: 'View Rainier Order',
+            link: 'account/viewRainier',
+            errors: null,
+            formData: orderData,
+            fractions: fractions || [],
+            placement: placement || [],
+            colors: colors || [],
+            rainierFabricColors: rainierFabricColors || [],
+            housing: housing || [],
+            driveSide: driveSide || [],
+            hembar: hembar || [],
+            pilebrush: pilebrush || [],
+            brushLocation: brushLocation || [],
+            zipperColor: zipperColor || [],
+            cordLength: cordLength || [],
+            mountTypes: mountTypes || [],
+            leftTrack: leftTrack || [],
+            rightTrack: rightTrack || [],
+            leftBuildout: leftBuildout || [],
+            rightBuildout: rightBuildout || []
+        })
+    } catch (error) {
+        console.error('Error loading order:', error)
+        req.flash('error', 'Failed to load order details')
+        res.redirect('/account')
+    }
+}
+
+ordersController.editRainier = async function(req, res){
+    try {
+        const customizationId = req.params.id
+        req.flash('notice', 'Editing for Rainier orders is not yet implemented.')
+        res.redirect('/account')
+    } catch (error) {
+        console.error('Error loading order for editing:', error)
+        req.flash('error', 'Failed to load order for editing')
+        res.redirect('/account')
+    }
+}
+
+ordersController.completeRainier = async function(req, res){
+    try {
+        const customizationId = req.params.id
+        await ordersModel.completeOrder(customizationId)
+        req.flash('notice', 'Rainier order marked as complete successfully!')
+        res.redirect('/account')
+    } catch (error) {
+        console.error('Error completing order:', error)
+        req.flash('error', 'Failed to complete order. Please try again.')
+        res.redirect('/account')
+    }
+}
+
+// NWS controllers
+ordersController.buildViewNWS = async function(req, res){
+    try {
+        const customizationId = req.params.id
+        const orderData = await ordersModel.getOrderById(customizationId)
+
+        if (!orderData) {
+            req.flash('error', 'Order not found')
+            return res.redirect('/account')
+        }
+
+        // Get all dropdown options for NWS
+        const jaOrdersModel = require('../models/jaOrdersModel')
+        const colors = await ordersModel.getColorsByProduct("New Window Screen")
+        const mesh = await ordersModel.getMeshByProduct("New Window Screen")
+        const measurements = await ordersModel.getMeasurements("New Window Screen")
+        const frame_sizes = await jaOrdersModel.getFrameSizes("New Window Screen")
+        const fasteners = await jaOrdersModel.getFasteners("New Window Screen")
+        const springs = await jaOrdersModel.getTabSpring("New Window Screen")
+
+        res.render('account/viewNWS', {
+            title: 'View NWS Order',
+            link: 'account/viewNWS',
+            errors: null,
+            formData: orderData,
+            colors: colors || [],
+            frame_sizes: frame_sizes || [],
+            fractions: measurements || [],
+            springs: springs || [],
+            meshs: mesh || [],
+            fasteners: fasteners || []
+        })
+    } catch (error) {
+        console.error('Error loading order:', error)
+        req.flash('error', 'Failed to load order details')
+        res.redirect('/account')
+    }
+}
+
+ordersController.editNWS = async function(req, res){
+    try {
+        const customizationId = req.params.id
+        req.flash('notice', 'Editing for NWS orders is not yet implemented.')
+        res.redirect('/account')
+    } catch (error) {
+        console.error('Error loading order for editing:', error)
+        req.flash('error', 'Failed to load order for editing')
+        res.redirect('/account')
+    }
+}
+
+ordersController.completeNWS = async function(req, res){
+    try {
+        const customizationId = req.params.id
+        await ordersModel.completeOrder(customizationId)
+        req.flash('notice', 'NWS order marked as complete successfully!')
+        res.redirect('/account')
+    } catch (error) {
+        console.error('Error completing order:', error)
+        req.flash('error', 'Failed to complete order. Please try again.')
+        res.redirect('/account')
+    }
+}
+
 
 module.exports = ordersController

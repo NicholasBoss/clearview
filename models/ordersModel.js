@@ -1762,6 +1762,30 @@ async function completeMirageOrder(customizationId) {
     }
 }
 
+// Generic function to complete any order
+async function completeOrder(customizationId) {
+    try {
+        const updateSql = `
+            UPDATE order_customization
+            SET is_completed = TRUE
+            WHERE customization_id = $1
+            RETURNING order_customization_id
+        `
+        const result = await pool.query(updateSql, [customizationId])
+
+        if (result.rows.length === 0) {
+            throw new Error('Order customization not found')
+        }
+
+        console.log('Order completed: is_completed set to TRUE for customization_id:', customizationId)
+
+        return { customization_id: customizationId }
+    } catch (error) {
+        console.error('Error in completeOrder:', error)
+        throw error
+    }
+}
+
 // Get Mohair options
 async function getMohair() {
     try {
@@ -2036,6 +2060,7 @@ module.exports = {
     saveMirageData,
     confirmMirageOrder,
     completeMirageOrder,
+    completeOrder,
     getOrInsert,
     getColors,
     getHandles,
