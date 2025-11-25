@@ -27,27 +27,25 @@
 
         <label><b>Color</b>
             <select  name="color_name" id="color">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
+                <option value="">Select</option>
+                <% colors.forEach(color => { %>
+                        <option value="<%= color.color_name %>"><%= color.color_name %></option>
+                <% }) %>
             </select>
         </label><br>
 
         <label><b>Pivot Pro Color</b>
             <select  name="" id="pivot_pro_color">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
+                <option value="">Select</option>
+                    <% pivot_colors.forEach(pvt_color => { %>
+                        <option value="<%= pvt_color.color_name %>"><%= pvt_color.color_name %></option>
+                <% }) %>
             </select>
         </label><br>
-        <!-- pivot pro color not found in database -->
 
         <label><b>Top Adapter</b>
             <select name="top_adapter" id="top_adapter_id">
+                <option value="">Select</option>
                 <% top_adapters.forEach(top_adapter => { %>
                     <option value="<%= top_adapter.top_adapter_name %>" <%= formData.top_adapter_id === top_adapter.top_adapter_name ? 'selected' : '' %>><%= top_adapter.top_adapter_name %></option>
                 <% }) %>
@@ -56,12 +54,12 @@
 
         <label><b>Top Adapter Color</b>
             <select name="top_adapter_color" id="top_adapter_color">
+                <option value="">Select</option>
                 <% top_adapter_colors.forEach(top_adapter_color => { %>
-                    <option value="<%= top_adapter_color.product_color_id %>" <%= formData.top_adapter_color_id === top_adapter_color.product_color_id ? 'selected' : '' %>><%= top_adapter_color.product_color_id %></option>
+                    <option value="<%= top_adapter_color.color_name %>" <%= formData.top_adapter_color_id === top_adapter_color.product_color_id ? 'selected' : '' %>><%= top_adapter_color.color_name %></option>
                 <% }) %>
             </select>
         </label><br>
-        <!-- top adapter color not found in database -->
 
          <label><b>Top Adapter Width</b>
             <input type="text" name="top_adapter_width" id="top_adapter_width">
@@ -116,7 +114,8 @@
         <!-- pivot pro height not found in database -->
 
         <label><b>Bottom Adapter</b>
-            <select name="btm_adapter" id="btm_adapter">
+            <select name="btm_adapter" id="">
+                <option value="">Select</option>
                 <% bottom_adapters.forEach(bottom_adapter => { %>
                     <option value="<%= bottom_adapter.bottom_adapter_name %>" <%= formData.bottom_adapter_id === bottom_adapter.bottom_adapter_name ? 'selected' : '' %>><%= bottom_adapter.bottom_adapter_name %></option>
                 <% }) %>
@@ -124,9 +123,10 @@
         </label><br>
 
         <label><b>Bottom Adapter Color</b>
-            <select name="btm_adapter_color" id="btm_adapter_color">
-                <% btm_adapt_colors.forEach(btm_adapt_color => { %>
-                    <option value="<%= bottom_adapter_color.product_color_id %>" <%= formData.bottom_adapter_color_id === bottom_adapter_color.product_color_id ? 'selected' : '' %>><%= bottom_adapter_color.product_color_id %></option>
+            <select name="bottom_adapter_color" id="">
+                <option value="">Select</option>
+                <% bottom_adapter_colors.forEach(bottom_adapter_color => { %>
+                    <option value="<%= bottom_adapter_color.color_name %>" <%= formData.bottom_adapter_color_id === bottom_adapter_color.product_color_id ? 'selected' : '' %>><%= bottom_adapter_color.color_name %></option>
                 <% }) %>
             </select>
         </label><br>
@@ -146,8 +146,9 @@
 
         <label><b>Build Out</b>
             <select name="" id="build_out">
+                <option value="">Select</option>
                 <% build_outs.forEach(build_out => { %>
-                    <option value="<%= buildout.buildout_name %>" <%= formData.buildout_id === buildout.buildout_name ? 'selected' : '' %>><%= buildout.buildout_name %></option>
+                    <option value="<%= build_out.buildout_name %>" <%= formData.buildout_id === build_out.buildout_name ? 'selected' : '' %>><%= build_out.buildout_name %></option>
                 <% }) %>
             </select>
         </label><br>
@@ -168,6 +169,7 @@
 
         <label><b>Mesh</b>
             <select name="" id="mesh">
+                <option value="">Select</option>
                 <% meshes.forEach(mesh => { %>
                     <option value="<%= mesh.mesh_type %>" <%= formData.mesh_id === mesh.mesh_type ? 'selected' : '' %>><%= mesh.mesh_type %></option>
                 <% }) %>
@@ -177,6 +179,7 @@
 
         <label><b>Mohair</b>
             <select name="" id="mohair">
+                <option value="">Select</option>
                 <% mohairs.forEach(mohair => { %>
                     <option value="<%= mohair.mohair_type %>" <%= formData.mohair_id === mohair.mohair_type ? 'selected' : '' %>><%= mohair.mohair_type %></option>
                 <% }) %>
@@ -185,7 +188,8 @@
 
         <label><b>Mohair Position</b>
             <select name="" id="mohair_position">
-                <% mohair_poses.forEach(mohair_pos => { %>
+                <option value="">Select</option>
+                <% mohair_positions.forEach(mohair_position => { %>
                     <option value="<%= mohair_position.mohair_position_name %>" <%= formData.mohair_position_id === mohair_position.mohair_position_name ? 'selected' : '' %>><%= mohair_position.mohair_position_name %></option>
                 <% }) %>
             </select>
@@ -195,18 +199,18 @@
 
         <!-- slide bolt goes here (not found in db) -->
 
-        <label><b>Mohair Size</b>
+        <!-- <label><b>Mohair Size</b>
             <select name="mohair_size" id="mohair_size">
                 <option value="">1</option>
                 <option value="">2</option>
                 <option value="">3</option>
                 <option value="">4</option>
             </select>
-        </label><br>
+        </label><br>  -->
 
         <!-- 4 sizes of mohair not found in database  -->
 
-         <label><b>Bumper Pads</b>
+         <!-- <label><b>Bumper Pads</b>
             <select name="" id="bumper_pads">
                 <option value="">1</option>
                 <option value="">2</option>
@@ -214,10 +218,10 @@
                 <option value="">4</option>
                 <option value="">5</option>
             </select>
-        </label><br>
+        </label><br> -->
         <!-- bumper pads not found in database -->
 
-        <label><b>Silicone Spray</b>
+        <!-- <label><b>Silicone Spray</b>
             <select name="" id="silicone_spray">
                 <option value="">1</option>
                 <option value="">2</option>
@@ -225,10 +229,10 @@
                 <option value="">4</option>
                 <option value="">5</option>
             </select>
-        </label><br>
+        </label><br> -->
         <!-- silicone spray not found in database -->
 
-        <label><b>Label/Location</b>
+        <!-- <label><b>Label/Location</b>
             <select name="location_on_house" id="label_location">
                 <option value="">1</option>
                 <option value="">2</option>
@@ -236,7 +240,7 @@
                 <option value="">4</option>
                 <option value="">5</option>
             </select>
-        </label><br>
+        </label><br> -->
         <!-- unsure if label/location is in database - used location on house (change if needed) -->
 
         <!-- sold and date sold goes here (not found in database) -->

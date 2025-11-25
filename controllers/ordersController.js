@@ -102,19 +102,33 @@ ordersController.buildConfirmMirage3500 = async function(req, res){
 
 ordersController.buildCreateMirage = async function(req, res){
     colors = await ordersModel.getColorsByProduct("Mirage")
-    console.log(colors)
+    pivot_colors = await ordersModel.getPivotColorsByProduct("Mirage")
+    top_adapter_colors = await ordersModel.getTopAdapterColor("Mirage")
+    bottom_adapter_colors = await ordersModel.getBottomAdapterColor("Mirage")
+    top_adapter = await ordersModel.getTopAdapters()
+    bottom_adapter = await ordersModel.getBottomAdapters()
+    buildout = await ordersModel.getBuildOut()
+    mohair = await ordersModel.getMohair()
+    mohair_positions = await ordersModel.getMohairPositions()
+    measurements = await ordersModel.getMeasurements()
+    console.log(top_adapter_colors)
 
     res.render('orders/createMirage', {
         title: 'Create Mirage order',
         link: 'orders/createMirage',
         errors: null,
         colors: colors,
-        top_adapters: ["Standard Top Adapter", "Heavy Duty Top Adapter", "No Top Adapter"],
-        bottom_adapters: null,
-        top_adapter_colors: ["Black", "White", "Beige"],
-        bottom_adapt_colors: ["Black", "White", "Beige"],
-        formData: {},
-        fractions: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+        pivot_colors: pivot_colors,
+        top_adapters: top_adapter,
+        top_adapter_colors: top_adapter_colors,
+        bottom_adapters: bottom_adapter,
+        bottom_adapter_colors: bottom_adapter_colors,
+        formData: ["dummy"],
+        build_outs: buildout,
+        meshes: ["Charcoal 18x14"],
+        mohairs: mohair,
+        mohair_positions: mohair_positions,
+        fractions: measurements
     })
 }
 ordersController.buildConfirmMirage = async function(req, res){
