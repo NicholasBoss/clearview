@@ -1,17 +1,4 @@
-<div class="account-container">
-    <h1>My Account</h1>
-
-    <div class="account-actions">
-        <a href="/orders/create" class="btn-primary">Create New Order</a>
-        <!-- if admin or dba, add button for admin view of orders -->
-        <% if (locals.accountData && (locals.accountData.account_type === 'Admin' || locals.accountData.account_type === 'DBA')) { %>
-            <a href="/admin/orders" class="btn-primary">Admin Orders View</a>
-        <% } %>
-    </div>
-
-    <h2>My Orders</h2>
-
-    <% if (orders && orders.length > 0) { %>
+<% if (orders && orders.length > 0) { %>
         <div class="filter-container" style="margin-bottom: 1rem;">
             <label for="customerFilter" style="margin-right: 0.5rem;"><b>Filter by Customer:</b></label>
             <select id="customerFilter" style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
@@ -98,24 +85,3 @@
             <p><a href="/orders/create">Create your first order</a></p>
         </div>
     <% } %>
-</div>
-
-<% if (orders && orders.length > 0) { %>
-<script>
-    // Customer filter functionality
-    document.getElementById('customerFilter').addEventListener('change', function() {
-        const selectedCustomerId = this.value;
-        const rows = document.querySelectorAll('.orders-table tbody tr');
-
-        rows.forEach(row => {
-            const rowCustomerId = row.getAttribute('data-customer-id');
-
-            if (selectedCustomerId === '' || rowCustomerId === selectedCustomerId) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    });
-</script>
-<% } %>
