@@ -484,16 +484,16 @@ async function getBuildOut() {
 // async function createDoorOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type){
 //     try {
 
-        const customizationSql = `INSERT INTO customization 
-            (product_id, is_estimate, is_confirmed) 
-            VALUES ($1, true, false) RETURNING customization_id`
-        const customizationResult = await pool.query(customizationSql, [productId])
+//         const customizationSql = `INSERT INTO customization 
+//             (product_id, is_estimate, is_confirmed) 
+//             VALUES ($1, true, false) RETURNING customization_id`
+//         const customizationResult = await pool.query(customizationSql, [productId])
         
-        return customizationResult.rows[0]
-    } catch (error) {
-        return error.message
-    }
-}
+//         return customizationResult.rows[0]
+//     } catch (error) {
+//         return error.message
+//     }
+// }
 
 async function createHaleScreenModelOrder(product_name, measurement_name, size_type, fastener_type, color_name, mesh_type){
     try {
