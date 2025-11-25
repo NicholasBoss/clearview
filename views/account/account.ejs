@@ -3,6 +3,10 @@
 
     <div class="account-actions">
         <a href="/orders/create" class="btn-primary">Create New Order</a>
+        <!-- if admin or dba, add button for admin view of orders -->
+        <% if (locals.accountData && (locals.accountData.account_type === 'Admin' || locals.accountData.account_type === 'DBA')) { %>
+            <a href="/admin/orders" class="btn-primary">Admin Orders View</a>
+        <% } %>
     </div>
 
     <h2>My Orders</h2>

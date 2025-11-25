@@ -381,6 +381,48 @@ async function getOrdersByAccountId(account_id){
             LEFT JOIN customer cust ON co.customer_id = cust.customer_id
             LEFT JOIN mirage_3500 m3 ON c.mirage_3500_id = m3.mirage_3500_id
             LEFT JOIN mirage m ON c.mirage_id = m.mirage_id
+            LEFT JOIN order_log ol on cust.customer_id = ol.customer_id
+            WHERE ol.account_id = $1
+            ORDER BY c.customization_id DESC
+        `
+        const result = await pool.query(sql, [account_id])
+        return result.rows
+    } catch (error) {
+        console.error('Error in getOrdersByAccountId:', error)
+        return []
+    }
+}
+
+async function getOrders(){
+    try {
+        // NOTE: All users are admins/employees who create orders for customers
+        // This function returns ALL orders for display on the account page
+        // Orders are not filtered by logged-in user since all users need to see all orders
+
+        const sql = `
+            SELECT
+                c.customization_id,
+                c.product_id,
+                p.product_name,
+                oc.is_estimate,
+                oc.is_confirmed,
+                oc.is_completed,
+                oc.is_cancelled,
+                oc.order_id,
+                o.order_date,
+                m3.mirage_3500_handle,
+                m.mirage_build_out,
+                cust.customer_id,
+                cust.customer_firstname,
+                cust.customer_lastname
+            FROM customization c
+            JOIN product p ON c.product_id = p.product_id
+            LEFT JOIN order_customization oc ON c.customization_id = oc.customization_id
+            LEFT JOIN public.order o ON oc.order_id = o.order_id
+            LEFT JOIN cust_order co ON o.order_id = co.order_id
+            LEFT JOIN customer cust ON co.customer_id = cust.customer_id
+            LEFT JOIN mirage_3500 m3 ON c.mirage_3500_id = m3.mirage_3500_id
+            LEFT JOIN mirage m ON c.mirage_id = m.mirage_id
             ORDER BY c.customization_id DESC
         `
         const result = await pool.query(sql)
@@ -2052,6 +2094,7 @@ module.exports = {
     updateOrder,
     deleteOrder,
     getOrdersByAccountId,
+    getOrders,
     getOrderById,
     getMeasurements,
     saveMirage3500Data,

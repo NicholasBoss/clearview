@@ -1,0 +1,87 @@
+<% if (orders && orders.length > 0) { %>
+        <div class="filter-container" style="margin-bottom: 1rem;">
+            <label for="customerFilter" style="margin-right: 0.5rem;"><b>Filter by Customer:</b></label>
+            <select id="customerFilter" style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+                <option value="">All Customers</option>
+                <% customers.forEach(customer => { %>
+                    <option value="<%= customer.customer_id %>">
+                        <%= customer.customer_lastname %>, <%= customer.customer_firstname %>
+                    </option>
+                <% }) %>
+            </select>
+        </div>
+
+        <div class="orders-table-container">
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Customer</th>
+                        <th>Details</th>
+                        <th>Date Created</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% orders.forEach(order => { %>
+                        <tr data-customer-id="<%= order.customer_id || '' %>">
+                            <td class="product-name"><%= order.product_name %></td>
+                            <td class="customer-name">
+                                <% if (order.customer_firstname && order.customer_lastname) { %>
+                                    <%= order.customer_lastname %>, <%= order.customer_firstname %>
+                                <% } else { %>
+                                    N/A
+                                <% } %>
+                            </td>
+                            <td class="order-details">
+                                <% if (order.mirage_3500_handle) { %>
+                                    Handle: <%= order.mirage_3500_handle %>
+                                <% } else if (order.mirage_build_out) { %>
+                                    Build Out: <%= order.mirage_build_out %>
+                                <% } else { %>
+                                    Order #<%= order.customization_id %>
+                                <% } %>
+                            </td>
+                            <td class="order-date">
+                                <% if (order.order_date) { %>
+                                    <%= new Date(order.order_date).toLocaleDateString() %>
+                                <% } else { %>
+                                    N/A
+                                <% } %>
+                            </td>
+                            <td class="order-status">
+                                <% if (order.is_cancelled) { %>
+                                    <span class="status-badge status-cancelled">Cancelled</span>
+                                <% } else if (order.is_completed) { %>
+                                    <span class="status-badge status-completed">Completed</span>
+                                <% } else if (order.is_confirmed) { %>
+                                    <span class="status-badge status-confirmed">Confirmed</span>
+                                <% } else if (order.is_estimate) { %>
+                                    <span class="status-badge status-estimate">Needs Confirmation</span>
+                                <% } else { %>
+                                    <span class="status-badge status-pending">Pending</span>
+                                <% } %>
+                            </td>
+                            <td class="order-actions">
+                                <% if (order.is_estimate && !order.is_confirmed) { %>
+                                    <a href="/orders/editMirage3500/<%= order.customization_id %>" class="btn-action btn-confirm">Confirm</a>
+                                <% } %>
+                                <a href="/orders/viewMirage3500/<%= order.customization_id %>" class="btn-action btn-view">View Details</a>
+                                <% if (order.is_confirmed && !order.is_completed) { %>
+                                    <form action="/orders/completeMirage3500/<%= order.customization_id %>" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to mark this order as complete?');">
+                                        <button type="submit" class="btn-action btn-complete">Complete Order</button>
+                                    </form>
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    <% } else { %>
+        <div class="no-orders">
+            <p>You don't have any orders yet.</p>
+            <p><a href="/orders/create">Create your first order</a></p>
+        </div>
+    <% } %>
