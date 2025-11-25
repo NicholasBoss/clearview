@@ -36,16 +36,11 @@
             <% } %>
         </label><br>
 
-        <label class="required-field"><b>Mount</b>
-            <input type="text" name="mount" id="mount" value="<%= formData.mount || '' %>" placeholder="Enter mount type" required <%= errors && errors.array().find(e => e.path === 'mount') ? 'class="error-input"' : '' %>>
-            <% if (errors) { const error = errors.array().find(e => e.path === 'mount'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
-        </label><br>
-
-        <label class="required-field"><b>Color</b>
-            <select  name="color_name" id="color" required <%= errors && errors.array().find(e => e.path === 'color_name') ? 'class="error-input"' : '' %>>
+        <label><b>Color</b>
+            <select  name="color_name" id="color">
                 <option value="">Select</option>
                 <% colors.forEach(color => { %>
-                    <option value="<%= color.color_name %>" <%= formData.color_name === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
+                        <option value="<%= color.color_name %>"><%= color.color_name %></option>
                 <% }) %>
             </select>
             <% if (errors) { %>
@@ -56,11 +51,11 @@
             <% } %>
         </label><br>
 
-        <label class="required-field"><b>Pivot Pro Color</b>
-            <select  name="pivot_pro_color" id="pivot_pro_color" required <%= errors && errors.array().find(e => e.path === 'pivot_pro_color') ? 'class="error-input"' : '' %>>
+        <label><b>Pivot Pro Color</b>
+            <select  name="" id="pivot_pro_color">
                 <option value="">Select</option>
-                <% pivotProColors.forEach(color => { %>
-                    <option value="<%= color.color_name %>" <%= formData.pivot_pro_color === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
+                    <% pivot_colors.forEach(pvt_color => { %>
+                        <option value="<%= pvt_color.color_name %>"><%= pvt_color.color_name %></option>
                 <% }) %>
             </select>
             <% if (errors) { %>
@@ -71,21 +66,21 @@
             <% } %>
         </label><br>
 
-        <label class="required-field"><b>Top Adapter</b>
-            <select name="top_adapter" id="top_adapter" required <%= errors && errors.array().find(e => e.path === 'top_adapter') ? 'class="error-input"' : '' %>>
+        <label><b>Top Adapter</b>
+            <select name="top_adapter" id="top_adapter_id">
                 <option value="">Select</option>
-                <% topAdapters.forEach(adapter => { %>
-                    <option value="<%= adapter.top_adapter_name %>" <%= formData.top_adapter === adapter.top_adapter_name ? 'selected' : '' %>><%= adapter.top_adapter_name %></option>
+                <% top_adapters.forEach(top_adapter => { %>
+                    <option value="<%= top_adapter.top_adapter_name %>" <%= formData.top_adapter_id === top_adapter.top_adapter_name ? 'selected' : '' %>><%= top_adapter.top_adapter_name %></option>
                 <% }) %>
             </select>
             <% if (errors) { const error = errors.array().find(e => e.path === 'top_adapter'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
         </label><br>
 
-        <label class="required-field"><b>Top Adapter Color</b>
-            <select name="top_adapter_color" id="top_adapter_color" required <%= errors && errors.array().find(e => e.path === 'top_adapter_color') ? 'class="error-input"' : '' %>>
+        <label><b>Top Adapter Color</b>
+            <select name="top_adapter_color" id="top_adapter_color">
                 <option value="">Select</option>
-                <% colors.forEach(color => { %>
-                    <option value="<%= color.color_name %>" <%= formData.top_adapter_color === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
+                <% top_adapter_colors.forEach(top_adapter_color => { %>
+                    <option value="<%= top_adapter_color.color_name %>" <%= formData.top_adapter_color_id === top_adapter_color.product_color_id ? 'selected' : '' %>><%= top_adapter_color.color_name %></option>
                 <% }) %>
             </select>
             <% if (errors) { const error = errors.array().find(e => e.path === 'top_adapter_color'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
@@ -95,11 +90,11 @@
             <input type="text" name="top_adapter_width" id="top_adapter_width" value="<%= formData.top_adapter_width || '' %>" placeholder="Enter number (inches)" required <%= errors && errors.array().find(e => e.path === 'top_adapter_width') ? 'class="error-input"' : '' %>>
             <% if (errors) { const error = errors.array().find(e => e.path === 'top_adapter_width'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
         </label><br>
-        <label class="required-field"><b>Top Adapter Width Fraction</b>
-            <select name="top_adapter_width_fraction" id="top_adapter_width_fraction" required <%= errors && errors.array().find(e => e.path === 'top_adapter_width_fraction') ? 'class="error-input"' : '' %>>
-                <option value="">Select</option>
+        <label><b>Top Adapter Width Fraction</b>
+            <select name="top_adapter_width_fraction" id="">
+                <option calue="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction.measurement_name %>" <%= formData.top_adapter_width_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                    <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
             <% if (errors) { const error = errors.array().find(e => e.path === 'top_adapter_width_fraction'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
@@ -109,11 +104,11 @@
             <input type="text" name="opening_height" id="opening_height" value="<%= formData.opening_height || '' %>" placeholder="Enter number (inches)" required <%= errors && errors.array().find(e => e.path === 'opening_height') ? 'class="error-input"' : '' %>>
             <% if (errors) { const error = errors.array().find(e => e.path === 'opening_height'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
         </label><br>
-        <label class="required-field"><b>Opening Height Fraction</b>
-            <select name="opening_height_fraction" id="opening_height_fraction" required <%= errors && errors.array().find(e => e.path === 'opening_height_fraction') ? 'class="error-input"' : '' %>>
-                <option value="">Select</option>
+        <label><b>Opening Height Fraction</b>
+            <select name="opening_height_fraction" id="">
+                <option calue="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction.measurement_name %>" <%= formData.opening_height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
             <% if (errors) { const error = errors.array().find(e => e.path === 'opening_height_fraction'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
@@ -123,11 +118,11 @@
             <input type="text" name="unit_height" id="unit_height" value="<%= formData.unit_height || '' %>" placeholder="Enter number (inches)" required <%= errors && errors.array().find(e => e.path === 'unit_height') ? 'class="error-input"' : '' %>>
             <% if (errors) { const error = errors.array().find(e => e.path === 'unit_height'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
         </label><br>
-        <label class="required-field"><b>Unit Height Fraction</b>
-            <select name="unit_height_fraction" id="unit_height_fraction" required <%= errors && errors.array().find(e => e.path === 'unit_height_fraction') ? 'class="error-input"' : '' %>>
-                <option value="">Select</option>
+        <label><b>Unit Height Fraction</b>
+            <select name="unit_height_fraction" id="">
+                <option calue="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction.measurement_name %>" <%= formData.unit_height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
             <% if (errors) { const error = errors.array().find(e => e.path === 'unit_height_fraction'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
@@ -137,31 +132,31 @@
             <input type="text" name="pivot_pro_height" id="pivot_pro_height" value="<%= formData.pivot_pro_height || '' %>" placeholder="Enter number (inches)" required <%= errors && errors.array().find(e => e.path === 'pivot_pro_height') ? 'class="error-input"' : '' %>>
             <% if (errors) { const error = errors.array().find(e => e.path === 'pivot_pro_height'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
         </label><br>
-        <label class="required-field"><b>Pivot Pro Height Fraction</b>
-            <select name="pivot_pro_height_fraction" id="pivot_pro_height_fraction" required <%= errors && errors.array().find(e => e.path === 'pivot_pro_height_fraction') ? 'class="error-input"' : '' %>>
-                <option value="">Select</option>
+        <label><b>Pivot Pro Height Fraction</b>
+            <select name="pivot_pro_height_fraction" id="">
+                <option calue="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction.measurement_name %>" <%= formData.pivot_pro_height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
             <% if (errors) { const error = errors.array().find(e => e.path === 'pivot_pro_height_fraction'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
         </label><br>
 
-        <label class="required-field"><b>Bottom Adapter</b>
-            <select name="btm_adapter" id="btm_adapter" required <%= errors && errors.array().find(e => e.path === 'btm_adapter') ? 'class="error-input"' : '' %>>
+        <label><b>Bottom Adapter</b>
+            <select name="btm_adapter" id="">
                 <option value="">Select</option>
-                <% bottomAdapters.forEach(adapter => { %>
-                    <option value="<%= adapter.bottom_adapter_name %>" <%= formData.btm_adapter === adapter.bottom_adapter_name ? 'selected' : '' %>><%= adapter.bottom_adapter_name %></option>
+                <% bottom_adapters.forEach(bottom_adapter => { %>
+                    <option value="<%= bottom_adapter.bottom_adapter_name %>" <%= formData.bottom_adapter_id === bottom_adapter.bottom_adapter_name ? 'selected' : '' %>><%= bottom_adapter.bottom_adapter_name %></option>
                 <% }) %>
             </select>
             <% if (errors) { const error = errors.array().find(e => e.path === 'btm_adapter'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
         </label><br>
 
-        <label class="required-field"><b>Bottom Adapter Color</b>
-            <select name="btm_adapter_color" id="btm_adapter_color" required <%= errors && errors.array().find(e => e.path === 'btm_adapter_color') ? 'class="error-input"' : '' %>>
+        <label><b>Bottom Adapter Color</b>
+            <select name="bottom_adapter_color" id="">
                 <option value="">Select</option>
-                <% colors.forEach(color => { %>
-                    <option value="<%= color.color_name %>" <%= formData.btm_adapter_color === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
+                <% bottom_adapter_colors.forEach(bottom_adapter_color => { %>
+                    <option value="<%= bottom_adapter_color.color_name %>" <%= formData.bottom_adapter_color_id === bottom_adapter_color.product_color_id ? 'selected' : '' %>><%= bottom_adapter_color.color_name %></option>
                 <% }) %>
             </select>
             <% if (errors) { const error = errors.array().find(e => e.path === 'btm_adapter_color'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
@@ -171,40 +166,34 @@
             <input type="text" name="btm_adapter_width" id="btm_adapter_width" value="<%= formData.btm_adapter_width || '' %>" placeholder="Enter number (inches)" required <%= errors && errors.array().find(e => e.path === 'btm_adapter_width') ? 'class="error-input"' : '' %>>
             <% if (errors) { const error = errors.array().find(e => e.path === 'btm_adapter_width'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
         </label><br>
-        <label class="required-field"><b>Bottom Adapter Width Fraction</b>
-            <select name="btm_adapter_width_fraction" id="btm_adapter_width_fraction" required <%= errors && errors.array().find(e => e.path === 'btm_adapter_width_fraction') ? 'class="error-input"' : '' %>>
-                <option value="">Select</option>
+        <label><b>Bottom Adapter Width Fraction</b>
+            <select name="btm_adapter_width_fraction" id="">
+                <option calue="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction.measurement_name %>" <%= formData.btm_adapter_width_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                    <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
             <% if (errors) { const error = errors.array().find(e => e.path === 'btm_adapter_width_fraction'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
         </label><br>
 
-        <label class="required-field"><b>Build Out</b>
-            <input type="text" name="build_out" id="build_out" value="<%= formData.build_out || '' %>" placeholder="Enter build out" required <%= errors && errors.array().find(e => e.path === 'build_out') ? 'class="error-input"' : '' %>>
-            <% if (errors) { const error = errors.array().find(e => e.path === 'build_out'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
-        </label><br>
-
-         <label class="required-field"><b>Build Out Dimension</b>
-            <input type="text" name="build_out_dimension" id="build_out_dimension" value="<%= formData.build_out_dimension || '' %>" placeholder="Enter number (inches)" required <%= errors && errors.array().find(e => e.path === 'build_out_dimension') ? 'class="error-input"' : '' %>>
-            <% if (errors) { const error = errors.array().find(e => e.path === 'build_out_dimension'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
-        </label><br>
-        <label class="required-field"><b>Build Out Dimension Fraction</b>
-            <select name="build_out_dimension_fraction" id="build_out_dimension_fraction" required <%= errors && errors.array().find(e => e.path === 'build_out_dimension_fraction') ? 'class="error-input"' : '' %>>
+        <label><b>Build Out</b>
+            <select name="" id="build_out">
                 <option value="">Select</option>
-                <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction.measurement_name %>" <%= formData.build_out_dimension_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                <% build_outs.forEach(build_out => { %>
+                    <option value="<%= build_out.buildout_name %>" <%= formData.buildout_id === build_out.buildout_name ? 'selected' : '' %>><%= build_out.buildout_name %></option>
                 <% }) %>
             </select>
             <% if (errors) { const error = errors.array().find(e => e.path === 'build_out_dimension_fraction'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
         </label><br>
 
-        <label class="required-field"><b>Mesh</b>
-            <select name="mesh" id="mesh" required <%= errors && errors.array().find(e => e.path === 'mesh') ? 'class="error-input"' : '' %>>
-                <option value="">Select</option>
-                <% meshTypes.forEach(mesh => { %>
-                    <option value="<%= mesh.mesh_type %>" <%= formData.mesh === mesh.mesh_type ? 'selected' : '' %>><%= mesh.mesh_type %></option>
+         <label><b>Build Out Dimension</b>
+            <input type="text" name="" id="build_out_dimension">
+        </label><br>
+        <label><b>Build Out Dimension Fraction</b>
+            <select name="" id="">
+                <option calue="">Select</option>
+                <% fractions.forEach(fraction => { %>
+                <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
             <% if (errors) { %>
@@ -215,53 +204,80 @@
             <% } %>
         </label><br>
 
-        <label class="required-field"><b>Mohair</b>
-            <select name="mohair" id="mohair" required <%= errors && errors.array().find(e => e.path === 'mohair') ? 'class="error-input"' : '' %>>
-                <option value="">Select</option>
-                <% mohairOptions.forEach(mohair => { %>
-                    <option value="<%= mohair.mohair_type %>" <%= formData.mohair === mohair.mohair_type ? 'selected' : '' %>><%= mohair.mohair_type %></option>
-                <% }) %>
+        <label><b>Mesh</b>
+            <select name="" id="mesh">
+                <option value="">Charcoal 18x14</option>
             </select>
             <% if (errors) { const error = errors.array().find(e => e.path === 'mohair'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
         </label><br>
 
-        <label class="required-field"><b>Mohair Position</b>
-            <select name="mohair_position" id="mohair_position" required <%= errors && errors.array().find(e => e.path === 'mohair_position') ? 'class="error-input"' : '' %>>
+        <label><b>Mohair</b>
+            <select name="" id="mohair">
                 <option value="">Select</option>
-                <% mohairPositions.forEach(position => { %>
-                    <option value="<%= position.mohair_position_name %>" <%= formData.mohair_position === position.mohair_position_name ? 'selected' : '' %>><%= position.mohair_position_name %></option>
+                <% mohairs.forEach(mohair => { %>
+                    <option value="<%= mohair.mohair_type %>" <%= formData.mohair_id === mohair.mohair_type ? 'selected' : '' %>><%= mohair.mohair_type %></option>
                 <% }) %>
             </select>
             <% if (errors) { const error = errors.array().find(e => e.path === 'mohair_position'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
         </label><br>
 
-        <label class="required-field"><b>Mohair Size</b>
-            <select name="mohair_size" id="mohair_size" required <%= errors && errors.array().find(e => e.path === 'mohair_size') ? 'class="error-input"' : '' %>>
+        <label><b>Mohair Position</b>
+            <select name="" id="mohair_position">
                 <option value="">Select</option>
-                <option value=".2" <%= formData.mohair_size === '.2' ? 'selected' : '' %>>.2</option>
-                <option value=".25" <%= formData.mohair_size === '.25' ? 'selected' : '' %>>.25</option>
-                <option value=".3" <%= formData.mohair_size === '.3' ? 'selected' : '' %>>.3</option>
-                <option value=".35" <%= formData.mohair_size === '.35' ? 'selected' : '' %>>.35</option>
+                <% mohair_positions.forEach(mohair_position => { %>
+                    <option value="<%= mohair_position.mohair_position_name %>" <%= formData.mohair_position_id === mohair_position.mohair_position_name ? 'selected' : '' %>><%= mohair_position.mohair_position_name %></option>
+                <% }) %>
             </select>
             <% if (errors) { const error = errors.array().find(e => e.path === 'mohair_size'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
         </label><br>
 
-         <label class="required-field"><b>Bumper Pads</b>
-            <input type="text" name="bumper_pads" id="bumper_pads" value="<%= formData.bumper_pads || '' %>" placeholder="Enter quantity or description" required <%= errors && errors.array().find(e => e.path === 'bumper_pads') ? 'class="error-input"' : '' %>>
-            <% if (errors) { const error = errors.array().find(e => e.path === 'bumper_pads'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
-        </label><br>
+        <!-- bottom adapter screws go here (not found in database) -->
 
-        <label class="required-field"><b>Silicone Spray</b>
-            <input type="text" name="silicone_spray" id="silicone_spray" value="<%= formData.silicone_spray || '' %>" placeholder="Enter quantity or description" required <%= errors && errors.array().find(e => e.path === 'silicone_spray') ? 'class="error-input"' : '' %>>
-            <% if (errors) { const error = errors.array().find(e => e.path === 'silicone_spray'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
-        </label><br>
+        <!-- slide bolt goes here (not found in db) -->
 
-        <label class="required-field"><b>Label/Location</b>
-            <input type="text" name="label_location" id="label_location" value="<%= formData.label_location || '' %>" placeholder="Enter location" required <%= errors && errors.array().find(e => e.path === 'label_location') ? 'class="error-input"' : '' %>>
-            <% if (errors) { const error = errors.array().find(e => e.path === 'label_location'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
-        </label><br>
+        <!-- <label><b>Mohair Size</b>
+            <select name="mohair_size" id="mohair_size">
+                <option value="">1</option>
+                <option value="">2</option>
+                <option value="">3</option>
+                <option value="">4</option>
+            </select>
+        </label><br>  -->
 
-        <button class="formbtn" type="submit">Submit</button>
+        <!-- 4 sizes of mohair not found in database  -->
+
+         <!-- <label><b>Bumper Pads</b>
+            <select name="" id="bumper_pads">
+                <option value="">1</option>
+                <option value="">2</option>
+                <option value="">3</option>
+                <option value="">4</option>
+                <option value="">5</option>
+            </select>
+        </label><br> -->
+        <!-- bumper pads not found in database -->
+
+        <!-- <label><b>Silicone Spray</b>
+            <select name="" id="silicone_spray">
+                <option value="">1</option>
+                <option value="">2</option>
+                <option value="">3</option>
+                <option value="">4</option>
+                <option value="">5</option>
+            </select>
+        </label><br> -->
+        <!-- silicone spray not found in database -->
+
+        <!-- <label><b>Label/Location</b>
+            <select name="location_on_house" id="label_location">
+                <option value="">1</option>
+                <option value="">2</option>
+                <option value="">3</option>
+                <option value="">4</option>
+                <option value="">5</option>
+            </select>
+        </label><br> -->
+        <!-- unsure if label/location is in database - used location on house (change if needed) -->
 
     </div>
 </form>

@@ -219,43 +219,34 @@ ordersController.saveMirage3500Order = async function(req, res){
 }
 
 ordersController.buildCreateMirage = async function(req, res){
-    const fractions = await ordersModel.getMeasurements()
-    const colors = await ordersModel.getColors()
-    const pivotProColors = await ordersModel.getPivotProColors()
-    const topAdapters = await ordersModel.getTopAdapters()
-    const bottomAdapters = await ordersModel.getBottomAdapters()
-    const meshTypes = await ordersModel.getMeshTypes()
-    const mohairOptions = await ordersModel.getMohair()
-    const mohairPositions = await ordersModel.getMohairPositions()
-    const customers = await ordersModel.getAllCustomers()
-
-    // Check for validation errors from session
-    let errors = null
-    let formData = {}
-
-    if (req.session.validationErrors) {
-        const validationErrors = req.session.validationErrors
-        const sessionFormData = req.session.formData || {}
-        delete req.session.validationErrors
-        delete req.session.formData
-        errors = { array: () => validationErrors }
-        formData = sessionFormData
-    }
+    colors = await ordersModel.getColorsByProduct("Mirage")
+    pivot_colors = await ordersModel.getPivotColorsByProduct("Mirage")
+    top_adapter_colors = await ordersModel.getTopAdapterColor("Mirage")
+    bottom_adapter_colors = await ordersModel.getBottomAdapterColor("Mirage")
+    top_adapter = await ordersModel.getTopAdapters()
+    bottom_adapter = await ordersModel.getBottomAdapters()
+    buildout = await ordersModel.getBuildOut()
+    mohair = await ordersModel.getMohair()
+    mohair_positions = await ordersModel.getMohairPositions()
+    measurements = await ordersModel.getMeasurements()
+    console.log(top_adapter_colors)
 
     res.render('orders/createMirage', {
         title: 'Create Mirage order',
         link: 'orders/createMirage',
-        errors: errors,
-        fractions: fractions || [],
-        colors: colors || [],
-        pivotProColors: pivotProColors || [],
-        topAdapters: topAdapters || [],
-        bottomAdapters: bottomAdapters || [],
-        meshTypes: meshTypes || [],
-        mohairOptions: mohairOptions || [],
-        mohairPositions: mohairPositions || [],
-        customers: customers || [],
-        formData: formData
+        errors: null,
+        colors: colors,
+        pivot_colors: pivot_colors,
+        top_adapters: top_adapter,
+        top_adapter_colors: top_adapter_colors,
+        bottom_adapters: bottom_adapter,
+        bottom_adapter_colors: bottom_adapter_colors,
+        formData: ["dummy"],
+        build_outs: buildout,
+        meshes: ["Charcoal 18x14"],
+        mohairs: mohair,
+        mohair_positions: mohair_positions,
+        fractions: measurements
     })
 }
 
