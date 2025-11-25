@@ -6,6 +6,26 @@ const validate = {}
 ************************************** */
 validate.mirage3500Rules = () => {
     return [
+        // Customer First Name - required
+        body("customer_firstname")
+        .notEmpty()
+        .withMessage("Customer First Name is required.")
+        .trim()
+        .isLength({ min: 1, max: 255 })
+        .withMessage("Customer First Name must be between 1 and 255 characters.")
+        .matches(/^[a-zA-Z\s\-']+$/)
+        .withMessage("Customer First Name can only contain letters, spaces, hyphens, and apostrophes."),
+
+        // Customer Last Name - required
+        body("customer_lastname")
+        .notEmpty()
+        .withMessage("Customer Last Name is required.")
+        .trim()
+        .isLength({ min: 1, max: 255 })
+        .withMessage("Customer Last Name must be between 1 and 255 characters.")
+        .matches(/^[a-zA-Z\s\-']+$/)
+        .withMessage("Customer Last Name can only contain letters, spaces, hyphens, and apostrophes."),
+
         // Top Opening Width - required numeric field
         body("top_opening_width")
         .notEmpty()
@@ -125,6 +145,24 @@ validate.mirage3500Rules = () => {
         .withMessage("Mount is required.")
         .trim()
 ,
+
+        // Door Type - required
+        body("door_type")
+        .notEmpty()
+        .withMessage("Door Type is required.")
+        .trim(),
+
+        // Door Mount - required
+        body("door_mount")
+        .notEmpty()
+        .withMessage("Door Mount is required.")
+        .trim(),
+
+        // Opening Side - required
+        body("opening_side")
+        .notEmpty()
+        .withMessage("Opening Side is required.")
+        .trim(),
 
         // Color - required
         body("color_name")
