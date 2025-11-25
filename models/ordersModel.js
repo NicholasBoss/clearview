@@ -1162,7 +1162,7 @@ async function getAddBuildouts() {
 
 async function getRightPlumbs() {
     try {
-        const sql = 'SELECT right_plumb_id, right_plumb_name FROM right-plumb ORDER BY right_plumb_name'
+        const sql = 'SELECT right_plumb_id, right_plumb_name FROM right_plumb ORDER BY right_plumb_name'
         const result = await pool.query(sql)
         return result.rows
     } catch (error) {
@@ -1365,7 +1365,7 @@ async function handleMeasurementWithJunction(dimensionTable, dimensionColumn, di
 }
 
 // Comprehensive function to save all Mirage 3500 data
-async function saveMirage3500Data(formData) {
+async function saveMirage3500Data(formData, account_id) {
     try {
         // 1. Handle mirage_3500 (handle type)
         const mirage3500Id = await getOrInsert('mirage_3500', 'mirage_3500_handle', formData.handle, 'mirage_3500_id')
@@ -1407,7 +1407,7 @@ async function saveMirage3500Data(formData) {
         const leftPlumbId = await getOrInsert('left_plumb', 'left_plumb_name', formData.left_plumb, 'left_plumb_id')
 
         // 14. Handle right plumb
-        const rightPlumbId = await getOrInsert('right_plumb', 'right-plumb_name', formData.right_plumb, 'right_plumb_id')
+        const rightPlumbId = await getOrInsert('right_plumb', 'right_plumb_name', formData.right_plumb, 'right_plumb_id')
 
         // 15. Handle mesh
         const meshId = await getOrInsert('mesh', 'mesh_type', formData.mesh, 'mesh_id')
@@ -1724,6 +1724,19 @@ async function saveMirage3500Data(formData) {
             `
             await pool.query(custOrderSql, [customerId, orderId, customerAddressId])
             console.log('cust_order created linking customer to order')
+
+            // Create order_log entry to track which account created this order
+            if (account_id) {
+                const orderLogSql = `
+                    INSERT INTO order_log (customer_id, account_id, order_id, actual_date)
+                    VALUES ($1, $2, $3, CURRENT_DATE)
+                    RETURNING order_log_id
+                `
+                await pool.query(orderLogSql, [customerId, account_id, orderId])
+                console.log('order_log created linking account to order')
+            } else {
+                console.warn('No account_id provided - order_log entry not created')
+            }
         }
 
         // Return the customization_id
@@ -2087,6 +2100,30 @@ async function completeMirageOrder(customizationId) {
     }
 }
 
+// Generic function to complete any order
+async function completeOrder(customizationId) {
+    try {
+        const updateSql = `
+            UPDATE order_customization
+            SET is_completed = TRUE
+            WHERE customization_id = $1
+            RETURNING order_customization_id
+        `
+        const result = await pool.query(updateSql, [customizationId])
+
+        if (result.rows.length === 0) {
+            throw new Error('Order customization not found')
+        }
+
+        console.log('Order completed: is_completed set to TRUE for customization_id:', customizationId)
+
+        return { customization_id: customizationId }
+    } catch (error) {
+        console.error('Error in completeOrder:', error)
+        throw error
+    }
+}
+
 // Get Mohair options
 async function getMohair() {
     try {
@@ -2362,6 +2399,7 @@ module.exports = {
     saveMirageData,
     confirmMirageOrder,
     completeMirageOrder,
+    completeOrder,
     getOrInsert,
     getColors,
     getHandles,

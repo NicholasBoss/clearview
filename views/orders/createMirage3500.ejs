@@ -491,51 +491,19 @@
         </label><br> -->
 
 
-        <button class="formbtn" type="submit">Submit</button>
+        <div class="form-actions">
+            <button type="submit" class="btn-primary">Submit Order</button>
+            <button type="button" id="clearFormBtn" class="btn-secondary">Clear Form</button>
+        </div>
 
     </div>
 </form>
 
 <script>
-    // Load form data from localStorage when page loads (only if no server-side data exists)
-    window.addEventListener('DOMContentLoaded', function() {
-        // Check if there's server-side form data (from validation errors or session)
-        const hasServerData = "<%= Object.keys(formData || {}).length > 0 ? 'true' : 'false' %>";
-
-        // Only load from localStorage if there's no server-side data
-        if (!hasServerData) {
-            const savedData = localStorage.getItem('mirage3500FormData');
-
-            if (savedData) {
-                try {
-                    const formData = JSON.parse(savedData);
-
-                    // Populate all form fields
-                    for (const [key, value] of Object.entries(formData)) {
-                        const field = document.querySelector(`[name="${key}"]`);
-
-                        if (field) {
-                            if (field.type === 'checkbox') {
-                                field.checked = value === 'on' || value === true;
-                            } else if (!field.value) {
-                                // Only set value if field is currently empty
-                                field.value = value;
-                            }
-                        }
-                    }
-
-                    console.log('Form data loaded from localStorage');
-                } catch (e) {
-                    console.error('Error loading form data:', e);
-                }
-            }
-        }
-    });
-
-    // Save form data to localStorage when form is submitted
-    document.getElementById('form').addEventListener('submit', function(event) {
-        // Save form data before showing confirmation
-        const formData = new FormData(this);
+    // Function to save form data to localStorage
+    function saveFormData() {
+        const form = document.getElementById('form');
+        const formData = new FormData(form);
         const formObject = {};
 
         formData.forEach((value, key) => {
@@ -543,7 +511,57 @@
         });
 
         localStorage.setItem('mirage3500FormData', JSON.stringify(formObject));
-        console.log('Form data saved to localStorage');
+    }
+
+    // Load form data from localStorage when page loads (only if no server-side data exists)
+    window.addEventListener('DOMContentLoaded', function() {
+        // Check if there's server-side form data (from validation errors or session)
+        const hasServerData = "<%= Object.keys(formData || {}).length > 0 ? 'true' : 'false' %>";
+
+        // Only load from localStorage if there's no server-side data
+        if (hasServerData === 'false') {
+            const savedData = localStorage.getItem('mirage3500FormData');
+
+            if (savedData) {
+                try {
+                    const formObject = JSON.parse(savedData);
+
+                    // Populate all form fields
+                    Object.keys(formObject).forEach(key => {
+                        const element = document.querySelector(`[name="${key}"]`);
+                        if (element) {
+                            if (element.type === 'checkbox') {
+                                element.checked = formObject[key] === 'on' || formObject[key] === true;
+                            } else {
+                                element.value = formObject[key];
+                            }
+                        }
+                    });
+
+                    console.log('Form data loaded from localStorage');
+                } catch (e) {
+                    console.error('Error loading form data:', e);
+                }
+            }
+        }
+
+        // Auto-save form data on input change
+        const form = document.getElementById('form');
+        const formInputs = form.querySelectorAll('input, select, textarea');
+
+        formInputs.forEach(input => {
+            input.addEventListener('change', function() {
+                saveFormData();
+                console.log('Form data auto-saved to localStorage');
+            });
+        });
+    });
+
+    // Save form data to localStorage when form is submitted
+    document.getElementById('form').addEventListener('submit', function(event) {
+        // Save form data before showing confirmation
+        saveFormData();
+        console.log('Form data saved to localStorage on submit');
 
         // Show confirmation popup
         const confirmed = confirm('Are you sure you want to submit this form? Please review all fields before proceeding.');
@@ -558,13 +576,12 @@
         if (confirmed) {
             // Clear localStorage
             localStorage.removeItem('mirage3500FormData');
-            console.log('LocalStorage cleared');
 
-            // Reset the form
+            // Reset form
             document.getElementById('form').reset();
 
-            // Reload the page to ensure clean state
-            window.location.reload();
+            // Reload page to clear any server-side values
+            window.location.href = window.location.pathname;
         }
     });
 </script>

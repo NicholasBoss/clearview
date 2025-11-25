@@ -31,12 +31,21 @@ router.post("/confirmMirage",
     util.handleErrors(ordersController.processMirageForm))
 router.get("/confirmMirage", util.checkLogin, util.handleErrors(ordersController.buildConfirmMirage))
 router.post("/saveMirage", util.checkLogin, util.handleErrors(ordersController.saveMirageOrder))
+router.get("/viewMirage/:id", util.checkLogin, util.handleErrors(ordersController.buildViewMirage))
+router.get("/editMirage/:id", util.checkLogin, util.handleErrors(ordersController.editMirage))
+router.post("/completeMirage/:id", util.checkLogin, util.handleErrors(ordersController.completeMirage))
 
 router.get("/createRainier", util.checkLogin, util.handleErrors(ordersController.buildCreateRainier))
 router.get("/confirmRainier", util.checkLogin, util.handleErrors(ordersController.buildConfirmRainier))
+router.get("/viewRainier/:id", util.checkLogin, util.handleErrors(ordersController.buildViewRainier))
+router.get("/editRainier/:id", util.checkLogin, util.handleErrors(ordersController.editRainier))
+router.post("/completeRainier/:id", util.checkLogin, util.handleErrors(ordersController.completeRainier))
 
 router.get("/createNWS", util.checkLogin, util.handleErrors(ordersController.buildCreateNWS))
 router.get("/confirmNWS", util.checkLogin, util.handleErrors(ordersController.buildConfirmNWS))
+router.get("/viewNWS/:id", util.checkLogin, util.handleErrors(ordersController.buildViewNWS))
+router.get("/editNWS/:id", util.checkLogin, util.handleErrors(ordersController.editNWS))
+router.post("/completeNWS/:id", util.checkLogin, util.handleErrors(ordersController.completeNWS))
 
 router.post("/create", util.checkLogin, util.handleErrors(ordersController.insertProduct))
 
