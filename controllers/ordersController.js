@@ -138,8 +138,11 @@ ordersController.processMirage3500Form = async function(req, res){
         // Store form data in session for confirm page
         req.session.mirage3500Data = req.body
 
+        // Get account_id from logged-in user
+        const account_id = res.locals.accountData.account_id
+
         // Save to database with is_estimate=true
-        const result = await ordersModel.saveMirage3500Data(req.body)
+        const result = await ordersModel.saveMirage3500Data(req.body, account_id)
 
         // Store customization_id in session to prevent duplicate inserts
         req.session.mirage3500OrderId = result.customization_id
