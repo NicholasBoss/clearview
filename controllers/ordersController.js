@@ -219,18 +219,107 @@ ordersController.saveMirage3500Order = async function(req, res){
 }
 
 ordersController.buildCreateMirage = async function(req, res){
+    const fractions = await ordersModel.getMeasurements()
+    const colors = await ordersModel.getColors()
+    const pivotProColors = await ordersModel.getPivotProColors()
+    const topAdapters = await ordersModel.getTopAdapters()
+    const bottomAdapters = await ordersModel.getBottomAdapters()
+    const meshTypes = await ordersModel.getMeshTypes()
+    const mohairOptions = await ordersModel.getMohair()
+    const mohairPositions = await ordersModel.getMohairPositions()
+    const customers = await ordersModel.getAllCustomers()
+
+    // Check for validation errors from session
+    let errors = null
+    let formData = {}
+
+    if (req.session.validationErrors) {
+        const validationErrors = req.session.validationErrors
+        const sessionFormData = req.session.formData || {}
+        delete req.session.validationErrors
+        delete req.session.formData
+        errors = { array: () => validationErrors }
+        formData = sessionFormData
+    }
+
     res.render('orders/createMirage', {
         title: 'Create Mirage order',
         link: 'orders/createMirage',
-        errors: null
+        errors: errors,
+        fractions: fractions || [],
+        colors: colors || [],
+        pivotProColors: pivotProColors || [],
+        topAdapters: topAdapters || [],
+        bottomAdapters: bottomAdapters || [],
+        meshTypes: meshTypes || [],
+        mohairOptions: mohairOptions || [],
+        mohairPositions: mohairPositions || [],
+        customers: customers || [],
+        formData: formData
     })
 }
+
+ordersController.processMirageForm = async function(req, res){
+    try {
+        req.session.mirageData = req.body
+        const result = await ordersModel.saveMirageData(req.body)
+        req.session.mirageOrderId = result.customization_id
+        console.log('Mirage Order created with is_estimate=true, customization_id:', result.customization_id)
+        res.redirect('/orders/confirmMirage')
+    } catch (error) {
+        console.error('Error processing Mirage form:', error)
+        req.flash('error', 'Failed to save order. Please try again.')
+        res.redirect('/orders/createMirage')
+    }
+}
+
 ordersController.buildConfirmMirage = async function(req, res){
+    const formData = req.session.mirageData || {}
+    
+    const fractions = await ordersModel.getMeasurements()
+    const colors = await ordersModel.getColors()
+    const pivotProColors = await ordersModel.getPivotProColors()
+    const topAdapters = await ordersModel.getTopAdapters()
+    const bottomAdapters = await ordersModel.getBottomAdapters()
+    const meshTypes = await ordersModel.getMeshTypes()
+    const mohairOptions = await ordersModel.getMohair()
+    const mohairPositions = await ordersModel.getMohairPositions()
+    const customers = await ordersModel.getAllCustomers()
+
     res.render('orders/confirmMirage', {
         title: 'Confirm Mirage order',
         link: 'orders/confirmMirage',
-        errors: null
+        errors: null,
+        formData: formData,
+        fractions: fractions || [],
+        colors: colors || [],
+        pivotProColors: pivotProColors || [],
+        topAdapters: topAdapters || [],
+        bottomAdapters: bottomAdapters || [],
+        meshTypes: meshTypes || [],
+        mohairOptions: mohairOptions || [],
+        mohairPositions: mohairPositions || [],
+        customers: customers || []
     })
+}
+
+ordersController.saveMirageOrder = async function(req, res){
+    try {
+        const customizationId = req.session.mirageOrderId
+        if (!customizationId) {
+            throw new Error('No order found to confirm. Please start over.')
+        }
+        await ordersModel.confirmMirageOrder(customizationId)
+        delete req.session.mirageData
+        delete req.session.mirageOrderId
+        console.log('Mirage Order confirmed successfully, customization_id:', customizationId)
+        req.flash('success', 'Mirage order confirmed successfully!')
+        res.redirect('/account')
+    } catch (error) {
+        console.error('Error confirming Mirage order:', error)
+        req.flash('error', 'Failed to confirm Mirage order. Please try again.')
+        res.redirect('/orders/confirmMirage')
+    }
 }
 
 ordersController.buildCreateRainier = async function(req, res){

@@ -114,3 +114,15 @@ We need to drop the columns in the customization table that we added before for 
   ALTER TABLE customization ALTER COLUMN right_buildout_id DROP NOT NULL;
   ALTER TABLE customization ALTER COLUMN left_buildout_id DROP NOT NULL;
   ALTER TABLE customization ALTER COLUMN add_buildout_id DROP NOT NULL;
+
+
+
+Notes 11/24:
+
+- Three distinct filters on the account page: 
+1. customer 
+2. employee
+3. completed
+
+
+Account page needs to work for ALL orders not just mirage3500
