@@ -169,10 +169,7 @@
 
         <label><b>Mesh</b>
             <select name="" id="mesh">
-                <option value="">Select</option>
-                <% meshes.forEach(mesh => { %>
-                    <option value="<%= mesh.mesh_type %>" <%= formData.mesh_id === mesh.mesh_type ? 'selected' : '' %>><%= mesh.mesh_type %></option>
-                <% }) %>
+                <option value="">Charcoal 18x14</option>
             </select>
         </label><br>
         <!-- There are a lot of different mesh variables and I am unsure of which one to use here -->
