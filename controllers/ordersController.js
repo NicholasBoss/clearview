@@ -1,4 +1,6 @@
 const ordersModel = require('../models/ordersModel')
+const jfOrdersModel = require('../models/jfOrdersModel')
+const jaOrdersModel = require('../models/jaOrdersModel')
 const ordersController = {}
 
 ordersController.buildCreate = async function(req, res){
@@ -217,49 +219,126 @@ ordersController.saveMirage3500Order = async function(req, res){
 }
 
 ordersController.buildCreateMirage = async function(req, res){
+    const fractions = await ordersModel.getMeasurements()
+    const colors = await ordersModel.getColors()
+    const pivotProColors = await ordersModel.getPivotProColors()
+    const topAdapters = await ordersModel.getTopAdapters()
+    const bottomAdapters = await ordersModel.getBottomAdapters()
+    const meshTypes = await ordersModel.getMeshTypes()
+    const mohairOptions = await ordersModel.getMohair()
+    const mohairPositions = await ordersModel.getMohairPositions()
+    const customers = await ordersModel.getAllCustomers()
+
+    // Check for validation errors from session
+    let errors = null
+    let formData = {}
+
+    if (req.session.validationErrors) {
+        const validationErrors = req.session.validationErrors
+        const sessionFormData = req.session.formData || {}
+        delete req.session.validationErrors
+        delete req.session.formData
+        errors = { array: () => validationErrors }
+        formData = sessionFormData
+    }
+
     res.render('orders/createMirage', {
         title: 'Create Mirage order',
         link: 'orders/createMirage',
-        errors: null
-    })
-}
-ordersController.buildConfirmMirage = async function(req, res){
-    res.render('orders/confirmMirage', {
-        title: 'Confirm Mirage order',
-        link: 'orders/confirmMirage',
-        errors: null
+        errors: errors,
+        fractions: fractions || [],
+        colors: colors || [],
+        pivotProColors: pivotProColors || [],
+        topAdapters: topAdapters || [],
+        bottomAdapters: bottomAdapters || [],
+        meshTypes: meshTypes || [],
+        mohairOptions: mohairOptions || [],
+        mohairPositions: mohairPositions || [],
+        customers: customers || [],
+        formData: formData
     })
 }
 
-ordersController.buildCreateRainier = async function(req, res){
+ordersController.processMirageForm = async function(req, res){
+    try {
+        req.session.mirageData = req.body
+        const result = await ordersModel.saveMirageData(req.body)
+        req.session.mirageOrderId = result.customization_id
+        console.log('Mirage Order created with is_estimate=true, customization_id:', result.customization_id)
+        res.redirect('/orders/confirmMirage')
+    } catch (error) {
+        console.error('Error processing Mirage form:', error)
+        req.flash('error', 'Failed to save order. Please try again.')
+        res.redirect('/orders/createMirage')
+    }
+}
+
+ordersController.buildConfirmMirage = async function(req, res){
+    const formData = req.session.mirageData || {}
+    
     const fractions = await ordersModel.getMeasurements()
-    const rainierPlacements = await ordersModel.getRainierPlacements()
-    const rainierColors = await ordersModel.getRainierColors()
-    const hardwareColors = await ordersModel.getHardwareColors()
-    const rainierFabricColors = await ordersModel.getRainierFabricColors()
-    const housingSeries = await ordersModel.getHousingSeries()
-    const driveSides = await ordersModel.getDriveSides()
-    const hembars = await ordersModel.getHembars()
-    const pileBrushes = await ordersModel.getPileBrushes()
-    const brushLocations = await ordersModel.getBrushLocations()
-    const zipperColors = await ordersModel.getZipperColors()
-    const cordLengths = await ordersModel.getCordLengths()
-    const mountTypes = await ordersModel.getMountTypes()
-    const tracks = await ordersModel.getTracks()
-    const leftTracks = await ordersModel.getLeftTracks()
-    const rightBuildouts = await ordersModel.getRightBuildouts()
-    const leftBuildouts = await ordersModel.getLeftBuildouts()
-    const topOpeningWidths = await ordersModel.getTopOpeningWidths()
-    const topLevels = await ordersModel.getTopLevels()
-    const bottomOpeningWidths = await ordersModel.getBottomOpeningWidths()
-    const bottomLevels = await ordersModel.getBottomLevels()
-    const leftOpeningHeights = await ordersModel.getLeftOpeningHeights()
-    const rightOpeningHeights = await ordersModel.getRightOpeningHeights()
-    const leftPlumbs = await ordersModel.getLeftPlumbs()
-    const startingPoints = await ordersModel.getStartingPoints()
-    const addBuildouts = await ordersModel.getAddBuildouts()
-    const rightPlumbs = await ordersModel.getRightPlumbs()
+    const colors = await ordersModel.getColors()
+    const pivotProColors = await ordersModel.getPivotProColors()
+    const topAdapters = await ordersModel.getTopAdapters()
+    const bottomAdapters = await ordersModel.getBottomAdapters()
+    const meshTypes = await ordersModel.getMeshTypes()
+    const mohairOptions = await ordersModel.getMohair()
+    const mohairPositions = await ordersModel.getMohairPositions()
     const customers = await ordersModel.getAllCustomers()
+
+    res.render('orders/confirmMirage', {
+        title: 'Confirm Mirage order',
+        link: 'orders/confirmMirage',
+        errors: null,
+        formData: formData,
+        fractions: fractions || [],
+        colors: colors || [],
+        pivotProColors: pivotProColors || [],
+        topAdapters: topAdapters || [],
+        bottomAdapters: bottomAdapters || [],
+        meshTypes: meshTypes || [],
+        mohairOptions: mohairOptions || [],
+        mohairPositions: mohairPositions || [],
+        customers: customers || []
+    })
+}
+
+ordersController.saveMirageOrder = async function(req, res){
+    try {
+        const customizationId = req.session.mirageOrderId
+        if (!customizationId) {
+            throw new Error('No order found to confirm. Please start over.')
+        }
+        await ordersModel.confirmMirageOrder(customizationId)
+        delete req.session.mirageData
+        delete req.session.mirageOrderId
+        console.log('Mirage Order confirmed successfully, customization_id:', customizationId)
+        req.flash('success', 'Mirage order confirmed successfully!')
+        res.redirect('/account')
+    } catch (error) {
+        console.error('Error confirming Mirage order:', error)
+        req.flash('error', 'Failed to confirm Mirage order. Please try again.')
+        res.redirect('/orders/confirmMirage')
+    }
+}
+
+ordersController.buildCreateRainier = async function(req, res){
+    const placement = await jfOrdersModel.getPlacement()
+    const colors = await ordersModel.getColors()
+    const housing = await jfOrdersModel.getHousing()
+    const driveSide = await jfOrdersModel.getdriveSide()
+    const hembar = await jfOrdersModel.gethembar()
+    const pilebrush = await jfOrdersModel.getpilebrush()
+    const brushLocation = await jfOrdersModel.getbrushLocation()
+    const zipperColor = await jfOrdersModel.getzipperColor()
+    const cordLength = await jfOrdersModel.getcordLength()
+    const mountTypes = await jfOrdersModel.getmountTypes()
+    const fractions = await ordersModel.getMeasurements()
+    const leftBuildout = await jfOrdersModel.getleftBuildout()
+    const rightBuildout = await jfOrdersModel.getrightBuildout()
+    const leftTrack = await jfOrdersModel.getleftTrack()
+    const rightTrack = await jfOrdersModel.getrightTrack()
+    const rainierFabricColors = await ordersModel.getRainierFabricColors()
 
     // Check for validation errors from session (POST/Redirect/GET pattern)
     let errors = null
@@ -284,36 +363,25 @@ ordersController.buildCreateRainier = async function(req, res){
     res.render('orders/createRainier', {
         title: 'Create Rainier Order',
         link: 'orders/createRainier',
-        errors: errors,
+        errors: null,
         formData: formData,
-        fractions: fractions || [],
-        rainierPlacements: rainierPlacements || [],
-        rainierColors: rainierColors || [],
-        hardwareColors: hardwareColors || [],
+        placement: placement || [],
         rainierFabricColors: rainierFabricColors || [],
-        housingSeries: housingSeries || [],
-        driveSides: driveSides || [],
-        hembars: hembars || [],
-        pileBrushes: pileBrushes || [],
-        brushLocations: brushLocations || [],
-        zipperColors: zipperColors || [],
-        cordLengths: cordLengths || [],
+        colors: colors || [],
+        housing: housing || [],
+        driveSide: driveSide || [],
+        hembar: hembar || [],
+        pilebrush: pilebrush || [],
+        brushLocation: brushLocation || [],
+        zipperColor: zipperColor || [],
+        cordLength: cordLength || [],
         mountTypes: mountTypes || [],
-        tracks: tracks || [],
-        leftTracks: leftTracks || [],
-        rightBuildouts: rightBuildouts || [],
-        leftBuildouts: leftBuildouts || [],
-        topOpeningWidths: topOpeningWidths || [],
-        topLevels: topLevels || [],
-        bottomOpeningWidths: bottomOpeningWidths || [],
-        bottomLevels: bottomLevels || [],
-        leftOpeningHeights: leftOpeningHeights || [],
-        rightOpeningHeights: rightOpeningHeights || [],
-        leftPlumbs: leftPlumbs || [],
-        startingPoints: startingPoints || [],
-        addBuildouts: addBuildouts || [],
-        rightPlumbs: rightPlumbs || [],
-        customers: customers || []
+        fractions: fractions || [],
+        leftBuildout: leftBuildout || [],
+        rightBuildout: rightBuildout || [],
+        leftTrack: leftTrack || [],
+        rightTrack: rightTrack || []
+
     })
 }
 ordersController.buildConfirmRainier = async function(req, res){
@@ -325,10 +393,24 @@ ordersController.buildConfirmRainier = async function(req, res){
 }
 
 ordersController.buildCreateNWS = async function(req, res){
+    colors = await ordersModel.getColorsByProduct("New Window Screen")
+    mesh = await ordersModel.getMeshByProduct("New Window Screen")
+    measurements = await ordersModel.getMeasurements("New Window Screen")
+    frame_sizes = await jaOrdersModel.getFrameSizes("New Window Screen")
+    fasteners = await jaOrdersModel.getFasteners("New Window Screen")
+    springs = await jaOrdersModel.getTabSpring("New Window Screen")
+
     res.render('orders/createNWS', {
         title: 'Create order',
         link: 'orders/createNWS',
-        errors: null
+        errors: null,
+        colors: colors || [],
+        frame_sizes: frame_sizes || [],
+        fractions: measurements || [],
+        springs: springs || [],
+        meshs: mesh || [],
+        fasteners: fasteners || [],
+        formData: {}
     })
 }
 ordersController.buildConfirmNWS = async function(req, res){
