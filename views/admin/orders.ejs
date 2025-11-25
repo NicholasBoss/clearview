@@ -1,14 +1,35 @@
 <% if (orders && orders.length > 0) { %>
-        <div class="filter-container" style="margin-bottom: 1rem;">
-            <label for="customerFilter" style="margin-right: 0.5rem;"><b>Filter by Customer:</b></label>
-            <select id="customerFilter" style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
-                <option value="">All Customers</option>
-                <% customers.forEach(customer => { %>
-                    <option value="<%= customer.customer_id %>">
-                        <%= customer.customer_lastname %>, <%= customer.customer_firstname %>
-                    </option>
-                <% }) %>
-            </select>
+        <div class="filter-container" style="margin-bottom: 1rem; display: flex; gap: 2rem; align-items: center; flex-wrap: wrap;">
+            <div>
+                <label for="customerFilter" style="margin-right: 0.5rem;"><b>Filter by Customer:</b></label>
+                <select id="customerFilter" style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+                    <option value="">All Customers</option>
+                    <% customers.forEach(customer => { %>
+                        <option value="<%= customer.customer_id %>">
+                            <%= customer.customer_lastname %>, <%= customer.customer_firstname %>
+                        </option>
+                    <% }) %>
+                </select>
+            </div>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <label style="margin: 0;"><b>Show Status:</b></label>
+                <label style="display: flex; align-items: center; gap: 0.3rem; margin: 0;">
+                    <input type="checkbox" id="filterEstimate" checked style="margin: 0;">
+                    <span>Needs Confirmation</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.3rem; margin: 0;">
+                    <input type="checkbox" id="filterConfirmed" checked style="margin: 0;">
+                    <span>Confirmed</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.3rem; margin: 0;">
+                    <input type="checkbox" id="filterCompleted" style="margin: 0;">
+                    <span>Completed</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.3rem; margin: 0;">
+                    <input type="checkbox" id="filterCancelled" style="margin: 0;">
+                    <span>Cancelled</span>
+                </label>
+            </div>
         </div>
 
         <div class="orders-table-container">
@@ -24,8 +45,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% orders.forEach(order => { %>
-                        <tr data-customer-id="<%= order.customer_id || '' %>">
+                    <% orders.forEach(order => {
+                        // Determine order status for filtering
+                        let orderStatus = 'pending';
+                        if (order.is_cancelled) {
+                            orderStatus = 'cancelled';
+                        } else if (order.is_completed) {
+                            orderStatus = 'completed';
+                        } else if (order.is_confirmed) {
+                            orderStatus = 'confirmed';
+                        } else if (order.is_estimate) {
+                            orderStatus = 'estimate';
+                        }
+                    %>
+                        <tr data-customer-id="<%= order.customer_id || '' %>" data-status="<%= orderStatus %>">
                             <td class="product-name"><%= order.product_name %></td>
                             <td class="customer-name">
                                 <% if (order.customer_firstname && order.customer_lastname) { %>
@@ -85,3 +118,51 @@
             <p><a href="/orders/create">Create your first order</a></p>
         </div>
     <% } %>
+
+<% if (orders && orders.length > 0) { %>
+<script>
+    // Combined filter functionality
+    function applyFilters() {
+        const selectedCustomerId = document.getElementById('customerFilter').value;
+        const showEstimate = document.getElementById('filterEstimate').checked;
+        const showConfirmed = document.getElementById('filterConfirmed').checked;
+        const showCompleted = document.getElementById('filterCompleted').checked;
+        const showCancelled = document.getElementById('filterCancelled').checked;
+
+        const rows = document.querySelectorAll('.orders-table tbody tr');
+
+        rows.forEach(row => {
+            const rowCustomerId = row.getAttribute('data-customer-id');
+            const rowStatus = row.getAttribute('data-status');
+
+            // Check customer filter
+            const customerMatch = selectedCustomerId === '' || rowCustomerId === selectedCustomerId;
+
+            // Check status filter
+            let statusMatch = false;
+            if (rowStatus === 'estimate' && showEstimate) statusMatch = true;
+            if (rowStatus === 'confirmed' && showConfirmed) statusMatch = true;
+            if (rowStatus === 'completed' && showCompleted) statusMatch = true;
+            if (rowStatus === 'cancelled' && showCancelled) statusMatch = true;
+            if (rowStatus === 'pending') statusMatch = true; // Always show pending
+
+            // Show row only if both filters match
+            if (customerMatch && statusMatch) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    // Add event listeners
+    document.getElementById('customerFilter').addEventListener('change', applyFilters);
+    document.getElementById('filterEstimate').addEventListener('change', applyFilters);
+    document.getElementById('filterConfirmed').addEventListener('change', applyFilters);
+    document.getElementById('filterCompleted').addEventListener('change', applyFilters);
+    document.getElementById('filterCancelled').addEventListener('change', applyFilters);
+
+    // Apply filters on page load to hide completed orders by default
+    applyFilters();
+</script>
+<% } %>

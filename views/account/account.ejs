@@ -24,27 +24,6 @@
                     <% }) %>
                 </select>
             </div>
-        <% if (locals.accountData && (locals.accountData.account_type === 'Admin' || locals.accountData.account_type === 'DBA')) { %>
-            <div style="display: flex; gap: 1rem; align-items: center;">
-                <label style="margin: 0;"><b>Show Status:</b></label>
-                <label style="display: flex; align-items: center; gap: 0.3rem; margin: 0;">
-                    <input type="checkbox" id="filterEstimate" checked style="margin: 0;">
-                    <span>Needs Confirmation</span>
-                </label>
-                <label style="display: flex; align-items: center; gap: 0.3rem; margin: 0;">
-                    <input type="checkbox" id="filterConfirmed" checked style="margin: 0;">
-                    <span>Confirmed</span>
-                </label>
-                <label style="display: flex; align-items: center; gap: 0.3rem; margin: 0;">
-                    <input type="checkbox" id="filterCompleted" style="margin: 0;">
-                    <span>Completed</span>
-                </label>
-                <label style="display: flex; align-items: center; gap: 0.3rem; margin: 0;">
-                    <input type="checkbox" id="filterCancelled" style="margin: 0;">
-                    <span>Cancelled</span>
-                </label>
-            </div>
-        <% } %>
         </div>
 
         <div class="orders-table-container">
