@@ -2376,10 +2376,8 @@ async function getRightPlumbs() {
 module.exports = {
     createOrder,
     createMirage3500Order,
-    createMirageOrder,
     createRainierOrder,
     createNWSOrder,
-    createDoorOrder,
     createHaleScreenModelOrder,
     createPhantomOrder,
     createWizardSmartScreenOrder,
