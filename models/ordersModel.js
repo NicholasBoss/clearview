@@ -729,7 +729,7 @@ async function getOrderById(customization_id){
                 grc.door_type,
                 grc.door_mount,
                 grc.opening_side,
-                grc.btm_adapter_color,
+                btm_adapter_col.color_name AS btm_adapter_color_name,
                 grc_mohair.mohair_type,
                 grc_mohair_pos.mohair_position_name,
                 grc_top_adapter.top_adapter_name AS top_adapter_type,
@@ -751,6 +751,9 @@ async function getOrderById(customization_id){
             LEFT JOIN top_adapter grc_top_adapter ON grc.top_adapter_id = grc_top_adapter.top_adapter_id
             LEFT JOIN bottom_adapter grc_bottom_adapter ON grc.bottom_adapter_id = grc_bottom_adapter.bottom_adapter_id
             LEFT JOIN buildout grc_buildout ON grc.buildout_id = grc_buildout.buildout_id
+            LEFT JOIN bottom_adapter_color bac ON grc.bottom_adapter_color_id = bac.bottom_adapter_color_id
+            LEFT JOIN product_color btm_adapter_pc ON bac.product_color_id = btm_adapter_pc.product_color_id
+            LEFT JOIN color btm_adapter_col ON btm_adapter_pc.color_id = btm_adapter_col.color_id
             LEFT JOIN tow_measurement tow ON c.measurement_id = tow.measurement_id
             LEFT JOIN top_opening_width tow_dim ON tow.top_opening_width_id = tow_dim.top_opening_width_id
             LEFT JOIN bow_measurement bow ON c.measurement_id = bow.measurement_id
@@ -790,7 +793,7 @@ async function getOrderById(customization_id){
             mesh: row.mesh_type,
             top_adapter: row.top_adapter_type,
             btm_adapter: row.bottom_adapter_type,
-            btm_adapter_color: row.btm_adapter_color,
+            bottom_adapter_color_id: row.btm_adapter_color_name,
             buildout: row.buildout_name,
             mohair: row.mohair_type,
             mohair_position: row.mohair_position_name,
@@ -1380,7 +1383,7 @@ async function saveMirage3500Data(formData, account_id) {
         const topAdapterColorId = await getOrInsert('color', 'color_name', formData.top_adapter_color, 'color_id')
 
         // 5. Handle bottom adapter color
-        const btmAdapterColorId = await getOrInsert('color', 'color_name', formData.btm_adapter_color, 'color_id')
+        const btmAdapterColorId = await getOrInsert('color', 'color_name', formData.bottom_adapter_color_id, 'color_id')
 
         // 6. Handle top adapter
         const topAdapterId = await getOrInsert('top_adapter', 'top_adapter_name', formData.top_adapter, 'top_adapter_id')
@@ -1594,7 +1597,7 @@ async function saveMirage3500Data(formData, account_id) {
                 top_adapter_id,
                 buildout_id,
                 bottom_adapter_id,
-                btm_adapter_color
+                bottom_adapter_color_id
             ) VALUES (
                 $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11
             ) RETURNING general_retract_control_id
@@ -1611,7 +1614,7 @@ async function saveMirage3500Data(formData, account_id) {
             topAdapterId,                 // $8
             buildoutId,                   // $9
             btmAdapterId,                 // $10
-            formData.btm_adapter_color    // $11 - storing color name directly as VARCHAR
+            btmAdapterColorJunctionId     // $11 - bottom_adapter_color junction table ID
         ])
 
         const generalRetractControlId = generalRetractControlResult.rows[0].general_retract_control_id
@@ -1629,9 +1632,14 @@ async function saveMirage3500Data(formData, account_id) {
                 mesh_id,
                 product_mesh_id,
                 mirage_3500_id,
-                general_retract_control_id
+                general_retract_control_id,
+                starting_point_id,
+                top_level_id,
+                bottom_level_id,
+                left_plumb_id,
+                right_plumb_id
             ) VALUES (
-                $1, $2, $3, $4, $5, $6, $7, $8, $9
+                $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14
             ) RETURNING customization_id
         `
 
@@ -1644,7 +1652,12 @@ async function saveMirage3500Data(formData, account_id) {
             meshId,                     // $6
             productMeshId,              // $7
             mirage3500Id,               // $8
-            generalRetractControlId     // $9 - foreign key to general_retract_control
+            generalRetractControlId,     // $9 - foreign key to general_retract_control
+            startingPointId,
+            topLevelId,
+            bottomLevelId,
+            leftPlumbId,
+            rightPlumbId
         ])
 
         const customizationId = customizationResult.rows[0].customization_id
@@ -1766,7 +1779,7 @@ async function saveMirageData(formData) {
         const topAdapterColorId = await getOrInsert('color', 'color_name', formData.top_adapter_color, 'color_id')
 
         // 5. Handle bottom adapter color
-        const btmAdapterColorId = await getOrInsert('color', 'color_name', formData.btm_adapter_color, 'color_id')
+        const bottomAdapterColorId = await getOrInsert('color', 'color_name', formData.bottom_adapter_color_id, 'color_id')
 
         // 6. Handle top adapter
         const topAdapterId = await getOrInsert('top_adapter', 'top_adapter_name', formData.top_adapter, 'top_adapter_id')
@@ -1893,7 +1906,7 @@ async function saveMirageData(formData) {
                 top_adapter_id,
                 buildout_id,
                 bottom_adapter_id,
-                btm_adapter_color
+                bottom_adapter_color_id
             ) VALUES (
                 $1, $2, $3, $4, $5, $6, $7, $8
             ) RETURNING general_retract_control_id
@@ -1907,7 +1920,7 @@ async function saveMirageData(formData) {
             topAdapterId,
             buildoutId,
             btmAdapterId,
-            formData.btm_adapter_color
+            btmAdapterColorJunctionId
         ])
 
         const generalRetractControlId = generalRetractControlResult.rows[0].general_retract_control_id

@@ -332,13 +332,13 @@
         </label><br>
 
         <label class="required-field"><b>Bottom Adapter Color</b>
-            <select name="btm_adapter_color" id="btm_adapter_color" required <%= errors && errors.array().find(e => e.path === 'btm_adapter_color') ? 'class="error-input"' : '' %>>
+            <select name="bottom_adapter_color_id" id="bottom_adapter_color_id" required <%= errors && errors.array().find(e => e.path === 'bottom_adapter_color_id') ? 'class="error-input"' : '' %>>
                 <option value="">Select</option>
                 <% colors.forEach(color => { %>
-                    <option value="<%= color.color_name %>" <%= formData.btm_adapter_color === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
+                    <option value="<%= color.color_name %>" <%= formData.bottom_adapter_color_id === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
                 <% }) %>
             </select>
-            <% if (errors) { const error = errors.array().find(e => e.path === 'btm_adapter_color'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+            <% if (errors) { const error = errors.array().find(e => e.path === 'bottom_adapter_color_id'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
         </label><br>
 
         <label class="required-field"><b>Bottom Adapter Width</b>

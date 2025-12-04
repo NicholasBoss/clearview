@@ -214,10 +214,10 @@
         </label><br>
 
         <label><b>Bottom Adapter Color</b>
-            <select name="btm_adapter_color" id="btm_adapter_color" disabled>
+            <select name="bottom_adapter_color_id" id="bottom_adapter_color_id" disabled>
                 <option value="">Select</option>
                 <% colors.forEach(color => { %>
-                    <option value="<%= color.color_name %>" <%= orderData.btm_adapter_color === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
+                    <option value="<%= color.color_name %>" <%= orderData.bottom_adapter_color_id === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
                 <% }) %>
             </select>
         </label><br>

@@ -242,7 +242,7 @@ validate.mirage3500Rules = () => {
         .trim(),
 
         // Bottom Adapter Color - required
-        body("btm_adapter_color")
+        body("bottom_adapter_color_id")
         .notEmpty()
         .withMessage("Bottom Adapter Color is required.")
         .trim()
@@ -563,7 +563,7 @@ validate.mirageRules = () => {
         .trim(),
 
         // Bottom Adapter Color - required
-        body("btm_adapter_color")
+        body("bottom_adapter_color_id")
         .notEmpty()
         .withMessage("Bottom Adapter Color is required.")
         .trim(),
