@@ -1243,11 +1243,16 @@ CREATE TABLE IF NOT EXISTS general_retract_control
     -- hale_door_id INTEGER NULL,
     general_retract_control_id INTEGER NULL,
     nws_measurement_id INTEGER NULL,
+    starting_point_id INTEGER NULL,
+    top_level_id INTEGER NULL,
+    bottom_level_id INTEGER NULL,
+    left_plumb_id INTEGER NULL,
+    right_plumb_id INTEGER NULL,
     CONSTRAINT customization_pk PRIMARY KEY (customization_id),
     CONSTRAINT customization_fk1
       FOREIGN KEY (product_id)
       REFERENCES product (product_id)
-      ON DELETE CASCADEWai
+      ON DELETE CASCADE
       ON UPDATE CASCADE,
     CONSTRAINT customization_fk2
       FOREIGN KEY (measurement_id)
@@ -1327,6 +1332,31 @@ CREATE TABLE IF NOT EXISTS general_retract_control
     CONSTRAINT customization_fk17
       FOREIGN KEY (nws_measurement_id)
       REFERENCES nws_measurement (nws_measurement_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk18
+      FOREIGN KEY (starting_point_id)
+      REFERENCES starting_point (starting_point_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk19
+      FOREIGN KEY (top_level_id)
+      REFERENCES top_level (top_level_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk20
+      FOREIGN KEY (bottom_level_id)
+      REFERENCES bottom_level (bottom_level_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk21
+      FOREIGN KEY (left_plumb_id)
+      REFERENCES left_plumb (left_plumb_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk22
+      FOREIGN KEY (right_plumb_id)
+      REFERENCES right_plumb (right_plumb_id)
       ON DELETE CASCADE
       ON UPDATE CASCADE
   );
