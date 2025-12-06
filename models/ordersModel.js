@@ -664,7 +664,7 @@ async function getOrdersByAccountId(account_id){
             LEFT JOIN customer cust ON co.customer_id = cust.customer_id
             LEFT JOIN mirage_3500 m3 ON c.mirage_3500_id = m3.mirage_3500_id
             LEFT JOIN mirage m ON c.mirage_id = m.mirage_id
-            LEFT JOIN order_log ol on cust.customer_id = ol.customer_id
+            LEFT JOIN order_log ol ON o.order_id = ol.order_id AND cust.customer_id = ol.customer_id
             WHERE ol.account_id = $1
             ORDER BY c.customization_id DESC
         `
@@ -725,20 +725,29 @@ async function getOrderById(customization_id){
                 col.color_name,
                 mesh.mesh_type,
                 m3.mirage_3500_handle,
+                handle_col.color_name AS handle_color_name,
+                top_adapter_col.color_name AS top_adapter_color_name,
                 m.mirage_build_out,
                 grc.door_type,
                 grc.door_mount,
                 grc.opening_side,
-                grc.btm_adapter_color,
+                btm_adapter_col.color_name AS btm_adapter_color_name,
                 grc_mohair.mohair_type,
                 grc_mohair_pos.mohair_position_name,
                 grc_top_adapter.top_adapter_name AS top_adapter_type,
                 grc_bottom_adapter.bottom_adapter_name AS bottom_adapter_type,
                 grc_buildout.buildout_name,
+                starting_pt.starting_point_name,
+                top_lvl.top_level_name,
+                btm_lvl.bottom_level_name,
+                left_plmb.left_plumb_name,
+                right_plmb.right_plumb_name,
                 tow_dim.top_opening_width_name,
                 bow_dim.bottom_opening_width_name,
                 loh_dim.left_opening_height_name,
-                roh_dim.right_opening_height_name
+                roh_dim.right_opening_height_name,
+                cust.customer_firstname,
+                cust.customer_lastname
             FROM customization c
             JOIN product p ON c.product_id = p.product_id
             LEFT JOIN color col ON c.color_id = col.color_id
@@ -751,6 +760,20 @@ async function getOrderById(customization_id){
             LEFT JOIN top_adapter grc_top_adapter ON grc.top_adapter_id = grc_top_adapter.top_adapter_id
             LEFT JOIN bottom_adapter grc_bottom_adapter ON grc.bottom_adapter_id = grc_bottom_adapter.bottom_adapter_id
             LEFT JOIN buildout grc_buildout ON grc.buildout_id = grc_buildout.buildout_id
+            LEFT JOIN bottom_adapter_color bac ON grc.bottom_adapter_color_id = bac.bottom_adapter_color_id
+            LEFT JOIN product_color btm_adapter_pc ON bac.product_color_id = btm_adapter_pc.product_color_id
+            LEFT JOIN color btm_adapter_col ON btm_adapter_pc.color_id = btm_adapter_col.color_id
+            LEFT JOIN handle_color hc ON m3.mirage_3500_id = hc.mirage_3500_id
+            LEFT JOIN product_color handle_pc ON hc.product_color_id = handle_pc.product_color_id
+            LEFT JOIN color handle_col ON handle_pc.color_id = handle_col.color_id
+            LEFT JOIN top_adapter_color tac ON tac.top_adapter_color_id = tac.top_adapter_color_id
+            LEFT JOIN product_color top_adapter_pc ON tac.product_color_id = top_adapter_pc.product_color_id
+            LEFT JOIN color top_adapter_col ON top_adapter_pc.color_id = top_adapter_col.color_id
+            LEFT JOIN starting_point starting_pt ON c.starting_point_id = starting_pt.starting_point_id
+            LEFT JOIN top_level top_lvl ON c.top_level_id = top_lvl.top_level_id
+            LEFT JOIN bottom_level btm_lvl ON c.bottom_level_id = btm_lvl.bottom_level_id
+            LEFT JOIN left_plumb left_plmb ON c.left_plumb_id = left_plmb.left_plumb_id
+            LEFT JOIN right_plumb right_plmb ON c.right_plumb_id = right_plmb.right_plumb_id
             LEFT JOIN tow_measurement tow ON c.measurement_id = tow.measurement_id
             LEFT JOIN top_opening_width tow_dim ON tow.top_opening_width_id = tow_dim.top_opening_width_id
             LEFT JOIN bow_measurement bow ON c.measurement_id = bow.measurement_id
@@ -759,6 +782,10 @@ async function getOrderById(customization_id){
             LEFT JOIN left_opening_height loh_dim ON loh.left_opening_height_id = loh_dim.left_opening_height_id
             LEFT JOIN roh_measurement roh ON c.measurement_id = roh.measurement_id
             LEFT JOIN right_opening_height roh_dim ON roh.right_opening_height_id = roh_dim.right_opening_height_id
+            LEFT JOIN order_customization oc ON c.customization_id = oc.customization_id
+            LEFT JOIN public.order o ON oc.order_id = o.order_id
+            LEFT JOIN cust_order co ON o.order_id = co.order_id
+            LEFT JOIN customer cust ON co.customer_id = cust.customer_id
             WHERE c.customization_id = $1
         `
         const result = await pool.query(sql, [customization_id])
@@ -781,22 +808,31 @@ async function getOrderById(customization_id){
         const bottomWidth = splitMeasurement(row.bottom_opening_width_name)
         const leftHeight = splitMeasurement(row.left_opening_height_name)
         const rightHeight = splitMeasurement(row.right_opening_height_name)
+        const buildOutDimension = splitMeasurement(row.buildout_name)
 
         // Return data in the format expected by the view (matching form field names)
         return {
             ...row,
             color_name: row.color_name,
             handle: row.mirage_3500_handle,
+            handle_color: row.handle_color_name,
+            top_adapter_color: row.top_adapter_color_name,
             mesh: row.mesh_type,
             top_adapter: row.top_adapter_type,
             btm_adapter: row.bottom_adapter_type,
-            btm_adapter_color: row.btm_adapter_color,
-            buildout: row.buildout_name,
+            bottom_adapter_color_id: row.btm_adapter_color_name,
             mohair: row.mohair_type,
             mohair_position: row.mohair_position_name,
             door_type: row.door_type,
             door_mount: row.door_mount,
             opening_side: row.opening_side,
+            starting_point: row.starting_point_name,
+            top_level: row.top_level_name,
+            bottom_level: row.bottom_level_name,
+            left_plumb: row.left_plumb_name,
+            right_plumb: row.right_plumb_name,
+            customer_firstname: row.customer_firstname,
+            customer_lastname: row.customer_lastname,
             // Split measurements into integer and fraction parts
             top_opening_width: topWidth.int,
             top_opening_width_fraction: topWidth.fraction,
@@ -805,7 +841,13 @@ async function getOrderById(customization_id){
             left_opening_height: leftHeight.int,
             left_opening_height_fraction: leftHeight.fraction,
             right_opening_height: rightHeight.int,
-            right_opening_height_fraction: rightHeight.fraction
+            right_opening_height_fraction: rightHeight.fraction,
+            build_out_dimension: buildOutDimension.int,
+            build_out_dimension_fraction: buildOutDimension.fraction
+            // NOTE: The following fields are NOT being saved to the database:
+            // top_adapter_width, unit_height, pivot_pro_height, btm_adapter_width,
+            // middle_opening_width, middle_opening_height, right_build_out, left_build_out
+            // These will show as empty when viewing/editing existing orders
         }
     } catch (error) {
         console.error('Error in getOrderById:', error)
@@ -1380,7 +1422,7 @@ async function saveMirage3500Data(formData, account_id) {
         const topAdapterColorId = await getOrInsert('color', 'color_name', formData.top_adapter_color, 'color_id')
 
         // 5. Handle bottom adapter color
-        const btmAdapterColorId = await getOrInsert('color', 'color_name', formData.btm_adapter_color, 'color_id')
+        const btmAdapterColorId = await getOrInsert('color', 'color_name', formData.bottom_adapter_color_id, 'color_id')
 
         // 6. Handle top adapter
         const topAdapterId = await getOrInsert('top_adapter', 'top_adapter_name', formData.top_adapter, 'top_adapter_id')
@@ -1594,7 +1636,7 @@ async function saveMirage3500Data(formData, account_id) {
                 top_adapter_id,
                 buildout_id,
                 bottom_adapter_id,
-                btm_adapter_color
+                bottom_adapter_color_id
             ) VALUES (
                 $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11
             ) RETURNING general_retract_control_id
@@ -1611,7 +1653,7 @@ async function saveMirage3500Data(formData, account_id) {
             topAdapterId,                 // $8
             buildoutId,                   // $9
             btmAdapterId,                 // $10
-            formData.btm_adapter_color    // $11 - storing color name directly as VARCHAR
+            btmAdapterColorJunctionId     // $11 - bottom_adapter_color junction table ID
         ])
 
         const generalRetractControlId = generalRetractControlResult.rows[0].general_retract_control_id
@@ -1629,9 +1671,14 @@ async function saveMirage3500Data(formData, account_id) {
                 mesh_id,
                 product_mesh_id,
                 mirage_3500_id,
-                general_retract_control_id
+                general_retract_control_id,
+                starting_point_id,
+                top_level_id,
+                bottom_level_id,
+                left_plumb_id,
+                right_plumb_id
             ) VALUES (
-                $1, $2, $3, $4, $5, $6, $7, $8, $9
+                $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14
             ) RETURNING customization_id
         `
 
@@ -1644,7 +1691,12 @@ async function saveMirage3500Data(formData, account_id) {
             meshId,                     // $6
             productMeshId,              // $7
             mirage3500Id,               // $8
-            generalRetractControlId     // $9 - foreign key to general_retract_control
+            generalRetractControlId,     // $9 - foreign key to general_retract_control
+            startingPointId,
+            topLevelId,
+            bottomLevelId,
+            leftPlumbId,
+            rightPlumbId
         ])
 
         const customizationId = customizationResult.rows[0].customization_id
@@ -1766,7 +1818,7 @@ async function saveMirageData(formData) {
         const topAdapterColorId = await getOrInsert('color', 'color_name', formData.top_adapter_color, 'color_id')
 
         // 5. Handle bottom adapter color
-        const btmAdapterColorId = await getOrInsert('color', 'color_name', formData.btm_adapter_color, 'color_id')
+        const bottomAdapterColorId = await getOrInsert('color', 'color_name', formData.bottom_adapter_color_id, 'color_id')
 
         // 6. Handle top adapter
         const topAdapterId = await getOrInsert('top_adapter', 'top_adapter_name', formData.top_adapter, 'top_adapter_id')
@@ -1893,7 +1945,7 @@ async function saveMirageData(formData) {
                 top_adapter_id,
                 buildout_id,
                 bottom_adapter_id,
-                btm_adapter_color
+                bottom_adapter_color_id
             ) VALUES (
                 $1, $2, $3, $4, $5, $6, $7, $8
             ) RETURNING general_retract_control_id
@@ -1907,7 +1959,7 @@ async function saveMirageData(formData) {
             topAdapterId,
             buildoutId,
             btmAdapterId,
-            formData.btm_adapter_color
+            btmAdapterColorJunctionId
         ])
 
         const generalRetractControlId = generalRetractControlResult.rows[0].general_retract_control_id
