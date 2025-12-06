@@ -1111,59 +1111,6 @@ CREATE TABLE IF NOT EXISTS bow_measurement
 -- -----------------------------------------------------
 -- Table bow_measurement
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS tow_measurement
-(
-  tow_measurement_id SERIAL,
-  measurement_id INTEGER NOT NULL,
-  top_opening_width_id INTEGER NOT NULL,
-  CONSTRAINT tow_measurement_pk PRIMARY KEY (tow_measurement_id),
-  CONSTRAINT tow_measurement_fk1
-    FOREIGN KEY (measurement_id)
-    REFERENCES measurement (measurement_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT tow_measurement_fk2
-    FOREIGN KEY (top_opening_width_id)
-    REFERENCES top_opening_width (top_opening_width_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS taw_measurement
-(
-  taw_measurement_id SERIAL,
-  measurement_id INTEGER NOT NULL,
-  top_adapter_id INTEGER NOT NULL,
-  CONSTRAINT taw_measurement_pk PRIMARY KEY (taw_measurement_id),
-  CONSTRAINT taw_measurement_fk1
-    FOREIGN KEY (measurement_id)
-    REFERENCES measurement (measurement_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT taw_measurement_fk2
-    FOREIGN KEY (top_adapter_id)
-    REFERENCES top_adapter (top_adapter_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS baw_measurement
-(
-  baw_measurement_id SERIAL,
-  measurement_id INTEGER NOT NULL,
-  bottom_adapter_id INTEGER NOT NULL,
-  CONSTRAINT baw_measurement_pk PRIMARY KEY (baw_measurement_id),
-  CONSTRAINT baw_measurement_fk1
-    FOREIGN KEY (measurement_id)
-    REFERENCES measurement (measurement_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT baw_measurement_fk2
-    FOREIGN KEY (bottom_adapter_id)
-    REFERENCES bottom_adapter (bottom_adapter_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
-);
 
 CREATE TABLE IF NOT EXISTS middle_opening_height
 (
@@ -1191,6 +1138,27 @@ CREATE TABLE IF NOT EXISTS pivot_pro_height
   pivot_pro_height_id SERIAL,
   pivot_pro_height_name CHARACTER VARYING NOT NULL,
   CONSTRAINT pivot_pro_height_pk PRIMARY KEY (pivot_pro_height_id)
+);
+
+CREATE TABLE IF NOT EXISTS buildout_dimension
+(
+    buildout_dimension_id SERIAL,
+    buildout_dimension_name CHARACTER VARYING NOT NULL,
+    CONSTRAINT buildout_pk PRIMARY KEY (buildout_id)
+);
+
+CREATE TABLE IF NOT EXISTS top_adapter_width
+(
+    top_adapter_width_id SERIAL,
+    top_adapter_width_name CHARACTER VARYING NOT NULL,
+    CONSTRAINT top_adapter_width_pk PRIMARY KEY (top_adapter_width_id)
+);
+
+CREATE TABLE IF NOT EXISTS bottom_adapter_width 
+(
+    bottom_adapter_width_id SERIAL,
+    bottom_adapter_width_name CHARACTER VARYING NOT NULL,
+    CONSTRAINT bottom_adapter_width_pk PRIMARY KEY (bottom_adapter_width_id)
 );
 
 -- -----------------------------------------------------
@@ -1284,12 +1252,13 @@ CREATE TABLE IF NOT EXISTS general_retract_control
     bottom_level_id INTEGER NULL,
     left_plumb_id INTEGER NULL,
     right_plumb_id INTEGER NULL,
-    taw_measurement_id INTEGER NULL,
-    baw_measurement_id INTEGER NULL,
+    top_adapter_width_id INTEGER NULL,
+    bottom_adapter_width_id INTEGER NULL,
     middle_opening_height_id INTEGER NULL,
     middle_opening_width_id INTEGER NULL,
     unit_height_id INTEGER NULL,
     pivot_pro_height_id INTEGER NULL,
+    buildout_dimension_id INTEGER NULL,
     CONSTRAINT customization_pk PRIMARY KEY (customization_id),
     CONSTRAINT customization_fk1
       FOREIGN KEY (product_id)
@@ -1402,13 +1371,13 @@ CREATE TABLE IF NOT EXISTS general_retract_control
       ON DELETE CASCADE
       ON UPDATE CASCADE,
     CONSTRAINT customization_fk23
-      FOREIGN KEY (taw_measurement_id)
-      REFERENCES taw_measurement (taw_measurement_id)
+      FOREIGN KEY (top_adapter_width_id)
+      REFERENCES top_adapter_width (top_adapter_width_id)
       ON DELETE CASCADE
       ON UPDATE CASCADE,
     CONSTRAINT customization_fk24
-      FOREIGN KEY (baw_measurement_id)
-      REFERENCES baw_measurement (baw_measurement_id)
+      FOREIGN KEY (bottom_adapter_width_id)
+      REFERENCES bottom_adapter_width (bottom_adapter_width_id)
       ON DELETE CASCADE
       ON UPDATE CASCADE,
     CONSTRAINT customization_fk25
@@ -1429,6 +1398,11 @@ CREATE TABLE IF NOT EXISTS general_retract_control
     CONSTRAINT customization_fk28
       FOREIGN KEY (pivot_pro_height_id)
       REFERENCES pivot_pro_height (pivot_pro_height_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk29
+      FOREIGN KEY (buildout_dimension_id)
+      REFERENCES buildout_dimension (buildout_dimension_id)
       ON DELETE CASCADE
       ON UPDATE CASCADE
   );
