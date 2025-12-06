@@ -52,7 +52,7 @@
         </label><br>
 
         <label><b>Pivot Pro Color</b>
-            <select  name="" id="pivot_pro_color">
+            <select  name="pivot_pro_color" id="pivot_pro_color">
                 <option value="">Select</option>
                     <% pivot_colors.forEach(pvt_color => { %>
                         <option value="<%= pvt_color.color_name %>"><%= pvt_color.color_name %></option>
@@ -177,7 +177,7 @@
         </label><br>
 
         <label><b>Build Out</b>
-            <select name="" id="build_out">
+            <select name="build_out" id="build_out">
                 <option value="">Select</option>
                 <% build_outs.forEach(build_out => { %>
                     <option value="<%= build_out.buildout_name %>" <%= formData.buildout_id === build_out.buildout_name ? 'selected' : '' %>><%= build_out.buildout_name %></option>
@@ -187,10 +187,10 @@
         </label><br>
 
          <label><b>Build Out Dimension</b>
-            <input type="text" name="" id="build_out_dimension">
+            <input type="text" name="build_out_dimension" id="build_out_dimension">
         </label><br>
         <label><b>Build Out Dimension Fraction</b>
-            <select name="" id="">
+            <select name="build_out_dimension_fraction" id="build_out_dimension_fraction">
                 <option calue="">Select</option>
                 <% fractions.forEach(fraction => { %>
                 <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
@@ -205,14 +205,14 @@
         </label><br>
 
         <label><b>Mesh</b>
-            <select name="" id="mesh">
+            <select name="mesh" id="mesh">
                 <option value="">Charcoal 18x14</option>
             </select>
             <% if (errors) { const error = errors.array().find(e => e.path === 'mohair'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
         </label><br>
 
         <label><b>Mohair</b>
-            <select name="" id="mohair">
+            <select name="mohair" id="mohair">
                 <option value="">Select</option>
                 <% mohairs.forEach(mohair => { %>
                     <option value="<%= mohair.mohair_type %>" <%= formData.mohair_id === mohair.mohair_type ? 'selected' : '' %>><%= mohair.mohair_type %></option>
@@ -222,7 +222,7 @@
         </label><br>
 
         <label><b>Mohair Position</b>
-            <select name="" id="mohair_position">
+            <select name="mohair_position" id="mohair_position">
                 <option value="">Select</option>
                 <% mohair_positions.forEach(mohair_position => { %>
                     <option value="<%= mohair_position.mohair_position_name %>" <%= formData.mohair_position_id === mohair_position.mohair_position_name ? 'selected' : '' %>><%= mohair_position.mohair_position_name %></option>
@@ -278,6 +278,11 @@
             </select>
         </label><br> -->
         <!-- unsure if label/location is in database - used location on house (change if needed) -->
+
+        <div class="form-actions">
+            <button type="submit" class="btn-primary">Submit Order</button>
+            <button type="button" id="clearFormBtn" class="btn-secondary">Clear Form</button>
+        </div>
 
     </div>
 </form>
@@ -335,6 +340,21 @@
         const confirmed = confirm('Are you sure you want to submit this form? Please review all fields before proceeding.');
         if (!confirmed) {
             event.preventDefault(); // Prevent form submission if user clicks Cancel
+        }
+    });
+
+    // Clear form button functionality
+    document.getElementById('clearFormBtn').addEventListener('click', function() {
+        const confirmed = confirm('Are you sure you want to clear all form data? This will reset the entire form and remove saved data.');
+        if (confirmed) {
+            // Clear localStorage
+            localStorage.removeItem('mirageFormData');
+
+            // Reset form
+            document.getElementById('form').reset();
+
+            // Reload page to clear any server-side values
+            window.location.href = window.location.pathname;
         }
     });
 </script>

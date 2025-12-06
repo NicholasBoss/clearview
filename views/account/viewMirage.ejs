@@ -1,10 +1,3 @@
-<!-- The following fields remain hardcoded as they don't appear to have dedicated database tables:
-  - Mohair options
-  - Mohair Position
-  - Mohair Size
-  - Markup Multiplier -->
-
-
 <% if (title) { %>
     <h1>
         <%= title %>
@@ -22,11 +15,103 @@
             <% } %>
 
 <div class="confirmation-notice">
-    <h2>Review Your Order</h2>
-    <p>Please review the information below. If everything is correct, click "Confirm Order" to submit.</p>
-    <p class="confirmation-note">Note: All fields were required during creation.</p>
+    <h2>Order Details</h2>
+    <p>Order #<%= formData.customization_id %></p>
 </div>
 
+<div class="container">
+    <label><b>Customer First Name</b>
+        <input type="text" name="customer_firstname" id="customer_firstname" value="<%= formData.customer_firstname || '' %>" readonly>
+    </label><br>
+
+    <label><b>Customer Last Name</b>
+        <input type="text" name="customer_lastname" id="customer_lastname" value="<%= formData.customer_lastname || '' %>" readonly>
+    </label><br>
+
+    <label><b>Color</b>
+        <input type="text" name="color_name" id="color" value="<%= formData.color_name || '' %>" readonly>
+    </label><br>
+
+    <label><b>Pivot Pro Color</b>
+        <input type="text" name="pivot_pro_color" id="pivot_pro_color" value="<%= formData.pivot_pro_color || '' %>" readonly>
+    </label><br>
+
+    <label><b>Top Adapter</b>
+        <input type="text" name="top_adapter" id="top_adapter" value="<%= formData.top_adapter || '' %>" readonly>
+    </label><br>
+
+    <label><b>Top Adapter Color</b>
+        <input type="text" name="top_adapter_color" id="top_adapter_color" value="<%= formData.top_adapter_color || '' %>" readonly>
+    </label><br>
+
+    <label><b>Top Adapter Width</b>
+        <input type="text" name="top_adapter_width" id="top_adapter_width" value="<%= formData.top_adapter_width || '' %>" readonly>
+    </label><br>
+    <label><b>Top Adapter Width Fraction</b>
+        <input type="text" name="top_adapter_width_fraction" id="top_adapter_width_fraction" value="<%= formData.top_adapter_width_fraction || '' %>" readonly>
+    </label><br>
+
+    <label><b>Opening Height</b>
+        <input type="text" name="opening_height" id="opening_height" value="<%= formData.opening_height || '' %>" readonly>
+    </label><br>
+    <label><b>Opening Height Fraction</b>
+        <input type="text" name="opening_height_fraction" id="opening_height_fraction" value="<%= formData.opening_height_fraction || '' %>" readonly>
+    </label><br>
+
+    <label><b>Unit Height</b>
+        <input type="text" name="unit_height" id="unit_height" value="<%= formData.unit_height || '' %>" readonly>
+    </label><br>
+    <label><b>Unit Height Fraction</b>
+        <input type="text" name="unit_height_fraction" id="unit_height_fraction" value="<%= formData.unit_height_fraction || '' %>" readonly>
+    </label><br>
+
+    <label><b>Pivot Pro Height</b>
+        <input type="text" name="pivot_pro_height" id="pivot_pro_height" value="<%= formData.pivot_pro_height || '' %>" readonly>
+    </label><br>
+    <label><b>Pivot Pro Height Fraction</b>
+        <input type="text" name="pivot_pro_height_fraction" id="pivot_pro_height_fraction" value="<%= formData.pivot_pro_height_fraction || '' %>" readonly>
+    </label><br>
+
+    <label><b>Bottom Adapter</b>
+        <input type="text" name="btm_adapter" id="btm_adapter" value="<%= formData.btm_adapter || '' %>" readonly>
+    </label><br>
+
+    <label><b>Bottom Adapter Color</b>
+        <input type="text" name="bottom_adapter_color" id="bottom_adapter_color" value="<%= formData.bottom_adapter_color || '' %>" readonly>
+    </label><br>
+
+    <label><b>Bottom Adapter Width</b>
+        <input type="text" name="btm_adapter_width" id="btm_adapter_width" value="<%= formData.btm_adapter_width || '' %>" readonly>
+    </label><br>
+    <label><b>Bottom Adapter Width Fraction</b>
+        <input type="text" name="btm_adapter_width_fraction" id="btm_adapter_width_fraction" value="<%= formData.btm_adapter_width_fraction || '' %>" readonly>
+    </label><br>
+
+    <label><b>Build Out</b>
+        <input type="text" name="build_out" id="build_out" value="<%= formData.build_out || '' %>" readonly>
+    </label><br>
+
+    <label><b>Build Out Dimension</b>
+        <input type="text" name="build_out_dimension" id="build_out_dimension" value="<%= formData.build_out_dimension || '' %>" readonly>
+    </label><br>
+    <label><b>Build Out Dimension Fraction</b>
+        <input type="text" name="build_out_dimension_fraction" id="build_out_dimension_fraction" value="<%= formData.build_out_dimension_fraction || '' %>" readonly>
+    </label><br>
+
+    <label><b>Mesh</b>
+        <input type="text" name="mesh" id="mesh" value="<%= formData.mesh || '' %>" readonly>
+    </label><br>
+
+    <label><b>Mohair</b>
+        <input type="text" name="mohair" id="mohair" value="<%= formData.mohair || '' %>" readonly>
+    </label><br>
+
+    <label><b>Mohair Position</b>
+        <input type="text" name="mohair_position" id="mohair_position" value="<%= formData.mohair_position || '' %>" readonly>
+    </label><br>
+
+    <div class="confirmation-actions">
+        <a href="/account" class="btn-back">← Back to Account</a>
 <form id="form" action="/orders/saveMirage" method="post">
     <div class="container">
         <label><b>Customer First Name</b>
@@ -315,22 +400,8 @@
         </div>
 
     </div>
-</form>
 
-<script>
-    // Make all form elements readonly for view mode
-    document.addEventListener('DOMContentLoaded', function() {
-        // Disable all select elements
-        document.querySelectorAll('select').forEach(select => {
-            select.disabled = true;
-        });
-
-        // Prevent form submission
-        document.getElementById('form').addEventListener('submit', function(event) {
-            event.preventDefault();
-        });
-    });
-</script>
+</div>
 
 <style>
     .btn-back {
@@ -345,10 +416,5 @@
 
     .btn-back:hover {
         background-color: #5a6268;
-    }
-
-    select:disabled {
-        background-color: #e9ecef;
-        cursor: not-allowed;
     }
 </style>

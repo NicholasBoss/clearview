@@ -261,16 +261,10 @@ validate.mirage3500Rules = () => {
         .notEmpty()
         .withMessage("Bottom Adapter Width Fraction is required."),
 
-        // Right Build Out - required
-        body("right_build_out")
+        // Build Out - required
+        body("buildout")
         .notEmpty()
-        .withMessage("Right Build Out is required.")
-        .trim(),
-
-        // Left Build Out - required
-        body("left_build_out")
-        .notEmpty()
-        .withMessage("Left Build Out is required.")
+        .withMessage("Build Out is required.")
         .trim(),
 
         // Build Out Dimension - required numeric
@@ -373,148 +367,40 @@ validate.mirage3500Rules = () => {
 ************************************** */
 validate.mirageRules = () => {
     return [
-        // Top Opening Width - required numeric field
-        body("top_opening_width")
+        // Customer First Name - required
+        body("customer_firstname")
         .notEmpty()
-        .withMessage("Top Opening Width is required.")
+        .withMessage("Customer First Name is required.")
         .trim()
-        .isNumeric()
-        .withMessage("Top Opening Width must be a number."),
+        .isLength({ min: 1, max: 255 })
+        .withMessage("Customer First Name must be between 1 and 255 characters."),
 
-        // Top Opening Width Fraction - required
-        body("top_opening_width_fraction")
+        // Customer Last Name - required
+        body("customer_lastname")
         .notEmpty()
-        .withMessage("Top Opening Width Fraction is required."),
-
-        // Middle Opening Width - required numeric
-        body("middle_opening_width")
-        .notEmpty()
-        .withMessage("Middle Opening Width is required.")
+        .withMessage("Customer Last Name is required.")
         .trim()
-        .isNumeric()
-        .withMessage("Middle Opening Width must be a number."),
+        .isLength({ min: 1, max: 255 })
+        .withMessage("Customer Last Name must be between 1 and 255 characters."),
 
-        // Middle Opening Width Fraction - required
-        body("middle_opening_width_fraction")
-        .notEmpty()
-        .withMessage("Middle Opening Width Fraction is required."),
-
-        // Bottom Opening Width - required numeric
-        body("bottom_opening_width")
-        .notEmpty()
-        .withMessage("Bottom Opening Width is required.")
-        .trim()
-        .isNumeric()
-        .withMessage("Bottom Opening Width must be a number."),
-
-        // Bottom Opening Width Fraction - required
-        body("bottom_opening_width_fraction")
-        .notEmpty()
-        .withMessage("Bottom Opening Width Fraction is required."),
-
-        // Left Opening Height - required numeric
-        body("left_opening_height")
-        .notEmpty()
-        .withMessage("Left Opening Height is required.")
-        .trim()
-        .isNumeric()
-        .withMessage("Left Opening Height must be a number."),
-
-        // Left Opening Height Fraction - required
-        body("left_opening_height_fraction")
-        .notEmpty()
-        .withMessage("Left Opening Height Fraction is required."),
-
-        // Middle Opening Height - required numeric
-        body("middle_opening_height")
-        .notEmpty()
-        .withMessage("Middle Opening Height is required.")
-        .trim()
-        .isNumeric()
-        .withMessage("Middle Opening Height must be a number."),
-
-        // Middle Opening Height Fraction - required
-        body("middle_opening_height_fraction")
-        .notEmpty()
-        .withMessage("Middle Opening Height Fraction is required."),
-
-        // Right Opening Height - required numeric
-        body("right_opening_height")
-        .notEmpty()
-        .withMessage("Right Opening Height is required.")
-        .trim()
-        .isNumeric()
-        .withMessage("Right Opening Height must be a number."),
-
-        // Right Opening Height Fraction - required
-        body("right_opening_height_fraction")
-        .notEmpty()
-        .withMessage("Right Opening Height Fraction is required."),
-
-        // Top Level - required
-        body("top_level")
-        .notEmpty()
-        .withMessage("Top Level is required.")
-        .trim(),
-
-        // Bottom Level - required
-        body("bottom_level")
-        .notEmpty()
-        .withMessage("Bottom Level is required.")
-        .trim(),
-
-        // Left Plumb - required
-        body("left_plumb")
-        .notEmpty()
-        .withMessage("Left Plumb is required.")
-        .trim(),
-
-        // Right Plumb - required
-        body("right_plumb")
-        .notEmpty()
-        .withMessage("Right Plumb is required.")
-        .trim(),
-
-        // Starting Point - required
-        body("starting_point")
-        .notEmpty()
-        .withMessage("Starting Point is required.")
-        .trim(),
-
-        // Mount - required
-        body("mount")
-        .notEmpty()
-        .withMessage("Mount is required.")
-        .trim(),
-
-        // Color - required
+        // Color - optional
         body("color_name")
-        .notEmpty()
-        .withMessage("Please select a color.")
+        .optional({ checkFalsy: true })
         .trim(),
 
-        // Handle - required
-        body("handle")
-        .notEmpty()
-        .withMessage("Please select a handle type.")
+        // Pivot Pro Color - optional
+        body("pivot_pro_color")
+        .optional({ checkFalsy: true })
         .trim(),
 
-        // Handle Color - required
-        body("handle_color")
-        .notEmpty()
-        .withMessage("Please select a handle color.")
-        .trim(),
-
-        // Top Adapter - required
+        // Top Adapter - optional
         body("top_adapter")
-        .notEmpty()
-        .withMessage("Top Adapter is required.")
+        .optional({ checkFalsy: true })
         .trim(),
 
-        // Top Adapter Color - required
+        // Top Adapter Color - optional
         body("top_adapter_color")
-        .notEmpty()
-        .withMessage("Top Adapter Color is required.")
+        .optional({ checkFalsy: true })
         .trim(),
 
         // Top Adapter Width - required numeric
@@ -525,10 +411,21 @@ validate.mirageRules = () => {
         .isNumeric()
         .withMessage("Top Adapter Width must be a number."),
 
-        // Top Adapter Width Fraction - required
+        // Top Adapter Width Fraction - optional
         body("top_adapter_width_fraction")
+        .optional({ checkFalsy: true }),
+
+        // Opening Height - required numeric
+        body("opening_height")
         .notEmpty()
-        .withMessage("Top Adapter Width Fraction is required."),
+        .withMessage("Opening Height is required.")
+        .trim()
+        .isNumeric()
+        .withMessage("Opening Height must be a number."),
+
+        // Opening Height Fraction - optional
+        body("opening_height_fraction")
+        .optional({ checkFalsy: true }),
 
         // Unit Height - required numeric
         body("unit_height")
@@ -538,10 +435,9 @@ validate.mirageRules = () => {
         .isNumeric()
         .withMessage("Unit Height must be a number."),
 
-        // Unit Height Fraction - required
+        // Unit Height Fraction - optional
         body("unit_height_fraction")
-        .notEmpty()
-        .withMessage("Unit Height Fraction is required."),
+        .optional({ checkFalsy: true }),
 
         // Pivot Pro Height - required numeric
         body("pivot_pro_height")
@@ -551,15 +447,18 @@ validate.mirageRules = () => {
         .isNumeric()
         .withMessage("Pivot Pro Height must be a number."),
 
-        // Pivot Pro Height Fraction - required
+        // Pivot Pro Height Fraction - optional
         body("pivot_pro_height_fraction")
-        .notEmpty()
-        .withMessage("Pivot Pro Height Fraction is required."),
+        .optional({ checkFalsy: true }),
 
-        // Bottom Adapter - required
+        // Bottom Adapter - optional
         body("btm_adapter")
-        .notEmpty()
-        .withMessage("Bottom Adapter is required.")
+        .optional({ checkFalsy: true })
+        .trim(),
+
+        // Bottom Adapter Color - optional
+        body("bottom_adapter_color")
+        .optional({ checkFalsy: true })
         .trim(),
 
         // Bottom Adapter Color - required
@@ -576,21 +475,19 @@ validate.mirageRules = () => {
         .isNumeric()
         .withMessage("Bottom Adapter Width must be a number."),
 
-        // Bottom Adapter Width Fraction - required
+        // Bottom Adapter Width Fraction - optional
         body("btm_adapter_width_fraction")
+        .optional({ checkFalsy: true }),
+
+        // Build Out - optional
+        body("build_out")
         .notEmpty()
         .withMessage("Bottom Adapter Width Fraction is required."),
 
-        // Right Build Out - required
-        body("right_build_out")
+        // Build Out - required
+        body("buildout")
         .notEmpty()
-        .withMessage("Right Build Out is required.")
-        .trim(),
-
-        // Left Build Out - required
-        body("left_build_out")
-        .notEmpty()
-        .withMessage("Left Build Out is required.")
+        .withMessage("Build Out is required.")
         .trim(),
 
         // Build Out Dimension - required numeric
@@ -629,49 +526,27 @@ validate.mirageRules = () => {
         .optional({ checkFalsy: true })
         .trim(),
 
-        // Silicone Spray - optional (not used yet)
-        body("silicone_spray")
+        // Build Out Dimension - optional
+        body("build_out_dimension")
         .optional({ checkFalsy: true })
         .trim(),
 
-        // Wholesale Price - optional (not used yet)
-        body("wholesale_price")
-        .optional({ checkFalsy: true })
-        .trim()
-        .isNumeric()
-        .withMessage("Wholesale Price must be a number."),
+        // Build Out Dimension Fraction - optional
+        body("build_out_dimension_fraction")
+        .optional({ checkFalsy: true }),
 
-        // Markup Multiplier - optional (not used yet)
-        body("markup_multiplier")
-        .optional({ checkFalsy: true })
-        .isIn(['2', '1.9', '1.8'])
-        .withMessage("Invalid markup multiplier selected."),
-
-        // Retail Price - optional (not used yet)
-        body("retail_price")
-        .optional({ checkFalsy: true })
-        .trim()
-        .isNumeric()
-        .withMessage("Retail Price must be a number."),
-
-        // Custom Add-ons - optional (not used yet)
-        body("custom_addons")
+        // Mesh - optional
+        body("mesh")
         .optional({ checkFalsy: true })
         .trim(),
 
-        // PIA Obstacles Helper - optional (not used yet)
-        body("pia_obstacles_helper")
+        // Mohair - optional
+        body("mohair")
         .optional({ checkFalsy: true })
         .trim(),
 
-        // Date Sold - optional (can be empty)
-        body("date_sold")
-        .optional({ checkFalsy: true })
-        .isISO8601()
-        .withMessage("Invalid date format."),
-
-        // QC Tech Date - optional (not used yet)
-        body("qc_tech_date")
+        // Mohair Position - optional
+        body("mohair_position")
         .optional({ checkFalsy: true })
         .trim()
     ]
