@@ -726,7 +726,6 @@ async function getOrderById(customization_id){
                 mesh.mesh_type,
                 m3.mirage_3500_handle,
                 handle_col.color_name AS handle_color_name,
-                top_adapter_col.color_name AS top_adapter_color_name,
                 m.mirage_build_out,
                 grc.door_type,
                 grc.door_mount,
@@ -766,9 +765,6 @@ async function getOrderById(customization_id){
             LEFT JOIN handle_color hc ON m3.mirage_3500_id = hc.mirage_3500_id
             LEFT JOIN product_color handle_pc ON hc.product_color_id = handle_pc.product_color_id
             LEFT JOIN color handle_col ON handle_pc.color_id = handle_col.color_id
-            LEFT JOIN top_adapter_color tac ON tac.top_adapter_color_id = tac.top_adapter_color_id
-            LEFT JOIN product_color top_adapter_pc ON tac.product_color_id = top_adapter_pc.product_color_id
-            LEFT JOIN color top_adapter_col ON top_adapter_pc.color_id = top_adapter_col.color_id
             LEFT JOIN starting_point starting_pt ON c.starting_point_id = starting_pt.starting_point_id
             LEFT JOIN top_level top_lvl ON c.top_level_id = top_lvl.top_level_id
             LEFT JOIN bottom_level btm_lvl ON c.bottom_level_id = btm_lvl.bottom_level_id
@@ -816,7 +812,6 @@ async function getOrderById(customization_id){
             color_name: row.color_name,
             handle: row.mirage_3500_handle,
             handle_color: row.handle_color_name,
-            top_adapter_color: row.top_adapter_color_name,
             mesh: row.mesh_type,
             top_adapter: row.top_adapter_type,
             btm_adapter: row.bottom_adapter_type,
@@ -824,7 +819,7 @@ async function getOrderById(customization_id){
             mohair: row.mohair_type,
             mohair_position: row.mohair_position_name,
             door_type: row.door_type,
-            door_mount: row.door_mount,
+            mount: row.door_mount,              // DB column "door_mount" maps to form field "mount"
             opening_side: row.opening_side,
             starting_point: row.starting_point_name,
             top_level: row.top_level_name,
@@ -1644,7 +1639,7 @@ async function saveMirage3500Data(formData, account_id) {
 
         const generalRetractControlResult = await pool.query(generalRetractControlSql, [
             formData.door_type,           // $1
-            formData.door_mount,          // $2
+            formData.mount,               // $2 - form field "mount" saves to "door_mount" column
             formData.opening_side,        // $3
             primaryMeasurementId,         // $4
             meshId,                       // $5
