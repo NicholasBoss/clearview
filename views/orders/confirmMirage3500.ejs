@@ -244,20 +244,11 @@
             </select>
         </label><br>
 
-        <label><b>Right Build Out</b>
-            <select name="right_build_out" id="right_build_out">
+        <label><b>Build Out</b>
+            <select name="buildout" id="buildout">
                 <option value="">Select</option>
-                <% rightBuildouts.forEach(buildout => { %>
-                    <option value="<%= buildout.right_buildout_name %>" <%= formData.right_build_out === buildout.right_buildout_name ? 'selected' : '' %>><%= buildout.right_buildout_name %></option>
-                <% }) %>
-            </select>
-        </label><br>
-
-        <label><b>Left Build Out</b>
-            <select name="left_build_out" id="left_build_out">
-                <option value="">Select</option>
-                <% leftBuildouts.forEach(buildout => { %>
-                    <option value="<%= buildout.left_buildout_name %>" <%= formData.left_build_out === buildout.left_buildout_name ? 'selected' : '' %>><%= buildout.left_buildout_name %></option>
+                <% buildouts.forEach(buildout => { %>
+                    <option value="<%= buildout.buildout_name %>" <%= formData.buildout === buildout.buildout_name ? 'selected' : '' %>><%= buildout.buildout_name %></option>
                 <% }) %>
             </select>
         </label><br>

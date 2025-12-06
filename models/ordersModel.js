@@ -745,6 +745,10 @@ async function getOrderById(customization_id){
                 bow_dim.bottom_opening_width_name,
                 loh_dim.left_opening_height_name,
                 roh_dim.right_opening_height_name,
+                moh_dim.middle_opening_height_name,
+                mow_dim.middle_opening_width_name,
+                uh_dim.unit_height_name,
+                pph_dim.pivot_pro_height_name,
                 cust.customer_firstname,
                 cust.customer_lastname
             FROM customization c
@@ -778,6 +782,10 @@ async function getOrderById(customization_id){
             LEFT JOIN left_opening_height loh_dim ON loh.left_opening_height_id = loh_dim.left_opening_height_id
             LEFT JOIN roh_measurement roh ON c.measurement_id = roh.measurement_id
             LEFT JOIN right_opening_height roh_dim ON roh.right_opening_height_id = roh_dim.right_opening_height_id
+            LEFT JOIN middle_opening_height moh_dim ON c.middle_opening_height_id = moh_dim.middle_opening_height_id
+            LEFT JOIN middle_opening_width mow_dim ON c.middle_opening_width_id = mow_dim.middle_opening_width_id
+            LEFT JOIN unit_height uh_dim ON c.unit_height_id = uh_dim.unit_height_id
+            LEFT JOIN pivot_pro_height pph_dim ON c.pivot_pro_height_id = pph_dim.pivot_pro_height_id
             LEFT JOIN order_customization oc ON c.customization_id = oc.customization_id
             LEFT JOIN public.order o ON oc.order_id = o.order_id
             LEFT JOIN cust_order co ON o.order_id = co.order_id
@@ -805,6 +813,10 @@ async function getOrderById(customization_id){
         const leftHeight = splitMeasurement(row.left_opening_height_name)
         const rightHeight = splitMeasurement(row.right_opening_height_name)
         const buildOutDimension = splitMeasurement(row.buildout_name)
+        const middleOpeningHeight = splitMeasurement(row.middle_opening_height_name)
+        const middleOpeningWidth = splitMeasurement(row.middle_opening_width_name)
+        const unitHeight = splitMeasurement(row.unit_height_name)
+        const pivotProHeight = splitMeasurement(row.pivot_pro_height_name)
 
         // Return data in the format expected by the view (matching form field names)
         return {
@@ -816,6 +828,7 @@ async function getOrderById(customization_id){
             top_adapter: row.top_adapter_type,
             btm_adapter: row.bottom_adapter_type,
             bottom_adapter_color_id: row.btm_adapter_color_name,
+            buildout: row.buildout_name,
             mohair: row.mohair_type,
             mohair_position: row.mohair_position_name,
             door_type: row.door_type,
@@ -838,10 +851,17 @@ async function getOrderById(customization_id){
             right_opening_height: rightHeight.int,
             right_opening_height_fraction: rightHeight.fraction,
             build_out_dimension: buildOutDimension.int,
-            build_out_dimension_fraction: buildOutDimension.fraction
+            build_out_dimension_fraction: buildOutDimension.fraction,
+            middle_opening_height: middleOpeningHeight.int,
+            middle_opening_height_fraction: middleOpeningHeight.fraction,
+            middle_opening_width: middleOpeningWidth.int,
+            middle_opening_width_fraction: middleOpeningWidth.fraction,
+            unit_height: unitHeight.int,
+            unit_height_fraction: unitHeight.fraction,
+            pivot_pro_height: pivotProHeight.int,
+            pivot_pro_height_fraction: pivotProHeight.fraction
             // NOTE: The following fields are NOT being saved to the database:
-            // top_adapter_width, unit_height, pivot_pro_height, btm_adapter_width,
-            // middle_opening_width, middle_opening_height, right_build_out, left_build_out
+            // top_adapter_width, btm_adapter_width
             // These will show as empty when viewing/editing existing orders
         }
     } catch (error) {
@@ -911,6 +931,17 @@ async function getLeftBuildouts() {
         return result.rows
     } catch (error) {
         console.error('Error getting left buildouts:', error)
+        return []
+    }
+}
+
+async function getBuildouts() {
+    try {
+        const sql = 'SELECT buildout_id, buildout_name FROM buildout ORDER BY buildout_name'
+        const result = await pool.query(sql)
+        return result.rows
+    } catch (error) {
+        console.error('Error getting buildouts:', error)
         return []
     }
 }
@@ -1425,25 +1456,19 @@ async function saveMirage3500Data(formData, account_id) {
         // 7. Handle bottom adapter
         const btmAdapterId = await getOrInsert('bottom_adapter', 'bottom_adapter_name', formData.btm_adapter, 'bottom_adapter_id')
 
-        // 8. Handle right buildout
-        const rightBuildoutId = await getOrInsert('right_buildout', 'right_buildout_name', formData.right_build_out, 'right_buildout_id')
-
-        // 9. Handle left buildout
-        const leftBuildoutId = await getOrInsert('left_buildout', 'left_buildout_name', formData.left_build_out, 'left_buildout_id')
-
-        // 10. Handle starting point
+        // 8. Handle starting point
         const startingPointId = await getOrInsert('starting_point', 'starting_point_name', formData.starting_point, 'starting_point_id')
 
-        // 11. Handle top level
+        // 9. Handle top level
         const topLevelId = await getOrInsert('top_level', 'top_level_name', formData.top_level, 'top_level_id')
 
-        // 12. Handle bottom level
+        // 10. Handle bottom level
         const bottomLevelId = await getOrInsert('bottom_level', 'bottom_level_name', formData.bottom_level, 'bottom_level_id')
 
-        // 13. Handle left plumb
+        // 11. Handle left plumb
         const leftPlumbId = await getOrInsert('left_plumb', 'left_plumb_name', formData.left_plumb, 'left_plumb_id')
 
-        // 14. Handle right plumb
+        // 12. Handle right plumb
         const rightPlumbId = await getOrInsert('right_plumb', 'right_plumb_name', formData.right_plumb, 'right_plumb_id')
 
         // 15. Handle mesh
@@ -1525,35 +1550,43 @@ async function saveMirage3500Data(formData, account_id) {
             formData.right_opening_height_fraction
         )
 
-        // Middle Opening Width (store as combined string if no dedicated table)
-        const middleOpeningWidth = combineMeasurement(
+        // Middle Opening Width - save to database
+        const middleOpeningWidthValue = combineMeasurement(
             formData.middle_opening_width,
             formData.middle_opening_width_fraction
         )
+        const middleOpeningWidthId = middleOpeningWidthValue ?
+            await getOrInsert('middle_opening_width', 'middle_opening_width_name', middleOpeningWidthValue, 'middle_opening_width_id') : null
 
-        // Middle Opening Height (store as combined string if no dedicated table)
-        const middleOpeningHeight = combineMeasurement(
+        // Middle Opening Height - save to database
+        const middleOpeningHeightValue = combineMeasurement(
             formData.middle_opening_height,
             formData.middle_opening_height_fraction
         )
+        const middleOpeningHeightId = middleOpeningHeightValue ?
+            await getOrInsert('middle_opening_height', 'middle_opening_height_name', middleOpeningHeightValue, 'middle_opening_height_id') : null
 
-        // Top Adapter Width (store as combined string)
+        // Top Adapter Width (store as combined string - waiting for DB tables)
         const topAdapterWidth = combineMeasurement(
             formData.top_adapter_width,
             formData.top_adapter_width_fraction
         )
 
-        // Unit Height (store as combined string)
-        const unitHeight = combineMeasurement(
+        // Unit Height - save to database
+        const unitHeightValue = combineMeasurement(
             formData.unit_height,
             formData.unit_height_fraction
         )
+        const unitHeightId = unitHeightValue ?
+            await getOrInsert('unit_height', 'unit_height_name', unitHeightValue, 'unit_height_id') : null
 
-        // Pivot Pro Height (store as combined string)
-        const pivotProHeight = combineMeasurement(
+        // Pivot Pro Height - save to database
+        const pivotProHeightValue = combineMeasurement(
             formData.pivot_pro_height,
             formData.pivot_pro_height_fraction
         )
+        const pivotProHeightId = pivotProHeightValue ?
+            await getOrInsert('pivot_pro_height', 'pivot_pro_height_name', pivotProHeightValue, 'pivot_pro_height_id') : null
 
         // Bottom Adapter Width (store as combined string)
         const btmAdapterWidth = combineMeasurement(
@@ -1598,7 +1631,7 @@ async function saveMirage3500Data(formData, account_id) {
 
         // 19. INSERT into general_retract_control table first
         // Get buildout_id by inserting into buildout table
-        const buildoutId = buildOutDimension ? await getOrInsert('buildout', 'buildout_name', buildOutDimension, 'buildout_id') : null
+        const buildoutId = formData.buildout ? await getOrInsert('buildout', 'buildout_name', formData.buildout, 'buildout_id') : null
 
         // For mohair fields - if they're not provided, get a default "none" or first available ID
         // since general_retract_control requires these to be NOT NULL
@@ -1671,9 +1704,13 @@ async function saveMirage3500Data(formData, account_id) {
                 top_level_id,
                 bottom_level_id,
                 left_plumb_id,
-                right_plumb_id
+                right_plumb_id,
+                middle_opening_height_id,
+                middle_opening_width_id,
+                unit_height_id,
+                pivot_pro_height_id
             ) VALUES (
-                $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14
+                $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18
             ) RETURNING customization_id
         `
 
@@ -1687,11 +1724,15 @@ async function saveMirage3500Data(formData, account_id) {
             productMeshId,              // $7
             mirage3500Id,               // $8
             generalRetractControlId,     // $9 - foreign key to general_retract_control
-            startingPointId,
-            topLevelId,
-            bottomLevelId,
-            leftPlumbId,
-            rightPlumbId
+            startingPointId,             // $10
+            topLevelId,                  // $11
+            bottomLevelId,               // $12
+            leftPlumbId,                 // $13
+            rightPlumbId,                // $14
+            middleOpeningHeightId,       // $15
+            middleOpeningWidthId,        // $16
+            unitHeightId,                // $17
+            pivotProHeightId             // $18
         ])
 
         const customizationId = customizationResult.rows[0].customization_id
@@ -2452,6 +2493,7 @@ module.exports = {
     getBottomAdapters,
     getRightBuildouts,
     getLeftBuildouts,
+    getBuildouts,
     getMeshTypes,
     getColors,
     getColorsByProduct,

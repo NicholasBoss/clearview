@@ -261,16 +261,10 @@ validate.mirage3500Rules = () => {
         .notEmpty()
         .withMessage("Bottom Adapter Width Fraction is required."),
 
-        // Right Build Out - required
-        body("right_build_out")
+        // Build Out - required
+        body("buildout")
         .notEmpty()
-        .withMessage("Right Build Out is required.")
-        .trim(),
-
-        // Left Build Out - required
-        body("left_build_out")
-        .notEmpty()
-        .withMessage("Left Build Out is required.")
+        .withMessage("Build Out is required.")
         .trim(),
 
         // Build Out Dimension - required numeric
@@ -581,16 +575,10 @@ validate.mirageRules = () => {
         .notEmpty()
         .withMessage("Bottom Adapter Width Fraction is required."),
 
-        // Right Build Out - required
-        body("right_build_out")
+        // Build Out - required
+        body("buildout")
         .notEmpty()
-        .withMessage("Right Build Out is required.")
-        .trim(),
-
-        // Left Build Out - required
-        body("left_build_out")
-        .notEmpty()
-        .withMessage("Left Build Out is required.")
+        .withMessage("Build Out is required.")
         .trim(),
 
         // Build Out Dimension - required numeric
