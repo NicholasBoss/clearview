@@ -849,7 +849,6 @@ async function getOrderById(customization_id){
         const rightHeight = splitMeasurement(row.right_opening_height_name)
         const openingHeight = splitMeasurement(row.opening_height_name)
         const buildOutDimension = splitMeasurement(row.buildout_name)
-        const buildOutDimension = splitMeasurement(row.buildout_name)
         const middleOpeningHeight = splitMeasurement(row.middle_opening_height_name)
         const middleOpeningWidth = splitMeasurement(row.middle_opening_width_name)
         const unitHeight = splitMeasurement(row.unit_height_name)
@@ -910,8 +909,6 @@ async function getOrderById(customization_id){
             btm_adapter_width: row.bottom_adapter_width ? splitMeasurement(row.bottom_adapter_width).int : '',
             btm_adapter_width_fraction: row.bottom_adapter_width ? splitMeasurement(row.bottom_adapter_width).fraction : '',
 
-            build_out_dimension: buildOutDimension.int,
-            build_out_dimension_fraction: buildOutDimension.fraction
             build_out_dimension: buildOutDimension.int,
             build_out_dimension_fraction: buildOutDimension.fraction,
             middle_opening_height: middleOpeningHeight.int,
@@ -1943,7 +1940,6 @@ async function saveMirageData(formData, account_id) {
         console.log('Step 3: Getting btm adapter color_id for:', formData.btm_adapter_color)
         const btmAdapterColorId = await getOrInsert('color', 'color_name', formData.btm_adapter_color, 'color_id')
         console.log('  -> btmAdapterColorId:', btmAdapterColorId)
-        const bottomAdapterColorId = await getOrInsert('color', 'color_name', formData.bottom_adapter_color_id, 'color_id')
 
         // 6. Handle top adapter
         console.log('Step 4: Getting top_adapter_id for:', formData.top_adapter)
@@ -2173,7 +2169,6 @@ async function saveMirageData(formData, account_id) {
             openingHeight,
             formData.door_mount,
             formData.opening_side
-            btmAdapterColorJunctionId
         ])
 
         const generalRetractControlId = generalRetractControlResult.rows[0].general_retract_control_id

@@ -459,6 +459,8 @@ validate.mirageRules = () => {
         // Bottom Adapter Color - optional
         body("bottom_adapter_color")
         .optional({ checkFalsy: true })
+        .trim(),
+
         // Bottom Adapter Color - required
         body("bottom_adapter_color_id")
         .notEmpty()
