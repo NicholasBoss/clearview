@@ -427,8 +427,7 @@ ordersController.buildViewMirage3500 = async function(req, res){
         const handles = await ordersModel.getHandles()
         const topAdapters = await ordersModel.getTopAdapters()
         const bottomAdapters = await ordersModel.getBottomAdapters()
-        const rightBuildouts = await ordersModel.getRightBuildouts()
-        const leftBuildouts = await ordersModel.getLeftBuildouts()
+        const buildouts = await ordersModel.getBuildouts()
         const meshTypes = await ordersModel.getMeshTypes()
         const mohairOptions = await ordersModel.getMohair()
         const mohairPositions = await ordersModel.getMohairPositions()
@@ -443,8 +442,7 @@ ordersController.buildViewMirage3500 = async function(req, res){
             handles: handles || [],
             topAdapters: topAdapters || [],
             bottomAdapters: bottomAdapters || [],
-            rightBuildouts: rightBuildouts || [],
-            leftBuildouts: leftBuildouts || [],
+            buildouts: buildouts || [],
             meshTypes: meshTypes || [],
             mohairOptions: mohairOptions || [],
             mohairPositions: mohairPositions || []
@@ -519,8 +517,7 @@ ordersController.buildViewMirage = async function(req, res){
         const handles = await ordersModel.getHandles()
         const topAdapters = await ordersModel.getTopAdapters()
         const bottomAdapters = await ordersModel.getBottomAdapters()
-        const rightBuildouts = await ordersModel.getRightBuildouts()
-        const leftBuildouts = await ordersModel.getLeftBuildouts()
+        const buildouts = await ordersModel.getBuildouts()
         const meshTypes = await ordersModel.getMeshTypes()
         const mohairOptions = await ordersModel.getMohair()
         const mohairPositions = await ordersModel.getMohairPositions()
@@ -536,8 +533,7 @@ ordersController.buildViewMirage = async function(req, res){
             handles: handles || [],
             topAdapters: topAdapters || [],
             bottomAdapters: bottomAdapters || [],
-            rightBuildouts: rightBuildouts || [],
-            leftBuildouts: leftBuildouts || [],
+            buildouts: buildouts || [],
             meshTypes: meshTypes || [],
             mohairOptions: mohairOptions || [],
             mohairPositions: mohairPositions || [],

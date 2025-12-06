@@ -267,18 +267,18 @@
         <label><b>Mohair</b>
             <select name="mohair" id="mohair" disabled>
                 <option value="">Select</option>
-                <option value=".200 MoHair X.187" <%= orderData.mohair === '.200 MoHair X.187' ? 'selected' : '' %>>.200 MoHair X.187</option>
-                <option value=".250 MoHair X.187" <%= orderData.mohair === '.250 MoHair X.187' ? 'selected' : '' %>>.250 MoHair X.187</option>
-                <option value=".300 MoHair X.187" <%= orderData.mohair === '.300 MoHair X.187' ? 'selected' : '' %>>.300 MoHair X.187</option>
-                <option value=".350 MoHair X.187" <%= orderData.mohair === '.350 MoHair X.187' ? 'selected' : '' %>>.350 MoHair X.187</option>
+                <% mohairOptions.forEach(mohair => { %>
+                    <option value="<%= mohair.mohair_type %>" <%= orderData.mohair === mohair.mohair_type ? 'selected' : '' %>><%= mohair.mohair_type %></option>
+                <% }) %>
             </select>
         </label><br>
 
         <label><b>Mohair Position</b>
             <select name="mohair_position" id="mohair_position" disabled>
                 <option value="">Select</option>
-                <option value="Edge" <%= orderData.mohair_position === 'Edge' ? 'selected' : '' %>>Edge</option>
-                <option value="Inside" <%= orderData.mohair_position === 'Inside' ? 'selected' : '' %>>Inside</option>
+                <% mohairPositions.forEach(position => { %>
+                    <option value="<%= position.mohair_position_name %>" <%= orderData.mohair_position === position.mohair_position_name ? 'selected' : '' %>><%= position.mohair_position_name %></option>
+                <% }) %>
             </select>
         </label><br>
 
