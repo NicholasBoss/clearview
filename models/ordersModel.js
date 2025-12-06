@@ -637,8 +637,7 @@ async function deleteOrder(customization_id){
 async function getOrdersByAccountId(account_id){
     try {
         // NOTE: All users are admins/employees who create orders for customers
-        // This function returns ALL orders for display on the account page
-        // Orders are not filtered by logged-in user since all users need to see all orders
+        // This function returns orders created by this account
 
         const sql = `
             SELECT
@@ -664,7 +663,7 @@ async function getOrdersByAccountId(account_id){
             LEFT JOIN customer cust ON co.customer_id = cust.customer_id
             LEFT JOIN mirage_3500 m3 ON c.mirage_3500_id = m3.mirage_3500_id
             LEFT JOIN mirage m ON c.mirage_id = m.mirage_id
-            LEFT JOIN order_log ol on cust.customer_id = ol.customer_id
+            LEFT JOIN order_log ol ON o.order_id = ol.order_id
             WHERE ol.account_id = $1
             ORDER BY c.customization_id DESC
         `
@@ -729,12 +728,22 @@ async function getOrderById(customization_id){
                 grc.door_type,
                 grc.door_mount,
                 grc.opening_side,
-                grc.btm_adapter_color,
                 grc_mohair.mohair_type,
                 grc_mohair_pos.mohair_position_name,
                 grc_top_adapter.top_adapter_name AS top_adapter_type,
                 grc_bottom_adapter.bottom_adapter_name AS bottom_adapter_type,
                 grc_buildout.buildout_name,
+                grc_meas.measurement_name AS opening_height_name,
+                bac.color_name AS bottom_adapter_color_name,
+                ppc_color.color_name AS pivot_pro_color_name,
+                tac_color.color_name AS top_adapter_color_name,
+                grc.top_adapter_width,
+                grc.unit_height,
+                grc.pivot_pro_height,
+                grc.bottom_adapter_width,
+                grc.opening_height,
+                cust.customer_firstname,
+                cust.customer_lastname,
                 tow_dim.top_opening_width_name,
                 bow_dim.bottom_opening_width_name,
                 loh_dim.left_opening_height_name,
@@ -751,6 +760,29 @@ async function getOrderById(customization_id){
             LEFT JOIN top_adapter grc_top_adapter ON grc.top_adapter_id = grc_top_adapter.top_adapter_id
             LEFT JOIN bottom_adapter grc_bottom_adapter ON grc.bottom_adapter_id = grc_bottom_adapter.bottom_adapter_id
             LEFT JOIN buildout grc_buildout ON grc.buildout_id = grc_buildout.buildout_id
+            LEFT JOIN measurement grc_meas ON grc.measurement_id = grc_meas.measurement_id
+            
+            -- Join for bottom adapter color
+            LEFT JOIN bottom_adapter_color btm_ac ON grc.bottom_adapter_color_id = btm_ac.bottom_adapter_color_id
+            LEFT JOIN product_color btm_pc ON btm_ac.product_color_id = btm_pc.product_color_id
+            LEFT JOIN color bac ON btm_pc.color_id = bac.color_id
+
+            -- Join for pivot pro color
+            LEFT JOIN pivot_pro_color ppc ON grc.pivot_pro_color_id = ppc.pivot_pro_color_id
+            LEFT JOIN product_color ppc_pc ON ppc.product_color_id = ppc_pc.product_color_id
+            LEFT JOIN color ppc_color ON ppc_pc.color_id = ppc_color.color_id
+
+            -- Join for top adapter color
+            LEFT JOIN top_adapter_color tac ON grc.top_adapter_color_id = tac.top_adapter_color_id
+            LEFT JOIN product_color tac_pc ON tac.product_color_id = tac_pc.product_color_id
+            LEFT JOIN color tac_color ON tac_pc.color_id = tac_color.color_id
+
+            -- Join for customer info
+            LEFT JOIN order_customization oc ON c.customization_id = oc.customization_id
+            LEFT JOIN cust_order co ON oc.order_id = co.order_id
+            LEFT JOIN customer cust ON co.customer_id = cust.customer_id
+
+            -- Mirage 3500 specific joins (keep these for backward compatibility)
             LEFT JOIN tow_measurement tow ON c.measurement_id = tow.measurement_id
             LEFT JOIN top_opening_width tow_dim ON tow.top_opening_width_id = tow_dim.top_opening_width_id
             LEFT JOIN bow_measurement bow ON c.measurement_id = bow.measurement_id
@@ -759,6 +791,7 @@ async function getOrderById(customization_id){
             LEFT JOIN left_opening_height loh_dim ON loh.left_opening_height_id = loh_dim.left_opening_height_id
             LEFT JOIN roh_measurement roh ON c.measurement_id = roh.measurement_id
             LEFT JOIN right_opening_height roh_dim ON roh.right_opening_height_id = roh_dim.right_opening_height_id
+            
             WHERE c.customization_id = $1
         `
         const result = await pool.query(sql, [customization_id])
@@ -781,17 +814,23 @@ async function getOrderById(customization_id){
         const bottomWidth = splitMeasurement(row.bottom_opening_width_name)
         const leftHeight = splitMeasurement(row.left_opening_height_name)
         const rightHeight = splitMeasurement(row.right_opening_height_name)
+        const openingHeight = splitMeasurement(row.opening_height_name)
+        const buildOutDimension = splitMeasurement(row.buildout_name)
 
         // Return data in the format expected by the view (matching form field names)
         return {
             ...row,
+            customer_firstname: row.customer_firstname,
+            customer_lastname: row.customer_lastname,
             color_name: row.color_name,
             handle: row.mirage_3500_handle,
             mesh: row.mesh_type,
             top_adapter: row.top_adapter_type,
             btm_adapter: row.bottom_adapter_type,
-            btm_adapter_color: row.btm_adapter_color,
-            buildout: row.buildout_name,
+            bottom_adapter_color: row.bottom_adapter_color_name,
+            pivot_pro_color: row.pivot_pro_color_name,
+            top_adapter_color: row.top_adapter_color_name,
+            build_out: row.buildout_name, // Map buildout_name to build_out
             mohair: row.mohair_type,
             mohair_position: row.mohair_position_name,
             door_type: row.door_type,
@@ -805,7 +844,26 @@ async function getOrderById(customization_id){
             left_opening_height: leftHeight.int,
             left_opening_height_fraction: leftHeight.fraction,
             right_opening_height: rightHeight.int,
-            right_opening_height_fraction: rightHeight.fraction
+            right_opening_height_fraction: rightHeight.fraction,
+            
+            // Use new columns if available, otherwise fallback to old logic (or empty)
+            opening_height: row.opening_height ? splitMeasurement(row.opening_height).int : openingHeight.int,
+            opening_height_fraction: row.opening_height ? splitMeasurement(row.opening_height).fraction : openingHeight.fraction,
+            
+            top_adapter_width: row.top_adapter_width ? splitMeasurement(row.top_adapter_width).int : '',
+            top_adapter_width_fraction: row.top_adapter_width ? splitMeasurement(row.top_adapter_width).fraction : '',
+            
+            unit_height: row.unit_height ? splitMeasurement(row.unit_height).int : '',
+            unit_height_fraction: row.unit_height ? splitMeasurement(row.unit_height).fraction : '',
+            
+            pivot_pro_height: row.pivot_pro_height ? splitMeasurement(row.pivot_pro_height).int : '',
+            pivot_pro_height_fraction: row.pivot_pro_height ? splitMeasurement(row.pivot_pro_height).fraction : '',
+            
+            btm_adapter_width: row.bottom_adapter_width ? splitMeasurement(row.bottom_adapter_width).int : '',
+            btm_adapter_width_fraction: row.bottom_adapter_width ? splitMeasurement(row.bottom_adapter_width).fraction : '',
+
+            build_out_dimension: buildOutDimension.int,
+            build_out_dimension_fraction: buildOutDimension.fraction
         }
     } catch (error) {
         console.error('Error in getOrderById:', error)
@@ -1330,6 +1388,29 @@ async function getOrCreateBottomAdapterColor(productColorId) {
     }
 }
 
+// Helper function to get or create pivot_pro_color junction entry
+async function getOrCreatePivotProColor(productColorId) {
+    try {
+        if (!productColorId) return null
+
+        // Check if pivot_pro_color entry exists
+        const selectSql = 'SELECT pivot_pro_color_id FROM pivot_pro_color WHERE product_color_id = $1'
+        const selectResult = await pool.query(selectSql, [productColorId])
+
+        if (selectResult.rows.length > 0) {
+            return selectResult.rows[0].pivot_pro_color_id
+        }
+
+        // Create pivot_pro_color entry
+        const insertSql = 'INSERT INTO pivot_pro_color (product_color_id) VALUES ($1) RETURNING pivot_pro_color_id'
+        const insertResult = await pool.query(insertSql, [productColorId])
+        return insertResult.rows[0].pivot_pro_color_id
+    } catch (error) {
+        console.error('Error in getOrCreatePivotProColor:', error)
+        throw error
+    }
+}
+
 // Handle measurement dimensions with junction tables
 async function handleMeasurementWithJunction(dimensionTable, dimensionColumn, dimensionIdColumn,
                                               junctionTable, measurementIntPart, measurementFraction) {
@@ -1750,48 +1831,75 @@ async function saveMirage3500Data(formData, account_id) {
 }
 
 // Comprehensive function to save all Mirage data
-async function saveMirageData(formData) {
+async function saveMirageData(formData, account_id) {
     try {
-        // 1. Handle mirage specific fields (if any specific table exists, otherwise generic)
-        // For now assuming similar structure to Mirage 3500 but using 'mirage' table if needed
-        // or just general_retract_control
+        console.log('--- saveMirageData START ---')
+        console.log('Received formData:', JSON.stringify(formData, null, 2))
+        console.log('Received account_id:', account_id)
 
         // 2. Handle main color
+        console.log('Step 1: Getting color_id for:', formData.color_name)
         const colorId = await getOrInsert('color', 'color_name', formData.color_name, 'color_id')
-
-        // 3. Handle pivot pro color (if it exists in color table)
-        // const pivotProColorId = await getOrInsert('color', 'color_name', formData.pivot_pro_color, 'color_id')
+        console.log('  -> colorId:', colorId)
 
         // 4. Handle top adapter color
+        console.log('Step 2: Getting top adapter color_id for:', formData.top_adapter_color)
         const topAdapterColorId = await getOrInsert('color', 'color_name', formData.top_adapter_color, 'color_id')
+        console.log('  -> topAdapterColorId:', topAdapterColorId)
 
         // 5. Handle bottom adapter color
+        console.log('Step 3: Getting btm adapter color_id for:', formData.btm_adapter_color)
         const btmAdapterColorId = await getOrInsert('color', 'color_name', formData.btm_adapter_color, 'color_id')
+        console.log('  -> btmAdapterColorId:', btmAdapterColorId)
 
         // 6. Handle top adapter
+        console.log('Step 4: Getting top_adapter_id for:', formData.top_adapter)
         const topAdapterId = await getOrInsert('top_adapter', 'top_adapter_name', formData.top_adapter, 'top_adapter_id')
+        console.log('  -> topAdapterId:', topAdapterId)
 
         // 7. Handle bottom adapter
+        console.log('Step 5: Getting btm_adapter_id for:', formData.btm_adapter)
         const btmAdapterId = await getOrInsert('bottom_adapter', 'bottom_adapter_name', formData.btm_adapter, 'bottom_adapter_id')
-
-        // 8. Handle buildout (Mirage seems to have a single buildout field in the view?)
-        // const buildoutId = await getOrInsert('buildout', 'buildout_name', formData.build_out, 'buildout_id')
+        console.log('  -> btmAdapterId:', btmAdapterId)
 
         // 9. Handle mesh
-        const meshId = await getOrInsert('mesh', 'mesh_type', formData.mesh, 'mesh_id')
+        console.log('Step 6: Getting mesh_id for:', formData.mesh)
+        let meshValue = formData.mesh
+        if (!meshValue || meshValue.trim() === '') {
+            meshValue = 'Charcoal 18x14' // Default if empty
+            console.log('  -> Mesh was empty, defaulting to:', meshValue)
+        }
+        
+        let meshId = await getOrInsert('mesh', 'mesh_type', meshValue, 'mesh_id')
+        
+        // If still null (e.g. default doesn't exist), get first available
+        if (!meshId) {
+            console.log('  -> Mesh ID not found, getting first available mesh')
+            const defaultMeshSql = 'SELECT mesh_id FROM mesh LIMIT 1'
+            const defaultMeshResult = await pool.query(defaultMeshSql)
+            meshId = defaultMeshResult.rows[0]?.mesh_id || 1
+        }
+        console.log('  -> meshId:', meshId)
 
         // 10. Handle mohair
+        console.log('Step 7: Getting mohair_id for:', formData.mohair)
         const mohairId = await getOrInsert('mohair', 'mohair_type', formData.mohair, 'mohair_id')
+        console.log('  -> mohairId:', mohairId)
 
         // 11. Handle mohair position
+        console.log('Step 8: Getting mohair_position_id for:', formData.mohair_position)
         const mohairPositionId = await getOrInsert('mohair_position', 'mohair_position_name', formData.mohair_position, 'mohair_position_id')
+        console.log('  -> mohairPositionId:', mohairPositionId)
 
         // 12. Get product_id for Mirage
+        console.log('Step 9: Getting product_id for Mirage')
         const productSql = 'SELECT product_id FROM product WHERE product_name = $1'
         const productResult = await pool.query(productSql, ['Mirage'])
         const productId = productResult.rows[0].product_id
+        console.log('  -> productId:', productId)
 
         // 13. Create product_color and junction table entries for colors
+        console.log('Step 10: Creating product_color junctions...')
         
         // Top adapter color
         let topAdapterColorJunctionId = null
@@ -1799,6 +1907,7 @@ async function saveMirageData(formData) {
             const topAdapterProductColorId = await getOrCreateProductColor(productId, topAdapterColorId)
             topAdapterColorJunctionId = await getOrCreateTopAdapterColor(topAdapterProductColorId)
         }
+        console.log('  -> topAdapterColorJunctionId:', topAdapterColorJunctionId)
 
         // Bottom adapter color
         let btmAdapterColorJunctionId = null
@@ -1806,8 +1915,18 @@ async function saveMirageData(formData) {
             const btmAdapterProductColorId = await getOrCreateProductColor(productId, btmAdapterColorId)
             btmAdapterColorJunctionId = await getOrCreateBottomAdapterColor(btmAdapterProductColorId)
         }
+        console.log('  -> btmAdapterColorJunctionId:', btmAdapterColorJunctionId)
 
-        console.log('Processing measurements...')
+        // Pivot Pro Color
+        let pivotProColorJunctionId = null
+        if (formData.pivot_pro_color) {
+             const pivotColorId = await getOrInsert('color', 'color_name', formData.pivot_pro_color, 'color_id')
+             const pivotProductColorId = await getOrCreateProductColor(productId, pivotColorId)
+             pivotProColorJunctionId = await getOrCreatePivotProColor(pivotProductColorId)
+        }
+        console.log('  -> pivotProColorJunctionId:', pivotProColorJunctionId)
+
+        console.log('Step 11: Processing measurements...')
 
         // Top Opening Width (if applicable)
         // const topOpeningWidthId = await handleMeasurementWithJunction(...)
@@ -1883,6 +2002,19 @@ async function saveMirageData(formData) {
 
         let finalMohairId = mohairId || 1
         let finalMohairPositionId = mohairPositionId || 1
+        
+        // Get bottom_adapter_color_id (it's a foreign key to bottom_adapter_color, not color)
+        let bottomAdapterColorId = null
+        if (formData.bottom_adapter_color) {
+            // 1. Get color_id first
+            const colorId = await getOrInsert('color', 'color_name', formData.bottom_adapter_color, 'color_id')
+            
+            // 2. Get product_color_id
+            const productColorId = await getOrCreateProductColor(productId, colorId)
+            
+            // 3. Get or create bottom_adapter_color_id
+            bottomAdapterColorId = await getOrCreateBottomAdapterColor(productColorId)
+        }
 
         const generalRetractControlSql = `
             INSERT INTO general_retract_control (
@@ -1893,11 +2025,41 @@ async function saveMirageData(formData) {
                 top_adapter_id,
                 buildout_id,
                 bottom_adapter_id,
-                btm_adapter_color
+                bottom_adapter_color_id,
+                pivot_pro_color_id,
+                top_adapter_color_id,
+                top_adapter_width,
+                unit_height,
+                pivot_pro_height,
+                bottom_adapter_width,
+                opening_height,
+                door_mount,
+                opening_side
             ) VALUES (
-                $1, $2, $3, $4, $5, $6, $7, $8
+                $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17
             ) RETURNING general_retract_control_id
         `
+
+        console.log('Step 12: Inserting into general_retract_control...')
+        console.log('  Values:', {
+            primaryMeasurementId,
+            meshId,
+            finalMohairId,
+            finalMohairPositionId,
+            topAdapterId,
+            buildoutId,
+            btmAdapterId,
+            bottomAdapterColorId,
+            pivotProColorJunctionId,
+            topAdapterColorJunctionId,
+            topAdapterWidth,
+            unitHeight,
+            pivotProHeight,
+            btmAdapterWidth,
+            openingHeight,
+            doorMount: formData.door_mount,
+            openingSide: formData.opening_side
+        })
 
         const generalRetractControlResult = await pool.query(generalRetractControlSql, [
             primaryMeasurementId,
@@ -1907,7 +2069,16 @@ async function saveMirageData(formData) {
             topAdapterId,
             buildoutId,
             btmAdapterId,
-            formData.btm_adapter_color
+            bottomAdapterColorId,
+            pivotProColorJunctionId,
+            topAdapterColorJunctionId,
+            topAdapterWidth,
+            unitHeight,
+            pivotProHeight,
+            btmAdapterWidth,
+            openingHeight,
+            formData.door_mount,
+            formData.opening_side
         ])
 
         const generalRetractControlId = generalRetractControlResult.rows[0].general_retract_control_id
@@ -1925,11 +2096,9 @@ async function saveMirageData(formData) {
                 color_id,
                 mesh_id,
                 product_mesh_id,
-                general_retract_control_id,
-                is_estimate,
-                is_confirmed
+                general_retract_control_id
             ) VALUES (
-                $1, $2, $3, $4, $5, $6, $7, $8, TRUE, FALSE
+                $1, $2, $3, $4, $5, $6, $7, $8
             ) RETURNING customization_id
         `
 
@@ -1973,22 +2142,37 @@ async function saveMirageData(formData) {
         if (formData.customer_firstname && formData.customer_lastname) {
             const customerId = await getOrCreateCustomer(formData.customer_firstname, formData.customer_lastname)
             
-            // Address handling (simplified)
-            const createAddressSql = `
-                INSERT INTO address (address_line1, address_line2, address_city, address_state, address_zip)
-                VALUES ('TBD', '', 'TBD', 'UT', '00000')
-                RETURNING address_id
+            // Check if customer already has an address
+            const checkAddressSql = `
+                SELECT customer_address_id
+                FROM customer_address
+                WHERE customer_id = $1
+                LIMIT 1
             `
-            const addressResult = await pool.query(createAddressSql)
-            const addressId = addressResult.rows[0].address_id
+            const addressCheck = await pool.query(checkAddressSql, [customerId])
 
-            const createCustAddressSql = `
-                INSERT INTO customer_address (customer_id, address_id)
-                VALUES ($1, $2)
-                RETURNING customer_address_id
-            `
-            const custAddressResult = await pool.query(createCustAddressSql, [customerId, addressId])
-            const customerAddressId = custAddressResult.rows[0].customer_address_id
+            let customerAddressId
+            if (addressCheck.rows.length > 0) {
+                customerAddressId = addressCheck.rows[0].customer_address_id
+            } else {
+                // Create a default address for this customer
+                const createAddressSql = `
+                    INSERT INTO address (address_line1, address_line2, address_city, address_state, address_zip)
+                    VALUES ('TBD', '', 'TBD', 'UT', '00000')
+                    RETURNING address_id
+                `
+                const addressResult = await pool.query(createAddressSql)
+                const addressId = addressResult.rows[0].address_id
+
+                // Link address to customer
+                const createCustAddressSql = `
+                    INSERT INTO customer_address (customer_id, address_id)
+                    VALUES ($1, $2)
+                    RETURNING customer_address_id
+                `
+                const custAddressResult = await pool.query(createCustAddressSql, [customerId, addressId])
+                customerAddressId = custAddressResult.rows[0].customer_address_id
+            }
 
             const custOrderSql = `
                 INSERT INTO cust_order (customer_id, order_id, customer_address_id)
@@ -1996,6 +2180,20 @@ async function saveMirageData(formData) {
                 RETURNING cust_order_id
             `
             await pool.query(custOrderSql, [customerId, orderId, customerAddressId])
+            console.log('cust_order created linking customer to order')
+
+            // Create order_log entry to track which account created this order
+            if (account_id) {
+                const orderLogSql = `
+                    INSERT INTO order_log (customer_id, account_id, order_id, actual_date)
+                    VALUES ($1, $2, $3, CURRENT_DATE)
+                    RETURNING order_log_id
+                `
+                await pool.query(orderLogSql, [customerId, account_id, orderId])
+                console.log('order_log created linking account to order')
+            } else {
+                console.warn('No account_id provided - order_log entry not created')
+            }
         }
 
         return { customization_id: customizationId }

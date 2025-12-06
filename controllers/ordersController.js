@@ -255,14 +255,17 @@ ordersController.buildCreateMirage = async function(req, res){
 
 ordersController.processMirageForm = async function(req, res){
     try {
+        console.log('========== PROCESS MIRAGE FORM ==========')
+        console.log('Form body received:', JSON.stringify(req.body, null, 2))
+        
+        // Store form data in session for confirm page - DO NOT save to DB yet
         req.session.mirageData = req.body
-        const result = await ordersModel.saveMirageData(req.body)
-        req.session.mirageOrderId = result.customization_id
-        console.log('Mirage Order created with is_estimate=true, customization_id:', result.customization_id)
+        
+        console.log('Mirage form data stored in session, redirecting to confirm page')
         res.redirect('/orders/confirmMirage')
     } catch (error) {
         console.error('Error processing Mirage form:', error)
-        req.flash('error', 'Failed to save order. Please try again.')
+        req.flash('error', 'Failed to process order. Please try again.')
         res.redirect('/orders/createMirage')
     }
 }
@@ -270,48 +273,52 @@ ordersController.processMirageForm = async function(req, res){
 ordersController.buildConfirmMirage = async function(req, res){
     const formData = req.session.mirageData || {}
     
-    const fractions = await ordersModel.getMeasurements()
-    const colors = await ordersModel.getColors()
-    const pivotProColors = await ordersModel.getPivotProColors()
-    const topAdapters = await ordersModel.getTopAdapters()
-    const bottomAdapters = await ordersModel.getBottomAdapters()
-    const meshTypes = await ordersModel.getMeshTypes()
-    const mohairOptions = await ordersModel.getMohair()
-    const mohairPositions = await ordersModel.getMohairPositions()
-    const customers = await ordersModel.getAllCustomers()
-
+    console.log('========== BUILD CONFIRM MIRAGE ==========')
+    console.log('Session mirageData:', JSON.stringify(formData, null, 2))
+    
     res.render('orders/confirmMirage', {
         title: 'Confirm Mirage order',
         link: 'orders/confirmMirage',
         errors: null,
-        formData: formData,
-        fractions: fractions || [],
-        colors: colors || [],
-        pivotProColors: pivotProColors || [],
-        topAdapters: topAdapters || [],
-        bottomAdapters: bottomAdapters || [],
-        meshTypes: meshTypes || [],
-        mohairOptions: mohairOptions || [],
-        mohairPositions: mohairPositions || [],
-        customers: customers || []
+        formData: formData
     })
 }
 
 ordersController.saveMirageOrder = async function(req, res){
     try {
-        const customizationId = req.session.mirageOrderId
-        if (!customizationId) {
-            throw new Error('No order found to confirm. Please start over.')
+        console.log('========== SAVE MIRAGE ORDER START ==========')
+        
+        // Get form data from session
+        const formData = req.session.mirageData
+        console.log('Form data from session:', formData)
+        
+        if (!formData) {
+            console.log('ERROR: No form data in session!')
+            throw new Error('No order data found. Please start over.')
         }
-        await ordersModel.confirmMirageOrder(customizationId)
+        
+        // Get account_id from logged-in user
+        const account_id = res.locals.accountData.account_id
+        console.log('Account ID:', account_id)
+        
+        // NOW save to database
+        console.log('Calling saveMirageData...')
+        const result = await ordersModel.saveMirageData(formData, account_id)
+        
+        console.log('Mirage Order saved to database, customization_id:', result.customization_id)
+        console.log('========== SAVE MIRAGE ORDER SUCCESS ==========')
+        
+        // Clear session data
         delete req.session.mirageData
         delete req.session.mirageOrderId
-        console.log('Mirage Order confirmed successfully, customization_id:', customizationId)
-        req.flash('success', 'Mirage order confirmed successfully!')
+        
+        req.flash('notice', 'Mirage order confirmed successfully!')
         res.redirect('/account')
     } catch (error) {
-        console.error('Error confirming Mirage order:', error)
-        req.flash('error', 'Failed to confirm Mirage order. Please try again.')
+        console.log('========== SAVE MIRAGE ORDER FAILED ==========')
+        console.error('Error details:', error.message)
+        console.error('Full error:', error)
+        req.flash('error', 'Failed to save Mirage order. Please try again.')
         res.redirect('/orders/confirmMirage')
     }
 }

@@ -1175,6 +1175,13 @@ CREATE TABLE IF NOT EXISTS general_retract_control
   buildout_id INTEGER NOT NULL,
   bottom_adapter_id INTEGER NOT NULL,
   bottom_adapter_color_id INTEGER NULL,
+  pivot_pro_color_id INTEGER NULL,
+  top_adapter_color_id INTEGER NULL,
+  top_adapter_width CHARACTER VARYING(50) NULL,
+  unit_height CHARACTER VARYING(50) NULL,
+  pivot_pro_height CHARACTER VARYING(50) NULL,
+  bottom_adapter_width CHARACTER VARYING(50) NULL,
+  opening_height CHARACTER VARYING(50) NULL,
   CONSTRAINT grc_pk PRIMARY KEY (general_retract_control_id),
   CONSTRAINT grc_fk1
     FOREIGN KEY (measurement_id)
@@ -1214,6 +1221,16 @@ CREATE TABLE IF NOT EXISTS general_retract_control
   CONSTRAINT grc_fk8
     FOREIGN KEY (bottom_adapter_color_id)
     REFERENCES bottom_adapter_color (bottom_adapter_color_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT grc_fk9
+    FOREIGN KEY (pivot_pro_color_id)
+    REFERENCES pivot_pro_color (pivot_pro_color_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT grc_fk10
+    FOREIGN KEY (top_adapter_color_id)
+    REFERENCES top_adapter_color (top_adapter_color_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
