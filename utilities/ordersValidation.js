@@ -242,7 +242,7 @@ validate.mirage3500Rules = () => {
         .trim(),
 
         // Bottom Adapter Color - required
-        body("btm_adapter_color")
+        body("bottom_adapter_color_id")
         .notEmpty()
         .withMessage("Bottom Adapter Color is required.")
         .trim()
@@ -261,16 +261,10 @@ validate.mirage3500Rules = () => {
         .notEmpty()
         .withMessage("Bottom Adapter Width Fraction is required."),
 
-        // Right Build Out - required
-        body("right_build_out")
+        // Build Out - required
+        body("buildout")
         .notEmpty()
-        .withMessage("Right Build Out is required.")
-        .trim(),
-
-        // Left Build Out - required
-        body("left_build_out")
-        .notEmpty()
-        .withMessage("Left Build Out is required.")
+        .withMessage("Build Out is required.")
         .trim(),
 
         // Build Out Dimension - required numeric
@@ -465,6 +459,10 @@ validate.mirageRules = () => {
         // Bottom Adapter Color - optional
         body("bottom_adapter_color")
         .optional({ checkFalsy: true })
+        // Bottom Adapter Color - required
+        body("bottom_adapter_color_id")
+        .notEmpty()
+        .withMessage("Bottom Adapter Color is required.")
         .trim(),
 
         // Bottom Adapter Width - required numeric
@@ -481,6 +479,48 @@ validate.mirageRules = () => {
 
         // Build Out - optional
         body("build_out")
+        .notEmpty()
+        .withMessage("Bottom Adapter Width Fraction is required."),
+
+        // Build Out - required
+        body("buildout")
+        .notEmpty()
+        .withMessage("Build Out is required.")
+        .trim(),
+
+        // Build Out Dimension - required numeric
+        body("build_out_dimension")
+        .notEmpty()
+        .withMessage("Build Out Dimension is required.")
+        .trim()
+        .isNumeric()
+        .withMessage("Build Out Dimension must be a number."),
+
+        // Build Out Dimension Fraction - required
+        body("build_out_dimension_fraction")
+        .notEmpty()
+        .withMessage("Build Out Dimension Fraction is required."),
+
+        // Mesh - required
+        body("mesh")
+        .notEmpty()
+        .withMessage("Please select a mesh type.")
+        .trim(),
+
+        // Mohair - required
+        body("mohair")
+        .notEmpty()
+        .withMessage("Mohair is required.")
+        .trim(),
+
+        // Mohair Position - required
+        body("mohair_position")
+        .notEmpty()
+        .withMessage("Mohair Position is required.")
+        .trim(),
+
+        // Bumper Pads - optional (not used yet)
+        body("bumper_pads")
         .optional({ checkFalsy: true })
         .trim(),
 
