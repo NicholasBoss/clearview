@@ -230,17 +230,31 @@ ordersController.buildCreateMirage = async function(req, res){
     measurements = await ordersModel.getMeasurements()
     console.log(top_adapter_colors)
 
+    // Check for validation errors and form data in session
+    let errors = null
+    let formData = {}
+    
+    if (req.session.validationErrors) {
+        // Wrap errors in an object with array() method to match express-validator interface expected by view
+        errors = { array: () => req.session.validationErrors }
+        formData = req.session.formData
+        
+        // Clear from session
+        delete req.session.validationErrors
+        delete req.session.formData
+    }
+
     res.render('orders/createMirage', {
         title: 'Create Mirage order',
         link: 'orders/createMirage',
-        errors: null,
+        errors: errors,
         colors: colors,
         pivot_colors: pivot_colors,
         top_adapters: top_adapter,
         top_adapter_colors: top_adapter_colors,
         bottom_adapters: bottom_adapter,
         bottom_adapter_colors: bottom_adapter_colors,
-        formData: ["dummy"],
+        formData: formData,
         build_outs: buildout,
         meshes: ["Charcoal 18x14"],
         mohairs: mohair,
@@ -529,6 +543,8 @@ ordersController.buildViewMirage = async function(req, res){
         const mohairOptions = await ordersModel.getMohair()
         const mohairPositions = await ordersModel.getMohairPositions()
         const pivotProColors = await ordersModel.getPivotProColors()
+        const rightBuildouts = await ordersModel.getRightBuildouts()
+        const leftBuildouts = await ordersModel.getLeftBuildouts()
 
         res.render('account/viewMirage', {
             title: 'View Mirage Order',
@@ -544,7 +560,9 @@ ordersController.buildViewMirage = async function(req, res){
             meshTypes: meshTypes || [],
             mohairOptions: mohairOptions || [],
             mohairPositions: mohairPositions || [],
-            pivotProColors: pivotProColors || []
+            pivotProColors: pivotProColors || [],
+            rightBuildouts: rightBuildouts || [],
+            leftBuildouts: leftBuildouts || []
         })
     } catch (error) {
         console.error('Error loading order:', error)

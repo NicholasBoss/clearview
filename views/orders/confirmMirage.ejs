@@ -78,13 +78,7 @@
         </label><br>
 
         <label><b>Bottom Adapter Color</b>
-            <input type="text" name="bottom_adapter_color" id="bottom_adapter_color" value="<%= formData.bottom_adapter_color || '' %>" readonly>
-            <select name="bottom_adapter_color_id" id="bottom_adapter_color_id">
-                <option value="">Select</option>
-                <% colors.forEach(color => { %>
-                    <option value="<%= color.color_name %>" <%= formData.bottom_adapter_color_id === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
-                <% }) %>
-            </select>
+            <input type="text" name="bottom_adapter_color_id" id="bottom_adapter_color_id" value="<%= formData.bottom_adapter_color_id || '' %>" readonly>
         </label><br>
 
         <label><b>Bottom Adapter Width</b>

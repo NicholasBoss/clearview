@@ -384,24 +384,28 @@ validate.mirageRules = () => {
         .isLength({ min: 1, max: 255 })
         .withMessage("Customer Last Name must be between 1 and 255 characters."),
 
-        // Color - optional
+        // Color - required
         body("color_name")
-        .optional({ checkFalsy: true })
+        .notEmpty()
+        .withMessage("Color is required.")
         .trim(),
 
-        // Pivot Pro Color - optional
+        // Pivot Pro Color - required
         body("pivot_pro_color")
-        .optional({ checkFalsy: true })
+        .notEmpty()
+        .withMessage("Pivot Pro Color is required.")
         .trim(),
 
-        // Top Adapter - optional
+        // Top Adapter - required
         body("top_adapter")
-        .optional({ checkFalsy: true })
+        .notEmpty()
+        .withMessage("Top Adapter is required.")
         .trim(),
 
-        // Top Adapter Color - optional
+        // Top Adapter Color - required
         body("top_adapter_color")
-        .optional({ checkFalsy: true })
+        .notEmpty()
+        .withMessage("Top Adapter Color is required.")
         .trim(),
 
         // Top Adapter Width - required numeric
@@ -412,9 +416,10 @@ validate.mirageRules = () => {
         .isNumeric()
         .withMessage("Top Adapter Width must be a number."),
 
-        // Top Adapter Width Fraction - optional
+        // Top Adapter Width Fraction - required
         body("top_adapter_width_fraction")
-        .optional({ checkFalsy: true }),
+        .notEmpty()
+        .withMessage("Top Adapter Width Fraction is required."),
 
         // Opening Height - required numeric
         body("opening_height")
@@ -424,9 +429,10 @@ validate.mirageRules = () => {
         .isNumeric()
         .withMessage("Opening Height must be a number."),
 
-        // Opening Height Fraction - optional
+        // Opening Height Fraction - required
         body("opening_height_fraction")
-        .optional({ checkFalsy: true }),
+        .notEmpty()
+        .withMessage("Opening Height Fraction is required."),
 
         // Unit Height - required numeric
         body("unit_height")
@@ -436,9 +442,10 @@ validate.mirageRules = () => {
         .isNumeric()
         .withMessage("Unit Height must be a number."),
 
-        // Unit Height Fraction - optional
+        // Unit Height Fraction - required
         body("unit_height_fraction")
-        .optional({ checkFalsy: true }),
+        .notEmpty()
+        .withMessage("Unit Height Fraction is required."),
 
         // Pivot Pro Height - required numeric
         body("pivot_pro_height")
@@ -448,18 +455,15 @@ validate.mirageRules = () => {
         .isNumeric()
         .withMessage("Pivot Pro Height must be a number."),
 
-        // Pivot Pro Height Fraction - optional
+        // Pivot Pro Height Fraction - required
         body("pivot_pro_height_fraction")
-        .optional({ checkFalsy: true }),
+        .notEmpty()
+        .withMessage("Pivot Pro Height Fraction is required."),
 
-        // Bottom Adapter - optional
+        // Bottom Adapter - required
         body("btm_adapter")
-        .optional({ checkFalsy: true })
-        .trim(),
-
-        // Bottom Adapter Color - optional
-        body("bottom_adapter_color")
-        .optional({ checkFalsy: true })
+        .notEmpty()
+        .withMessage("Bottom Adapter is required.")
         .trim(),
 
         // Bottom Adapter Color - required
@@ -476,9 +480,8 @@ validate.mirageRules = () => {
         .isNumeric()
         .withMessage("Bottom Adapter Width must be a number."),
 
-        // Bottom Adapter Width Fraction - optional
+        // Bottom Adapter Width Fraction - required
         body("btm_adapter_width_fraction")
-        .optional({ checkFalsy: true })
         .notEmpty()
         .withMessage("Bottom Adapter Width Fraction is required."),
 
@@ -504,7 +507,7 @@ validate.mirageRules = () => {
         // Mesh - required
         body("mesh")
         .notEmpty()
-        .withMessage("Please select a mesh type.")
+        .withMessage("Mesh is required.")
         .trim(),
 
         // Mohair - required
@@ -521,30 +524,6 @@ validate.mirageRules = () => {
 
         // Bumper Pads - optional (not used yet)
         body("bumper_pads")
-        .optional({ checkFalsy: true })
-        .trim(),
-
-        // Build Out Dimension - optional
-        body("build_out_dimension")
-        .optional({ checkFalsy: true })
-        .trim(),
-
-        // Build Out Dimension Fraction - optional
-        body("build_out_dimension_fraction")
-        .optional({ checkFalsy: true }),
-
-        // Mesh - optional
-        body("mesh")
-        .optional({ checkFalsy: true })
-        .trim(),
-
-        // Mohair - optional
-        body("mohair")
-        .optional({ checkFalsy: true })
-        .trim(),
-
-        // Mohair Position - optional
-        body("mohair_position")
         .optional({ checkFalsy: true })
         .trim()
     ]
