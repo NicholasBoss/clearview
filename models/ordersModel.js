@@ -637,8 +637,8 @@ async function deleteOrder(customization_id){
 async function getOrdersByAccountId(account_id){
     try {
         // NOTE: All users are admins/employees who create orders for customers
-        // This function returns ALL orders (not filtered by account) since all users need to see all orders
-        // The account_id parameter is kept for backward compatibility but not used in filtering
+        // This function returns orders created by the specified account_id
+        // Uses INNER JOIN to order_log to only show orders that have a logged creator
 
         const sql = `
             SELECT
@@ -664,9 +664,11 @@ async function getOrdersByAccountId(account_id){
             LEFT JOIN customer cust ON co.customer_id = cust.customer_id
             LEFT JOIN mirage_3500 m3 ON c.mirage_3500_id = m3.mirage_3500_id
             LEFT JOIN mirage m ON c.mirage_id = m.mirage_id
+            INNER JOIN order_log ol ON o.order_id = ol.order_id
+            WHERE ol.account_id = $1
             ORDER BY c.customization_id DESC
         `
-        const result = await pool.query(sql)
+        const result = await pool.query(sql, [account_id])
         return result.rows
     } catch (error) {
         console.error('Error in getOrdersByAccountId:', error)
