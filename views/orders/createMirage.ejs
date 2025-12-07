@@ -12,7 +12,7 @@
                     </li>
                     <% }) %>
             </ul>
-            <% } %>
+        <% } %>
 
 <form id="form" action="/orders/confirmMirage" method="post">
     <div class="container">
@@ -40,7 +40,7 @@
             <select  name="color_name" id="color">
                 <option value="">Select</option>
                 <% colors.forEach(color => { %>
-                        <option value="<%= color.color_name %>"><%= color.color_name %></option>
+                        <option value="<%= color.color_name %>" <%= formData.color_name === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
                 <% }) %>
             </select>
             <% if (errors) { %>
@@ -55,7 +55,7 @@
             <select  name="pivot_pro_color" id="pivot_pro_color">
                 <option value="">Select</option>
                     <% pivot_colors.forEach(pvt_color => { %>
-                        <option value="<%= pvt_color.color_name %>"><%= pvt_color.color_name %></option>
+                        <option value="<%= pvt_color.color_name %>" <%= formData.pivot_pro_color === pvt_color.color_name ? 'selected' : '' %>><%= pvt_color.color_name %></option>
                 <% }) %>
             </select>
             <% if (errors) { %>
@@ -70,7 +70,7 @@
             <select name="top_adapter" id="top_adapter_id">
                 <option value="">Select</option>
                 <% top_adapters.forEach(top_adapter => { %>
-                    <option value="<%= top_adapter.top_adapter_name %>" <%= formData.top_adapter_id === top_adapter.top_adapter_name ? 'selected' : '' %>><%= top_adapter.top_adapter_name %></option>
+                    <option value="<%= top_adapter.top_adapter_name %>" <%= formData.top_adapter === top_adapter.top_adapter_name ? 'selected' : '' %>><%= top_adapter.top_adapter_name %></option>
                 <% }) %>
             </select>
             <% if (errors) { const error = errors.array().find(e => e.path === 'top_adapter'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
@@ -80,7 +80,7 @@
             <select name="top_adapter_color" id="top_adapter_color">
                 <option value="">Select</option>
                 <% top_adapter_colors.forEach(top_adapter_color => { %>
-                    <option value="<%= top_adapter_color.color_name %>" <%= formData.top_adapter_color_id === top_adapter_color.product_color_id ? 'selected' : '' %>><%= top_adapter_color.color_name %></option>
+                    <option value="<%= top_adapter_color.color_name %>" <%= formData.top_adapter_color === top_adapter_color.color_name ? 'selected' : '' %>><%= top_adapter_color.color_name %></option>
                 <% }) %>
             </select>
             <% if (errors) { const error = errors.array().find(e => e.path === 'top_adapter_color'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
@@ -92,9 +92,9 @@
         </label><br>
         <label><b>Top Adapter Width Fraction</b>
             <select name="top_adapter_width_fraction" id="">
-                <option calue="">Select</option>
+                <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
+                    <option value="<%= fraction.measurement_name %>" <%= formData.top_adapter_width_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
             <% if (errors) { const error = errors.array().find(e => e.path === 'top_adapter_width_fraction'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
@@ -106,9 +106,9 @@
         </label><br>
         <label><b>Opening Height Fraction</b>
             <select name="opening_height_fraction" id="">
-                <option calue="">Select</option>
+                <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
+                <option value="<%= fraction.measurement_name %>" <%= formData.opening_height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
             <% if (errors) { const error = errors.array().find(e => e.path === 'opening_height_fraction'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
@@ -120,9 +120,9 @@
         </label><br>
         <label><b>Unit Height Fraction</b>
             <select name="unit_height_fraction" id="">
-                <option calue="">Select</option>
+                <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
+                <option value="<%= fraction.measurement_name %>" <%= formData.unit_height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
             <% if (errors) { const error = errors.array().find(e => e.path === 'unit_height_fraction'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
@@ -134,9 +134,9 @@
         </label><br>
         <label><b>Pivot Pro Height Fraction</b>
             <select name="pivot_pro_height_fraction" id="">
-                <option calue="">Select</option>
+                <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
+                <option value="<%= fraction.measurement_name %>" <%= formData.pivot_pro_height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
             <% if (errors) { const error = errors.array().find(e => e.path === 'pivot_pro_height_fraction'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
@@ -146,7 +146,7 @@
             <select name="btm_adapter" id="">
                 <option value="">Select</option>
                 <% bottom_adapters.forEach(bottom_adapter => { %>
-                    <option value="<%= bottom_adapter.bottom_adapter_name %>" <%= formData.bottom_adapter_id === bottom_adapter.bottom_adapter_name ? 'selected' : '' %>><%= bottom_adapter.bottom_adapter_name %></option>
+                    <option value="<%= bottom_adapter.bottom_adapter_name %>" <%= formData.btm_adapter === bottom_adapter.bottom_adapter_name ? 'selected' : '' %>><%= bottom_adapter.bottom_adapter_name %></option>
                 <% }) %>
             </select>
             <% if (errors) { const error = errors.array().find(e => e.path === 'btm_adapter'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
@@ -168,9 +168,9 @@
         </label><br>
         <label><b>Bottom Adapter Width Fraction</b>
             <select name="btm_adapter_width_fraction" id="">
-                <option calue="">Select</option>
+                <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
+                    <option value="<%= fraction.measurement_name %>" <%= formData.btm_adapter_width_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
             <% if (errors) { const error = errors.array().find(e => e.path === 'btm_adapter_width_fraction'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
@@ -180,20 +180,20 @@
             <select name="build_out" id="build_out">
                 <option value="">Select</option>
                 <% build_outs.forEach(build_out => { %>
-                    <option value="<%= build_out.buildout_name %>" <%= formData.buildout_id === build_out.buildout_name ? 'selected' : '' %>><%= build_out.buildout_name %></option>
+                    <option value="<%= build_out.buildout_name %>" <%= formData.build_out === build_out.buildout_name ? 'selected' : '' %>><%= build_out.buildout_name %></option>
                 <% }) %>
             </select>
             <% if (errors) { const error = errors.array().find(e => e.path === 'build_out_dimension_fraction'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
         </label><br>
 
          <label><b>Build Out Dimension</b>
-            <input type="text" name="build_out_dimension" id="build_out_dimension">
+            <input type="text" name="build_out_dimension" id="build_out_dimension" value="<%= formData.build_out_dimension || '' %>">
         </label><br>
         <label><b>Build Out Dimension Fraction</b>
             <select name="build_out_dimension_fraction" id="build_out_dimension_fraction">
-                <option calue="">Select</option>
+                <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
+                <option value="<%= fraction.measurement_name %>" <%= formData.build_out_dimension_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
                 <% }) %>
             </select>
             <% if (errors) { %>
@@ -206,7 +206,7 @@
 
         <label><b>Mesh</b>
             <select name="mesh" id="mesh">
-                <option value="">Charcoal 18x14</option>
+                <option value="Charcoal 18x14">Charcoal 18x14</option>
             </select>
             <% if (errors) { const error = errors.array().find(e => e.path === 'mohair'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
         </label><br>
@@ -215,7 +215,7 @@
             <select name="mohair" id="mohair">
                 <option value="">Select</option>
                 <% mohairs.forEach(mohair => { %>
-                    <option value="<%= mohair.mohair_type %>" <%= formData.mohair_id === mohair.mohair_type ? 'selected' : '' %>><%= mohair.mohair_type %></option>
+                    <option value="<%= mohair.mohair_type %>" <%= formData.mohair === mohair.mohair_type ? 'selected' : '' %>><%= mohair.mohair_type %></option>
                 <% }) %>
             </select>
             <% if (errors) { const error = errors.array().find(e => e.path === 'mohair_position'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
@@ -225,7 +225,7 @@
             <select name="mohair_position" id="mohair_position">
                 <option value="">Select</option>
                 <% mohair_positions.forEach(mohair_position => { %>
-                    <option value="<%= mohair_position.mohair_position_name %>" <%= formData.mohair_position_id === mohair_position.mohair_position_name ? 'selected' : '' %>><%= mohair_position.mohair_position_name %></option>
+                    <option value="<%= mohair_position.mohair_position_name %>" <%= formData.mohair_position === mohair_position.mohair_position_name ? 'selected' : '' %>><%= mohair_position.mohair_position_name %></option>
                 <% }) %>
             </select>
             <% if (errors) { const error = errors.array().find(e => e.path === 'mohair_size'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>

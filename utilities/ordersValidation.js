@@ -1,4 +1,5 @@
 const { body, validationResult } = require('express-validator');
+const ordersModel = require('../models/ordersModel')
 const validate = {}
 
 /* *************************************
@@ -477,15 +478,12 @@ validate.mirageRules = () => {
 
         // Bottom Adapter Width Fraction - optional
         body("btm_adapter_width_fraction")
-        .optional({ checkFalsy: true }),
-
-        // Build Out - optional
-        body("build_out")
+        .optional({ checkFalsy: true })
         .notEmpty()
         .withMessage("Bottom Adapter Width Fraction is required."),
 
         // Build Out - required
-        body("buildout")
+        body("build_out")
         .notEmpty()
         .withMessage("Build Out is required.")
         .trim(),
@@ -560,12 +558,38 @@ validate.checkMirage3500Data = async (req, res, next) => {
     if (!errors.isEmpty()) {
         console.log('Validation errors found:', errors.array())
 
+        const fractions = await ordersModel.getMeasurements()
+        const colors = await ordersModel.getColors()
+        const handles = await ordersModel.getHandles()
+        const topAdapters = await ordersModel.getTopAdapters()
+        const bottomAdapters = await ordersModel.getBottomAdapters()
+        const buildouts = await ordersModel.getBuildouts()
+        const meshTypes = await ordersModel.getMeshTypes()
+        const mohairOptions = await ordersModel.getMohair()
+        const mohairPositions = await ordersModel.getMohairPositions()
+        const customers = await ordersModel.getAllCustomers()
+
         // Store errors and form data in session
         req.session.validationErrors = errors.array()
         req.session.formData = req.body
 
         // Redirect back to the create form (POST/Redirect/GET pattern)
-        res.redirect('/orders/createMirage3500')
+        res.render('orders/createMirage3500', {
+                errors,
+                title: 'Create Mirage 3500 Order',
+                link: 'orders/createMirage3500',
+                formData: req.body,
+                fractions,
+                colors,
+                handles,
+                topAdapters,
+                bottomAdapters,
+                buildouts,
+                meshTypes,
+                mohairOptions,
+                mohairPositions,
+                customers
+        })
         return
     }
     next()
@@ -579,12 +603,40 @@ validate.checkMirageData = async (req, res, next) => {
     if (!errors.isEmpty()) {
         console.log('Validation errors found:', errors.array())
 
+        const colors = await ordersModel.getColorsByProduct("Mirage")
+        const pivot_colors = await ordersModel.getPivotColorsByProduct("Mirage")
+        const top_adapter_colors = await ordersModel.getTopAdapterColor("Mirage")
+        const bottom_adapter_colors = await ordersModel.getBottomAdapterColor("Mirage")
+        const top_adapters = await ordersModel.getTopAdapters()
+        const bottom_adapters = await ordersModel.getBottomAdapters()
+        const build_outs = await ordersModel.getBuildOut()
+        const mohairs = await ordersModel.getMohair()
+        const mohair_positions = await ordersModel.getMohairPositions()
+        const fractions = await ordersModel.getMeasurements()
+
         // Store errors and form data in session
         req.session.validationErrors = errors.array()
         req.session.formData = req.body
 
         // Redirect back to the create form (POST/Redirect/GET pattern)
-        res.redirect('/orders/createMirage')
+        res.render('orders/createMirage', {
+                errors,
+                title: 'Create Mirage Order',
+                link: 'orders/createMirage',
+                formData: req.body
+                , colors
+                , pivot_colors
+                , top_adapter_colors
+                , bottom_adapter_colors
+                , bottom_adapters
+                , mohair_positions
+                , measurements
+                , top_adapters
+                , mohairs
+                , fractions
+                , build_outs
+
+        })
         return
     }
     next()
