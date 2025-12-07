@@ -755,11 +755,11 @@ async function getOrderById(customization_id){
                 roh_dim.right_opening_height_name,
                 moh_dim.middle_opening_height_name,
                 mow_dim.middle_opening_width_name,
-                uh_dim.unit_height_name,
-                pph_dim.pivot_pro_height_name,
-                taw_dim.top_adapter_width_name,
-                baw_dim.bottom_adapter_width_name,
-                bd_dim.buildout_dimension_name,
+                -- uh_dim.unit_height_name,
+                -- pph_dim.pivot_pro_height_name,
+                -- taw_dim.top_adapter_width_name,
+                -- baw_dim.bottom_adapter_width_name,
+                -- bd_dim.buildout_dimension_name,
                 cust.customer_firstname,
                 cust.customer_lastname
             FROM customization c
@@ -816,11 +816,11 @@ async function getOrderById(customization_id){
             
             LEFT JOIN middle_opening_height moh_dim ON c.middle_opening_height_id = moh_dim.middle_opening_height_id
             LEFT JOIN middle_opening_width mow_dim ON c.middle_opening_width_id = mow_dim.middle_opening_width_id
-            LEFT JOIN unit_height uh_dim ON c.unit_height_id = uh_dim.unit_height_id
-            LEFT JOIN pivot_pro_height pph_dim ON c.pivot_pro_height_id = pph_dim.pivot_pro_height_id
-            LEFT JOIN top_adapter_width taw_dim ON c.top_adapter_width_id = taw_dim.top_adapter_width_id
-            LEFT JOIN bottom_adapter_width baw_dim ON c.bottom_adapter_width_id = baw_dim.bottom_adapter_width_id
-            LEFT JOIN buildout_dimension bd_dim ON c.buildout_dimension_id = bd_dim.buildout_dimension_id
+            -- LEFT JOIN unit_height uh_dim ON c.unit_height_id = uh_dim.unit_height_id
+            -- LEFT JOIN pivot_pro_height pph_dim ON c.pivot_pro_height_id = pph_dim.pivot_pro_height_id
+            -- LEFT JOIN top_adapter_width taw_dim ON c.top_adapter_width_id = taw_dim.top_adapter_width_id
+            -- LEFT JOIN bottom_adapter_width baw_dim ON c.bottom_adapter_width_id = baw_dim.bottom_adapter_width_id
+            -- LEFT JOIN buildout_dimension bd_dim ON c.buildout_dimension_id = bd_dim.buildout_dimension_id
             WHERE c.customization_id = $1
         `
         const result = await pool.query(sql, [customization_id])
@@ -843,14 +843,14 @@ async function getOrderById(customization_id){
         const bottomWidth = splitMeasurement(row.bottom_opening_width_name)
         const leftHeight = splitMeasurement(row.left_opening_height_name)
         const rightHeight = splitMeasurement(row.right_opening_height_name)
-        const openingHeight = splitMeasurement(row.opening_height_name)
+        const openingHeight = splitMeasurement(row.opening_height_name || row.opening_height)
         const middleOpeningHeight = splitMeasurement(row.middle_opening_height_name)
         const middleOpeningWidth = splitMeasurement(row.middle_opening_width_name)
-        const unitHeight = splitMeasurement(row.unit_height_name)
-        const pivotProHeight = splitMeasurement(row.pivot_pro_height_name)
-        const topAdapterWidth = splitMeasurement(row.top_adapter_width_name)
-        const btmAdapterWidth = splitMeasurement(row.bottom_adapter_width_name)
-        const buildOutDimension = splitMeasurement(row.buildout_dimension_name)
+        const unitHeight = splitMeasurement(row.unit_height_name || row.unit_height)
+        const pivotProHeight = splitMeasurement(row.pivot_pro_height_name || row.pivot_pro_height)
+        const topAdapterWidth = splitMeasurement(row.top_adapter_width_name || row.top_adapter_width)
+        const btmAdapterWidth = splitMeasurement(row.bottom_adapter_width_name || row.bottom_adapter_width)
+        const buildOutDimension = splitMeasurement(row.buildout_dimension_name || row.buildout_name)
 
         // Return data in the format expected by the view (matching form field names)
         return {
@@ -1937,18 +1937,26 @@ async function saveMirageData(formData, account_id) {
         console.log('  -> topAdapterColorId:', topAdapterColorId)
 
         // 5. Handle bottom adapter color
-        console.log('Step 3: Getting btm adapter color_id for:', formData.btm_adapter_color)
-        const btmAdapterColorId = await getOrInsert('color', 'color_name', formData.btm_adapter_color, 'color_id')
+        console.log('Step 3: Getting btm adapter color_id for:', formData.bottom_adapter_color_id)
+        const btmAdapterColorId = await getOrInsert('color', 'color_name', formData.bottom_adapter_color_id, 'color_id')
         console.log('  -> btmAdapterColorId:', btmAdapterColorId)
 
         // 6. Handle top adapter
         console.log('Step 4: Getting top_adapter_id for:', formData.top_adapter)
-        const topAdapterId = await getOrInsert('top_adapter', 'top_adapter_name', formData.top_adapter, 'top_adapter_id')
+        let topAdapterName = formData.top_adapter;
+        if (!topAdapterName || topAdapterName.trim() === '') {
+            topAdapterName = 'None';
+        }
+        const topAdapterId = await getOrInsert('top_adapter', 'top_adapter_name', topAdapterName, 'top_adapter_id')
         console.log('  -> topAdapterId:', topAdapterId)
 
         // 7. Handle bottom adapter
         console.log('Step 5: Getting btm_adapter_id for:', formData.btm_adapter)
-        const btmAdapterId = await getOrInsert('bottom_adapter', 'bottom_adapter_name', formData.btm_adapter, 'bottom_adapter_id')
+        let btmAdapterName = formData.btm_adapter;
+        if (!btmAdapterName || btmAdapterName.trim() === '') {
+            btmAdapterName = 'None';
+        }
+        const btmAdapterId = await getOrInsert('bottom_adapter', 'bottom_adapter_name', btmAdapterName, 'bottom_adapter_id')
         console.log('  -> btmAdapterId:', btmAdapterId)
 
         // 9. Handle mesh
@@ -2124,7 +2132,6 @@ async function saveMirageData(formData, account_id) {
                 opening_height,
                 door_mount,
                 opening_side
-                bottom_adapter_color_id
             ) VALUES (
                 $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17
             ) RETURNING general_retract_control_id
