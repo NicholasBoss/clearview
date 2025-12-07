@@ -751,19 +751,9 @@ async function getOrderById(customization_id){
                 btm_lvl.bottom_level_name,
                 left_plmb.left_plumb_name,
                 right_plmb.right_plumb_name,
-                tow_dim.top_opening_width_name,
-                bow_dim.bottom_opening_width_name,
-                loh_dim.left_opening_height_name,
-                roh_dim.right_opening_height_name,
                 moh_dim.middle_opening_height_name,
                 mow_dim.middle_opening_width_name,
-                -- uh_dim.unit_height_name,
-                -- pph_dim.pivot_pro_height_name,
-                -- taw_dim.top_adapter_width_name,
-                -- baw_dim.bottom_adapter_width_name,
-                -- bd_dim.buildout_dimension_name,
-                cust.customer_firstname,
-                cust.customer_lastname
+                bd_dim.buildout_dimension_name
             FROM customization c
             JOIN product p ON c.product_id = p.product_id
             LEFT JOIN color col ON c.color_id = col.color_id
@@ -807,22 +797,10 @@ async function getOrderById(customization_id){
             LEFT JOIN bottom_level btm_lvl ON c.bottom_level_id = btm_lvl.bottom_level_id
             LEFT JOIN left_plumb left_plmb ON c.left_plumb_id = left_plmb.left_plumb_id
             LEFT JOIN right_plumb right_plmb ON c.right_plumb_id = right_plmb.right_plumb_id
-            LEFT JOIN tow_measurement tow ON c.measurement_id = tow.measurement_id
-            LEFT JOIN top_opening_width tow_dim ON tow.top_opening_width_id = tow_dim.top_opening_width_id
-            LEFT JOIN bow_measurement bow ON c.measurement_id = bow.measurement_id
-            LEFT JOIN bottom_opening_width bow_dim ON bow.bottom_opening_width_id = bow_dim.bottom_opening_width_id
-            LEFT JOIN loh_measurement loh ON c.measurement_id = loh.measurement_id
-            LEFT JOIN left_opening_height loh_dim ON loh.left_opening_height_id = loh_dim.left_opening_height_id
-            LEFT JOIN roh_measurement roh ON c.measurement_id = roh.measurement_id
-            LEFT JOIN right_opening_height roh_dim ON roh.right_opening_height_id = roh_dim.right_opening_height_id
-            
+
             LEFT JOIN middle_opening_height moh_dim ON c.middle_opening_height_id = moh_dim.middle_opening_height_id
             LEFT JOIN middle_opening_width mow_dim ON c.middle_opening_width_id = mow_dim.middle_opening_width_id
-            -- LEFT JOIN unit_height uh_dim ON c.unit_height_id = uh_dim.unit_height_id
-            -- LEFT JOIN pivot_pro_height pph_dim ON c.pivot_pro_height_id = pph_dim.pivot_pro_height_id
-            -- LEFT JOIN top_adapter_width taw_dim ON c.top_adapter_width_id = taw_dim.top_adapter_width_id
-            -- LEFT JOIN bottom_adapter_width baw_dim ON c.bottom_adapter_width_id = baw_dim.bottom_adapter_width_id
-            -- LEFT JOIN buildout_dimension bd_dim ON c.buildout_dimension_id = bd_dim.buildout_dimension_id
+            LEFT JOIN buildout_dimension bd_dim ON grc.buildout_dimension_id = bd_dim.buildout_dimension_id
             WHERE c.customization_id = $1
         `
         const result = await pool.query(sql, [customization_id])
@@ -1582,45 +1560,37 @@ async function saveMirage3500Data(formData, account_id) {
         // 20. Handle all measurements with their fractions
         console.log('Processing measurements...')
 
-        // Top Opening Width
-        const topOpeningWidthId = await handleMeasurementWithJunction(
-            'top_opening_width',
-            'top_opening_width_name',
-            'top_opening_width_id',
-            'tow_measurement',
+        // Top Opening Width - save to database
+        const topOpeningWidthValue = combineMeasurement(
             formData.top_opening_width,
             formData.top_opening_width_fraction
         )
+        const topOpeningWidthId = topOpeningWidthValue ?
+            await getOrInsert('top_opening_width', 'top_opening_width_name', topOpeningWidthValue, 'top_opening_width_id') : null
 
-        // Bottom Opening Width
-        const bottomOpeningWidthId = await handleMeasurementWithJunction(
-            'bottom_opening_width',
-            'bottom_opening_width_name',
-            'bottom_opening_width_id',
-            'bow_measurement',
+        // Bottom Opening Width - save to database
+        const bottomOpeningWidthValue = combineMeasurement(
             formData.bottom_opening_width,
             formData.bottom_opening_width_fraction
         )
+        const bottomOpeningWidthId = bottomOpeningWidthValue ?
+            await getOrInsert('bottom_opening_width', 'bottom_opening_width_name', bottomOpeningWidthValue, 'bottom_opening_width_id') : null
 
-        // Left Opening Height
-        const leftOpeningHeightId = await handleMeasurementWithJunction(
-            'left_opening_height',
-            'left_opening_height_name',
-            'left_opening_height_id',
-            'loh_measurement',
+        // Left Opening Height - save to database
+        const leftOpeningHeightValue = combineMeasurement(
             formData.left_opening_height,
             formData.left_opening_height_fraction
         )
+        const leftOpeningHeightId = leftOpeningHeightValue ?
+            await getOrInsert('left_opening_height', 'left_opening_height_name', leftOpeningHeightValue, 'left_opening_height_id') : null
 
-        // Right Opening Height
-        const rightOpeningHeightId = await handleMeasurementWithJunction(
-            'right_opening_height',
-            'right_opening_height_name',
-            'right_opening_height_id',
-            'roh_measurement',
+        // Right Opening Height - save to database
+        const rightOpeningHeightValue = combineMeasurement(
             formData.right_opening_height,
             formData.right_opening_height_fraction
         )
+        const rightOpeningHeightId = rightOpeningHeightValue ?
+            await getOrInsert('right_opening_height', 'right_opening_height_name', rightOpeningHeightValue, 'right_opening_height_id') : null
 
         // Middle Opening Width - save to database
         const middleOpeningWidthValue = combineMeasurement(
@@ -1638,37 +1608,29 @@ async function saveMirage3500Data(formData, account_id) {
         const middleOpeningHeightId = middleOpeningHeightValue ?
             await getOrInsert('middle_opening_height', 'middle_opening_height_name', middleOpeningHeightValue, 'middle_opening_height_id') : null
 
-        // Top Adapter Width - save to database
+        // Top Adapter Width - stored as VARCHAR in general_retract_control
         const topAdapterWidthValue = combineMeasurement(
             formData.top_adapter_width,
             formData.top_adapter_width_fraction
         )
-        const topAdapterWidthId = topAdapterWidthValue ?
-            await getOrInsert('top_adapter_width', 'top_adapter_width_name', topAdapterWidthValue, 'top_adapter_width_id') : null
 
-        // Unit Height - save to database
+        // Unit Height - stored as VARCHAR in general_retract_control
         const unitHeightValue = combineMeasurement(
             formData.unit_height,
             formData.unit_height_fraction
         )
-        const unitHeightId = unitHeightValue ?
-            await getOrInsert('unit_height', 'unit_height_name', unitHeightValue, 'unit_height_id') : null
 
-        // Pivot Pro Height - save to database
+        // Pivot Pro Height - stored as VARCHAR in general_retract_control
         const pivotProHeightValue = combineMeasurement(
             formData.pivot_pro_height,
             formData.pivot_pro_height_fraction
         )
-        const pivotProHeightId = pivotProHeightValue ?
-            await getOrInsert('pivot_pro_height', 'pivot_pro_height_name', pivotProHeightValue, 'pivot_pro_height_id') : null
 
-        // Bottom Adapter Width - save to database
+        // Bottom Adapter Width - stored as VARCHAR in general_retract_control
         const btmAdapterWidthValue = combineMeasurement(
             formData.btm_adapter_width,
             formData.btm_adapter_width_fraction
         )
-        const btmAdapterWidthId = btmAdapterWidthValue ?
-            await getOrInsert('bottom_adapter_width', 'bottom_adapter_width_name', btmAdapterWidthValue, 'bottom_adapter_width_id') : null
 
         // Build Out Dimension - save to database
         const buildOutDimensionValue = combineMeasurement(
@@ -1743,11 +1705,11 @@ async function saveMirage3500Data(formData, account_id) {
                 buildout_id,
                 bottom_adapter_id,
                 bottom_adapter_color_id,
+                buildout_dimension_id,
                 top_adapter_width,
                 unit_height,
                 pivot_pro_height,
-                bottom_adapter_width,
-                buildout_dimension
+                bottom_adapter_width
             ) VALUES (
                 $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16
             ) RETURNING general_retract_control_id
@@ -1765,11 +1727,11 @@ async function saveMirage3500Data(formData, account_id) {
             buildoutId,                   // $9
             btmAdapterId,                 // $10
             btmAdapterColorJunctionId,    // $11 - bottom_adapter_color junction table ID
-            topAdapterWidthValue,         // $12 - VARCHAR measurement
-            unitHeightValue,              // $13 - VARCHAR measurement
-            pivotProHeightValue,          // $14 - VARCHAR measurement
-            btmAdapterWidthValue,         // $15 - VARCHAR measurement
-            buildOutDimensionValue        // $16 - VARCHAR measurement
+            buildOutDimensionId,          // $12 - dimension table ID
+            topAdapterWidthValue,         // $13 - VARCHAR measurement
+            unitHeightValue,              // $14 - VARCHAR measurement
+            pivotProHeightValue,          // $15 - VARCHAR measurement
+            btmAdapterWidthValue          // $16 - VARCHAR measurement
         ])
 
         const generalRetractControlId = generalRetractControlResult.rows[0].general_retract_control_id
