@@ -357,7 +357,7 @@
 <script>
     // Add confirmation popup when form is submitted
     document.getElementById('form').addEventListener('submit', function(event) {
-        const confirmed = confirm('Are you sure you want to confirm and submit this order? This will save the order to the database.');
+        const confirmed = confirm('Are you sure you want to confirm and submit this order?');
         if (!confirmed) {
             event.preventDefault(); // Prevent form submission if user clicks Cancel
         } else {
