@@ -395,12 +395,71 @@ ordersController.buildCreateRainier = async function(req, res){
 
     })
 }
+
+ordersController.processRainierForm = async function(req, res){
+    try {
+        console.log('========== PROCESS RAINIER FORM ==========')
+        console.log('Form body received:', JSON.stringify(req.body, null, 2))
+        
+        // Store form data in session for confirm page
+        req.session.rainierData = req.body
+        
+        console.log('Rainier form data stored in session, redirecting to confirm page')
+        res.redirect('/orders/confirmRainier')
+    } catch (error) {
+        console.error('Error processing Rainier form:', error)
+        req.flash('error', 'Failed to process order. Please try again.')
+        res.redirect('/orders/createRainier')
+    }
+}
+
 ordersController.buildConfirmRainier = async function(req, res){
+    const formData = req.session.rainierData || {}
+    
     res.render('orders/confirmRainier', {
-        title: 'Confirm order',
+        title: 'Confirm Rainier Order',
         link: 'orders/confirmRainier',
-        errors: null
+        errors: null,
+        formData: formData
     })
+}
+
+ordersController.saveRainierOrder = async function(req, res){
+    try {
+        console.log('========== SAVE RAINIER ORDER START ==========')
+        
+        // Get form data from session
+        const formData = req.session.rainierData
+        console.log('Form data from session:', formData)
+        
+        if (!formData) {
+            console.log('ERROR: No form data in session!')
+            throw new Error('No order data found. Please start over.')
+        }
+        
+        // Get account_id from logged-in user
+        const account_id = res.locals.accountData.account_id
+        console.log('Account ID:', account_id)
+        
+        // NOW save to database
+        console.log('Calling saveRainierData...')
+        const result = await ordersModel.saveRainierData(formData, account_id)
+        
+        console.log('Rainier Order saved to database, customization_id:', result.customization_id)
+        console.log('========== SAVE RAINIER ORDER SUCCESS ==========')
+        
+        // Clear session data
+        delete req.session.rainierData
+        
+        req.flash('notice', 'Rainier order confirmed successfully!')
+        res.redirect('/account')
+    } catch (error) {
+        console.log('========== SAVE RAINIER ORDER FAILED ==========')
+        console.error('Error details:', error.message)
+        console.error('Full error:', error)
+        req.flash('error', 'Failed to save order: ' + error.message)
+        res.redirect('/orders/createRainier')
+    }
 }
 
 ordersController.buildCreateNWS = async function(req, res){

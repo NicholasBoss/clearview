@@ -621,4 +621,56 @@ validate.checkMirageData = async (req, res, next) => {
     next()
 }
 
+/* *********************************************************
+* Rainier Validation Rules
+********************************************************** */
+validate.rainierRules = () => {
+    return [
+        // Customer First Name - required
+        body("customer_firstname")
+        .notEmpty()
+        .withMessage("Customer First Name is required.")
+        .trim()
+        .isLength({ min: 1 })
+        .withMessage("Customer First Name must be at least 1 character."),
+
+        // Customer Last Name - required
+        body("customer_lastname")
+        .notEmpty()
+        .withMessage("Customer Last Name is required.")
+        .trim()
+        .isLength({ min: 1 })
+        .withMessage("Customer Last Name must be at least 1 character."),
+
+        // Placement - required
+        body("rainier_placement")
+        .notEmpty()
+        .withMessage("Placement is required."),
+
+        // Fabric & Color - required
+        body("fabric_color")
+        .notEmpty()
+        .withMessage("Fabric & Color is required.")
+    ]
+}
+
+/* *********************************************************
+* Check Rainier data and return errors or continue to confirmation
+********************************************************** */
+validate.checkRainierData = async (req, res, next) => {
+    let errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        console.log('Validation errors found:', errors.array())
+
+        // Store errors and form data in session
+        req.session.validationErrors = errors.array()
+        req.session.formData = req.body
+
+        // Redirect back to the create form (POST/Redirect/GET pattern)
+        res.redirect('/orders/createRainier')
+        return
+    }
+    next()
+}
+
 module.exports = validate

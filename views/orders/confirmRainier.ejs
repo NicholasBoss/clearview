@@ -1,270 +1,236 @@
-<h1>Confirm Rainier</h1>
+<% if (title) { %>
+    <h1><%= title %></h1>
+<% } else { %>
+    <h1>Confirm Rainier Order</h1>
+<% } %>
 
-<form id="form" action="" method="post">
+<div class="confirmation-notice">
+    <h2>Please Review Your Order</h2>
+    <p>Check all details below. If everything is correct, click "Confirm Order" to save.</p>
+</div>
+
+<form id="form" action="/orders/saveRainier" method="post">
     <div class="container">
-        <label><b>Placement</b>
-            <select name="rainier_placement" id="">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-            </select>
-        </label><br>
-        <label><b>Hardware Color</b>
-            <select name="rainier_color" id="">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
-                <option value="">16</option>
-                <option value="">17</option>
-                <option value="">18</option>
-                <option value="">19</option>
-            </select>
-        </label><br>
-        <label><b>Fabric & Color</b>
-            <select name="rainier_placement" id="">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
-                <option value="">16</option>
-                <option value="">17</option>
-                <option value="">18</option>
-                <option value="">19</option>
-                <option value="">20</option>
-                <option value="">21</option>
-                <option value="">22</option>
-                <option value="">23</option>
-                <option value="">24</option>
-                <option value="">25</option>
-                <option value="">26</option>
-                <option value="">27</option>
-                <option value="">28</option>
-                <option value="">29</option>
-                <option value="">30</option>
-                <option value="">31</option>
-            </select>
-        </label><br>
-        <label><b>Housing Series</b>
-            <select name="housing_series" id="">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-            </select>
-        </label><br>
-        <label><b>Drive Side</b>
-            <select name="drive_side" id="">
-                <option value="">1</option>
-                <option value="">2</option>
-            </select>
-        </label><br>
-        <label><b>Hembar</b>
-            <select name="hembar_name" id="">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-            </select>
-        </label><br>
-        <label><b>Pile Brush</b>
-            <select name="pile_brush" id="">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-            </select>
-        </label><br>
-        <label><b>Brush Location</b>
-            <select name="brush_location" id="">
-                <option value="">1</option>
-                <option value="">2</option>
-            </select>
-        </label><br>
-        <label><b>Zipper Color</b>
-            <select name="zipper_color" id="">
-                <option value="">1</option>
-                <option value="">2</option>
-            </select>
-        </label><br>
-        <label><b>Cord Length</b>
-            <select name="cord_length" id="">
-                <option value="">1</option>
-                <option value="">2</option>
-            </select>
-        </label><br>
-        <label><b>Mount Type</b>
-            <select name="mount_type" id="">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-            </select>
-        </label><br>
-        <label><b>Top Opening Width</b>
-            <input type="text" name="top_opening_width" id="">
-        </label><br>
-        <label><b>Top Opening Width Inch</b>
-            <select name="top_opening_width_inch" id="">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
-            </select>
-        </label><br>
-        <label><b>Top Level</b>
-            <input type="text" name="top_level" id="">
-        </label><br>
-        <label><b>Bottom Opening Width</b>
-            <input type="text" name="bottom_opening_width" id="">
-        </label><br>
-        <label><b>Bottom Opening Width Inch</b>
-            <select name="bottom_opening_width_inch" id="">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
-            </select>
-        </label><br>
-        <label><b>Bottom Level</b>
-            <input type="text" name="bottom_level" id="">
-        </label><br>
-        <label><b>Left Opening Height</b>
-            <input type="text" name="left_opening_height" id="">
-        </label><br>
-        <label><b>Left Opening Height Inch</b>
-            <select name="left_opening_height_inch" id="">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
-            </select>
-        </label><br>
-        <label><b>Left Plumb</b>
-            <input type="text" name="left_plumb" id="">
-        </label><br>
-        <label><b>Right Opening Height</b>
-            <input type="text" name="right_opening_height" id="">
-        </label><br>
-        <label><b>Right Opening Height Inch</b>
-            <select name="right_opening_height_inch" id="">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
-            </select>
-        </label><br>
-        <label><b>Right Plumb</b>
-            <input type="text" name="right_plumb" id="">
-        </label><br>
-        <label><b>Left Build Out</b>
-            <select name="left_build_out" id="">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-            </select>
-        </label><br>
-        <label><b>Right Build Out</b>
-            <select name="right_build_out" id="">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-            </select>
-        </label><br>
-        <label><b>Add Build Out</b>
-            <input type="text" name="add_build_out" id="">
-        </label><br>
-        <label><b>Left Track</b>
-            <select name="left_track" id="">
-                <option value="">1</option>
-                <option value="">2</option>
-            </select>
-        </label><br>
-        <label><b>Right Track</b>
-            <select name="right_track" id="">
-                <option value="">1</option>
-                <option value="">2</option>
-            </select>
-        </label><br>
-        <label><b>Starting Point</b>
-            <input type="text" name="starting_point" id="">
-        </label><br>
-        
+        <!-- Customer Info -->
+        <fieldset>
+            <legend>Customer Information</legend>
+            <label><b>First Name</b>
+                <input type="text" name="customer_firstname" value="<%= formData.customer_firstname %>" readonly>
+            </label>
+            <label><b>Last Name</b>
+                <input type="text" name="customer_lastname" value="<%= formData.customer_lastname %>" readonly>
+            </label>
+        </fieldset>
+
+        <!-- Product Specs -->
+        <fieldset>
+            <legend>Product Specifications</legend>
+            
+            <label><b>Placement</b>
+                <input type="text" name="rainier_placement" value="<%= formData.rainier_placement %>" readonly>
+            </label>
+
+            <label><b>Hardware Color</b>
+                <input type="text" name="rainier_color" value="<%= formData.rainier_color %>" readonly>
+            </label>
+
+            <label><b>Fabric & Color</b>
+                <input type="text" name="fabric_color" value="<%= formData.fabric_color %>" readonly>
+            </label>
+
+            <label><b>Housing Series</b>
+                <input type="text" name="housing_series" value="<%= formData.housing_series %>" readonly>
+            </label>
+
+            <label><b>Drive Side</b>
+                <input type="text" name="drive_side" value="<%= formData.drive_side %>" readonly>
+            </label>
+
+            <label><b>Hembar</b>
+                <input type="text" name="hembar_name" value="<%= formData.hembar_name %>" readonly>
+            </label>
+
+            <label><b>Pile Brush</b>
+                <input type="text" name="pile_brush" value="<%= formData.pile_brush %>" readonly>
+            </label>
+
+            <label><b>Brush Location</b>
+                <input type="text" name="brush_location" value="<%= formData.brush_location %>" readonly>
+            </label>
+
+            <label><b>Zipper Color</b>
+                <input type="text" name="zipper_color" value="<%= formData.zipper_color %>" readonly>
+            </label>
+
+            <label><b>Cord Length</b>
+                <input type="text" name="cord_length" value="<%= formData.cord_length %>" readonly>
+            </label>
+
+            <label><b>Mount Type</b>
+                <input type="text" name="mount_type" value="<%= formData.mount_type %>" readonly>
+            </label>
+        </fieldset>
+
+        <!-- Measurements -->
+        <fieldset>
+            <legend>Measurements</legend>
+            
+            <div class="measurement-row">
+                <label><b>Top Opening Width</b>
+                    <input type="text" name="top_opening_width" value="<%= formData.top_opening_width %>" readonly>
+                </label>
+                <label><b>Inches</b>
+                    <input type="text" name="top_opening_width_inch" value="<%= formData.top_opening_width_inch %>" readonly>
+                </label>
+            </div>
+
+            <label><b>Top Level</b>
+                <input type="text" name="top_level" value="<%= formData.top_level %>" readonly>
+            </label>
+
+            <div class="measurement-row">
+                <label><b>Bottom Opening Width</b>
+                    <input type="text" name="bottom_opening_width" value="<%= formData.bottom_opening_width %>" readonly>
+                </label>
+                <label><b>Inches</b>
+                    <input type="text" name="bottom_opening_width_inch" value="<%= formData.bottom_opening_width_inch %>" readonly>
+                </label>
+            </div>
+
+            <label><b>Bottom Level</b>
+                <input type="text" name="bottom_level" value="<%= formData.bottom_level %>" readonly>
+            </label>
+
+            <div class="measurement-row">
+                <label><b>Left Opening Height</b>
+                    <input type="text" name="left_opening_height" value="<%= formData.left_opening_height %>" readonly>
+                </label>
+                <label><b>Inches</b>
+                    <input type="text" name="left_opening_height_inch" value="<%= formData.left_opening_height_inch %>" readonly>
+                </label>
+            </div>
+
+            <label><b>Left Plumb</b>
+                <input type="text" name="left_plumb" value="<%= formData.left_plumb %>" readonly>
+            </label>
+
+            <div class="measurement-row">
+                <label><b>Right Opening Height</b>
+                    <input type="text" name="right_opening_height" value="<%= formData.right_opening_height %>" readonly>
+                </label>
+                <label><b>Inches</b>
+                    <input type="text" name="right_opening_height_inch" value="<%= formData.right_opening_height_inch %>" readonly>
+                </label>
+            </div>
+
+            <label><b>Right Plumb</b>
+                <input type="text" name="right_plumb" value="<%= formData.right_plumb %>" readonly>
+            </label>
+        </fieldset>
+
+        <!-- Buildouts & Tracks -->
+        <fieldset>
+            <legend>Buildouts & Tracks</legend>
+            
+            <label><b>Left Build Out</b>
+                <input type="text" name="left_build_out" value="<%= formData.left_build_out %>" readonly>
+            </label>
+
+            <label><b>Right Build Out</b>
+                <input type="text" name="right_build_out" value="<%= formData.right_build_out %>" readonly>
+            </label>
+
+            <label><b>Add Build Out</b>
+                <input type="text" name="add_build_out" value="<%= formData.add_build_out %>" readonly>
+            </label>
+
+            <label><b>Left Track</b>
+                <input type="text" name="left_track" value="<%= formData.left_track %>" readonly>
+            </label>
+
+            <label><b>Right Track</b>
+                <input type="text" name="right_track" value="<%= formData.right_track %>" readonly>
+            </label>
+        </fieldset>
+
+        <div class="confirmation-actions">
+            <button class="btn-confirm" type="submit">Confirm Order</button>
+            <a href="/orders/createRainier" class="btn-back">Back to Edit</a>
+        </div>
     </div>
 </form>
+
+<style>
+    .confirmation-notice {
+        background-color: #e9ecef;
+        padding: 1rem;
+        border-radius: 4px;
+        margin-bottom: 1.5rem;
+        border-left: 5px solid #007bff;
+    }
+    
+    fieldset {
+        border: 1px solid #ddd;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+    }
+    
+    legend {
+        font-weight: bold;
+        padding: 0 10px;
+    }
+
+    .measurement-row {
+        display: flex;
+        gap: 20px;
+    }
+
+    .measurement-row label {
+        flex: 1;
+    }
+    
+    .btn-confirm {
+        background-color: #28a745;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-right: 10px;
+    }
+    
+    .btn-confirm:hover {
+        background-color: #218838;
+    }
+    
+    .btn-back {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #6c757d;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+    }
+    
+    .btn-back:hover {
+        background-color: #5a6268;
+    }
+    
+    input[readonly] {
+        background-color: #f8f9fa;
+        border: 1px solid #ced4da;
+        color: #495057;
+        padding: 8px;
+        width: 100%;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+    }
+    
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+</style>
