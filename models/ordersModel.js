@@ -2771,10 +2771,8 @@ async function saveNWSData(formData, account_id) {
     }
 }
 
-
-
 // Function to confirm Mirage 3500 order
-async function confirmMirage3500Order(customizationId) {
+async function confirmNWSOrder(customizationId) {
     try {
         // Update order_customization to set is_confirmed = TRUE
         // Both is_estimate and is_confirmed should be TRUE after confirmation (per Peter.txt line 64)
@@ -2794,6 +2792,56 @@ async function confirmMirage3500Order(customizationId) {
         return { customization_id: customizationId }
     } catch (error) {
         console.error('Error in confirmMirage3500Order:', error)
+        throw error
+    }
+}
+
+// Function to complete NWS order
+async function completeNWSOrder(customizationId) {
+    try {
+        // Update order_customization to set is_completed = TRUE
+        const updateSql = `
+            UPDATE order_customization
+            SET is_completed = TRUE
+            WHERE customization_id = $1
+            RETURNING order_customization_id
+        `
+        const result = await pool.query(updateSql, [customizationId])
+
+        if (result.rows.length === 0) {
+            throw new Error('Order customization not found')
+        }
+
+        console.log('Order completed: is_completed set to TRUE for customization_id:', customizationId)
+
+        return { customization_id: customizationId }
+    } catch (error) {
+        console.error('Error in completeNWSOrder:', error)
+        throw error
+    }
+}
+
+// Function to confirm NWS order
+async function confirmNWSOrder(customizationId) {
+    try {
+        // Update order_customization to set is_confirmed = TRUE
+        // Both is_estimate and is_confirmed should be TRUE after confirmation (per Peter.txt line 64)
+        const updateSql = `
+            UPDATE order_customization
+            SET is_confirmed = TRUE
+            WHERE customization_id = $1
+            RETURNING order_customization_id
+        `
+        const result = await pool.query(updateSql, [customizationId])
+
+        if (result.rows.length === 0) {
+            throw new Error('Order customization not found')
+        }
+
+        console.log('Order confirmed: is_confirmed set to TRUE for customization_id:', customizationId)
+        return { customization_id: customizationId }
+    } catch (error) {
+        console.error('Error in confirmNWSOrder:', error)
         throw error
     }
 }
