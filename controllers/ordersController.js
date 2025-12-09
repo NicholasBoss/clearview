@@ -841,6 +841,7 @@ ordersController.saveCustomer = async function(req, res){
                 , address_zip)
 
             if (newCustomer) {
+                console.log('New customer created:', newCustomer)
                 // save customer firstname and lastname to session to be used in create order page
                 req.session.customer_firstname = newCustomer.customer_firstname
                 req.session.customer_lastname = newCustomer.customer_lastname

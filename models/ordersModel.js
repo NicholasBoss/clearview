@@ -2683,6 +2683,7 @@ async function findCustomerByName(firstname, lastname) {
 // Create a new customer
 async function createCustomer(firstname, lastname, address_line1, address_line2, address_city, address_state, address_zip) {
     try {
+        console.log('Creating customer with data:', {firstname, lastname, address_line1, address_line2, address_city, address_state, address_zip})
         // insert address, then customer, then customer_address
         const addressSql = 'INSERT INTO address (address_line1, address_line2, address_city, address_state, address_zip) VALUES ($1, $2, $3, $4, $5) RETURNING address_id'
         const addressResult = await pool.query(addressSql, [address_line1, address_line2, address_city, address_state, address_zip])
@@ -2692,6 +2693,8 @@ async function createCustomer(firstname, lastname, address_line1, address_line2,
         const sql = 'INSERT INTO customer (customer_firstname, customer_lastname) VALUES ($1, $2) RETURNING customer_id, customer_firstname, customer_lastname'
         const result = await pool.query(sql, [firstname, lastname])
         const cust_info = result.rows[0]
+
+        // console.log('Created customer:', cust_info)
 
         const customerAddressSql = 'INSERT INTO customer_address (customer_id, address_id) VALUES ($1, $2) RETURNING customer_address_id'
         await pool.query(customerAddressSql, [cust_info.customer_id, addressId])
