@@ -1,8 +1,39 @@
 
 <h1>Create New Window Screen Order</h1>
 
-<form action="/orders/createNWS" method="post">
+<script>
+  // Auto-fill customer name from session storage if available
+  document.addEventListener('DOMContentLoaded', function() {
+    const selectedCustomer = sessionStorage.getItem('selectedCustomerId');
+    if (selectedCustomer) {
+      const [firstName, lastName] = selectedCustomer.split(' ');
+      if (firstName) document.getElementById('customer_firstname').value = firstName;
+      if (lastName) document.getElementById('customer_lastname').value = lastName;
+    }
+  });
+</script>
+
+<form action="/orders/create" method="post">
     <div class="container">
+        <label class="required-field"><b>Customer First Name</b>
+            <input type="text" name="customer_firstname" id="customer_firstname" value="<%= formData.customer_firstname || '' %>" placeholder="Enter customer first name" required <%= errors && errors.array().find(e => e.path === 'customer_firstname') ? 'class="error-input"' : '' %>>
+            <% if (errors) { %>
+                <% const error = errors.array().find(e => e.path === 'customer_firstname') %>
+                <% if (error) { %>
+                    <span class="error-message"><%= error.msg %></span>
+                <% } %>
+            <% } %>
+        </label><br>
+
+        <label class="required-field"><b>Customer Last Name</b>
+            <input type="text" name="customer_lastname" id="customer_lastname" value="<%= formData.customer_lastname || '' %>" placeholder="Enter customer last name" required <%= errors && errors.array().find(e => e.path === 'customer_lastname') ? 'class="error-input"' : '' %>>
+            <% if (errors) { %>
+                <% const error = errors.array().find(e => e.path === 'customer_lastname') %>
+                <% if (error) { %>
+                    <span class="error-message"><%= error.msg %></span>
+                <% } %>
+            <% } %>
+        </label><br>
         <label><b>Quantity</b>
             <input type="text" name="quantity" id="">
         </label><br>

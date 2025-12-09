@@ -88,8 +88,7 @@ ordersController.buildCreateMirage3500 = async function(req, res){
     const handles = await ordersModel.getHandles()
     const topAdapters = await ordersModel.getTopAdapters()
     const bottomAdapters = await ordersModel.getBottomAdapters()
-    const rightBuildouts = await ordersModel.getRightBuildouts()
-    const leftBuildouts = await ordersModel.getLeftBuildouts()
+    const buildouts = await ordersModel.getBuildouts()
     const meshTypes = await ordersModel.getMeshTypes()
     const mohairOptions = await ordersModel.getMohair()
     const mohairPositions = await ordersModel.getMohairPositions()
@@ -124,8 +123,7 @@ ordersController.buildCreateMirage3500 = async function(req, res){
         handles: handles || [],
         topAdapters: topAdapters || [],
         bottomAdapters: bottomAdapters || [],
-        rightBuildouts: rightBuildouts || [],
-        leftBuildouts: leftBuildouts || [],
+        buildouts: buildouts || [],
         meshTypes: meshTypes || [],
         mohairOptions: mohairOptions || [],
         mohairPositions: mohairPositions || [],
@@ -165,8 +163,7 @@ ordersController.buildConfirmMirage3500 = async function(req, res){
     const handles = await ordersModel.getHandles()
     const topAdapters = await ordersModel.getTopAdapters()
     const bottomAdapters = await ordersModel.getBottomAdapters()
-    const rightBuildouts = await ordersModel.getRightBuildouts()
-    const leftBuildouts = await ordersModel.getLeftBuildouts()
+    const buildouts = await ordersModel.getBuildouts()
     const meshTypes = await ordersModel.getMeshTypes()
     const mohairOptions = await ordersModel.getMohair()
     const mohairPositions = await ordersModel.getMohairPositions()
@@ -182,8 +179,7 @@ ordersController.buildConfirmMirage3500 = async function(req, res){
         handles: handles || [],
         topAdapters: topAdapters || [],
         bottomAdapters: bottomAdapters || [],
-        rightBuildouts: rightBuildouts || [],
-        leftBuildouts: leftBuildouts || [],
+        buildouts: buildouts || [],
         meshTypes: meshTypes || [],
         mohairOptions: mohairOptions || [],
         mohairPositions: mohairPositions || [],
@@ -234,17 +230,31 @@ ordersController.buildCreateMirage = async function(req, res){
     measurements = await ordersModel.getMeasurements()
     console.log(top_adapter_colors)
 
+    // Check for validation errors and form data in session
+    let errors = null
+    let formData = {}
+    
+    if (req.session.validationErrors) {
+        // Wrap errors in an object with array() method to match express-validator interface expected by view
+        errors = { array: () => req.session.validationErrors }
+        formData = req.session.formData
+        
+        // Clear from session
+        delete req.session.validationErrors
+        delete req.session.formData
+    }
+
     res.render('orders/createMirage', {
         title: 'Create Mirage order',
         link: 'orders/createMirage',
-        errors: null,
+        errors: errors,
         colors: colors,
         pivot_colors: pivot_colors,
         top_adapters: top_adapter,
         top_adapter_colors: top_adapter_colors,
         bottom_adapters: bottom_adapter,
         bottom_adapter_colors: bottom_adapter_colors,
-        formData: ["dummy"],
+        formData: formData,
         build_outs: buildout,
         meshes: ["Charcoal 18x14"],
         mohairs: mohair,
@@ -255,14 +265,17 @@ ordersController.buildCreateMirage = async function(req, res){
 
 ordersController.processMirageForm = async function(req, res){
     try {
+        console.log('========== PROCESS MIRAGE FORM ==========')
+        console.log('Form body received:', JSON.stringify(req.body, null, 2))
+        
+        // Store form data in session for confirm page - DO NOT save to DB yet
         req.session.mirageData = req.body
-        const result = await ordersModel.saveMirageData(req.body)
-        req.session.mirageOrderId = result.customization_id
-        console.log('Mirage Order created with is_estimate=true, customization_id:', result.customization_id)
+        
+        console.log('Mirage form data stored in session, redirecting to confirm page')
         res.redirect('/orders/confirmMirage')
     } catch (error) {
         console.error('Error processing Mirage form:', error)
-        req.flash('error', 'Failed to save order. Please try again.')
+        req.flash('error', 'Failed to process order. Please try again.')
         res.redirect('/orders/createMirage')
     }
 }
@@ -270,48 +283,52 @@ ordersController.processMirageForm = async function(req, res){
 ordersController.buildConfirmMirage = async function(req, res){
     const formData = req.session.mirageData || {}
     
-    const fractions = await ordersModel.getMeasurements()
-    const colors = await ordersModel.getColors()
-    const pivotProColors = await ordersModel.getPivotProColors()
-    const topAdapters = await ordersModel.getTopAdapters()
-    const bottomAdapters = await ordersModel.getBottomAdapters()
-    const meshTypes = await ordersModel.getMeshTypes()
-    const mohairOptions = await ordersModel.getMohair()
-    const mohairPositions = await ordersModel.getMohairPositions()
-    const customers = await ordersModel.getAllCustomers()
-
+    console.log('========== BUILD CONFIRM MIRAGE ==========')
+    console.log('Session mirageData:', JSON.stringify(formData, null, 2))
+    
     res.render('orders/confirmMirage', {
         title: 'Confirm Mirage order',
         link: 'orders/confirmMirage',
         errors: null,
-        formData: formData,
-        fractions: fractions || [],
-        colors: colors || [],
-        pivotProColors: pivotProColors || [],
-        topAdapters: topAdapters || [],
-        bottomAdapters: bottomAdapters || [],
-        meshTypes: meshTypes || [],
-        mohairOptions: mohairOptions || [],
-        mohairPositions: mohairPositions || [],
-        customers: customers || []
+        formData: formData
     })
 }
 
 ordersController.saveMirageOrder = async function(req, res){
     try {
-        const customizationId = req.session.mirageOrderId
-        if (!customizationId) {
-            throw new Error('No order found to confirm. Please start over.')
+        console.log('========== SAVE MIRAGE ORDER START ==========')
+        
+        // Get form data from session
+        const formData = req.session.mirageData
+        console.log('Form data from session:', formData)
+        
+        if (!formData) {
+            console.log('ERROR: No form data in session!')
+            throw new Error('No order data found. Please start over.')
         }
-        await ordersModel.confirmMirageOrder(customizationId)
+        
+        // Get account_id from logged-in user
+        const account_id = res.locals.accountData.account_id
+        console.log('Account ID:', account_id)
+        
+        // NOW save to database
+        console.log('Calling saveMirageData...')
+        const result = await ordersModel.saveMirageData(formData, account_id)
+        
+        console.log('Mirage Order saved to database, customization_id:', result.customization_id)
+        console.log('========== SAVE MIRAGE ORDER SUCCESS ==========')
+        
+        // Clear session data
         delete req.session.mirageData
         delete req.session.mirageOrderId
-        console.log('Mirage Order confirmed successfully, customization_id:', customizationId)
-        req.flash('success', 'Mirage order confirmed successfully!')
+        
+        req.flash('notice', 'Mirage order confirmed successfully!')
         res.redirect('/account')
     } catch (error) {
-        console.error('Error confirming Mirage order:', error)
-        req.flash('error', 'Failed to confirm Mirage order. Please try again.')
+        console.log('========== SAVE MIRAGE ORDER FAILED ==========')
+        console.error('Error details:', error.message)
+        console.error('Full error:', error)
+        req.flash('error', 'Failed to save Mirage order. Please try again.')
         res.redirect('/orders/confirmMirage')
     }
 }
@@ -378,12 +395,71 @@ ordersController.buildCreateRainier = async function(req, res){
 
     })
 }
+
+ordersController.processRainierForm = async function(req, res){
+    try {
+        console.log('========== PROCESS RAINIER FORM ==========')
+        console.log('Form body received:', JSON.stringify(req.body, null, 2))
+        
+        // Store form data in session for confirm page
+        req.session.rainierData = req.body
+        
+        console.log('Rainier form data stored in session, redirecting to confirm page')
+        res.redirect('/orders/confirmRainier')
+    } catch (error) {
+        console.error('Error processing Rainier form:', error)
+        req.flash('error', 'Failed to process order. Please try again.')
+        res.redirect('/orders/createRainier')
+    }
+}
+
 ordersController.buildConfirmRainier = async function(req, res){
+    const formData = req.session.rainierData || {}
+    
     res.render('orders/confirmRainier', {
-        title: 'Confirm order',
+        title: 'Confirm Rainier Order',
         link: 'orders/confirmRainier',
-        errors: null
+        errors: null,
+        formData: formData
     })
+}
+
+ordersController.saveRainierOrder = async function(req, res){
+    try {
+        console.log('========== SAVE RAINIER ORDER START ==========')
+        
+        // Get form data from session
+        const formData = req.session.rainierData
+        console.log('Form data from session:', formData)
+        
+        if (!formData) {
+            console.log('ERROR: No form data in session!')
+            throw new Error('No order data found. Please start over.')
+        }
+        
+        // Get account_id from logged-in user
+        const account_id = res.locals.accountData.account_id
+        console.log('Account ID:', account_id)
+        
+        // NOW save to database
+        console.log('Calling saveRainierData...')
+        const result = await ordersModel.saveRainierData(formData, account_id)
+        
+        console.log('Rainier Order saved to database, customization_id:', result.customization_id)
+        console.log('========== SAVE RAINIER ORDER SUCCESS ==========')
+        
+        // Clear session data
+        delete req.session.rainierData
+        
+        req.flash('notice', 'Rainier order confirmed successfully!')
+        res.redirect('/account')
+    } catch (error) {
+        console.log('========== SAVE RAINIER ORDER FAILED ==========')
+        console.error('Error details:', error.message)
+        console.error('Full error:', error)
+        req.flash('error', 'Failed to save order: ' + error.message)
+        res.redirect('/orders/createRainier')
+    }
 }
 
 ordersController.buildCreateNWS = async function(req, res){
@@ -420,6 +496,8 @@ ordersController.buildViewMirage3500 = async function(req, res){
         const customizationId = req.params.id
         const orderData = await ordersModel.getOrderById(customizationId)
 
+        console.log('Order Data:', orderData)
+
         if (!orderData) {
             req.flash('error', 'Order not found')
             return res.redirect('/account')
@@ -431,8 +509,7 @@ ordersController.buildViewMirage3500 = async function(req, res){
         const handles = await ordersModel.getHandles()
         const topAdapters = await ordersModel.getTopAdapters()
         const bottomAdapters = await ordersModel.getBottomAdapters()
-        const rightBuildouts = await ordersModel.getRightBuildouts()
-        const leftBuildouts = await ordersModel.getLeftBuildouts()
+        const buildouts = await ordersModel.getBuildouts()
         const meshTypes = await ordersModel.getMeshTypes()
         const mohairOptions = await ordersModel.getMohair()
         const mohairPositions = await ordersModel.getMohairPositions()
@@ -447,8 +524,7 @@ ordersController.buildViewMirage3500 = async function(req, res){
             handles: handles || [],
             topAdapters: topAdapters || [],
             bottomAdapters: bottomAdapters || [],
-            rightBuildouts: rightBuildouts || [],
-            leftBuildouts: leftBuildouts || [],
+            buildouts: buildouts || [],
             meshTypes: meshTypes || [],
             mohairOptions: mohairOptions || [],
             mohairPositions: mohairPositions || []
@@ -523,12 +599,13 @@ ordersController.buildViewMirage = async function(req, res){
         const handles = await ordersModel.getHandles()
         const topAdapters = await ordersModel.getTopAdapters()
         const bottomAdapters = await ordersModel.getBottomAdapters()
-        const rightBuildouts = await ordersModel.getRightBuildouts()
-        const leftBuildouts = await ordersModel.getLeftBuildouts()
+        const buildouts = await ordersModel.getBuildouts()
         const meshTypes = await ordersModel.getMeshTypes()
         const mohairOptions = await ordersModel.getMohair()
         const mohairPositions = await ordersModel.getMohairPositions()
         const pivotProColors = await ordersModel.getPivotProColors()
+        const rightBuildouts = await ordersModel.getRightBuildouts()
+        const leftBuildouts = await ordersModel.getLeftBuildouts()
 
         res.render('account/viewMirage', {
             title: 'View Mirage Order',
@@ -540,12 +617,13 @@ ordersController.buildViewMirage = async function(req, res){
             handles: handles || [],
             topAdapters: topAdapters || [],
             bottomAdapters: bottomAdapters || [],
-            rightBuildouts: rightBuildouts || [],
-            leftBuildouts: leftBuildouts || [],
+            buildouts: buildouts || [],
             meshTypes: meshTypes || [],
             mohairOptions: mohairOptions || [],
             mohairPositions: mohairPositions || [],
-            pivotProColors: pivotProColors || []
+            pivotProColors: pivotProColors || [],
+            rightBuildouts: rightBuildouts || [],
+            leftBuildouts: leftBuildouts || []
         })
     } catch (error) {
         console.error('Error loading order:', error)
@@ -723,6 +801,62 @@ ordersController.completeNWS = async function(req, res){
         console.error('Error completing order:', error)
         req.flash('error', 'Failed to complete order. Please try again.')
         res.redirect('/account')
+    }
+}
+
+ordersController.buildCreateCustomer = async function(req, res){
+    const customers = await ordersModel.getAllCustomers()
+
+    res.render('orders/customer', {
+        title: 'Create or Select Customer',
+        link: 'orders/customer',
+        errors: null,
+        customers: customers || []
+    })
+}
+
+ordersController.saveCustomer = async function(req, res){
+    try {
+        const {customerSelect, customer_firstname, customer_lastname, address_line1, address_line2, address_city, address_state, address_zip } = req.body
+        // check to see if creating a new customer
+        if (customerSelect != 'create') {
+            // check to see if customer already exists
+            const existingCustomer = await ordersModel.findCustomerByName(customer_firstname, customer_lastname)
+            
+            if (existingCustomer) {   // customer exists
+                // save customer firstname and lastname to session to be used in create order page
+                req.session.customer_firstname = existingCustomer.customer_firstname
+                req.session.customer_lastname = existingCustomer.customer_lastname
+            }
+
+
+        } else {            // create new customer
+            const newCustomer = await ordersModel.createCustomer(
+                customer_firstname
+                , customer_lastname
+                , address_line1
+                , address_line2
+                , address_city
+                , address_state
+                , address_zip)
+
+            if (newCustomer) {
+                console.log('New customer created:', newCustomer)
+                // save customer firstname and lastname to session to be used in create order page
+                req.session.customer_firstname = newCustomer.customer_firstname
+                req.session.customer_lastname = newCustomer.customer_lastname
+            } else {
+                console.log('Error creating new customer')
+            }
+        }
+        
+    } catch (error) {
+        console.error('Error saving customer:', error)
+        req.flash('error', 'Failed to save customer. Please try again.')
+        res.redirect('/orders/customer')
+    } finally {
+        // navigate to create order page passing in the customer firstname and lastname to be used
+        res.redirect('/orders/create')
     }
 }
 

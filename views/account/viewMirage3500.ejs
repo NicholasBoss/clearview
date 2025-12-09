@@ -217,7 +217,7 @@
             <select name="bottom_adapter_color_id" id="bottom_adapter_color_id" disabled>
                 <option value="">Select</option>
                 <% colors.forEach(color => { %>
-                    <option value="<%= color.color_name %>" <%= orderData.bottom_adapter_color_id === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
+                    <option value="<%= color.color_name %>" <%= orderData.bottom_adapter_color === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
                 <% }) %>
             </select>
         </label><br>
@@ -234,20 +234,11 @@
             </select>
         </label><br>
 
-        <label><b>Right Build Out</b>
-            <select name="right_build_out" id="right_build_out" disabled>
+        <label><b>Build Out</b>
+            <select name="buildout" id="buildout" disabled>
                 <option value="">Select</option>
-                <% rightBuildouts.forEach(buildout => { %>
-                    <option value="<%= buildout.right_buildout_name %>" <%= orderData.right_build_out === buildout.right_buildout_name ? 'selected' : '' %>><%= buildout.right_buildout_name %></option>
-                <% }) %>
-            </select>
-        </label><br>
-
-        <label><b>Left Build Out</b>
-            <select name="left_build_out" id="left_build_out" disabled>
-                <option value="">Select</option>
-                <% leftBuildouts.forEach(buildout => { %>
-                    <option value="<%= buildout.left_buildout_name %>" <%= orderData.left_build_out === buildout.left_buildout_name ? 'selected' : '' %>><%= buildout.left_buildout_name %></option>
+                <% buildouts.forEach(buildout => { %>
+                    <option value="<%= buildout.buildout_name %>" <%= orderData.buildout === buildout.buildout_name ? 'selected' : '' %>><%= buildout.buildout_name %></option>
                 <% }) %>
             </select>
         </label><br>
@@ -276,18 +267,18 @@
         <label><b>Mohair</b>
             <select name="mohair" id="mohair" disabled>
                 <option value="">Select</option>
-                <option value=".200 MoHair X.187" <%= orderData.mohair === '.200 MoHair X.187' ? 'selected' : '' %>>.200 MoHair X.187</option>
-                <option value=".250 MoHair X.187" <%= orderData.mohair === '.250 MoHair X.187' ? 'selected' : '' %>>.250 MoHair X.187</option>
-                <option value=".300 MoHair X.187" <%= orderData.mohair === '.300 MoHair X.187' ? 'selected' : '' %>>.300 MoHair X.187</option>
-                <option value=".350 MoHair X.187" <%= orderData.mohair === '.350 MoHair X.187' ? 'selected' : '' %>>.350 MoHair X.187</option>
+                <% mohairOptions.forEach(mohair => { %>
+                    <option value="<%= mohair.mohair_type %>" <%= orderData.mohair === mohair.mohair_type ? 'selected' : '' %>><%= mohair.mohair_type %></option>
+                <% }) %>
             </select>
         </label><br>
 
         <label><b>Mohair Position</b>
             <select name="mohair_position" id="mohair_position" disabled>
                 <option value="">Select</option>
-                <option value="Edge" <%= orderData.mohair_position === 'Edge' ? 'selected' : '' %>>Edge</option>
-                <option value="Inside" <%= orderData.mohair_position === 'Inside' ? 'selected' : '' %>>Inside</option>
+                <% mohairPositions.forEach(position => { %>
+                    <option value="<%= position.mohair_position_name %>" <%= orderData.mohair_position === position.mohair_position_name ? 'selected' : '' %>><%= position.mohair_position_name %></option>
+                <% }) %>
             </select>
         </label><br>
 
