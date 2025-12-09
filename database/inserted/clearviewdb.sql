@@ -818,12 +818,8 @@ CREATE TABLE IF NOT EXISTS rainier
   brush_location_id INTEGER NOT NULL,
   cord_length_id INTEGER NOT NULL,
   mount_type_id INTEGER NOT NULL,
-  top_opening_width_id INTEGER NOT NULL,
   top_level_id INTEGER NOT NULL,
   bottom_level_id INTEGER NOT NULL,
-  bottom_opening_width_id INTEGER NOT NULL,
-  right_opening_height_id INTEGER NOT NULL,
-  left_opening_height_id INTEGER NOT NULL,
   right_plumb_id INTEGER NOT NULL,
   left_plumb_id INTEGER NOT NULL,
   right_buildout_id INTEGER NOT NULL,
@@ -874,11 +870,6 @@ CREATE TABLE IF NOT EXISTS rainier
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT rainier_fk9
-    FOREIGN KEY (top_opening_width_id)
-    REFERENCES top_opening_width (top_opening_width_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT rainier_fk10
     FOREIGN KEY (top_level_id)
     REFERENCES top_level (top_level_id)
     ON DELETE CASCADE
@@ -889,56 +880,41 @@ CREATE TABLE IF NOT EXISTS rainier
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT rainier_fk12
-    FOREIGN KEY (bottom_opening_width_id)
-    REFERENCES bottom_opening_width (bottom_opening_width_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT rainier_fk13
-    FOREIGN KEY (right_opening_height_id)
-    REFERENCES right_opening_height (right_opening_height_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT rainier_fk14
-    FOREIGN KEY (left_opening_height_id)
-    REFERENCES left_opening_height (left_opening_height_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT rainier_fk15
     FOREIGN KEY (right_plumb_id)
     REFERENCES right_plumb (right_plumb_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT rainier_fk16
+  CONSTRAINT rainier_fk13
     FOREIGN KEY (left_plumb_id)
     REFERENCES left_plumb (left_plumb_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT rainier_fk17
+  CONSTRAINT rainier_fk14
     FOREIGN KEY (right_buildout_id)
     REFERENCES right_buildout (right_buildout_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT rainier_fk18
+  CONSTRAINT rainier_fk15
     FOREIGN KEY (left_buildout_id)
     REFERENCES left_buildout (left_buildout_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT rainier_fk19
+  CONSTRAINT rainier_fk16
     FOREIGN KEY (add_buildout_id)
     REFERENCES add_buildout (add_buildout_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT rainier_fk20
+  CONSTRAINT rainier_fk17
     FOREIGN KEY (left_track_id)
     REFERENCES left_track (left_track_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT rainier_fk21
+  CONSTRAINT rainier_fk18
     FOREIGN KEY (right_track_id)
     REFERENCES right_track (right_track_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT rainier_fk22
+  CONSTRAINT rainier_fk19
     FOREIGN KEY (product_mesh_id)
     REFERENCES product_mesh (product_mesh_id)
     ON DELETE CASCADE
@@ -1187,6 +1163,10 @@ CREATE TABLE IF NOT EXISTS general_retract_control
     right_plumb_id INTEGER NULL,
     middle_opening_height_id INTEGER NULL,
     middle_opening_width_id INTEGER NULL,
+    top_opening_width_id INTEGER NULL,
+    bottom_opening_width_id INTEGER NULL,
+    right_opening_height_id INTEGER NULL,
+    left_opening_height_id INTEGER NULL,
     CONSTRAINT customization_pk PRIMARY KEY (customization_id),
     CONSTRAINT customization_fk1
       FOREIGN KEY (product_id)
@@ -1306,6 +1286,26 @@ CREATE TABLE IF NOT EXISTS general_retract_control
     CONSTRAINT customization_fk24
       FOREIGN KEY (middle_opening_width_id)
       REFERENCES middle_opening_width (middle_opening_width_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk25
+      FOREIGN KEY (top_opening_width_id)
+      REFERENCES top_opening_width (top_opening_width_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk26
+      FOREIGN KEY (bottom_opening_width_id)
+      REFERENCES bottom_opening_width (bottom_opening_width_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk27
+      FOREIGN KEY (right_opening_height_id)
+      REFERENCES right_opening_height (right_opening_height_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT customization_fk28
+      FOREIGN KEY (left_opening_height_id)
+      REFERENCES left_opening_height (left_opening_height_id)
       ON DELETE CASCADE
       ON UPDATE CASCADE
   );

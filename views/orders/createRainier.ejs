@@ -2,10 +2,6 @@
     <h1><%= title %></h1>
 <% } else { res.redirect('/') } %>
 
-<div class="rainier-notice">
-    <strong>Note:</strong> All fields are required unless otherwise noted.
-</div>
-
 <%- messages() %>
 
 <% if (errors) { %>
@@ -293,13 +289,13 @@
 </form>
 
 <style>
-    .rainier-notice {
+    /* .rainier-notice {
         background-color: #e9ecef;
         padding: 1rem;
         border-radius: 4px;
         margin-bottom: 1.5rem;
         border-left: 5px solid #007bff;
-    }
+    } */
 
     .form-grid {
         display: flex;

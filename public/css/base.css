@@ -456,6 +456,25 @@ input[type=email], input[type=password], input[type=text], input[type=tel], inpu
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
+.btn-secondary {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: #6c757d;
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
 .orders-table-container {
     overflow-x: auto;
     margin: 20px 0;
@@ -611,5 +630,122 @@ input[type=email], input[type=password], input[type=text], input[type=tel], inpu
 
 .no-orders a:hover {
     color: var(--accent2-color);
+}
+
+/* --------- FORM STYLING ---------- */
+
+.form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: 2px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+fieldset {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+
+fieldset.full-width {
+    width: 100%;
+}
+
+legend {
+    font-weight: bold;
+    padding: 0 10px;
+    color: #333;
+    font-size: 1.1em;
+}
+
+.grid-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.grid-row.three-col {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-group label {
+    font-weight: 600;
+    font-size: 0.9em;
+    color: #555;
+}
+
+.required-field::after {
+    content: "*";
+    color: red;
+    margin-left: 4px;
+}
+
+input[type="text"], select {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus, select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+}
+
+.measurement-input {
+    display: flex;
+    gap: 10px;
+}
+
+.measurement-input input {
+    flex: 2;
+}
+
+.measurement-input select {
+    flex: 1;
+}
+
+.form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+    margin: 20px 10px 0 10px;
+    padding-bottom: 40px;
+    /* display center */
+    justify-content: center;
+}
+
+/* Button styling is defined above in account styles */
+
+.error-input {
+    border-color: #dc3545 !important;
+}
+
+.form-notice {
+    background-color: #e9ecef;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+    border-left: 5px solid #007bff;
+}
+
+@media (max-width: 768px) {
+    .grid-row, .grid-row.three-col {
+        grid-template-columns: 1fr;
+    }
 }
 

@@ -27,6 +27,40 @@
 
 <form id="form" action="/orders/saveMirage3500" method="post">
     <div class="container">
+        <h3>Customer Information</h3>
+
+        <label><b>First Name</b>
+            <input type="text" name="customer_firstname" id="customer_firstname" value="<%= orderData.customer_firstname || '' %>" readonly>
+        </label><br>
+
+        <label><b>Last Name</b>
+            <input type="text" name="customer_lastname" id="customer_lastname" value="<%= orderData.customer_lastname || '' %>" readonly>
+        </label><br>
+
+        <label><b>Address Line 1</b>
+            <input type="text" name="address_line1" id="address_line1" value="<%= orderData.address_line1 || '' %>" readonly>
+        </label><br>
+
+        <label><b>Address Line 2</b>
+            <input type="text" name="address_line2" id="address_line2" value="<%= orderData.address_line2 || '' %>" readonly>
+        </label><br>
+
+        <label><b>City</b>
+            <input type="text" name="address_city" id="address_city" value="<%= orderData.address_city || '' %>" readonly>
+        </label><br>
+
+        <label><b>State</b>
+            <input type="text" name="address_state" id="address_state" value="<%= orderData.address_state || '' %>" readonly>
+        </label><br>
+
+        <label><b>Zip Code</b>
+            <input type="text" name="address_zip" id="address_zip" value="<%= orderData.address_zip || '' %>" readonly>
+        </label><br>
+
+        <hr style="margin: 20px 0; border: 1px solid #ddd;">
+
+        <h3>Product Details</h3>
+
         <label><b>Top Opening Width</b>
             <input type="text" name="top_opening_width" id="top_opening_width" value="<%= orderData.top_opening_width || '' %>" readonly>
         </label><br>

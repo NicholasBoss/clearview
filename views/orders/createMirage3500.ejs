@@ -10,9 +10,6 @@
         <%= title %>
     </h1>
     <% } else { res.redirect('/') } %>
-        <div class="mirage-notice">
-            <strong>Note:</strong> All fields are required unless otherwise noted.
-        </div>
         <%- messages() %>
         <% if (errors) { %>
             <div class="error-banner">
@@ -39,7 +36,7 @@
 </script>
 
 <form id="form" action="/orders/confirmMirage3500" method="post">
-    <div class="container">
+    <div class="form-grid">
         <label class="required-field"><b>Customer First Name</b>
             <input type="text" name="customer_firstname" id="customer_firstname" value="<%= formData.customer_firstname || '' %>" placeholder="Enter customer first name" required <%= errors && errors.array().find(e => e.path === 'customer_firstname') ? 'class="error-input"' : '' %>>
             <% if (errors) { %>
