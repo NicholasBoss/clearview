@@ -3242,7 +3242,7 @@ module.exports = {
     getBottomAdapters,
     getBuildOut,
     getMesh,
-    getMeshByProduct
+    getMeshByProduct,
     getBuildOut,
     saveMirageData,
     saveMirage3500Data,
