@@ -26,6 +26,17 @@
             </div>
             <% } %>
 
+<script>
+  // Auto-fill customer name from session storage if available
+  document.addEventListener('DOMContentLoaded', function() {
+    const selectedCustomer = sessionStorage.getItem('selectedCustomerId');
+    if (selectedCustomer) {
+      const [firstName, lastName] = selectedCustomer.split(' ');
+      if (firstName) document.getElementById('customer_firstname').value = firstName;
+      if (lastName) document.getElementById('customer_lastname').value = lastName;
+    }
+  });
+</script>
 
 <form id="form" action="/orders/confirmMirage3500" method="post">
     <div class="container">

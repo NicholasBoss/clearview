@@ -806,6 +806,8 @@ async function getOrderById(customization_id){
         const result = await pool.query(sql, [customization_id])
         const row = result.rows[0]
 
+        console.log('Fetched order row:', row)
+
         if (!row) return null
 
         // Helper function to split combined measurements (e.g., "36 1/4" -> {int: "36", fraction: "1/4"})
@@ -2648,12 +2650,35 @@ async function getCustomerById(customer_id) {
     }
 }
 
-// Create a new customer
-async function createCustomer(firstname, lastname) {
+// Get customer by Name
+async function findCustomerByName(firstname, lastname) {
     try {
+        const sql = 'SELECT * FROM customer WHERE customer_firstname = $1 AND customer_lastname = $2'
+        const result = await pool.query(sql, [firstname, lastname])
+        return result.rows[0] || null
+    } catch (error) {
+        console.error('Error finding customer by name:', error)
+        return null
+    }
+}
+
+// Create a new customer
+async function createCustomer(firstname, lastname, address_line1, address_line2, address_city, address_state, address_zip) {
+    try {
+        // insert address, then customer, then customer_address
+        const addressSql = 'INSERT INTO address (address_line1, address_line2, address_city, address_state, address_zip) VALUES ($1, $2, $3, $4, $5) RETURNING address_id'
+        const addressResult = await pool.query(addressSql, [address_line1, address_line2, address_city, address_state, address_zip])
+        const addressId = addressResult.rows[0].address_id
+
+
         const sql = 'INSERT INTO customer (customer_firstname, customer_lastname) VALUES ($1, $2) RETURNING customer_id, customer_firstname, customer_lastname'
         const result = await pool.query(sql, [firstname, lastname])
-        return result.rows[0]
+        const cust_info = result.rows[0]
+
+        const customerAddressSql = 'INSERT INTO customer_address (customer_id, address_id) VALUES ($1, $2) RETURNING customer_address_id'
+        await pool.query(customerAddressSql, [cust_info.customer_id, addressId])
+
+        return cust_info
     } catch (error) {
         console.error('Error creating customer:', error)
         throw error
@@ -2890,6 +2915,7 @@ module.exports = {
     getAllCustomers,
     createCustomer,
     getCustomerById,
+    findCustomerByName,
     getOrCreateCustomer,
     getRainierPlacements,
     getRainierColors,
@@ -2925,5 +2951,6 @@ module.exports = {
     getBuildOut,
     saveMirageData,
     saveMirage3500Data,
-    saveRainierData
+    saveRainierData,
+    getMeshByProduct
 }

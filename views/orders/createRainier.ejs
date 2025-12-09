@@ -19,6 +19,20 @@
     </div>
 <% } %>
 
+<script>
+  // Auto-fill customer name from session storage if available
+  document.addEventListener('DOMContentLoaded', function() {
+    const selectedCustomer = sessionStorage.getItem('selectedCustomerId');
+    if (selectedCustomer) {
+      const [firstName, lastName] = selectedCustomer.split(' ');
+      const firstNameInput = document.querySelector('input[name="customer_firstname"]');
+      const lastNameInput = document.querySelector('input[name="customer_lastname"]');
+      if (firstName && firstNameInput) firstNameInput.value = firstName;
+      if (lastName && lastNameInput) lastNameInput.value = lastName;
+    }
+  });
+</script>
+
 <form id="form" action="/orders/confirmRainier" method="post">
     <div class="form-grid">
         <!-- Customer Information -->

@@ -54,6 +54,8 @@ router.get("/editNWS/:id", util.checkLogin, util.handleErrors(ordersController.e
 router.post("/completeNWS/:id", util.checkLogin, util.handleErrors(ordersController.completeNWS))
 
 router.post("/create", util.checkLogin, util.handleErrors(ordersController.insertProduct))
+router.get("/customer", util.checkLogin, util.handleErrors(ordersController.buildCreateCustomer))
+router.post("/customer", util.checkLogin, util.handleErrors(ordersController.saveCustomer))
 
 // Export
 module.exports = router

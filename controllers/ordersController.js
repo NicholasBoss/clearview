@@ -496,6 +496,8 @@ ordersController.buildViewMirage3500 = async function(req, res){
         const customizationId = req.params.id
         const orderData = await ordersModel.getOrderById(customizationId)
 
+        console.log('Order Data:', orderData)
+
         if (!orderData) {
             req.flash('error', 'Order not found')
             return res.redirect('/account')
@@ -799,6 +801,61 @@ ordersController.completeNWS = async function(req, res){
         console.error('Error completing order:', error)
         req.flash('error', 'Failed to complete order. Please try again.')
         res.redirect('/account')
+    }
+}
+
+ordersController.buildCreateCustomer = async function(req, res){
+    const customers = await ordersModel.getAllCustomers()
+
+    res.render('orders/customer', {
+        title: 'Create or Select Customer',
+        link: 'orders/customer',
+        errors: null,
+        customers: customers || []
+    })
+}
+
+ordersController.saveCustomer = async function(req, res){
+    try {
+        const {customerSelect, customer_firstname, customer_lastname, address_line1, address_line2, address_city, address_state, address_zip } = req.body
+        // check to see if creating a new customer
+        if (customerSelect != 'create') {
+            // check to see if customer already exists
+            const existingCustomer = await ordersModel.findCustomerByName(customer_firstname, customer_lastname)
+            
+            if (existingCustomer) {   // customer exists
+                // save customer firstname and lastname to session to be used in create order page
+                req.session.customer_firstname = existingCustomer.customer_firstname
+                req.session.customer_lastname = existingCustomer.customer_lastname
+            }
+
+
+        } else {            // create new customer
+            const newCustomer = await ordersModel.createCustomer(
+                customer_firstname
+                , customer_lastname
+                , address_line1
+                , address_line2
+                , address_city
+                , address_state
+                , address_zip)
+
+            if (newCustomer) {
+                // save customer firstname and lastname to session to be used in create order page
+                req.session.customer_firstname = newCustomer.customer_firstname
+                req.session.customer_lastname = newCustomer.customer_lastname
+            } else {
+                console.log('Error creating new customer')
+            }
+        }
+        
+    } catch (error) {
+        console.error('Error saving customer:', error)
+        req.flash('error', 'Failed to save customer. Please try again.')
+        res.redirect('/orders/customer')
+    } finally {
+        // navigate to create order page passing in the customer firstname and lastname to be used
+        res.redirect('/orders/create')
     }
 }
 
