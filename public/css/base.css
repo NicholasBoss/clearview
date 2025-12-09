@@ -17,6 +17,11 @@ header {
 	background-color: var(--secondary-color);
 }
 
+h1 {
+    color: var(--accent5-color);
+    margin-left: 2%;
+}
+
 #main-header {
     display: grid;
 	grid-template-columns: 100px 70px 1fr;
@@ -85,7 +90,7 @@ header {
 	border: 1px solid rgba(0, 0, 0, 0.3);
 	padding: 3px 7px 6px;
 	background-color: var(--ham-color);
-	color: #000;
+	color: var(--accent5-color);
 	position: absolute;
 	right: 1rem;
 }

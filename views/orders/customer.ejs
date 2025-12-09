@@ -1,65 +1,65 @@
-<!-- Dropdown of "create new customer" or any existing customers
-
-if create is selected, show form to create new customer
-if existing customer is selected, show their details and option to edit -->
-
 <form id="customerForm" action="/orders/customer" method="post" onsubmit="handleFormSubmit(event)">
-  <div>
-    <label for="customerSelect">Select Customer:</label>
-    <select id="customerSelect" name="customerSelect" onchange="toggleCustomerForm()">
-      <option value="create">Create New Customer</option>
-      <% customers.forEach(function(customer) { %>
-        <option value="<%= customer.customer_firstname %> <%= customer.customer_lastname %>"><%= customer.customer_firstname %> <%= customer.customer_lastname %></option>
-      <% }); %>
-    </select>
-  </div>
+    <div class="form-grid">
+        <!-- Customer Selection -->
+        <fieldset class="full-width">
+            <legend>Customer Selection</legend>
+            <div class="grid-row">
+                <div class="form-group">
+                    <label for="customerSelect">Select Customer or Create New</label>
+                    <select id="customerSelect" name="customerSelect" onchange="toggleCustomerForm()">
+                        <option value="create">Create New Customer</option>
+                        <% customers.forEach(function(customer) { %>
+                            <option value="<%= customer.customer_firstname %> <%= customer.customer_lastname %>"><%= customer.customer_firstname %> <%= customer.customer_lastname %></option>
+                        <% }); %>
+                    </select>
+                </div>
+            </div>
+        </fieldset>
 
-  <div id="newCustomerForm" style="display: block; margin-top: 20px; padding: 20px; border: 1px solid #ccc; border-radius: 4px;">
-    <h3>Create New Customer</h3>
-    <div>
-      <label><b>First Name:</b>
-        <input type="text" id="firstName" name="customer_firstname">
-      </label>
-    </div>
-    <div style="margin-top: 10px;">
-      <label><b>Last Name:</b>
-        <input type="text" id="lastName" name="customer_lastname">
-      </label>
-    </div>
-    <div style="margin-top: 10px;">
-      <label><b>Address Line 1:</b>
-        <input type="text" id="addressLine1" name="address_line1">
-      </label>
-    </div>
-    <div style="margin-top: 10px;">
-      <label for="addressLine2"><b>Address Line 2:</b>
-        <input type="text" id="addressLine2" name="address_line2">
-      </label>
-    </div>
-    <div style="margin-top: 10px;">
-      <label><b>City:</b>
-        <input type="text" id="city" name="address_city">
-      </label>
-    </div>
-    <div style="margin-top: 10px;">
-      <label><b>State:</b>
-        <input type="text" id="state" name="address_state">
-      </label>
-    </div>
-    <div style="margin-top: 10px;">
-      <label><b>Zip:</b>
-        <input type="text" id="zip" name="address_zip">
-      </label>
-    </div>
-  </div>
+        <!-- New Customer Form -->
+        <fieldset id="newCustomerForm" class="full-width" style="display: block;">
+            <legend>Customer Information</legend>
+            <div class="grid-row">
+                <div class="form-group">
+                    <label>First Name</label>
+                    <input type="text" id="firstName" name="customer_firstname">
+                </div>
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <input type="text" id="lastName" name="customer_lastname">
+                </div>
+            </div>
+            <div class="grid-row">
+                <div class="form-group">
+                    <label>Address Line 1</label>
+                    <input type="text" id="addressLine1" name="address_line1">
+                </div>
+                <div class="form-group">
+                    <label>Address Line 2</label>
+                    <input type="text" id="addressLine2" name="address_line2">
+                </div>
+            </div>
+            <div class="grid-row three-col">
+                <div class="form-group">
+                    <label>City</label>
+                    <input type="text" id="city" name="address_city">
+                </div>
+                <div class="form-group">
+                    <label>State</label>
+                    <input type="text" id="state" name="address_state">
+                </div>
+                <div class="form-group">
+                    <label>Zip</label>
+                    <input type="text" id="zip" name="address_zip">
+                </div>
+            </div>
+        </fieldset>
 
-  <div id="createCustomerButton" style="display: block; margin-top: 20px;">
-    <button type="submit" style="padding: 10px 20px;">Create Customer</button>
-  </div>
-
-  <div id="continueButton" style="display: none; margin-top: 20px;">
-    <button type="submit" style="padding: 10px 20px;">Continue</button>
-  </div>
+        <div class="form-actions">
+            <button id="createCustomerButton" type="submit" class="btn-primary" style="display: block;">Create Customer</button>
+            <button id="continueButton" type="submit" class="btn-primary" style="display: none;">Continue</button>
+        </div>
+    </div>
 </form>
 
 <script>
