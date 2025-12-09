@@ -114,3 +114,17 @@ Notes 11/24:
 
 Account page needs to work for ALL orders not just mirage3500
 update order log by joining to order log from customer
+
+columns that potentially need adding to customization table (foreign keys):
+
+- top_adapter_width
+- unit_height
+- pivot_pro_height
+- btm_adapter_width
+- middle_opening_width
+- middle_opening_height
+
+fields that need to be removed from the mirage3500 form:
+
+right buildout 
+left buildout 
