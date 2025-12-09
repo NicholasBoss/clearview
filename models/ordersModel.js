@@ -751,6 +751,10 @@ async function getOrderById(customization_id){
                 btm_lvl.bottom_level_name,
                 left_plmb.left_plumb_name,
                 right_plmb.right_plumb_name,
+                tow_dim.top_opening_width_name,
+                bow_dim.bottom_opening_width_name,
+                loh_dim.left_opening_height_name,
+                roh_dim.right_opening_height_name,
                 moh_dim.middle_opening_height_name,
                 mow_dim.middle_opening_width_name,
                 bd_dim.buildout_dimension_name
@@ -798,6 +802,10 @@ async function getOrderById(customization_id){
             LEFT JOIN left_plumb left_plmb ON c.left_plumb_id = left_plmb.left_plumb_id
             LEFT JOIN right_plumb right_plmb ON c.right_plumb_id = right_plmb.right_plumb_id
 
+            LEFT JOIN top_opening_width tow_dim ON c.top_opening_width_id = tow_dim.top_opening_width_id
+            LEFT JOIN bottom_opening_width bow_dim ON c.bottom_opening_width_id = bow_dim.bottom_opening_width_id
+            LEFT JOIN left_opening_height loh_dim ON c.left_opening_height_id = loh_dim.left_opening_height_id
+            LEFT JOIN right_opening_height roh_dim ON c.right_opening_height_id = roh_dim.right_opening_height_id
             LEFT JOIN middle_opening_height moh_dim ON c.middle_opening_height_id = moh_dim.middle_opening_height_id
             LEFT JOIN middle_opening_width mow_dim ON c.middle_opening_width_id = mow_dim.middle_opening_width_id
             LEFT JOIN buildout_dimension bd_dim ON grc.buildout_dimension_id = bd_dim.buildout_dimension_id
@@ -1707,13 +1715,14 @@ async function saveMirage3500Data(formData, account_id) {
                 buildout_id,
                 bottom_adapter_id,
                 bottom_adapter_color_id,
+                top_adapter_color_id,
                 buildout_dimension_id,
                 top_adapter_width,
                 unit_height,
                 pivot_pro_height,
                 bottom_adapter_width
             ) VALUES (
-                $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16
+                $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17
             ) RETURNING general_retract_control_id
         `
 
@@ -1729,11 +1738,12 @@ async function saveMirage3500Data(formData, account_id) {
             buildoutId,                   // $9
             btmAdapterId,                 // $10
             btmAdapterColorJunctionId,    // $11 - bottom_adapter_color junction table ID
-            buildOutDimensionId,          // $12 - dimension table ID
-            topAdapterWidthValue,         // $13 - VARCHAR measurement
-            unitHeightValue,              // $14 - VARCHAR measurement
-            pivotProHeightValue,          // $15 - VARCHAR measurement
-            btmAdapterWidthValue          // $16 - VARCHAR measurement
+            topAdapterColorJunctionId,    // $12 - top_adapter_color junction table ID
+            buildOutDimensionId,          // $13 - dimension table ID
+            topAdapterWidthValue,         // $14 - VARCHAR measurement
+            unitHeightValue,              // $15 - VARCHAR measurement
+            pivotProHeightValue,          // $16 - VARCHAR measurement
+            btmAdapterWidthValue          // $17 - VARCHAR measurement
         ])
 
         const generalRetractControlId = generalRetractControlResult.rows[0].general_retract_control_id
@@ -1757,10 +1767,14 @@ async function saveMirage3500Data(formData, account_id) {
                 bottom_level_id,
                 left_plumb_id,
                 right_plumb_id,
+                top_opening_width_id,
+                bottom_opening_width_id,
+                left_opening_height_id,
+                right_opening_height_id,
                 middle_opening_height_id,
                 middle_opening_width_id
             ) VALUES (
-                $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16
+                $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20
             ) RETURNING customization_id
         `
 
@@ -1779,8 +1793,12 @@ async function saveMirage3500Data(formData, account_id) {
             bottomLevelId,               // $12
             leftPlumbId,                 // $13
             rightPlumbId,                // $14
-            middleOpeningHeightId,       // $15 - dimension table
-            middleOpeningWidthId         // $16 - dimension table
+            topOpeningWidthId,           // $15 - dimension table
+            bottomOpeningWidthId,        // $16 - dimension table
+            leftOpeningHeightId,         // $17 - dimension table
+            rightOpeningHeightId,        // $18 - dimension table
+            middleOpeningHeightId,       // $19 - dimension table
+            middleOpeningWidthId         // $20 - dimension table
         ])
 
         const customizationId = customizationResult.rows[0].customization_id
