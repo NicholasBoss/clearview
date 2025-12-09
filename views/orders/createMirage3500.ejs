@@ -332,13 +332,13 @@
         </label><br>
 
         <label class="required-field"><b>Bottom Adapter Color</b>
-            <select name="btm_adapter_color" id="btm_adapter_color" required <%= errors && errors.array().find(e => e.path === 'btm_adapter_color') ? 'class="error-input"' : '' %>>
+            <select name="bottom_adapter_color_id" id="bottom_adapter_color_id" required <%= errors && errors.array().find(e => e.path === 'bottom_adapter_color_id') ? 'class="error-input"' : '' %>>
                 <option value="">Select</option>
                 <% colors.forEach(color => { %>
-                    <option value="<%= color.color_name %>" <%= formData.btm_adapter_color === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
+                    <option value="<%= color.color_name %>" <%= formData.bottom_adapter_color_id === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
                 <% }) %>
             </select>
-            <% if (errors) { const error = errors.array().find(e => e.path === 'btm_adapter_color'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+            <% if (errors) { const error = errors.array().find(e => e.path === 'bottom_adapter_color_id'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
         </label><br>
 
         <label class="required-field"><b>Bottom Adapter Width</b>
@@ -355,24 +355,14 @@
             <% if (errors) { const error = errors.array().find(e => e.path === 'btm_adapter_width_fraction'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
         </label><br>
 
-        <label class="required-field"><b>Right Build Out</b>
-            <select name="right_build_out" id="right_build_out" required <%= errors && errors.array().find(e => e.path === 'right_build_out') ? 'class="error-input"' : '' %>>
+        <label class="required-field"><b>Build Out</b>
+            <select name="buildout" id="buildout" required <%= errors && errors.array().find(e => e.path === 'buildout') ? 'class="error-input"' : '' %>>
                 <option value="">Select</option>
-                <% rightBuildouts.forEach(buildout => { %>
-                    <option value="<%= buildout.right_buildout_name %>" <%= formData.right_build_out === buildout.right_buildout_name ? 'selected' : '' %>><%= buildout.right_buildout_name %></option>
+                <% buildouts.forEach(buildout => { %>
+                    <option value="<%= buildout.buildout_name %>" <%= formData.buildout === buildout.buildout_name ? 'selected' : '' %>><%= buildout.buildout_name %></option>
                 <% }) %>
             </select>
-            <% if (errors) { const error = errors.array().find(e => e.path === 'right_build_out'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
-        </label><br>
-
-        <label class="required-field"><b>Left Build Out</b>
-            <select name="left_build_out" id="left_build_out" required <%= errors && errors.array().find(e => e.path === 'left_build_out') ? 'class="error-input"' : '' %>>
-                <option value="">Select</option>
-                <% leftBuildouts.forEach(buildout => { %>
-                    <option value="<%= buildout.left_buildout_name %>" <%= formData.left_build_out === buildout.left_buildout_name ? 'selected' : '' %>><%= buildout.left_buildout_name %></option>
-                <% }) %>
-            </select>
-            <% if (errors) { const error = errors.array().find(e => e.path === 'left_build_out'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+            <% if (errors) { const error = errors.array().find(e => e.path === 'buildout'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
         </label><br>
 
          <label class="required-field"><b>Build Out Dimension</b>

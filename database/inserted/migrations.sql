@@ -1,0 +1,1 @@
+-- Migration file for altering the database

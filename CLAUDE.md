@@ -146,6 +146,8 @@ router.delete('/orders/:id', checkAdmin, controller.deleteOrder);
 
 6. **Soft Deletes:** Use boolean flags rather than hard deletes to preserve order history
 
+7. **Schema Updates:** Do NOT update the schema or the sql file as this is handled by a real life person 
+
 ## Current Development State (per Peter.txt)
 
 **Completed:**

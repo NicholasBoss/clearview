@@ -224,10 +224,10 @@
         </label><br>
 
         <label><b>Bottom Adapter Color</b>
-            <select name="btm_adapter_color" id="btm_adapter_color">
+            <select name="bottom_adapter_color_id" id="bottom_adapter_color_id">
                 <option value="">Select</option>
                 <% colors.forEach(color => { %>
-                    <option value="<%= color.color_name %>" <%= formData.btm_adapter_color === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
+                    <option value="<%= color.color_name %>" <%= formData.bottom_adapter_color_id === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
                 <% }) %>
             </select>
         </label><br>
@@ -244,20 +244,11 @@
             </select>
         </label><br>
 
-        <label><b>Right Build Out</b>
-            <select name="right_build_out" id="right_build_out">
+        <label><b>Build Out</b>
+            <select name="buildout" id="buildout">
                 <option value="">Select</option>
-                <% rightBuildouts.forEach(buildout => { %>
-                    <option value="<%= buildout.right_buildout_name %>" <%= formData.right_build_out === buildout.right_buildout_name ? 'selected' : '' %>><%= buildout.right_buildout_name %></option>
-                <% }) %>
-            </select>
-        </label><br>
-
-        <label><b>Left Build Out</b>
-            <select name="left_build_out" id="left_build_out">
-                <option value="">Select</option>
-                <% leftBuildouts.forEach(buildout => { %>
-                    <option value="<%= buildout.left_buildout_name %>" <%= formData.left_build_out === buildout.left_buildout_name ? 'selected' : '' %>><%= buildout.left_buildout_name %></option>
+                <% buildouts.forEach(buildout => { %>
+                    <option value="<%= buildout.buildout_name %>" <%= formData.buildout === buildout.buildout_name ? 'selected' : '' %>><%= buildout.buildout_name %></option>
                 <% }) %>
             </select>
         </label><br>
@@ -366,7 +357,7 @@
 <script>
     // Add confirmation popup when form is submitted
     document.getElementById('form').addEventListener('submit', function(event) {
-        const confirmed = confirm('Are you sure you want to confirm and submit this order? This will save the order to the database.');
+        const confirmed = confirm('Are you sure you want to confirm and submit this order?');
         if (!confirmed) {
             event.preventDefault(); // Prevent form submission if user clicks Cancel
         } else {

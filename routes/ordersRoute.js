@@ -36,7 +36,13 @@ router.get("/editMirage/:id", util.checkLogin, util.handleErrors(ordersControlle
 router.post("/completeMirage/:id", util.checkLogin, util.handleErrors(ordersController.completeMirage))
 
 router.get("/createRainier", util.checkLogin, util.handleErrors(ordersController.buildCreateRainier))
+router.post("/confirmRainier",
+    util.checkLogin,
+    ordersValidation.rainierRules(),
+    ordersValidation.checkRainierData,
+    util.handleErrors(ordersController.processRainierForm))
 router.get("/confirmRainier", util.checkLogin, util.handleErrors(ordersController.buildConfirmRainier))
+router.post("/saveRainier", util.checkLogin, util.handleErrors(ordersController.saveRainierOrder))
 router.get("/viewRainier/:id", util.checkLogin, util.handleErrors(ordersController.buildViewRainier))
 router.get("/editRainier/:id", util.checkLogin, util.handleErrors(ordersController.editRainier))
 router.post("/completeRainier/:id", util.checkLogin, util.handleErrors(ordersController.completeRainier))
