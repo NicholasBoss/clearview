@@ -746,6 +746,11 @@ async function getOrderById(customization_id){
                 grc.opening_height,
                 cust.customer_firstname,
                 cust.customer_lastname,
+                addr.address_line1,
+                addr.address_line2,
+                addr.address_city,
+                addr.address_state,
+                addr.address_zip,
                 starting_pt.starting_point_name,
                 top_lvl.top_level_name,
                 btm_lvl.bottom_level_name,
@@ -791,6 +796,8 @@ async function getOrderById(customization_id){
             LEFT JOIN order_customization oc ON c.customization_id = oc.customization_id
             LEFT JOIN cust_order co ON oc.order_id = co.order_id
             LEFT JOIN customer cust ON co.customer_id = cust.customer_id
+            LEFT JOIN customer_address ca ON co.customer_address_id = ca.customer_address_id
+            LEFT JOIN address addr ON ca.address_id = addr.address_id
 
             -- Mirage 3500 specific joins
             LEFT JOIN handle_color hc ON m3.mirage_3500_id = hc.mirage_3500_id
