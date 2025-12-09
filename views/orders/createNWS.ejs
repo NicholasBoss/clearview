@@ -10,18 +10,18 @@
             <input type="text" name="width_input" id="">
         </label><br>
         <label><b>Frame</b>
-            <select name="frame_size" id="frame_size_id">
+            <select name="frame_size" id="frame_size">
                 <option value="">Select</option>
                 <% frame_sizes.forEach(frame_size => { %>
-                    <option value="<%= frame_size.size_type %>" <%= formData.frame_size_id === frame_size.size_type ? 'selected' : '' %>><%= frame_size.size_type %></option>
+                    <option value="<%= frame_size.size_type %>" <%= formData.frame_size === frame_size.size_type ? 'selected' : '' %>><%= frame_size.size_type %></option>
                 <% }) %>
             </select>
         </label><br>
         <label><b>Color</b>
-            <select name="color" id="color_id">
+            <select name="color" id="color">
                 <option value="">Select</option>
                 <% colors.forEach(color => { %>
-                    <option value="<%= color.color_name %>" <%= formData.color_id === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
+                    <option value="<%= color.color_name %>" <%= formData.color === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
                 <% }) %>
             </select>
         </label><br>
@@ -29,15 +29,15 @@
             <input type="text" name="width_input" id="">
         </label><br>
         <label><b>W / F</b>
-            <select name="measurement_name" id="">
+            <select name="width_fraction" id="width_fraction">
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
+                <option value="<%= fraction.measurement_name %>"<%= formData.width_fraction === fraction.measurement_name %></option>
                 <% }) %> 
             </select>
         </label><br>
         <label><b>+ / -</b>
-            <select name="plus_minus" id="width_plus_minus">
+            <select name="width_plus_minus" id="width_plus_minus">
                 <option value="">Select</option>
                 <option value="+">+</option>
                 <option value="-">-</option>
@@ -47,46 +47,38 @@
             <input type="text" name="height_input" id="">
         </label><br>
         <label><b>H / F</b>
-            <select name="height_fraction" id="">
+            <select name="height_fraction" id="height_fraction">
                 <option value="">Select</option>
                 <% fractions.forEach(fraction => { %>
-                <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
+                <option value="<%= fraction.measurement_name %>"<%= formData.height_fraction ===fraction.measurement_name %></option>
                 <% }) %> 
             </select>
         </label><br>
         <label><b>+ / -</b>
-            <select name="plus_minus" id="height_plus_minus">
+            <select name="height_plus_minus" id="height_plus_minus">
                 <option value="">Select</option>
                 <option value="+">+</option>
                 <option value="-">-</option>
             </select>
         </label><br>
-        <label><b>Tabs</b>
-            <select name="tabs" id="">
-                <option value="">Select</option>
-                <option value="L">L</option>
-                <option value="S">S</option>
-                <option value="None">None</option>
-            </select>
-        </label><br>
-        <label><b>Spring</b>
-            <select name="spring" id="tab_spring_id">
+        <label><b>Tab_Spring</b>
+            <select name="tab_spring" id="tab_spring">
                 <option value="">Select</option>
                 <% springs.forEach(spring => { %>
-                    <option value="<%= spring.tab_spring_name %>" <%= formData.tab_spring_id === spring.tab_spring_name ? 'selected' : '' %>><%= spring.tab_spring_name %></option>
+                    <option value="<%= spring.tab_spring_name %>" <%= formData.tab_spring === spring.tab_spring_name ? 'selected' : '' %>><%= spring.tab_spring_name %></option>
                 <% }) %>
             </select>
         </label><br>
         <label><b>Mesh</b>
-            <select name="mesh" id="mesh_id">
+            <select name="mesh" id="mesh">
                 <option value="">Select</option>
                 <% meshs.forEach(mesh => { %>
-                    <option value="<%= mesh.mesh_type %>" <%= formData.mesh_id === mesh.mesh_type ? 'selected' : '' %>><%= mesh.mesh_type %></option>
+                    <option value="<%= mesh.mesh_type %>" <%= formData.mesh === mesh.mesh_type ? 'selected' : '' %>><%= mesh.mesh_type %></option>
                 <% }) %>
             </select>
         </label><br>
         <label><b>Fastener</b>
-            <select name="fastener" id="fastener_id">
+            <select name="fastener" id="fastener">
                 <option value="">Select</option>
                 <% fasteners.forEach(fastener => { %>
                     <option value="<%= fastener.fastener_type %>" <%= formData.fastener_id === fastener.fastener_type ? 'selected' : '' %>><%= fastener.fastener_type %></option>

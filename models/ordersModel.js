@@ -2063,54 +2063,46 @@ async function saveNWSData(formData, account_id) {
     try {
         // 1. Handle NWS (handle type)
         const nwsId = await getOrInsert('nws', 'nws_handle', formData.handle, 'nws_id')
+        
+        // 1(A).Get Quantity 
 
-        // 2. Handle main color
-        const colorId = await getOrInsert('color', 'color_name', formData.color_name, 'color_id')
+        // 1(B).Get Fab
 
-        // 3. Handle handle color
-        const handleColorId = await getOrInsert('color', 'color_name', formData.handle_color, 'color_id')
+        // 2. Handle frame size
+        const frameSizeId = await getOrInsert('frame_size', 'size.type', formData.frame_size, 'frame_size_id')
 
-        // 4. Handle top adapter color
-        const topAdapterColorId = await getOrInsert('color', 'color_name', formData.top_adapter_color, 'color_id')
+        // 3. Handle color
+        const ColorId = await getOrInsert('color', 'color_name', formData.handle_color, 'color_id')
 
-        // 5. Handle bottom adapter color
-        const btmAdapterColorId = await getOrInsert('color', 'color_name', formData.btm_adapter_color, 'color_id')
+        // 4. Handle width
+        const widthId = combineMeasurement(
+            formData.width_input,
+            formData.width_fraction
+        )
+        
+        // 5. Handle color
+        const  widtthPlusMinusId = await getOrInsert('color', 'color_name', formData.handle_color, 'color_id')
+        
+        // 6. Handle height
+        const heightId = combineMeasurement(
+            formData.height_input,
+            formData.height_fraction
+        )
 
-        // 6. Handle top adapter
-        const topAdapterId = await getOrInsert('top_adapter', 'top_adapter_name', formData.top_adapter, 'top_adapter_id')
+        // 7. Handle tab_spring
+        const tabSpringId = await getOrInsert('tab spring', 'tab_spring_name', formData.tab_spring, 'tab_spring_id')
 
-        // 7. Handle bottom adapter
-        const btmAdapterId = await getOrInsert('bottom_adapter', 'bottom_adapter_name', formData.btm_adapter, 'bottom_adapter_id')
-
-        // 8. Handle right buildout
-        const rightBuildoutId = await getOrInsert('right_buildout', 'right_buildout_name', formData.right_build_out, 'right_buildout_id')
-
-        // 9. Handle left buildout
-        const leftBuildoutId = await getOrInsert('left_buildout', 'left_buildout_name', formData.left_build_out, 'left_buildout_id')
-
-        // 10. Handle starting point
-        const startingPointId = await getOrInsert('starting_point', 'starting_point_name', formData.starting_point, 'starting_point_id')
-
-        // 11. Handle top level
-        const topLevelId = await getOrInsert('top_level', 'top_level_name', formData.top_level, 'top_level_id')
-
-        // 12. Handle bottom level
-        const bottomLevelId = await getOrInsert('bottom_level', 'bottom_level_name', formData.bottom_level, 'bottom_level_id')
-
-        // 13. Handle left plumb
-        const leftPlumbId = await getOrInsert('left_plumb', 'left_plumb_name', formData.left_plumb, 'left_plumb_id')
-
-        // 14. Handle right plumb
-        const rightPlumbId = await getOrInsert('right_plumb', 'right_plumb_name', formData.right_plumb, 'right_plumb_id')
-
-        // 15. Handle mesh
+        // 7. Handle mesh
         const meshId = await getOrInsert('mesh', 'mesh_type', formData.mesh, 'mesh_id')
 
-        // 16. Handle mohair
-        const mohairId = await getOrInsert('mohair', 'mohair_type', formData.mohair, 'mohair_id')
+         // 8. Handle fasteners
+        const fastenersId = await getOrInsert('fastener', 'fastener_type', formData.fastener, 'fastener_id')
+        
+        // 9. Handle Fastener Location
 
-        // 17. Handle mohair position
-        const mohairPositionId = await getOrInsert('mohair_position', 'mohair_position_name', formData.mohair_position, 'mohair_position_id')
+        // 10. Handle Notes
+
+        // 11. Handle Order Type
 
         // 18. Get product_id for Mirage 3500
         const productSql = 'SELECT product_id FROM product WHERE product_name = $1'
@@ -2125,105 +2117,9 @@ async function saveNWSData(formData, account_id) {
             handleColorJunctionId = await getOrCreateHandleColor(handleProductColorId, mirage3500Id)
         }
 
-        // Top adapter color - create product_color entry, then top_adapter_color junction entry
-        let topAdapterColorJunctionId = null
-        if (topAdapterColorId) {
-            const topAdapterProductColorId = await getOrCreateProductColor(productId, topAdapterColorId)
-            topAdapterColorJunctionId = await getOrCreateTopAdapterColor(topAdapterProductColorId)
-        }
-
-        // Bottom adapter color - create product_color entry, then bottom_adapter_color junction entry
-        let btmAdapterColorJunctionId = null
-        if (btmAdapterColorId) {
-            const btmAdapterProductColorId = await getOrCreateProductColor(productId, btmAdapterColorId)
-            btmAdapterColorJunctionId = await getOrCreateBottomAdapterColor(btmAdapterProductColorId)
-        }
 
         // 20. Handle all measurements with their fractions
         console.log('Processing measurements...')
-
-        // Top Opening Width
-        const topOpeningWidthId = await handleMeasurementWithJunction(
-            'top_opening_width',
-            'top_opening_width_name',
-            'top_opening_width_id',
-            'tow_measurement',
-            formData.top_opening_width,
-            formData.top_opening_width_fraction
-        )
-
-        // Bottom Opening Width
-        const bottomOpeningWidthId = await handleMeasurementWithJunction(
-            'bottom_opening_width',
-            'bottom_opening_width_name',
-            'bottom_opening_width_id',
-            'bow_measurement',
-            formData.bottom_opening_width,
-            formData.bottom_opening_width_fraction
-        )
-
-        // Left Opening Height
-        const leftOpeningHeightId = await handleMeasurementWithJunction(
-            'left_opening_height',
-            'left_opening_height_name',
-            'left_opening_height_id',
-            'loh_measurement',
-            formData.left_opening_height,
-            formData.left_opening_height_fraction
-        )
-
-        // Right Opening Height
-        const rightOpeningHeightId = await handleMeasurementWithJunction(
-            'right_opening_height',
-            'right_opening_height_name',
-            'right_opening_height_id',
-            'roh_measurement',
-            formData.right_opening_height,
-            formData.right_opening_height_fraction
-        )
-
-        // Middle Opening Width (store as combined string if no dedicated table)
-        const middleOpeningWidth = combineMeasurement(
-            formData.middle_opening_width,
-            formData.middle_opening_width_fraction
-        )
-
-        // Middle Opening Height (store as combined string if no dedicated table)
-        const middleOpeningHeight = combineMeasurement(
-            formData.middle_opening_height,
-            formData.middle_opening_height_fraction
-        )
-
-        // Top Adapter Width (store as combined string)
-        const topAdapterWidth = combineMeasurement(
-            formData.top_adapter_width,
-            formData.top_adapter_width_fraction
-        )
-
-        // Unit Height (store as combined string)
-        const unitHeight = combineMeasurement(
-            formData.unit_height,
-            formData.unit_height_fraction
-        )
-
-        // Pivot Pro Height (store as combined string)
-        const pivotProHeight = combineMeasurement(
-            formData.pivot_pro_height,
-            formData.pivot_pro_height_fraction
-        )
-
-        // Bottom Adapter Width (store as combined string)
-        const btmAdapterWidth = combineMeasurement(
-            formData.btm_adapter_width,
-            formData.btm_adapter_width_fraction
-        )
-
-        // Build Out Dimension (store as combined string)
-        const buildOutDimension = combineMeasurement(
-            formData.build_out_dimension,
-            formData.build_out_dimension_fraction
-        )
-
         console.log('All measurements processed successfully')
 
         // Get primary measurement_id for the form
@@ -2242,16 +2138,6 @@ async function saveNWSData(formData, account_id) {
             const insertResult = await pool.query(insertProductMeshSql, [productId, meshId])
             productMeshId = insertResult.rows[0].product_mesh_id
         }
-
-        // Get or create a default fastener (since form doesn't currently collect this)
-        const defaultFastenerSql = 'SELECT fastener_id FROM fastener LIMIT 1'
-        const fastenerResult = await pool.query(defaultFastenerSql)
-        const fastenerId = fastenerResult.rows[0]?.fastener_id || 1
-
-        // Get or create a default frame_size (since form doesn't currently collect this)
-        const defaultFrameSizeSql = 'SELECT frame_size_id FROM frame_size LIMIT 1'
-        const frameSizeResult = await pool.query(defaultFrameSizeSql)
-        const frameSizeId = frameSizeResult.rows[0]?.frame_size_id || 1
 
         // 19. INSERT into general_retract_control table first
         // Get buildout_id by inserting into buildout table
@@ -2438,7 +2324,7 @@ async function saveNWSData(formData, account_id) {
             customization_id: customizationId
         }
     } catch (error) {
-        console.error('Error in saveMirage3500Data:', error)
+        console.error('Error in saveNWSData:', error)
         throw error
     }
 }
