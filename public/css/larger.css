@@ -45,4 +45,9 @@
     form {
         width: 50%;
     }
+    .form-actions {
+        flex-direction: row;
+        justify-content: flex-end;
+        max-width: 80%;
+    }
 }
