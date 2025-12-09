@@ -1,0 +1,16 @@
+Dropdown of "create new customer" or any existing customers
+
+if create is selected, show form to create new customer
+if existing customer is selected, show their details and option to edit
+
+<div>
+  <label for="customerSelect">Select Customer:</label>
+  <select id="customerSelect" onchange="toggleCustomerForm()">
+    <option value="create">Create New Customer</option>
+    <% customers.forEach(function(customer) { %>
+      <option value="<%= customer.id %>"><%= customer.name %></option>
+    <% }); %>
+  </select>
+
+To insert:
+  First name, last name, address
