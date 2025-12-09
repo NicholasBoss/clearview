@@ -2386,10 +2386,18 @@ async function saveMirageData(formData, account_id) {
 
         const generalRetractControlId = generalRetractControlResult.rows[0].general_retract_control_id
 
+        // Insert into mirage table and get mirage_id
+        console.log('Step 13: Creating mirage entry with build_out:', formData.build_out)
+        const mirageSql = `
+            INSERT INTO mirage (mirage_build_out)
+            VALUES ($1)
+            RETURNING mirage_id
+        `
+        const mirageResult = await pool.query(mirageSql, [formData.build_out || 'Standard'])
+        const mirageId = mirageResult.rows[0].mirage_id
+        console.log('  -> mirageId:', mirageId)
+
         // Insert into customization
-        // Note: Mirage might need a 'mirage_id' if there is a specific mirage table configuration
-        // For now, we'll leave mirage_id null or handle it if you have a mirage table lookup
-        
         const customizationSql = `
             INSERT INTO customization (
                 product_id,
@@ -2399,9 +2407,10 @@ async function saveMirageData(formData, account_id) {
                 color_id,
                 mesh_id,
                 product_mesh_id,
-                general_retract_control_id
+                general_retract_control_id,
+                mirage_id
             ) VALUES (
-                $1, $2, $3, $4, $5, $6, $7, $8
+                $1, $2, $3, $4, $5, $6, $7, $8, $9
             ) RETURNING customization_id
         `
 
@@ -2413,7 +2422,8 @@ async function saveMirageData(formData, account_id) {
             colorId,
             meshId,
             productMeshId,
-            generalRetractControlId
+            generalRetractControlId,
+            mirageId
         ])
 
         const customizationId = customizationResult.rows[0].customization_id
@@ -2779,7 +2789,7 @@ async function saveNWSData(formData, account_id) {
 }
 
 // Function to confirm Mirage 3500 order
-async function confirmNWSOrder(customizationId) {
+async function confirmMirage3500Order(customizationId) {
     try {
         // Update order_customization to set is_confirmed = TRUE
         // Both is_estimate and is_confirmed should be TRUE after confirmation (per Peter.txt line 64)

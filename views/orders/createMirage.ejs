@@ -172,8 +172,93 @@
         <!-- Measurements -->
         <fieldset class="full-width">
             <legend>Measurements</legend>
-            <!-- <div class="grid-row three-col"> -->
 
+            <div class="grid-row three-col">
+                <div class="form-group">
+                    <label class="required-field">Opening Height</label>
+                    <input type="text" name="opening_height" id="opening_height" value="<%= formData.opening_height || '' %>" required>
+                    <% if (errors) { const error = errors.array().find(e => e.path === 'opening_height'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+                </div>
+
+                <div class="form-group">
+                    <label class="required-field">Opening Height Fraction</label>
+                    <select name="opening_height_fraction" id="opening_height_fraction" required>
+                        <option value="">Select</option>
+                        <% fractions.forEach(fraction => { %>
+                            <option value="<%= fraction.measurement_name %>" <%= formData.opening_height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                        <% }) %>
+                    </select>
+                    <% if (errors) { const error = errors.array().find(e => e.path === 'opening_height_fraction'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+                </div>
+
+                <div class="form-group">
+                    <label class="required-field">Top Adapter Width</label>
+                    <input type="text" name="top_adapter_width" id="top_adapter_width" value="<%= formData.top_adapter_width || '' %>" required>
+                    <% if (errors) { const error = errors.array().find(e => e.path === 'top_adapter_width'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+                </div>
+
+                <div class="form-group">
+                    <label class="required-field">Top Adapter Width Fraction</label>
+                    <select name="top_adapter_width_fraction" id="top_adapter_width_fraction" required>
+                        <option value="">Select</option>
+                        <% fractions.forEach(fraction => { %>
+                            <option value="<%= fraction.measurement_name %>" <%= formData.top_adapter_width_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                        <% }) %>
+                    </select>
+                    <% if (errors) { const error = errors.array().find(e => e.path === 'top_adapter_width_fraction'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+                </div>
+
+                <div class="form-group">
+                    <label class="required-field">Unit Height</label>
+                    <input type="text" name="unit_height" id="unit_height" value="<%= formData.unit_height || '' %>" required>
+                    <% if (errors) { const error = errors.array().find(e => e.path === 'unit_height'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+                </div>
+
+                <div class="form-group">
+                    <label class="required-field">Unit Height Fraction</label>
+                    <select name="unit_height_fraction" id="unit_height_fraction" required>
+                        <option value="">Select</option>
+                        <% fractions.forEach(fraction => { %>
+                            <option value="<%= fraction.measurement_name %>" <%= formData.unit_height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                        <% }) %>
+                    </select>
+                    <% if (errors) { const error = errors.array().find(e => e.path === 'unit_height_fraction'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+                </div>
+
+                <div class="form-group">
+                    <label class="required-field">Pivot Pro Height</label>
+                    <input type="text" name="pivot_pro_height" id="pivot_pro_height" value="<%= formData.pivot_pro_height || '' %>" required>
+                    <% if (errors) { const error = errors.array().find(e => e.path === 'pivot_pro_height'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+                </div>
+
+                <div class="form-group">
+                    <label class="required-field">Pivot Pro Height Fraction</label>
+                    <select name="pivot_pro_height_fraction" id="pivot_pro_height_fraction" required>
+                        <option value="">Select</option>
+                        <% fractions.forEach(fraction => { %>
+                            <option value="<%= fraction.measurement_name %>" <%= formData.pivot_pro_height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                        <% }) %>
+                    </select>
+                    <% if (errors) { const error = errors.array().find(e => e.path === 'pivot_pro_height_fraction'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+                </div>
+
+                <div class="form-group">
+                    <label class="required-field">Bottom Adapter Width</label>
+                    <input type="text" name="btm_adapter_width" id="btm_adapter_width" value="<%= formData.btm_adapter_width || '' %>" required>
+                    <% if (errors) { const error = errors.array().find(e => e.path === 'btm_adapter_width'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+                </div>
+
+                <div class="form-group">
+                    <label class="required-field">Bottom Adapter Width Fraction</label>
+                    <select name="btm_adapter_width_fraction" id="btm_adapter_width_fraction" required>
+                        <option value="">Select</option>
+                        <% fractions.forEach(fraction => { %>
+                            <option value="<%= fraction.measurement_name %>" <%= formData.btm_adapter_width_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                        <% }) %>
+                    </select>
+                    <% if (errors) { const error = errors.array().find(e => e.path === 'btm_adapter_width_fraction'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+                </div>
+            </div>
 
             <fieldset class="full-width">
                 <legend>Build Out</legend>
@@ -209,9 +294,8 @@
                             <% } %>
                         <% } %>
                     </div>
-                <!-- </div> -->
+                </div>
             </fieldset>
-            </div>
         </fieldset>
 
         <div class="form-actions">
@@ -259,7 +343,14 @@
 
     // Save form data to localStorage when form is submitted
     document.getElementById('form').addEventListener('submit', function(event) {
-        // Save form data before showing confirmation
+        // Show confirmation popup FIRST
+        const confirmed = confirm('Are you sure you want to submit this order? This will save the order to the database as an estimate.');
+        if (!confirmed) {
+            event.preventDefault(); // Prevent form submission if user clicks Cancel
+            return;
+        }
+
+        // Save form data to localStorage after confirmation
         const formData = new FormData(this);
         const formObject = {};
 
@@ -269,12 +360,6 @@
 
         localStorage.setItem('mirageFormData', JSON.stringify(formObject));
         console.log('Form data saved to localStorage');
-
-        // Show confirmation popup
-        const confirmed = confirm('Are you sure you want to submit this form? Please review all fields before proceeding.');
-        if (!confirmed) {
-            event.preventDefault(); // Prevent form submission if user clicks Cancel
-        }
     });
 
     // Clear form button functionality
