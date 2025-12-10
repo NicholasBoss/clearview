@@ -1,30 +1,41 @@
 <%- messages() %>
+
 <% if (errors) { %>
     <ul id="errorList" class="notice error">
-        <% errors.array().forEach(error=> { %>
-            <li>
-                <%= error.msg %>
-            </li>
-            <% }) %>
+        <% errors.array().forEach(error => { %>
+            <li><%= error.msg %></li>
+        <% }) %>
     </ul>
-    <% } %>
-<script src="/js/togglePass.js" defer></script>
-    <form action="/account/login" method="post">
-        <div class="container">
-            <label><b>Email:</b>
-            <input type="email" id="email" name="account_email" required 
-                placeholder="Enter Email"
-                value=""></label><br>
-            <label><b>Password:</b>
-                <input type="password" id="password" name="account_password" required placeholder="Enter Password"value="">
-                <i class="eye-toggle" id="togglePass">
-                    <img id="passImg" src="/images/icons/eye-regular.svg" alt="Password Eye">
-                </i>
-            </label><br>
-                        <!-- SET URL that prompted login -->
+<% } %>
 
+<script src="/js/togglePass.js" defer></script>
+
+<form action="/account/login" method="post">
+    <div class="form-grid">
+        <fieldset class="full-width">
+            <legend>Login</legend>
+            <div class="grid-row">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="account_email" required placeholder="Enter your email" value="">
+                </div>
+            </div>
+            <div class="grid-row">
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="password" name="account_password" required placeholder="Enter your password" value="">
+                        <i class="eye-toggle" id="togglePass">
+                            <img id="passImg" src="/images/icons/eye-regular.svg" alt="Show/Hide Password">
+                        </i>
+                    </div>
+                </div>
+            </div>
             <input type="hidden" name="url" value="/account/">
-            <button class="formbtn" type="submit">Login</button>
+        </fieldset>
+
+        <div class="form-actions">
+            <button class="btn-primary" type="submit">Login</button>
         </div>
-    </form>
-       
+    </div>
+</form>

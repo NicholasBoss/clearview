@@ -1,0 +1,258 @@
+<% if (title) { %>
+    <h1><%= title %></h1>
+<% } else { res.redirect('/') } %>
+
+<%- messages() %>
+
+<% if (errors) { %>
+    <ul id="errorList" class="notice error">
+        <% errors.array().forEach(error => { %>
+            <li><%= error.msg %></li>
+        <% }) %>
+    </ul>
+<% } %>
+
+<form id="form" action="/orders/saveMirage" method="post">
+    <div class="form-grid">
+        <fieldset class="full-width">
+            <legend>Order Details</legend>
+            <div class="grid-row">
+                <div class="form-group">
+                    <label>Order #</label>
+                    <input type="text" value="<%= formData.customization_id || '' %>" readonly>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset class="full-width">
+            <legend>Customer Information</legend>
+            <div class="grid-row">
+                <div class="form-group">
+                    <label>Customer First Name</label>
+                    <input type="text" name="customer_firstname" id="customer_firstname" value="<%= formData.customer_firstname || '' %>" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Customer Last Name</label>
+                    <input type="text" name="customer_lastname" id="customer_lastname" value="<%= formData.customer_lastname || '' %>" readonly>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset class="full-width">
+            <legend>Product Specifications</legend>
+            <div class="grid-row three-col">
+                <div class="form-group">
+                    <label>Color</label>
+                    <select name="color_name" id="color" disabled>
+                        <option value="">Select</option>
+                        <% colors.forEach(color => { %>
+                            <option value="<%= color.color_name %>" <%= formData.color_name === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Pivot Pro Color</label>
+                    <select name="pivot_pro_color" id="pivot_pro_color" disabled>
+                        <option value="">Select</option>
+                        <% pivotProColors.forEach(color => { %>
+                            <option value="<%= color.color_name %>" <%= formData.pivot_pro_color === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Handle</label>
+                    <select name="handle" id="handle" disabled>
+                        <option value="">Select</option>
+                        <% handles.forEach(handle => { %>
+                            <option value="<%= handle.mirage_3500_handle %>" <%= formData.handle === handle.mirage_3500_handle ? 'selected' : '' %>><%= handle.mirage_3500_handle %></option>
+                        <% }) %>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid-row three-col">
+                <div class="form-group">
+                    <label>Handle Color</label>
+                    <select name="handle_color" id="handle_color" disabled>
+                        <option value="">Select</option>
+                        <% colors.forEach(color => { %>
+                            <option value="<%= color.color_name %>" <%= formData.handle_color === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Top Adapter</label>
+                    <select name="top_adapter" id="top_adapter" disabled>
+                        <option value="">Select</option>
+                        <% topAdapters.forEach(adapter => { %>
+                            <option value="<%= adapter.top_adapter_name %>" <%= formData.top_adapter === adapter.top_adapter_name ? 'selected' : '' %>><%= adapter.top_adapter_name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Top Adapter Color</label>
+                    <select name="top_adapter_color" id="top_adapter_color" disabled>
+                        <option value="">Select</option>
+                        <% colors.forEach(color => { %>
+                            <option value="<%= color.color_name %>" <%= formData.top_adapter_color === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid-row three-col">
+                <div class="form-group">
+                    <label>Top Adapter Width</label>
+                    <div class="measurement-input">
+                        <input type="text" name="top_adapter_width" id="top_adapter_width" value="<%= formData.top_adapter_width || '' %>" readonly>
+                        <select name="top_adapter_width_fraction" id="top_adapter_width_fraction" disabled>
+                            <option value="">Fraction</option>
+                            <% fractions.forEach(fraction => { %>
+                                <option value="<%= fraction.measurement_name %>" <%= formData.top_adapter_width_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Unit Height</label>
+                    <div class="measurement-input">
+                        <input type="text" name="unit_height" id="unit_height" value="<%= formData.unit_height || '' %>" readonly>
+                        <select name="unit_height_fraction" id="unit_height_fraction" disabled>
+                            <option value="">Fraction</option>
+                            <% fractions.forEach(fraction => { %>
+                                <option value="<%= fraction.measurement_name %>" <%= formData.unit_height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Pivot Pro Height</label>
+                    <div class="measurement-input">
+                        <input type="text" name="pivot_pro_height" id="pivot_pro_height" value="<%= formData.pivot_pro_height || '' %>" readonly>
+                        <select name="pivot_pro_height_fraction" id="pivot_pro_height_fraction" disabled>
+                            <option value="">Fraction</option>
+                            <% fractions.forEach(fraction => { %>
+                                <option value="<%= fraction.measurement_name %>" <%= formData.pivot_pro_height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-row three-col">
+                <div class="form-group">
+                    <label>Bottom Adapter</label>
+                    <select name="btm_adapter" id="btm_adapter" disabled>
+                        <option value="">Select</option>
+                        <% bottomAdapters.forEach(adapter => { %>
+                            <option value="<%= adapter.bottom_adapter_name %>" <%= formData.btm_adapter === adapter.bottom_adapter_name ? 'selected' : '' %>><%= adapter.bottom_adapter_name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Bottom Adapter Color</label>
+                    <select name="bottom_adapter_color" id="bottom_adapter_color_id" disabled>
+                        <option value="">Select</option>
+                        <% colors.forEach(color => { %>
+                            <option value="<%= color.color_name %>" <%= formData.bottom_adapter_color === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Bottom Adapter Width</label>
+                    <div class="measurement-input">
+                        <input type="text" name="btm_adapter_width" id="btm_adapter_width" value="<%= formData.btm_adapter_width || '' %>" readonly>
+                        <select name="btm_adapter_width_fraction" id="btm_adapter_width_fraction" disabled>
+                            <option value="">Fraction</option>
+                            <% fractions.forEach(fraction => { %>
+                                <option value="<%= fraction.measurement_name %>" <%= formData.btm_adapter_width_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-row three-col">
+                <div class="form-group">
+                    <label>Right Build Out</label>
+                    <select name="right_build_out" id="right_build_out" disabled>
+                        <option value="">Select</option>
+                        <% rightBuildouts.forEach(buildout => { %>
+                            <option value="<%= buildout.right_buildout_name %>" <%= formData.right_build_out === buildout.right_buildout_name ? 'selected' : '' %>><%= buildout.right_buildout_name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Left Build Out</label>
+                    <select name="left_build_out" id="left_build_out" disabled>
+                        <option value="">Select</option>
+                        <% leftBuildouts.forEach(buildout => { %>
+                            <option value="<%= buildout.left_buildout_name %>" <%= formData.left_build_out === buildout.left_buildout_name ? 'selected' : '' %>><%= buildout.left_buildout_name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Build Out Dimension</label>
+                    <div class="measurement-input">
+                        <input type="text" name="build_out_dimension" id="build_out_dimension" value="<%= formData.build_out_dimension || '' %>" readonly>
+                        <select name="build_out_dimension_fraction" id="build_out_dimension_fraction" disabled>
+                            <option value="">Fraction</option>
+                            <% fractions.forEach(fraction => { %>
+                                <option value="<%= fraction.measurement_name %>" <%= formData.build_out_dimension_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-row three-col">
+                <div class="form-group">
+                    <label>Mesh</label>
+                    <select name="mesh" id="mesh" disabled>
+                        <option value="">Select</option>
+                        <% meshTypes.forEach(mesh => { %>
+                            <option value="<%= mesh.mesh_type %>" <%= formData.mesh === mesh.mesh_type ? 'selected' : '' %>><%= mesh.mesh_type %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Mohair</label>
+                    <select name="mohair" id="mohair" disabled>
+                        <option value="">Select</option>
+                        <% mohairOptions.forEach(mohair => { %>
+                            <option value="<%= mohair.mohair_type %>" <%= formData.mohair === mohair.mohair_type ? 'selected' : '' %>><%= mohair.mohair_type %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Mohair Position</label>
+                    <select name="mohair_position" id="mohair_position" disabled>
+                        <option value="">Select</option>
+                        <% mohairPositions.forEach(position => { %>
+                            <option value="<%= position.mohair_position_name %>" <%= formData.mohair_position === position.mohair_position_name ? 'selected' : '' %>><%= position.mohair_position_name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="form-actions">
+            <a href="/account" class="btn-secondary">← Back to Account</a>
+        </div>
+    </div>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('form').addEventListener('submit', function(event) {
+            event.preventDefault();
+        });
+    });
+</script>
+
+<style>
+    select:disabled, input[readonly] {
+        background-color: #e9ecef;
+        cursor: not-allowed;
+    }
+</style>

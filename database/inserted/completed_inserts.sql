@@ -602,6 +602,11 @@ VALUES
 ('Edge')
 , ('Inside');
 
+INSERT INTO mount_type (mount_type_name)
+VALUES
+('Full Cassette')
+, ('Cassette w/ NO Cover')
+, ('Brackets Only');
 INSERT INTO tab_spring (tab_spring_name)
 VALUES
 ('L')

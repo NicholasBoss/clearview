@@ -1,216 +1,448 @@
-<h1>Create Rainier Order</h1>
+<% if (title) { %>
+    <h1><%= title %></h1>
+<% } else { res.redirect('/') } %>
 
-<form action="" method="post">
-    <div class="container">
-        <label><b>Placement</b>
-            <select name="rainier_placement" id="">
-                <option value="">Select</option>
-                <% placement.forEach(item => { %>
-                    <option value="<%= item.placement_name %>"><%= item.placement_name %></option>
-                <% }) %>
-            </select>
-        </label><br>
-        <label><b>Hardware Color</b>
-            <select name="rainier_color" id="">
-                <option value="">Select</option>
-                <% colors.forEach(item => { %>
-                    <option value="<%= item.color_name %>"><%= item.color_name %></option>
-                <% }) %>
-            </select>
-        </label><br>
-        <label><b>Fabric & Color</b>
-            <select name="rainier_fabric_name" id="">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
-                <option value="">16</option>
-                <option value="">17</option>
-                <option value="">18</option>
-                <option value="">19</option>
-                <option value="">20</option>
-                <option value="">21</option>
-                <option value="">22</option>
-                <option value="">23</option>
-                <option value="">24</option>
-                <option value="">25</option>
-                <option value="">26</option>
-                <option value="">27</option>
-                <option value="">28</option>
-                <option value="">29</option>
-                <option value="">30</option>
-                <option value="">31</option>
-            </select>
-        </label><br>
-        <label><b>Housing Series</b>
-            <select name="housing_series" id="">
-                <option value="">Select</option>
-                <% housing.forEach(item => { %>
-                    <option value="<%= item.housing_series_name %>"><%= item.housing_series_name %></option>
-                <% }) %>
-            </select>
-        </label><br>
-        <label><b>Drive Side</b>
-            <select name="drive_side" id="">
-                <option value="">Select</option>
-                <% driveSide.forEach(item => { %>
-                    <option value="<%= item.drive_side_name %>"><%= item.drive_side_name %></option>
-                <% }) %>
-            </select>
-        </label><br>
-        <label><b>Hembar</b>
-            <select name="hembar_name" id="">
-                <option value="">Select</option>
-                <% hembar.forEach(item => { %>
-                    <option value="<%= item.hembar_name %>"><%= item.hembar_name %></option>
-                <% }) %>
-            </select>
-        </label><br>
-        <label><b>Pile Brush</b> 
-            <select name="pile_brush" id="">
-                <option value="">Select</option>
-                <% pilebrush.forEach(item => { %>
-                    <option value="<%= item.pilebrush_name %>"><%= item.pilebrush_name %></option>
-                <% }) %>
-            </select>
-        </label><br>
-        <label><b>Brush Location</b>
-            <select name="brush_location" id="">
-                <option value="">Select</option>
-                <% brushLocation.forEach(item => { %>
-                    <option value="<%= item.brush_location_name %>"><%= item.brush_location_name %></option>
-                <% }) %>
-            </select>
-        </label><br>
-        <label><b>Zipper Color</b>
-            <select name="zipper_color" id="">
-                <option value="">Select</option>
-                <% zipperColor.forEach(item => { %>
-                    <option value="<%= item.color_name %>"><%= item.color_name%></option>
-                <% }) %>
-            </select>
-        </label><br>
-        <label><b>Cord Length</b>
-            <select name="cord_length" id="">
-                <option value="">Select</option>
-                <% cordLength.forEach(item => { %>
-                    <option value="<%= item.cord_length_name %>"><%= item.cord_length_name %></option>
-                <% }) %>
-            </select>
-        </label><br>
-        <label><b>Mount Type</b>
-            <select name="mount_type" id="mount_type_id">
-                <option value="">Select</option>
-                <% mountTypes.forEach(item => { %>
-                    <option value="<%= item.mount_type_name %>"><%= item.mount_type_name %></option>
-                <% }) %>
-            </select>
-        </label><br>
-        <label><b>Top Opening Width</b>
-            <input type="text" name="top_opening_width" id="">
-        </label><br>
-        <label><b>Top Opening Width Inch</b>
-            <select name="top_opening_width_inch" id="top_opening_width_id">
-                <option value="">Select</option>
-                <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
-                <% }) %>
-            </select>
-        </label><br>
-        <label><b>Top Level</b>
-            <input type="text" name="top_level" id="">
-        </label><br>
-        <label><b>Bottom Opening Width</b>
-            <input type="text" name="bottom_opening_width" id="bottom_opening_width_id">
-        </label><br>
-        <label><b>Bottom Opening Width Inch</b>
-            <select name="bottom_opening_width_inch" id="">
-                <option value="">Select</option>
-                <% fractions.forEach(fraction => { %>
-                <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
-                <% }) %>
-            </select>
-        </label><br>
-        <label><b>Bottom Level</b>
-            <input type="text" name="bottom_level" id="">
-        </label><br>
-        <label><b>Left Opening Height</b>
-            <input type="text" name="left_opening_height" id="">
-        </label><br>
-        <label><b>Left Opening Height Inch</b>
-            <select name="left_opening_height_inch" id="">
-                <option value="">Select</option>
-                <% fractions.forEach(fraction => { %>
-                <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
-                <% }) %>
-            </select>
-        </label><br>
-        <label><b>Left Plumb</b>
-            <input type="text" name="left_plumb" id="">
-        </label><br>
-        <label><b>Right Opening Height</b>
-            <input type="text" name="right_opening_height" id="">
-        </label><br>
-        <label><b>Right Opening Height Inch</b>
-            <select name="right_opening_height_inch" id="">
-                <option value="">Select</option>
-                <% fractions.forEach(fraction => { %>
-                    <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
-                <% }) %>
-            </select>
-        </label><br>
-        <label><b>Right Plumb</b>
-            <input type="text" name="right_plumb" id="">
-        </label><br>
-        <label><b>Left Build Out</b>
-            <select name="left_build_out" id="">
-                <option value="None">Select</option>
-                <% leftBuildout.forEach(item => { %>
-                    <option value="<%= item.left_buildout_name %>"><%= item.left_buildout_name %></option>
-                <% }) %>
-            </select>
-        </label><br>
-        <label><b>Right Build Out</b>
-            <select name="right_build_out" id="">
-                <option value="None">Select</option>
-                <% rightBuildout.forEach(item => { %>
-                    <option value="<%= item.right_buildout_name %>"><%= item.right_buildout_name %></option>
-                <% }) %>
-            </select>
-        </label><br>
-        <label><b>Add Build Out</b>
-            <input type="text" name="add_build_out" id="">
-        </label><br>
-        <label><b>Left Track</b>
-            <select name="left_track" id="">
-                <option value="None">Select</option>
-                <% leftTrack.forEach(item => { %>
-                    <option value="<%= item.left_track_name %>"><%= item.left_track_name %></option>
-                <% }) %>
-            </select>
-        </label><br>
-        <label><b>Right Track</b>
-            <select name="right_track" id="">
-                <option value="None">Select</option>
-                <% rightTrack.forEach(item => { %>
-                    <option value="<%= item.right_track_name %>"><%= item.right_track_name %></option>
-                <% }) %>
-            </select>
-        </label><br>
-        <label><b>Starting Point</b>
-            <input type="text" name="starting_point" id="">
-        </label><br>
-        
+<%- messages() %>
+
+<% if (errors) { %>
+    <div class="error-banner">
+        <h3>Please correct the following errors:</h3>
+        <ul>
+            <% errors.array().forEach(error => { %>
+                <li><%= error.msg %></li>
+            <% }) %>
+        </ul>
+    </div>
+<% } %>
+
+<script>
+  // Auto-fill customer name from session storage if available
+  document.addEventListener('DOMContentLoaded', function() {
+    const selectedCustomer = sessionStorage.getItem('selectedCustomerId');
+    if (selectedCustomer) {
+      const [firstName, lastName] = selectedCustomer.split(' ');
+      const firstNameInput = document.querySelector('input[name="customer_firstname"]');
+      const lastNameInput = document.querySelector('input[name="customer_lastname"]');
+      if (firstName && firstNameInput) firstNameInput.value = firstName;
+      if (lastName && lastNameInput) lastNameInput.value = lastName;
+    }
+  });
+</script>
+
+<form id="form" action="/orders/confirmRainier" method="post">
+    <div class="form-grid">
+        <!-- Customer Information -->
+        <fieldset class="full-width">
+            <legend>Customer Information</legend>
+            <div class="grid-row">
+                <div class="form-group">
+                    <label class="required-field">Customer First Name</label>
+                    <input type="text" name="customer_firstname" value="<%= formData.customer_firstname || '' %>" placeholder="Enter customer first name" required>
+                </div>
+                <div class="form-group">
+                    <label class="required-field">Customer Last Name</label>
+                    <input type="text" name="customer_lastname" value="<%= formData.customer_lastname || '' %>" placeholder="Enter customer last name" required>
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Product Specifications -->
+        <fieldset class="full-width">
+            <legend>Product Specifications</legend>
+            <div class="grid-row three-col">
+                <div class="form-group">
+                    <label class="required-field">Placement</label>
+                    <select name="rainier_placement" required>
+                        <option value="">Select Placement</option>
+                        <% if (placement && placement.length > 0) { %>
+                            <% placement.forEach(function(item) { %>
+                                <option value="<%= item.placement_name %>" <%= formData.rainier_placement === item.placement_name ? 'selected' : '' %>><%= item.placement_name %></option>
+                            <% }); %>
+                        <% } %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Hardware Color</label>
+                    <select name="rainier_color">
+                        <option value="">Select</option>
+                        <% colors.forEach(item => { %>
+                            <option value="<%= item.color_name %>" <%= formData.rainier_color === item.color_name ? 'selected' : '' %>><%= item.color_name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="required-field">Fabric & Color</label>
+                    <select name="fabric_color" required>
+                        <option value="">Select Fabric & Color</option>
+                        <% if (rainierFabricColors && rainierFabricColors.length > 0) { %>
+                            <% rainierFabricColors.forEach(function(item) { %>
+                                <option value="<%= item.fabric_name %>" <%= formData.fabric_color === item.fabric_name ? 'selected' : '' %>><%= item.fabric_name %></option>
+                            <% }); %>
+                        <% } %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Housing Series</label>
+                    <select name="housing_series">
+                        <option value="">Select</option>
+                        <% housing.forEach(item => { %>
+                            <option value="<%= item.housing_series_name %>" <%= formData.housing_series === item.housing_series_name ? 'selected' : '' %>><%= item.housing_series_name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Drive Side</label>
+                    <select name="drive_side">
+                        <option value="">Select</option>
+                        <% driveSide.forEach(item => { %>
+                            <option value="<%= item.drive_side_name %>" <%= formData.drive_side === item.drive_side_name ? 'selected' : '' %>><%= item.drive_side_name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Hembar</label>
+                    <select name="hembar_name">
+                        <option value="">Select</option>
+                        <% hembar.forEach(item => { %>
+                            <option value="<%= item.hembar_name %>" <%= formData.hembar_name === item.hembar_name ? 'selected' : '' %>><%= item.hembar_name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Pile Brush</label>
+                    <select name="pile_brush">
+                        <option value="">Select</option>
+                        <% pilebrush.forEach(item => { %>
+                            <option value="<%= item.pilebrush_name %>" <%= formData.pile_brush === item.pilebrush_name ? 'selected' : '' %>><%= item.pilebrush_name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Brush Location</label>
+                    <select name="brush_location">
+                        <option value="">Select</option>
+                        <% brushLocation.forEach(item => { %>
+                            <option value="<%= item.brush_location_name %>" <%= formData.brush_location === item.brush_location_name ? 'selected' : '' %>><%= item.brush_location_name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Zipper Color</label>
+                    <select name="zipper_color">
+                        <option value="">Select</option>
+                        <% zipperColor.forEach(item => { %>
+                            <option value="<%= item.color_name %>" <%= formData.zipper_color === item.color_name ? 'selected' : '' %>><%= item.color_name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Cord Length</label>
+                    <select name="cord_length">
+                        <option value="">Select</option>
+                        <% cordLength.forEach(item => { %>
+                            <option value="<%= item.cord_length_name %>" <%= formData.cord_length === item.cord_length_name ? 'selected' : '' %>><%= item.cord_length_name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Mount Type</label>
+                    <select name="mount_type">
+                        <option value="">Select</option>
+                        <% mountTypes.forEach(item => { %>
+                            <option value="<%= item.mount_type_name %>" <%= formData.mount_type === item.mount_type_name ? 'selected' : '' %>><%= item.mount_type_name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Measurements -->
+        <fieldset class="full-width">
+            <legend>Measurements</legend>
+            <div class="grid-row">
+                <!-- Top Opening -->
+                <div class="form-group">
+                    <label>Top Opening Width</label>
+                    <div class="measurement-input">
+                        <input type="text" name="top_opening_width" value="<%= formData.top_opening_width || '' %>">
+                        <select name="top_opening_width_inch">
+                            <option value="">Inch</option>
+                            <% fractions.forEach(fraction => { %>
+                                <option value="<%= fraction.measurement_name %>" <%= formData.top_opening_width_inch === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Top Level</label>
+                    <input type="text" name="top_level" value="<%= formData.top_level || '' %>">
+                </div>
+
+                <!-- Bottom Opening -->
+                <div class="form-group">
+                    <label>Bottom Opening Width</label>
+                    <div class="measurement-input">
+                        <input type="text" name="bottom_opening_width" value="<%= formData.bottom_opening_width || '' %>">
+                        <select name="bottom_opening_width_inch">
+                            <option value="">Inch</option>
+                            <% fractions.forEach(fraction => { %>
+                                <option value="<%= fraction.measurement_name %>" <%= formData.bottom_opening_width_inch === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Bottom Level</label>
+                    <input type="text" name="bottom_level" value="<%= formData.bottom_level || '' %>">
+                </div>
+
+                <!-- Left Opening -->
+                <div class="form-group">
+                    <label>Left Opening Height</label>
+                    <div class="measurement-input">
+                        <input type="text" name="left_opening_height" value="<%= formData.left_opening_height || '' %>">
+                        <select name="left_opening_height_inch">
+                            <option value="">Inch</option>
+                            <% fractions.forEach(fraction => { %>
+                                <option value="<%= fraction.measurement_name %>" <%= formData.left_opening_height_inch === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Left Plumb</label>
+                    <input type="text" name="left_plumb" value="<%= formData.left_plumb || '' %>">
+                </div>
+
+                <!-- Right Opening -->
+                <div class="form-group">
+                    <label>Right Opening Height</label>
+                    <div class="measurement-input">
+                        <input type="text" name="right_opening_height" value="<%= formData.right_opening_height || '' %>">
+                        <select name="right_opening_height_inch">
+                            <option value="">Inch</option>
+                            <% fractions.forEach(fraction => { %>
+                                <option value="<%= fraction.measurement_name %>" <%= formData.right_opening_height_inch === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Right Plumb</label>
+                    <input type="text" name="right_plumb" value="<%= formData.right_plumb || '' %>">
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Buildouts & Tracks -->
+        <fieldset class="full-width">
+            <legend>Buildouts & Tracks</legend>
+            <div class="grid-row three-col">
+                <div class="form-group">
+                    <label>Left Build Out</label>
+                    <select name="left_build_out">
+                        <option value="None">Select</option>
+                        <% leftBuildout.forEach(item => { %>
+                            <option value="<%= item.left_buildout_name %>" <%= formData.left_build_out === item.left_buildout_name ? 'selected' : '' %>><%= item.left_buildout_name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Right Build Out</label>
+                    <select name="right_build_out">
+                        <option value="None">Select</option>
+                        <% rightBuildout.forEach(item => { %>
+                            <option value="<%= item.right_buildout_name %>" <%= formData.right_build_out === item.right_buildout_name ? 'selected' : '' %>><%= item.right_buildout_name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Add Build Out</label>
+                    <input type="text" name="add_build_out" value="<%= formData.add_build_out || '' %>">
+                </div>
+                <div class="form-group">
+                    <label>Left Track</label>
+                    <select name="left_track">
+                        <option value="None">Select</option>
+                        <% leftTrack.forEach(item => { %>
+                            <option value="<%= item.left_track_name %>" <%= formData.left_track === item.left_track_name ? 'selected' : '' %>><%= item.left_track_name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Right Track</label>
+                    <select name="right_track">
+                        <option value="None">Select</option>
+                        <% rightTrack.forEach(item => { %>
+                            <option value="<%= item.right_track_name %>" <%= formData.right_track === item.right_track_name ? 'selected' : '' %>><%= item.right_track_name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-primary">Submit Order</button>
+            <button type="button" id="clearFormBtn" class="btn-secondary">Clear Form</button>
+        </div>
     </div>
 </form>
+
+<style>
+    /* .rainier-notice {
+        background-color: #e9ecef;
+        padding: 1rem;
+        border-radius: 4px;
+        margin-bottom: 1.5rem;
+        border-left: 5px solid #007bff;
+    } */
+
+    .form-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    fieldset {
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 8px;
+        background-color: #fff;
+    }
+
+    legend {
+        font-weight: bold;
+        padding: 0 10px;
+        color: #333;
+        font-size: 1.1em;
+    }
+
+    .grid-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .grid-row.three-col {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        font-size: 0.9em;
+        color: #555;
+    }
+
+    .required-field::after {
+        content: "*";
+        color: red;
+        margin-left: 4px;
+    }
+
+    input[type="text"], select {
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    input[type="text"]:focus, select:focus {
+        border-color: #007bff;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+    }
+
+    .measurement-input {
+        display: flex;
+        gap: 10px;
+    }
+
+    .measurement-input input {
+        flex: 2;
+    }
+
+    .measurement-input select {
+        flex: 1;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+        padding-bottom: 40px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 25px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+        padding: 10px 25px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+
+    .error-input {
+        border-color: #dc3545 !important;
+    }
+
+    .error-message {
+        color: #dc3545;
+        font-size: 0.85em;
+        margin-top: 4px;
+    }
+
+    .error-banner {
+        background-color: #f8d7da;
+        color: #721c24;
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        border: 1px solid #f5c6cb;
+    }
+
+    @media (max-width: 768px) {
+        .grid-row, .grid-row.three-col {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<script>
+    // Clear form button functionality
+    document.getElementById('clearFormBtn').addEventListener('click', function() {
+        const confirmed = confirm('Are you sure you want to clear all form data?');
+        if (confirmed) {
+            document.getElementById('form').reset();
+            // Reload page to clear any server-side values
+            window.location.href = window.location.pathname;
+        }
+    });
+</script>

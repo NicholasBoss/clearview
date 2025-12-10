@@ -1,112 +1,207 @@
 
 <h1>Create New Window Screen Order</h1>
 
+<%- messages() %>
+<% if (errors) { %>
+    <div class="error-banner">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" fill="currentColor"/>
+        </svg>
+        <div>
+            <strong>Submission Error</strong>
+            <p>There are errors with your submission. Please review the form and correct the highlighted fields.</p>
+        </div>
+    </div>
+<% } %>
+
+<script>
+  // Auto-fill customer name from session storage if available
+  document.addEventListener('DOMContentLoaded', function() {
+    const selectedCustomer = sessionStorage.getItem('selectedCustomerId');
+    if (selectedCustomer) {
+      const [firstName, lastName] = selectedCustomer.split(' ');
+      if (firstName) document.getElementById('customer_firstname').value = firstName;
+      if (lastName) document.getElementById('customer_lastname').value = lastName;
+    }
+  });
+</script>
+
 <form action="/orders/create" method="post">
-    <div class="container">
-        <label><b>Quantity</b>
-            <input type="text" name="quantity" id="">
-        </label><br>
-        <label><b>Fab</b>
-            <input type="text" name="width_input" id="">
-        </label><br>
-        <label><b>Frame</b>
-            <select name="frame_size" id="frame_size_id">
-                <option value="">Select</option>
-                <% frame_sizes.forEach(frame_size => { %>
-                    <option value="<%= frame_size.size_type %>" <%= formData.frame_size_id === frame_size.size_type ? 'selected' : '' %>><%= frame_size.size_type %></option>
-                <% }) %>
-            </select>
-        </label><br>
-        <label><b>Color</b>
-            <select name="color" id="color_id">
-                <option value="">Select</option>
-                <% colors.forEach(color => { %>
-                    <option value="<%= color.color_name %>" <%= formData.color_id === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
-                <% }) %>
-            </select>
-        </label><br>
-        <label><b>Width</b>
-            <input type="text" name="width_input" id="">
-        </label><br>
-        <label><b>W / F</b>
-            <select name="measurement_name" id="">
-                <option value="">Select</option>
-                <% fractions.forEach(fraction => { %>
-                <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
-                <% }) %> 
-            </select>
-        </label><br>
-        <label><b>+ / -</b>
-            <select name="plus_minus" id="width_plus_minus">
-                <option value="">Select</option>
-                <option value="+">+</option>
-                <option value="-">-</option>
-            </select>
-        </label><br>
-        <label><b>Height</b>
-            <input type="text" name="height_input" id="">
-        </label><br>
-        <label><b>H / F</b>
-            <select name="height_fraction" id="">
-                <option value="">Select</option>
-                <% fractions.forEach(fraction => { %>
-                <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
-                <% }) %> 
-            </select>
-        </label><br>
-        <label><b>+ / -</b>
-            <select name="plus_minus" id="height_plus_minus">
-                <option value="">Select</option>
-                <option value="+">+</option>
-                <option value="-">-</option>
-            </select>
-        </label><br>
-        <label><b>Tabs</b>
-            <select name="tabs" id="">
-                <option value="">Select</option>
-                <option value="L">L</option>
-                <option value="S">S</option>
-                <option value="None">None</option>
-            </select>
-        </label><br>
-        <label><b>Spring</b>
-            <select name="spring" id="tab_spring_id">
-                <option value="">Select</option>
-                <% springs.forEach(spring => { %>
-                    <option value="<%= spring.tab_spring_name %>" <%= formData.tab_spring_id === spring.tab_spring_name ? 'selected' : '' %>><%= spring.tab_spring_name %></option>
-                <% }) %>
-            </select>
-        </label><br>
-        <label><b>Mesh</b>
-            <select name="mesh" id="mesh_id">
-                <option value="">Select</option>
-                <% meshs.forEach(mesh => { %>
-                    <option value="<%= mesh.mesh_type %>" <%= formData.mesh_id === mesh.mesh_type ? 'selected' : '' %>><%= mesh.mesh_type %></option>
-                <% }) %>
-            </select>
-        </label><br>
-        <label><b>Fastener</b>
-            <select name="fastener" id="fastener_id">
-                <option value="">Select</option>
-                <% fasteners.forEach(fastener => { %>
-                    <option value="<%= fastener.fastener_type %>" <%= formData.fastener_id === fastener.fastener_type ? 'selected' : '' %>><%= fastener.fastener_type %></option>
-                <% }) %>
-            </select>
-        </label><br>
-        <label><b>Fastener Location</b>
-            <input type="text" name="fastener_location" id="">
-        </label><br>
-        <label><b>Notes</b>
-            <input type="text" name="notes" id="">
-        </label><br>
+    <div class="form-grid">
+        <!-- Customer Information -->
+        <fieldset class="full-width">
+            <legend>Customer Information</legend>
+            <div class="grid-row">
+                <div class="form-group">
+                    <label class="required-field">Customer First Name</label>
+                    <input type="text" name="customer_firstname" id="customer_firstname" value="<%= formData.customer_firstname || '' %>" placeholder="Enter customer first name" required <%= errors && errors.array().find(e => e.path === 'customer_firstname') ? 'class="error-input"' : '' %>>
+                    <% if (errors) { %>
+                        <% const error = errors.array().find(e => e.path === 'customer_firstname') %>
+                        <% if (error) { %>
+                            <span class="error-message"><%= error.msg %></span>
+                        <% } %>
+                    <% } %>
+                </div>
 
-        <label><b>Order Type</b>
-            <select name="order_type" id="">
-                <option value="phone">Phone Order</option>
-                <option value="in_person">On-Site Order</option>
-            </select>
-        </label><br>
+                <div class="form-group">
+                    <label class="required-field">Customer Last Name</label>
+                    <input type="text" name="customer_lastname" id="customer_lastname" value="<%= formData.customer_lastname || '' %>" placeholder="Enter customer last name" required <%= errors && errors.array().find(e => e.path === 'customer_lastname') ? 'class="error-input"' : '' %>>
+                    <% if (errors) { %>
+                        <% const error = errors.array().find(e => e.path === 'customer_lastname') %>
+                        <% if (error) { %>
+                            <span class="error-message"><%= error.msg %></span>
+                        <% } %>
+                    <% } %>
+                </div>
+            </div>
+        </fieldset>
 
-        <button type="submit">Create Order</button>
+        <!-- Product Specifications -->
+        <fieldset class="full-width">
+            <legend>Product Specifications</legend>
+            <div class="grid-row three-col">
+                <div class="form-group">
+                    <label class="required-field">Quantity</label>
+                    <input type="text" name="quantity" id="">
+                </div>
+
+                <div class="form-group">
+                    <label>Fab</label>
+                    <input type="text" name="width_input" id="">
+                </div>
+
+                <div class="form-group">
+                    <label>Frame</label>
+                    <select name="frame_size" id="frame_size_id">
+                        <option value="">Select</option>
+                        <% frame_sizes.forEach(frame_size => { %>
+                            <option value="<%= frame_size.size_type %>" <%= formData.frame_size_id === frame_size.size_type ? 'selected' : '' %>><%= frame_size.size_type %></option>
+                        <% }) %>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Color</label>
+                    <select name="color" id="color_id">
+                        <option value="">Select</option>
+                        <% colors.forEach(color => { %>
+                            <option value="<%= color.color_name %>" <%= formData.color_id === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Mesh</label>
+                    <select name="mesh" id="mesh_id">
+                        <option value="">Select</option>
+                        <% meshs.forEach(mesh => { %>
+                            <option value="<%= mesh.mesh_type %>" <%= formData.mesh_id === mesh.mesh_type ? 'selected' : '' %>><%= mesh.mesh_type %></option>
+                        <% }) %>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Fastener</label>
+                    <select name="fastener" id="fastener_id">
+                        <option value="">Select</option>
+                        <% fasteners.forEach(fastener => { %>
+                            <option value="<%= fastener.fastener_type %>" <%= formData.fastener_id === fastener.fastener_type ? 'selected' : '' %>><%= fastener.fastener_type %></option>
+                        <% }) %>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Spring</label>
+                    <select name="spring" id="tab_spring_id">
+                        <option value="">Select</option>
+                        <% springs.forEach(spring => { %>
+                            <option value="<%= spring.tab_spring_name %>" <%= formData.tab_spring_id === spring.tab_spring_name ? 'selected' : '' %>><%= spring.tab_spring_name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Fastener Location</label>
+                    <input type="text" name="fastener_location" id="">
+                </div>
+
+                <div class="form-group">
+                    <label>Notes</label>
+                    <input type="text" name="notes" id="">
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Dimensions -->
+        <fieldset class="full-width">
+            <legend>Dimensions</legend>
+            <div class="grid-row three-col">
+                <div class="form-group">
+                    <label>Width</label>
+                    <div class="measurement-input">
+                        <input type="text" name="width_input" id="">
+                        <select name="measurement_name" id="">
+                            <option value="">Fraction</option>
+                            <% fractions.forEach(fraction => { %>
+                            <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
+                            <% }) %> 
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Width +/-</label>
+                    <select name="plus_minus" id="width_plus_minus">
+                        <option value="">Select</option>
+                        <option value="+">+</option>
+                        <option value="-">-</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Height</label>
+                    <div class="measurement-input">
+                        <input type="text" name="height_input" id="">
+                        <select name="height_fraction" id="">
+                            <option value="">Fraction</option>
+                            <% fractions.forEach(fraction => { %>
+                            <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
+                            <% }) %> 
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Height +/-</label>
+                    <select name="plus_minus" id="height_plus_minus">
+                        <option value="">Select</option>
+                        <option value="+">+</option>
+                        <option value="-">-</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Tabs</label>
+                    <select name="tabs" id="">
+                        <option value="">Select</option>
+                        <option value="L">L</option>
+                        <option value="S">S</option>
+                        <option value="None">None</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Order Type</label>
+                    <select name="order_type" id="">
+                        <option value="phone">Phone Order</option>
+                        <option value="in_person">On-Site Order</option>
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-primary">Create Order</button>
+        </div>
     </div>
 </form>
