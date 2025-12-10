@@ -35,6 +35,7 @@
             <table class="orders-table">
                 <thead>
                     <tr>
+                        <th>Employee</th>
                         <th>Product</th>
                         <th>Customer</th>
                         <th>Details</th>
@@ -58,6 +59,12 @@
                         }
                     %>
                         <tr data-customer-id="<%= order.customer_id || '' %>" data-status="<%= orderStatus %>">
+                            <td class="employee-name">
+                                <% if (order.account_firstname && order.account_lastname) { %>
+                                    <%= order.account_firstname %> <%= order.account_lastname %>
+                                <% } else { %>
+                                    N/A
+                                <% } %>
                             <td class="product-name"><%= order.product_name %></td>
                             <td class="customer-name">
                                 <% if (order.customer_firstname && order.customer_lastname) { %>

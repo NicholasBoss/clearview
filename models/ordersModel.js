@@ -697,7 +697,9 @@ async function getOrders(){
                 m.mirage_build_out,
                 cust.customer_id,
                 cust.customer_firstname,
-                cust.customer_lastname
+                cust.customer_lastname,
+                acc.account_firstname,
+                acc.account_lastname
             FROM customization c
             JOIN product p ON c.product_id = p.product_id
             LEFT JOIN order_customization oc ON c.customization_id = oc.customization_id
@@ -706,6 +708,8 @@ async function getOrders(){
             LEFT JOIN customer cust ON co.customer_id = cust.customer_id
             LEFT JOIN mirage_3500 m3 ON c.mirage_3500_id = m3.mirage_3500_id
             LEFT JOIN mirage m ON c.mirage_id = m.mirage_id
+            LEFT JOIN order_log ol ON o.order_id = ol.order_id
+            LEFT JOIN account acc ON ol.account_id = acc.account_id
             ORDER BY c.customization_id DESC
         `
         const result = await pool.query(sql)
