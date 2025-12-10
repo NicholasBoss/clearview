@@ -2143,8 +2143,8 @@ async function saveMirageData(formData, account_id) {
         console.log('  -> topAdapterColorId:', topAdapterColorId)
 
         // 5. Handle bottom adapter color
-        console.log('Step 3: Getting btm adapter color_id for:', formData.bottom_adapter_color_id)
-        const btmAdapterColorId = await getOrInsert('color', 'color_name', formData.bottom_adapter_color_id, 'color_id')
+        console.log('Step 3: Getting btm adapter color_id for:', formData.bottom_adapter_color)
+        const btmAdapterColorId = await getOrInsert('color', 'color_name', formData.bottom_adapter_color, 'color_id')
         console.log('  -> btmAdapterColorId:', btmAdapterColorId)
 
         // 6. Handle top adapter
@@ -2352,7 +2352,7 @@ async function saveMirageData(formData, account_id) {
             topAdapterId,
             buildoutId,
             btmAdapterId,
-            bottomAdapterColorId,
+            bottomAdapterColorJunctionId,
             pivotProColorJunctionId,
             topAdapterColorJunctionId,
             topAdapterWidth,

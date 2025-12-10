@@ -84,7 +84,7 @@ ordersController.insertProduct = async function(req, res){
 // individual order creation functions
 ordersController.buildCreateMirage3500 = async function(req, res){
     const fractions = await ordersModel.getMeasurements()
-    const colors = await ordersModel.getColors()
+    const colors = await ordersModel.getColorsByProduct('Mirage 3500')
     const handles = await ordersModel.getHandles()
     const topAdapters = await ordersModel.getTopAdapters()
     const bottomAdapters = await ordersModel.getBottomAdapters()

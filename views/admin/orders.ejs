@@ -1,4 +1,7 @@
-<% if (orders && orders.length > 0) { %>
+<div class="account-container">
+    <h2>Orders</h2>
+
+    <% if (orders && orders.length > 0) { %>
         <div class="filter-container" style="margin-bottom: 1rem; display: flex; gap: 2rem; align-items: center; flex-wrap: wrap;">
             <div>
                 <label for="customerFilter" style="margin-right: 0.5rem;"><b>Filter by Customer:</b></label>
@@ -11,23 +14,19 @@
                     <% }) %>
                 </select>
             </div>
-            <div style="display: flex; gap: 1rem; align-items: center;">
-                <label style="margin: 0;"><b>Show Status:</b></label>
-                <label style="display: flex; align-items: center; gap: 0.3rem; margin: 0;">
-                    <input type="checkbox" id="filterEstimate" checked style="margin: 0;">
-                    <span>Needs Confirmation</span>
+            <div>
+                <label style="margin-right: 0.5rem;"><b>Filter by Status:</b></label>
+                <label style="margin-right: 1rem;">
+                    <input type="checkbox" id="filterEstimate" checked> Needs Confirmation
                 </label>
-                <label style="display: flex; align-items: center; gap: 0.3rem; margin: 0;">
-                    <input type="checkbox" id="filterConfirmed" checked style="margin: 0;">
-                    <span>Confirmed</span>
+                <label style="margin-right: 1rem;">
+                    <input type="checkbox" id="filterConfirmed" checked> Confirmed
                 </label>
-                <label style="display: flex; align-items: center; gap: 0.3rem; margin: 0;">
-                    <input type="checkbox" id="filterCompleted" style="margin: 0;">
-                    <span>Completed</span>
+                <label style="margin-right: 1rem;">
+                    <input type="checkbox" id="filterCompleted" checked> Completed
                 </label>
-                <label style="display: flex; align-items: center; gap: 0.3rem; margin: 0;">
-                    <input type="checkbox" id="filterCancelled" style="margin: 0;">
-                    <span>Cancelled</span>
+                <label>
+                    <input type="checkbox" id="filterCancelled"> Cancelled
                 </label>
             </div>
         </div>
@@ -97,14 +96,38 @@
                                 <% } %>
                             </td>
                             <td class="order-actions">
-                                <% if (order.is_estimate && !order.is_confirmed) { %>
-                                    <a href="/orders/editMirage3500/<%= order.customization_id %>" class="btn-action btn-confirm">Confirm</a>
-                                <% } %>
-                                <a href="/orders/viewMirage3500/<%= order.customization_id %>" class="btn-action btn-view">View Details</a>
-                                <% if (order.is_confirmed && !order.is_completed) { %>
-                                    <form action="/orders/completeMirage3500/<%= order.customization_id %>" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to mark this order as complete?');">
-                                        <button type="submit" class="btn-action btn-complete">Complete Order</button>
-                                    </form>
+                                <%
+                                    // Determine URL paths based on product type
+                                    let productUrlName = '';
+                                    switch(order.product_name) {
+                                        case 'Mirage 3500':
+                                            productUrlName = 'Mirage3500';
+                                            break;
+                                        case 'Mirage':
+                                            productUrlName = 'Mirage';
+                                            break;
+                                        case 'Rainier':
+                                            productUrlName = 'Rainier';
+                                            break;
+                                        case 'NWS':
+                                            productUrlName = 'NWS';
+                                            break;
+                                        default:
+                                            productUrlName = null;
+                                    }
+                                %>
+                                <% if (productUrlName) { %>
+                                    <% if (order.is_estimate && !order.is_confirmed) { %>
+                                        <a href="/orders/edit<%= productUrlName %>/<%= order.customization_id %>" class="btn-action btn-confirm">Confirm</a>
+                                    <% } %>
+                                    <a href="/orders/view<%= productUrlName %>/<%= order.customization_id %>" class="btn-action btn-view">View Details</a>
+                                    <% if (order.is_confirmed && !order.is_completed && !order.is_cancelled) { %>
+                                        <form action="/orders/complete<%= productUrlName %>/<%= order.customization_id %>" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to mark this order as complete?');">
+                                            <button type="submit" class="btn-action btn-complete">Complete Order</button>
+                                        </form>
+                                    <% } %>
+                                <% } else { %>
+                                    <span style="color: #999; font-style: italic;">Order #<%= order.customization_id %></span>
                                 <% } %>
                             </td>
                         </tr>
@@ -118,6 +141,7 @@
             <p><a href="/orders/create">Create your first order</a></p>
         </div>
     <% } %>
+</div>
 
 <% if (orders && orders.length > 0) { %>
 <script>

@@ -467,7 +467,7 @@ validate.mirageRules = () => {
         .trim(),
 
         // Bottom Adapter Color - required
-        body("bottom_adapter_color_id")
+        body("bottom_adapter_color")
         .notEmpty()
         .withMessage("Bottom Adapter Color is required.")
         .trim(),
@@ -609,7 +609,7 @@ validate.checkMirageData = async (req, res, next) => {
                 , bottom_adapter_colors
                 , bottom_adapters
                 , mohair_positions
-                , measurements
+                , fractions
                 , top_adapters
                 , mohairs
                 , fractions

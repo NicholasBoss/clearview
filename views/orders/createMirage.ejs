@@ -128,10 +128,10 @@
 
                 <div class="form-group">
                     <label class="required-field">Bottom Adapter Color</label>
-                    <select name="bottom_adapter_color_id" id="bottom_adapter_color_id" required>
+                    <select name="bottom_adapter_color" id="bottom_adapter_color_id" required>
                         <option value="">Select</option>
                         <% bottom_adapter_colors.forEach(bottom_adapter_color => { %>
-                            <option value="<%= bottom_adapter_color.color_name %>" <%= formData.bottom_adapter_color_id === bottom_adapter_color.color_name ? 'selected' : '' %>><%= bottom_adapter_color.color_name %></option>
+                            <option value="<%= bottom_adapter_color.color_name %>" <%= formData.bottom_adapter_color === bottom_adapter_color.color_name ? 'selected' : '' %>><%= bottom_adapter_color.color_name %></option>
                         <% }) %>
                     </select>
                     <% if (errors) { const error = errors.array().find(e => e.path === 'bottom_adapter_color_id'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
@@ -173,7 +173,7 @@
         <fieldset class="full-width">
             <legend>Measurements</legend>
 
-            <div class="grid-row three-col">
+            <div class="grid-row two-col">
                 <div class="form-group">
                     <label class="required-field">Opening Height</label>
                     <input type="text" name="opening_height" id="opening_height" value="<%= formData.opening_height || '' %>" required>
