@@ -136,6 +136,8 @@ ordersController.processMirage3500Form = async function(req, res){
         // Store form data in session for confirm page
         req.session.mirage3500Data = req.body
 
+        const mirage3500Data = req.body
+
         // Get account_id from logged-in user
         const account_id = res.locals.accountData.account_id
 
@@ -147,7 +149,14 @@ ordersController.processMirage3500Form = async function(req, res){
 
         console.log('Order created with is_estimate=true, customization_id:', result.customization_id)
 
-        res.redirect('/orders/confirmMirage3500')
+        if (mirage3500Data.order_type === 'Phone Order') {
+            req.flash('notice', 'Phone order saved successfully!')
+            return res.redirect('/account')
+        } else {
+            console.log('Mirage 3500 form data stored in session, redirecting to confirm page')
+            return res.redirect('/orders/confirmMirage3500')
+        }
+
     } catch (error) {
         console.error('Error processing Mirage 3500 form:', error)
         req.flash('error', 'Failed to save order. Please try again.')
