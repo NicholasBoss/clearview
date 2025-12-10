@@ -445,7 +445,7 @@
                     <select name="bottom_adapter_color_id" id="bottom_adapter_color_id" required <%= errors && errors.array().find(e => e.path === 'bottom_adapter_color_id') ? 'class="error-input"' : '' %>>
                         <option value="">Select</option>
                         <% colors.forEach(color => { %>
-                            <option value="<%= color.color_name %>" <%= formData.bottom_adapter_color_id === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
+                            <option value="<%= color.color_name %>" <%= formData.bottom_adapter_color_name || formData.bottom_adapter_color_id === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
                         <% }) %>
                     </select>
                     <% if (errors) { %>

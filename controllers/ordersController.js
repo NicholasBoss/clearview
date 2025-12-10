@@ -150,7 +150,7 @@ ordersController.processMirage3500Form = async function(req, res){
         console.log('Order created with is_estimate=true, customization_id:', result.customization_id)
 
         if (mirage3500Data.order_type === 'Phone Order') {
-            req.flash('notice', 'Phone order saved successfully!')
+            req.flash('success', 'Phone order saved!')
             return res.redirect('/account')
         } else {
             console.log('Mirage 3500 form data stored in session, redirecting to confirm page')
@@ -215,7 +215,7 @@ ordersController.saveMirage3500Order = async function(req, res){
         console.log('Order confirmed successfully, customization_id:', customizationId)
 
         // Set success message
-        req.flash('success', 'Mirage 3500 order confirmed successfully!')
+        req.flash('success', 'Mirage 3500 order confirmed!')
 
         // Redirect to account page or orders list
         res.redirect('/account')
@@ -347,7 +347,7 @@ ordersController.saveMirageOrder = async function(req, res){
         console.log('Order confirmed successfully, customization_id:', customizationId)
         console.log('========== CONFIRM MIRAGE ORDER SUCCESS ==========')
 
-        req.flash('success', 'Mirage order confirmed successfully!')
+        req.flash('success', 'Mirage order confirmed!')
         res.redirect('/account')
     } catch (error) {
         console.error('Error confirming Mirage order:', error)
@@ -596,7 +596,7 @@ ordersController.completeMirage3500 = async function(req, res){
         // Update order to set is_completed = TRUE
         await ordersModel.completeMirage3500Order(customizationId)
 
-        req.flash('notice', 'Order marked as complete successfully!')
+        req.flash('success', 'Order marked as complete!')
         res.redirect('/account')
     } catch (error) {
         console.error('Error completing order:', error)
@@ -671,7 +671,7 @@ ordersController.completeMirage = async function(req, res){
     try {
         const customizationId = req.params.id
         await ordersModel.completeOrder(customizationId)
-        req.flash('notice', 'Mirage order marked as complete successfully!')
+        req.flash('success', 'Mirage order marked as complete!')
         res.redirect('/account')
     } catch (error) {
         console.error('Error completing order:', error)
@@ -754,7 +754,7 @@ ordersController.completeRainier = async function(req, res){
     try {
         const customizationId = req.params.id
         await ordersModel.completeOrder(customizationId)
-        req.flash('notice', 'Rainier order marked as complete successfully!')
+        req.flash('success', 'Rainier order marked as complete!')
         res.redirect('/account')
     } catch (error) {
         console.error('Error completing order:', error)
@@ -818,7 +818,7 @@ ordersController.completeNWS = async function(req, res){
     try {
         const customizationId = req.params.id
         await ordersModel.completeOrder(customizationId)
-        req.flash('notice', 'NWS order marked as complete successfully!')
+        req.flash('success', 'NWS order marked as complete!')
         res.redirect('/account')
     } catch (error) {
         console.error('Error completing order:', error)
