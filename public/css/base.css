@@ -140,6 +140,10 @@ h1 {
     border: none;
 }
 
+#errorList li, .success li, .notice li, .error li {
+    list-style: none;
+}
+
 .notice {
     background-color: #e0f2fe;
     border: 1px solid #bae6fd;
