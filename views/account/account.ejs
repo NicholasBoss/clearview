@@ -148,7 +148,7 @@
                                     <% } %>
                                     <a href="/orders/view<%= productUrlName %>/<%= order.customization_id %>" class="btn-action btn-view">View Details</a>
                                     <% if (order.is_confirmed && !order.is_completed && !order.is_cancelled) { %>
-                                        <form action="/orders/complete<%= productUrlName %>/<%= order.customization_id %>" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to mark this order as complete?');">
+                                        <form id="complete-btn" action="/orders/complete<%= productUrlName %>/<%= order.customization_id %>" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to mark this order as complete?');">
                                             <button type="submit" class="btn-action btn-complete">Complete Order</button>
                                         </form>
                                     <% } %>

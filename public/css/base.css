@@ -136,6 +136,10 @@ h1 {
 	content: "X";
 }
 
+#complete-btn {
+    border: none;
+}
+
 form {
     border: 2px solid var(--accent2-color);
     max-width: 100%;
