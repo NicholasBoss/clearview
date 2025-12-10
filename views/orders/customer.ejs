@@ -1,0 +1,100 @@
+<form id="customerForm" action="/orders/customer" method="post" onsubmit="handleFormSubmit(event)">
+    <div class="form-grid">
+        <!-- Customer Selection -->
+        <fieldset class="full-width">
+            <legend>Customer Selection</legend>
+            <div class="grid-row">
+                <div class="form-group">
+                    <label for="customerSelect">Select Customer or Create New</label>
+                    <select id="customerSelect" name="customerSelect" onchange="toggleCustomerForm()">
+                        <option value="create">Create New Customer</option>
+                        <% customers.forEach(function(customer) { %>
+                            <option value="<%= customer.customer_firstname %> <%= customer.customer_lastname %>"><%= customer.customer_firstname %> <%= customer.customer_lastname %></option>
+                        <% }); %>
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- New Customer Form -->
+        <fieldset id="newCustomerForm" class="full-width" style="display: block;">
+            <legend>Customer Information</legend>
+            <div class="grid-row">
+                <div class="form-group">
+                    <label>First Name</label>
+                    <input type="text" id="firstName" name="customer_firstname">
+                </div>
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <input type="text" id="lastName" name="customer_lastname">
+                </div>
+            </div>
+            <div class="grid-row">
+                <div class="form-group">
+                    <label>Address Line 1</label>
+                    <input type="text" id="addressLine1" name="address_line1">
+                </div>
+                <div class="form-group">
+                    <label>Address Line 2</label>
+                    <input type="text" id="addressLine2" name="address_line2">
+                </div>
+            </div>
+            <div class="grid-row three-col">
+                <div class="form-group">
+                    <label>City</label>
+                    <input type="text" id="city" name="address_city">
+                </div>
+                <div class="form-group">
+                    <label>State</label>
+                    <input type="text" id="state" name="address_state">
+                </div>
+                <div class="form-group">
+                    <label>Zip</label>
+                    <input type="text" id="zip" name="address_zip">
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="form-actions">
+            <button id="createCustomerButton" type="submit" class="btn-primary" style="display: block;">Create Customer</button>
+            <button id="continueButton" type="submit" class="btn-primary" style="display: none;">Continue</button>
+        </div>
+    </div>
+</form>
+
+<script>
+function handleFormSubmit(event) {
+  const customerSelect = document.getElementById('customerSelect');
+  
+  if (customerSelect.value === 'create') {
+    // For new customer, capture the name and store in session storage
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    
+    if (firstName && lastName) {
+      const fullName = firstName + ' ' + lastName;
+      sessionStorage.setItem('selectedCustomerId', fullName);
+    }
+  }
+  // Form will submit normally after session storage is set
+}
+
+function toggleCustomerForm() {
+  const customerSelect = document.getElementById('customerSelect');
+  const newCustomerForm = document.getElementById('newCustomerForm');
+  const createCustomerButton = document.getElementById('createCustomerButton');
+  const continueButton = document.getElementById('continueButton');
+  
+  if (customerSelect.value === 'create') {
+    newCustomerForm.style.display = 'block';
+    createCustomerButton.style.display = 'block';
+    continueButton.style.display = 'none';
+    sessionStorage.removeItem('selectedCustomerId');
+  } else {
+    newCustomerForm.style.display = 'none';
+    createCustomerButton.style.display = 'none';
+    continueButton.style.display = 'block';
+    sessionStorage.setItem('selectedCustomerId', customerSelect.value);
+  }
+}
+</script>

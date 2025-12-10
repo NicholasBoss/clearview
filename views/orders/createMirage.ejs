@@ -5,328 +5,375 @@
     <% } else { res.redirect('/') } %>
         <%- messages() %>
         <% if (errors) { %>
-            <ul id="errorList" class="notice error">
-                <% errors.array().forEach(error=> { %>
-                    <li>
-                        <%= error.msg %>
-                    </li>
-                    <% }) %>
-            </ul>
-            <% } %>
+            <div class="error-banner">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" fill="currentColor"/>
+                </svg>
+                <div>
+                    <strong>Submission Error</strong>
+                    <p>There are errors with your submission. Please review the form and correct the highlighted fields.</p>
+                </div>
+            </div>
+        <% } %>
 
-<form action="" method="post">
-    <div class="container">
-        <!-- Single or Dbl to be placed here (create a table for specifically the mirages)-->
+<script>
+  // Auto-fill customer name from session storage if available
+  document.addEventListener('DOMContentLoaded', function() {
+    const selectedCustomer = sessionStorage.getItem('selectedCustomerId');
+    if (selectedCustomer) {
+      const [firstName, lastName] = selectedCustomer.split(' ');
+      if (firstName) document.getElementById('customer_firstname').value = firstName;
+      if (lastName) document.getElementById('customer_lastname').value = lastName;
+    }
+  });
+</script>
 
-        <label><b>Mount</b>
-            <input type="text" name="mount" id="mount">
-        </label><br>
-        <!-- in Vs Surface -->
+<form id="form" action="/orders/confirmMirage" method="post">
+    <div class="form-grid">
+        <!-- Customer Information -->
+        <fieldset class="full-width">
+            <legend>Customer Information</legend>
+            <div class="grid-row">
+                <div class="form-group">
+                    <label class="required-field">Customer First Name</label>
+                    <input type="text" name="customer_firstname" id="customer_firstname" value="<%= formData.customer_firstname || '' %>" placeholder="Enter customer first name" required <%= errors && errors.array().find(e => e.path === 'customer_firstname') ? 'class="error-input"' : '' %>>
+                    <% if (errors) { %>
+                        <% const error = errors.array().find(e => e.path === 'customer_firstname') %>
+                        <% if (error) { %>
+                            <span class="error-message"><%= error.msg %></span>
+                        <% } %>
+                    <% } %>
+                </div>
+                <div class="form-group">
+                    <label class="required-field">Customer Last Name</label>
+                    <input type="text" name="customer_lastname" id="customer_lastname" value="<%= formData.customer_lastname || '' %>" placeholder="Enter customer last name" required <%= errors && errors.array().find(e => e.path === 'customer_lastname') ? 'class="error-input"' : '' %>>
+                    <% if (errors) { %>
+                        <% const error = errors.array().find(e => e.path === 'customer_lastname') %>
+                        <% if (error) { %>
+                            <span class="error-message"><%= error.msg %></span>
+                        <% } %>
+                    <% } %>
+                </div>
+            </div>
+        </fieldset>
 
-        <!-- handing to be placed here (create a table for specifically the mirages)-->
+        <!-- Product Specifications -->
+        <fieldset class="full-width">
+            <legend>Product Specifications</legend>
+            <div class="grid-row three-col">
+                <div class="form-group">
+                    <label class="required-field">Color</label>
+                    <select  name="color_name" id="color" required>
+                        <option value="">Select</option>
+                        <% colors.forEach(color => { %>
+                                <option value="<%= color.color_name %>" <%= formData.color_name === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
+                        <% }) %>
+                    </select>
+                    <% if (errors) { %>
+                        <% const error = errors.array().find(e => e.path === 'color_name') %>
+                        <% if (error) { %>
+                            <span class="error-message"><%= error.msg %></span>
+                        <% } %>
+                    <% } %>
+                </div>
 
-        <label><b>Color</b>
-            <select  name="color_name" id="color">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-            </select>
-        </label><br>
+                <div class="form-group">
+                    <label class="required-field">Pivot Pro Color</label>
+                    <select  name="pivot_pro_color" id="pivot_pro_color" required>
+                        <option value="">Select</option>
+                            <% pivot_colors.forEach(pvt_color => { %>
+                                <option value="<%= pvt_color.color_name %>" <%= formData.pivot_pro_color === pvt_color.color_name ? 'selected' : '' %>><%= pvt_color.color_name %></option>
+                        <% }) %>
+                    </select>
+                    <% if (errors) { %>
+                        <% const error = errors.array().find(e => e.path === 'pivot_pro_color') %>
+                        <% if (error) { %>
+                            <span class="error-message"><%= error.msg %></span>
+                        <% } %>
+                    <% } %>
+                </div>
 
-        <label><b>Pivot Pro Color</b>
-            <select  name="" id="pivot_pro_color">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-            </select>
-        </label><br>
-        <!-- pivot pro color not found in database -->
+                <div class="form-group">
+                    <label class="required-field">Top Adapter</label>
+                    <select name="top_adapter" id="top_adapter_id" required>
+                        <option value="">Select</option>
+                        <% top_adapters.forEach(top_adapter => { %>
+                            <option value="<%= top_adapter.top_adapter_name %>" <%= formData.top_adapter === top_adapter.top_adapter_name ? 'selected' : '' %>><%= top_adapter.top_adapter_name %></option>
+                        <% }) %>
+                    </select>
+                    <% if (errors) { const error = errors.array().find(e => e.path === 'top_adapter'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+                </div>
 
-        <label><b>Top Adapter</b>
-            <select name="top_adapter" id="top_adapter">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-            </select>
-        </label><br>
+                <div class="form-group">
+                    <label class="required-field">Top Adapter Color</label>
+                    <select name="top_adapter_color" id="top_adapter_color" required>
+                        <option value="">Select</option>
+                        <% top_adapter_colors.forEach(top_adapter_color => { %>
+                            <option value="<%= top_adapter_color.color_name %>" <%= formData.top_adapter_color === top_adapter_color.color_name ? 'selected' : '' %>><%= top_adapter_color.color_name %></option>
+                        <% }) %>
+                    </select>
+                    <% if (errors) { const error = errors.array().find(e => e.path === 'top_adapter_color'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+                </div>
 
-        <label><b>Top Adapter Color</b>
-            <select name="top_adapter_color" id="top_adapter_color">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-            </select>
-        </label><br>
-        <!-- top adapter color not found in database -->
+                <div class="form-group">
+                    <label class="required-field">Bottom Adapter</label>
+                    <select name="btm_adapter" id="" required>
+                        <option value="">Select</option>
+                        <% bottom_adapters.forEach(bottom_adapter => { %>
+                            <option value="<%= bottom_adapter.bottom_adapter_name %>" <%= formData.btm_adapter === bottom_adapter.bottom_adapter_name ? 'selected' : '' %>><%= bottom_adapter.bottom_adapter_name %></option>
+                        <% }) %>
+                    </select>
+                    <% if (errors) { const error = errors.array().find(e => e.path === 'btm_adapter'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+                </div>
 
-         <label><b>Top Adapter Width</b>
-            <input type="text" name="top_adapter_width" id="top_adapter_width">
-        </label><br>
-        <label><b>Top Adapter Width Fraction</b>
-            <select name="top_adapter_width_fraction" id="top_adapter_width_fraction">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
-            </select>
-        </label><br>
-         <!-- top adapter width not found in database -->
+                <div class="form-group">
+                    <label class="required-field">Bottom Adapter Color</label>
+                    <select name="bottom_adapter_color" id="bottom_adapter_color_id" required>
+                        <option value="">Select</option>
+                        <% bottom_adapter_colors.forEach(bottom_adapter_color => { %>
+                            <option value="<%= bottom_adapter_color.color_name %>" <%= formData.bottom_adapter_color === bottom_adapter_color.color_name ? 'selected' : '' %>><%= bottom_adapter_color.color_name %></option>
+                        <% }) %>
+                    </select>
+                    <% if (errors) { const error = errors.array().find(e => e.path === 'bottom_adapter_color_id'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+                </div>
 
-         <label><b>Opening Height</b>
-            <input type="text" name="opening_height" id="opening_height">
-        </label><br>
-        <label><b>Opening Height Fraction</b>
-            <select name="opening_height_fraction" id="opening_height_fraction">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
-            </select>
-        </label><br>
-        <!-- Not sure if right_opening_height is the same as opening height -->
+                <div class="form-group">
+                    <label class="required-field">Mesh</label>
+                    <select name="mesh" id="mesh" required>
+                        <option value="Charcoal 18x14">Charcoal 18x14</option>
+                    </select>
+                    <% if (errors) { const error = errors.array().find(e => e.path === 'mesh'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+                </div>
 
-        <label><b>Unit Height</b>
-            <input type="text" name="unit_height" id="unit_height">
-        </label><br>
-        <label><b>Unit Height Fraction</b>
-            <select name="unit_height_fraction" id="unit_height_fraction">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
-            </select>
-        </label><br>
-        <!-- unit height not found in database -->
+                <div class="form-group">
+                    <label class="required-field">Mohair</label>
+                    <select name="mohair" id="mohair" required>
+                        <option value="">Select</option>
+                        <% mohairs.forEach(mohair => { %>
+                            <option value="<%= mohair.mohair_type %>" <%= formData.mohair === mohair.mohair_type ? 'selected' : '' %>><%= mohair.mohair_type %></option>
+                        <% }) %>
+                    </select>
+                    <% if (errors) { const error = errors.array().find(e => e.path === 'mohair_position'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+                </div>
 
-        <label><b>Pivot Pro Height</b>
-            <input type="text" name="pivot_pro_height" id="pivot_pro_height">
-        </label><br>
-        <label><b>Pivot Pro Height Fraction</b>
-            <select name="pivot_pro_height_fraction" id="pivot_pro_height_fraction">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
-            </select>
-        </label><br>
-        <!-- pivot pro height not found in database -->
+                <div class="form-group">
+                    <label class="required-field">Mohair Position</label>
+                    <select name="mohair_position" id="mohair_position" required>
+                        <option value="">Select</option>
+                        <% mohair_positions.forEach(mohair_position => { %>
+                            <option value="<%= mohair_position.mohair_position_name %>" <%= formData.mohair_position === mohair_position.mohair_position_name ? 'selected' : '' %>><%= mohair_position.mohair_position_name %></option>
+                        <% }) %>
+                    </select>
+                    <% if (errors) { const error = errors.array().find(e => e.path === 'mohair_size'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+                </div>
+            </div>
+        </fieldset>
 
-        <label><b>Bottom Adapter</b>
-            <select name="btm_adapter" id="btm_adapter">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-            </select>
-        </label><br>
+        <!-- Measurements -->
+        <fieldset class="full-width">
+            <legend>Measurements</legend>
 
-        <label><b>Bottom Adapter Color</b>
-            <select name="btm_adapter_color" id="btm_adapter_color">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-            </select>
-        </label><br>
+            <div class="grid-row two-col">
+                <div class="form-group">
+                    <label class="required-field">Opening Height</label>
+                    <input type="text" name="opening_height" id="opening_height" value="<%= formData.opening_height || '' %>" required>
+                    <% if (errors) { const error = errors.array().find(e => e.path === 'opening_height'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+                </div>
 
-        <label><b>Bottom Adapter Width</b>
-            <input type="text" name="btm_adapter_width" id="btm_adapter_width">
-        </label><br>
-        <label><b>Bottom Adapter Width Fraction</b>
-            <select name="btm_adapter_width_fraction" id="btm_adapter_width_fraction">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
-            </select>
-        </label><br>
-        <!-- bottom adapter width not found in database -->
+                <div class="form-group">
+                    <label class="required-field">Opening Height Fraction</label>
+                    <select name="opening_height_fraction" id="opening_height_fraction" required>
+                        <option value="">Select</option>
+                        <% fractions.forEach(fraction => { %>
+                            <option value="<%= fraction.measurement_name %>" <%= formData.opening_height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                        <% }) %>
+                    </select>
+                    <% if (errors) { const error = errors.array().find(e => e.path === 'opening_height_fraction'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+                </div>
 
-        <label><b>Build Out</b>
-            <select name="" id="build_out">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-            </select>
-        </label><br>
-        <!-- build out for M3500 goes here (not sure which variable in db is correct) -->
+                <div class="form-group">
+                    <label class="required-field">Top Adapter Width</label>
+                    <input type="text" name="top_adapter_width" id="top_adapter_width" value="<%= formData.top_adapter_width || '' %>" required>
+                    <% if (errors) { const error = errors.array().find(e => e.path === 'top_adapter_width'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+                </div>
 
-         <label><b>Build Out Dimension</b>
-            <input type="text" name="" id="build_out_dimension">
-        </label><br>
-        <label><b>Build Out Dimension Fraction</b>
-            <select name="" id="build_out_dimension_fraction">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-                <option value="">6</option>
-                <option value="">7</option>
-                <option value="">8</option>
-                <option value="">9</option>
-                <option value="">10</option>
-                <option value="">11</option>
-                <option value="">12</option>
-                <option value="">13</option>
-                <option value="">14</option>
-                <option value="">15</option>
-            </select>
-        </label><br>
-        <!-- build out dimension not found in database (goes here) -->
+                <div class="form-group">
+                    <label class="required-field">Top Adapter Width Fraction</label>
+                    <select name="top_adapter_width_fraction" id="top_adapter_width_fraction" required>
+                        <option value="">Select</option>
+                        <% fractions.forEach(fraction => { %>
+                            <option value="<%= fraction.measurement_name %>" <%= formData.top_adapter_width_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                        <% }) %>
+                    </select>
+                    <% if (errors) { const error = errors.array().find(e => e.path === 'top_adapter_width_fraction'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+                </div>
 
-        <label><b>Mesh</b>
-            <select name="" id="mesh">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-            </select>
-        </label><br>
-        <!-- There are a lot of different mesh variables and I am unsure of which one to use here -->
+                <div class="form-group">
+                    <label class="required-field">Unit Height</label>
+                    <input type="text" name="unit_height" id="unit_height" value="<%= formData.unit_height || '' %>" required>
+                    <% if (errors) { const error = errors.array().find(e => e.path === 'unit_height'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+                </div>
 
-        <label><b>Mohair</b>
-            <select name="mohair" id="mohair">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-            </select>
-        </label><br>
+                <div class="form-group">
+                    <label class="required-field">Unit Height Fraction</label>
+                    <select name="unit_height_fraction" id="unit_height_fraction" required>
+                        <option value="">Select</option>
+                        <% fractions.forEach(fraction => { %>
+                            <option value="<%= fraction.measurement_name %>" <%= formData.unit_height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                        <% }) %>
+                    </select>
+                    <% if (errors) { const error = errors.array().find(e => e.path === 'unit_height_fraction'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+                </div>
 
-        <label><b>Mohair Position</b>
-            <select name="mohair_position" id="mohair_position">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-            </select>
-        </label><br>
+                <div class="form-group">
+                    <label class="required-field">Pivot Pro Height</label>
+                    <input type="text" name="pivot_pro_height" id="pivot_pro_height" value="<%= formData.pivot_pro_height || '' %>" required>
+                    <% if (errors) { const error = errors.array().find(e => e.path === 'pivot_pro_height'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+                </div>
 
-        <!-- bottom adapter screws go here (not found in database) -->
+                <div class="form-group">
+                    <label class="required-field">Pivot Pro Height Fraction</label>
+                    <select name="pivot_pro_height_fraction" id="pivot_pro_height_fraction" required>
+                        <option value="">Select</option>
+                        <% fractions.forEach(fraction => { %>
+                            <option value="<%= fraction.measurement_name %>" <%= formData.pivot_pro_height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                        <% }) %>
+                    </select>
+                    <% if (errors) { const error = errors.array().find(e => e.path === 'pivot_pro_height_fraction'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+                </div>
 
-        <!-- slide bolt goes here (not found in db) -->
+                <div class="form-group">
+                    <label class="required-field">Bottom Adapter Width</label>
+                    <input type="text" name="btm_adapter_width" id="btm_adapter_width" value="<%= formData.btm_adapter_width || '' %>" required>
+                    <% if (errors) { const error = errors.array().find(e => e.path === 'btm_adapter_width'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+                </div>
 
-        <label><b>Mohair Size</b>
-            <select name="mohair_size" id="mohair_size">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-            </select>
-        </label><br>
+                <div class="form-group">
+                    <label class="required-field">Bottom Adapter Width Fraction</label>
+                    <select name="btm_adapter_width_fraction" id="btm_adapter_width_fraction" required>
+                        <option value="">Select</option>
+                        <% fractions.forEach(fraction => { %>
+                            <option value="<%= fraction.measurement_name %>" <%= formData.btm_adapter_width_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                        <% }) %>
+                    </select>
+                    <% if (errors) { const error = errors.array().find(e => e.path === 'btm_adapter_width_fraction'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+                </div>
+            </div>
 
-        <!-- 4 sizes of mohair not found in database  -->
+            <fieldset class="full-width">
+                <legend>Build Out</legend>
+                <div class="grid-row three-col">
+                    <div class="form-group">
+                        <label class="required-field">Build Out</label>
+                        <select name="build_out" id="build_out" required>
+                            <option value="">Select</option>
+                            <% build_outs.forEach(build_out => { %>
+                                <option value="<%= build_out.buildout_name %>" <%= formData.build_out === build_out.buildout_name ? 'selected' : '' %>><%= build_out.buildout_name %></option>
+                            <% }) %>
+                        </select>
+                        <% if (errors) { const error = errors.array().find(e => e.path === 'build_out_dimension_fraction'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>
+                    </div>
 
-         <label><b>Bumper Pads</b>
-            <select name="" id="bumper_pads">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-            </select>
-        </label><br>
-        <!-- bumper pads not found in database -->
+                    <div class="form-group">
+                        <label class="required-field">Build Out Dimension</label>
+                        <input type="text" name="build_out_dimension" id="build_out_dimension" value="<%= formData.build_out_dimension || '' %>" required>
+                    </div>
 
-        <label><b>Silicone Spray</b>
-            <select name="" id="silicone_spray">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-            </select>
-        </label><br>
-        <!-- silicone spray not found in database -->
+                    <div class="form-group">
+                        <label class="required-field">Build Out Dimension Fraction</label>
+                        <select name="build_out_dimension_fraction" id="build_out_dimension_fraction" required>
+                            <option value="">Select</option>
+                            <% fractions.forEach(fraction => { %>
+                            <option value="<%= fraction.measurement_name %>" <%= formData.build_out_dimension_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                            <% }) %>
+                        </select>
+                        <% if (errors) { %>
+                            <% const error = errors.array().find(e => e.path === 'build_out_dimension_fraction') %>
+                            <% if (error) { %>
+                                <span class="error-message"><%= error.msg %></span>
+                            <% } %>
+                        <% } %>
+                    </div>
+                </div>
+            </fieldset>
+        </fieldset>
 
-        <label><b>Label/Location</b>
-            <select name="location_on_house" id="label_location">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-            </select>
-        </label><br>
-        <!-- unsure if label/location is in database - used location on house (change if needed) -->
-
-        <!-- sold and date sold goes here (not found in database) -->
-
-        <!-- QC Tech / Date goes here (not found in database) -->
-
-        <button class="formbtn"
-                type="submit">Submit</button>
-         
+        <div class="form-actions">
+            <button type="submit" class="btn-primary">Submit Order</button>
+            <button type="button" id="clearFormBtn" class="btn-secondary">Clear Form</button>
+        </div>
     </div>
 </form>
+
+<script>
+    // Load form data from localStorage when page loads (only if no server-side data exists)
+    window.addEventListener('DOMContentLoaded', function() {
+        // Check if there's server-side form data (from validation errors or session)
+        const hasServerData = "<%= Object.keys(formData || {}).length > 0 ? 'true' : 'false' %>";
+
+        // Only load from localStorage if there's no server-side data
+        if (!hasServerData) {
+            const savedData = localStorage.getItem('mirageFormData');
+
+            if (savedData) {
+                try {
+                    const formData = JSON.parse(savedData);
+
+                    // Populate all form fields
+                    for (const [key, value] of Object.entries(formData)) {
+                        const field = document.querySelector(`[name="${key}"]`);
+
+                        if (field) {
+                            if (field.type === 'checkbox') {
+                                field.checked = value === 'on' || value === true;
+                            } else if (!field.value) {
+                                // Only set value if field is currently empty
+                                field.value = value;
+                            }
+                        }
+                    }
+
+                    console.log('Form data loaded from localStorage');
+                } catch (e) {
+                    console.error('Error loading form data:', e);
+                }
+            }
+        }
+    });
+
+    // Save form data to localStorage when form is submitted
+    document.getElementById('form').addEventListener('submit', function(event) {
+        // Show confirmation popup FIRST
+        const confirmed = confirm('Are you sure you want to submit this order? This will save the order to the database as an estimate.');
+        if (!confirmed) {
+            event.preventDefault(); // Prevent form submission if user clicks Cancel
+            return;
+        }
+
+        // Save form data to localStorage after confirmation
+        const formData = new FormData(this);
+        const formObject = {};
+
+        formData.forEach((value, key) => {
+            formObject[key] = value;
+        });
+
+        localStorage.setItem('mirageFormData', JSON.stringify(formObject));
+        console.log('Form data saved to localStorage');
+    });
+
+    // Clear form button functionality
+    document.getElementById('clearFormBtn').addEventListener('click', function() {
+        const confirmed = confirm('Are you sure you want to clear all form data? This will reset the entire form and remove saved data.');
+        if (confirmed) {
+            // Clear localStorage
+            localStorage.removeItem('mirageFormData');
+
+            // Reset form
+            document.getElementById('form').reset();
+
+            // Reload page to clear any server-side values
+            window.location.href = window.location.pathname;
+        }
+    });
+</script>

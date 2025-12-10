@@ -1,38 +1,34 @@
 <% if (title) { %>
-    <h1>
-        <%= title %>
-    </h1>
-    <% } else { res.redirect('/') } %>
+    <h1><%= title %></h1>
+<% } else { res.redirect('/') } %>
 
-        <%- messages() %>
-        <% if (errors) { %>
-            <ul id="errorList" class="notice error">
-                <% errors.array().forEach(error=> { %>
-                    <li>
-                        <%= error.msg %>
-                    </li>
-                    <% }) %>
-            </ul>
-            <% } %>
-<div>
-    <!-- <form action="/orders/createRainier" method="post">
-        <div class="container">
-            <label><b>Choose an order type:</b>
-                <select name="order_type" id="type">
-                    <option value="nws">New Window Screen</option>
-                    <option value="rainier">Rainier</option>
-                    <option value="mirage">Mirage</option>
-                    <option value="mirage_3500">Mirage 3500</option>
-                </select></label>
-                <button class="formbtn"
-                type="submit">Submit</button>
+<%- messages() %>
+
+<% if (errors) { %>
+    <ul id="errorList" class="notice error">
+        <% errors.array().forEach(error => { %>
+            <li><%= error.msg %></li>
+        <% }) %>
+    </ul>
+<% } %>
+
+<div class="form-grid">
+    <fieldset class="full-width">
+        <legend>Select Order Type</legend>
+        <p class="order-type-intro">Choose the product you want to order:</p>
+        <div class="order-types">
+            <a href="/orders/createRainier" class="order-type-card">
+                <h3>Rainier</h3>
+            </a>
+            <a href="/orders/createNWS" class="order-type-card">
+                <h3>New Window Screen</h3>
+            </a>
+            <a href="/orders/createMirage" class="order-type-card">
+                <h3>Mirage</h3>
+            </a>
+            <a href="/orders/createMirage3500" class="order-type-card">
+                <h3>Mirage 3500</h3>
+            </a>
         </div>
-    </form> -->
-        <label><b>Choose an Order Type:</b></label>
-        <div class="types">
-            <a href="/orders/createRainier">Rainier</a>
-            <a href="/orders/createNWS">New Window Screen</a>
-            <a href="/orders/createMirage">Mirage</a>
-            <a href="/orders/createMirage3500">Mirage 3500</a>
-        </div>
+    </fieldset>
 </div>

@@ -1,31 +1,5 @@
-<% if (title) { %>
-    <h1>
-        <%= title %>
-    </h1>
-    <% } else { res.redirect('/') } %>
-        <%- messages() %>
-        <% if (errors) { %>
-            <ul id="errorList" class="notice error success">
-                <% errors.array().forEach(error=> { %>
-                    <li>
-                        <%= error.msg %>
-                    </li>
-                    <% }) %>
-            </ul>
-            <% } %>
-
 <div class="account-container">
-    <h1>My Account</h1>
-
-    <div class="account-actions">
-        <a href="/orders/customer" class="btn-primary">Create New Order</a>
-        <!-- if admin or dba, add button for admin view of orders -->
-        <% if (locals.accountData && (locals.accountData.account_type === 'Admin' || locals.accountData.account_type === 'DBA')) { %>
-            <a href="/admin/orders" class="btn-primary">Admin Orders View</a>
-        <% } %>
-    </div>
-
-    <h2>My Orders</h2>
+    <h2>Orders</h2>
 
     <% if (orders && orders.length > 0) { %>
         <div class="filter-container" style="margin-bottom: 1rem; display: flex; gap: 2rem; align-items: center; flex-wrap: wrap;">
@@ -49,7 +23,7 @@
                     <input type="checkbox" id="filterConfirmed" checked> Confirmed
                 </label>
                 <label style="margin-right: 1rem;">
-                    <input type="checkbox" id="filterCompleted"> Completed
+                    <input type="checkbox" id="filterCompleted" checked> Completed
                 </label>
                 <label>
                     <input type="checkbox" id="filterCancelled"> Cancelled
@@ -148,7 +122,7 @@
                                     <% } %>
                                     <a href="/orders/view<%= productUrlName %>/<%= order.customization_id %>" class="btn-action btn-view">View Details</a>
                                     <% if (order.is_confirmed && !order.is_completed && !order.is_cancelled) { %>
-                                        <form id="complete-btn" action="/orders/complete<%= productUrlName %>/<%= order.customization_id %>" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to mark this order as complete?');">
+                                        <form action="/orders/complete<%= productUrlName %>/<%= order.customization_id %>" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to mark this order as complete?');">
                                             <button type="submit" class="btn-action btn-complete">Complete Order</button>
                                         </form>
                                     <% } %>

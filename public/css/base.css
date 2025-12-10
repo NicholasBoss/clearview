@@ -17,9 +17,14 @@ header {
 	background-color: var(--secondary-color);
 }
 
+h1 {
+    color: var(--accent5-color);
+    margin-left: 2%;
+}
+
 #main-header {
     display: grid;
-	grid-template-columns: 125px 1fr;
+	grid-template-columns: 100px 70px 1fr;
 	/* justify-items: center; */
     align-items: center;
     max-width: 100%;
@@ -50,7 +55,7 @@ header {
     /* background-color: var(--nav-background-color); */
     background-color: var(--nav-transparent-background-color);
     color: var(--accent3-color);
-    grid-column: 2/3;
+    grid-column: 3/4;
     grid-row: 1/2;
     justify-self: center;
     border-radius: 5px;
@@ -59,7 +64,7 @@ header {
 
 #loggedin, #loggedout {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     justify-items: center;
     align-items: center;
     text-align: center;
@@ -85,7 +90,7 @@ header {
 	border: 1px solid rgba(0, 0, 0, 0.3);
 	padding: 3px 7px 6px;
 	background-color: var(--ham-color);
-	color: #000;
+	color: var(--accent5-color);
 	position: absolute;
 	right: 1rem;
 }
@@ -131,16 +136,113 @@ header {
 	content: "X";
 }
 
+#complete-btn {
+    border: none;
+}
+
+.notice {
+    background-color: #e0f2fe;
+    border: 1px solid #bae6fd;
+    padding: 1rem;
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+    border-left: 5px solid #3b82f6;
+}
+
+.success {
+    background-color: #d1fae5;
+    border: 1px solid #a7f3d0;
+    padding: 1rem;
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+    border-left: 5px solid #10b981;
+}
+
+.error {
+    background-color: #fee2e2;
+    border: 1px solid #fecaca;
+    padding: 1rem;
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+    border-left: 5px solid #ef4444;
+}
+
 form {
-    border: 2px solid var(--accent2-color);
-    max-width: 50%;
+    max-width: 100%;
+    margin: 2% auto;
+}
+
+form label {
+    display: block;
+    padding-top: 1rem;
+    font-size: .9rem;
+    color: black;
+    font-weight: bold;
+}
+
+form div {
+    padding-top: 1rem;
+    color: #445ba9;
+    font-size: .9rem;
+}
+
+form input[type="text"],
+form input[type="password"],
+form input[type="tel"],
+form input[type="email"],
+form input[type="url"],
+form input[type="date"],
+form select,
+form input[type="number"] {
+    background-color: #eee;
+    display: block;
+    border: solid 1px #999;
+    border-radius: 6px;
+    padding: .75rem;
+    color: #555;
+    width: 100%;
+    max-width: 400px;
     margin: 0 auto;
 }
 
+form input[type="radio"],
+form input[type="checkbox"] {
+    margin-right: 6px;
+}
+
+form input[type="submit"] {
+    border-radius: 7px;
+    border: outset;
+    background-color: #eee;
+    background-image: linear-gradient(#eee, #fff);
+    width: 50%;
+    color: #445ba9;
+    font-weight: bold;
+    padding: 5px;
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 30px;
+    max-width: 300px;
+}
+
+form input[type="submit"]:hover {
+    box-shadow: 1px 1px 4px black;
+}
+
+form input:required,
+form select:required {
+    border-left: solid 4px #dc2626;
+}
+
+form input:required:valid,
+form select:required:valid {
+    border-left: solid 4px #16a34a;
+}
+
 .container {
-	padding-left: 100px;
+	padding: 5%;
     padding-top: 20px;
-    width: 100%;
+    width: 90%;
     margin: 0 auto;
     background-color: var(--primary-color);
 }
@@ -163,7 +265,7 @@ input[type=email], input[type=password], input[type=text], input[type=tel], inpu
 }
 
 #passImg {
-    width: 10%;
+    width: 99%;
     /* margin-left: -30px; */
     cursor: pointer;
     text-align: center;
@@ -190,3 +292,607 @@ input[type=email], input[type=password], input[type=text], input[type=tel], inpu
     color: var(--accent4-color);
     text-decoration: none;
 }
+
+.order-type-intro {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #555;
+    font-size: 1em;
+}
+
+.order-types {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.order-type-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    background-color: #1F6DE2;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.order-type-card:hover {
+    background-color: #154eb8;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+.order-type-card h3 {
+    margin: 0;
+    font-size: 1.3em;
+}
+
+.order-type-card p {
+    margin: 0;
+    font-size: 0.9em;
+    opacity: 0.9;
+}/* --------- TEMPORARY FORM STYLING ---------- */
+
+
+/* --------- MIRAGE 3500 FORM STYLING ---------- */
+
+/* Validation error styling */
+.error-input {
+    border: 2px solid red;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    display: block;
+    margin-top: 5px;
+}
+
+/* Notice boxes */
+.mirage-notice {
+    background-color: #fff3cd;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ffc107;
+    border-radius: 5px;
+}
+
+.confirmation-notice {
+    background-color: #f0f0f0;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.confirmation-notice h2 {
+    margin-top: 0;
+}
+
+.confirmation-notice p {
+    margin-bottom: 10px;
+}
+
+.confirmation-note {
+    color: #666;
+    font-style: italic;
+}
+
+/* Confirmation page action buttons */
+.confirmation-actions {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #e8f4f8;
+    border-radius: 5px;
+}
+
+.btn-confirm {
+    background-color: #28a745;
+    color: white;
+    padding: 15px 30px;
+    font-size: 18px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-confirm:hover {
+    background-color: #218838;
+}
+
+.btn-back {
+    padding: 15px 30px;
+    background-color: #6c757d;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.btn-back:hover {
+    background-color: #5a6268;
+}
+
+/* Error Banner Styles */
+.error-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px 20px;
+    margin: 20px 0;
+    background-color: #fee2e2;
+    border: 1px solid #ef4444;
+    border-left: 4px solid #dc2626;
+    border-radius: 8px;
+    color: #991b1b;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.error-banner svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: #dc2626;
+}
+
+.error-banner div {
+    flex: 1;
+}
+
+.error-banner strong {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #7f1d1d;
+}
+
+.error-banner p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #991b1b;
+}
+
+/* Inline Error Message Styles */
+.error-message {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 4px 8px;
+    background-color: #fee2e2;
+    color: #dc2626;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 4px;
+    border: 1px solid #fca5a5;
+}
+
+.required-field label {
+    font-weight: 600;
+}
+
+/* Secondary Form Button Styles */
+.formbtn-secondary {
+    margin-left: 15px;
+    padding: 15px 30px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.formbtn-secondary:hover {
+    background-color: #5a6268;
+    box-shadow: 1px 1px 4px black;
+}
+
+/* --------- ACCOUNT PAGE STYLING ---------- */
+
+.account-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: var(--primary-color);
+}
+
+.account-container h1 {
+    color: var(--accent3-color);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.account-container h2 {
+    color: var(--accent3-color);
+    margin: 30px 0 20px 0;
+    text-align: center;
+}
+
+.account-actions {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.btn-primary {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: var(--secondary-color);
+    color: var(--accent4-color);
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: var(--accent2-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-secondary {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: #6c757d;
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.orders-table-container {
+    overflow-x: auto;
+    margin: 20px 0;
+    background-color: var(--accent4-color);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--accent4-color);
+}
+
+.orders-table thead {
+    background-color: var(--secondary-color);
+    color: var(--accent4-color);
+}
+
+.orders-table th {
+    padding: 15px;
+    text-align: left;
+    font-weight: bold;
+}
+
+.orders-table tbody tr {
+    border-bottom: 1px solid #e0e0e0;
+    transition: background-color 0.2s;
+}
+
+.orders-table tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+.orders-table td {
+    padding: 15px;
+    color: var(--accent3-color);
+}
+
+.product-name {
+    font-weight: bold;
+    color: var(--secondary-color);
+}
+
+.order-details {
+    color: var(--accent1-color);
+}
+
+.order-status {
+    text-align: center;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.status-cancelled {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.status-completed {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.status-confirmed {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+.status-estimate {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.status-pending {
+    background-color: #e5e7eb;
+    color: #374151;
+}
+
+.order-actions {
+    text-align: center;
+    white-space: nowrap;
+}
+
+.btn-action {
+    display: inline-block;
+    padding: 8px 16px;
+    margin: 2px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.btn-confirm {
+    background-color: #10b981;
+    color: white;
+}
+
+.btn-confirm:hover {
+    background-color: #059669;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.btn-view {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-view:hover {
+    background-color: var(--accent2-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.btn-complete {
+    background-color: #8b5cf6;
+    color: white;
+}
+
+.btn-complete:hover {
+    background-color: #7c3aed;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.no-orders {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: var(--accent4-color);
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.no-orders p {
+    font-size: 18px;
+    color: var(--accent1-color);
+    margin: 10px 0;
+}
+
+.no-orders a {
+    color: var(--secondary-color);
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.no-orders a:hover {
+    color: var(--accent2-color);
+}
+
+/* --------- FORM STYLING ---------- */
+
+.form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: 2px solid var(--accent2-color);
+    padding: 20px;
+    border-radius: 8px;
+    
+}
+
+fieldset {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+
+fieldset.full-width {
+    width: 100%;
+}
+
+legend {
+    font-weight: bold;
+    padding: 0 10px;
+    color: #333;
+    font-size: 1.1em;
+}
+
+.grid-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.grid-row.three-col {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-group label {
+    font-weight: 600;
+    font-size: 0.9em;
+    color: #555;
+}
+
+.required-field::after {
+    content: "*";
+    color: red;
+    margin-left: 4px;
+}
+
+input[type="text"], select {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus, select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+}
+
+.measurement-input {
+    display: flex;
+    gap: 10px;
+}
+
+.measurement-input input {
+    flex: 2;
+}
+
+.measurement-input select {
+    flex: 1;
+}
+
+.form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+    margin: 20px 10px 0 10px;
+    padding-bottom: 40px;
+    /* display center */
+    justify-content: center;
+}
+
+/* Button styling is defined above in account styles */
+
+.error-input {
+    border-color: #dc3545 !important;
+}
+
+.form-notice {
+    background-color: #e9ecef;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+    border-left: 5px solid #007bff;
+}
+
+.btn-primary {
+    background-color: #1F6DE2;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: #154eb8;
+}
+
+.form-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+.password-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.password-input-wrapper input {
+    flex: 1;
+    padding-right: 45px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.eye-toggle {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    z-index: 10;
+}
+
+.eye-toggle:hover {
+    opacity: 0.7;
+}
+
+.eye-icon {
+    width: 100%;
+    height: 100%;
+    fill: #555;
+    color: #555;
+}
+
+@media (max-width: 768px) {
+    .grid-row, .grid-row.three-col {
+        grid-template-columns: 1fr;
+    }
+}
+

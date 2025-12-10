@@ -1,0 +1,130 @@
+Some info:
+
+10/29/25
+
+Things added:
+
+- Added form action towards confirmMirage3500.ejs in the createMirage3500 form
+- Added a function to get measurements in the ordersModel.js file
+- Updated the controller to pass fractions to the view in the ordersController.js file
+- Added post routes to ordersRoute.js
+- Created function for processing mirage3500 form in ordersController.js
+- Rewrote the confirmMirage3500.ejs form to match the create order form 
+- Created a final save route in ordersRoute.js
+- Updated ordersModel to handle all the INSERT/SELECT logic for Mirage 3500
+- Added new functions to exports in ordersModel.js
+- Created controller function to handle final save in ordersController.js
+- Added logic for handling measurements in the ordersModel
+
+For validating form info
+- Added ordersValidation.js
+- Added routes for orders validation in ordersRoute
+- Added changes to ordersController.js
+- Made changes to createmirage3500.ejs
+- Added error styling to createmirage3500.ejs
+
+
+10/30/25
+
+For dynamically adding form values from the database
+- made changes to ordersModel.js
+- made changes to ordersController.js
+- removed hard coded colors from createmirage3500.ejs
+- added changes to ordersValidation.js
+- added placeholders to createMirage3500 form to tell us what data is used
+- updated ordersController and ordersValidation in order to prevent redirect to confirm page when there are validation issues
+
+CSS changes
+- added an error banner rather than a bunch of bullet points 
+- added more form styling and placeholders so that things are clearer
+
+More stuff
+- changed it so that the form data is saved in localStorage so the user doesn't have to redo everything
+
+THIS BRANCH FROM THIS POINT FORWARD SHOULD NOT BE MERGED INTO DATABASE! (reminder for myself lol)
+
+
+
+Things to change:
+
+1. No SELECT * (all) statements
+2. is_estimated should be checked true after create form is completed and the data should be inserted into the database so that it isn't lost 
+3. is_confirmed should be checked true after confirm form is completed and if they are both checked true, the order is finalized and cannot be edited and can be viewed on the account page
+4. Have a second confirm form that goes on the account page that cannot be edited (the one after the create form SHOULD be able to be edited) and will redirect to the original
+5. Have data in localstorage so that the confirm page remembers what data was entered 
+6. The account page will hold all of the orders so that the user can go back to them
+7. There should be a pop up when the second submit button is clicked to make sure that they want to complete the order
+8. Authentication is needed so that Gary can see every order, and have the orders soft deleted for everyone else (pass in the role that users are at when they log in)
+9. Have an is_complete boolean flag, and if it is complete, soft delete the orders for all except the top admin (third check)
+10. ONLY soft deletions unless order is for sure canceled (as an option for Gary the CEO, only)
+11. Validate forms to make sure the correct kind of data is entered 
+
+
+Process:
+After the create form is created, is_estimated is checked true. After that, the confirm order is available, and is able to be edited, but not from the account page (the page will redirect to the original confirm page). Once the order is confirmed, an admin needs to mark is_completed as true. Gary, the CEO, can cancel the order at any time. is_estimated should be checked true after create form is completed and the data should be inserted into the database so that it isn't lost. is_confirmed should be checked true after confirm form is completed and if they are both checked true, the order is finalized and cannot be edited and can be viewed on the account page
+
+
+What ------------ Who ------- Status ------ ... [if is_estimate = T && is_confirmed = F: CONFIRM, i_e = T && i_c = T: COMPLETE ORDER]
+MIRAGE 3500      John Doe     Needs Conf    [CONFIRM] [VIEW ORDER DETAILS]
+MIRAGE 3500      John Doe     Confirmed     [VIEW ORDER DETAILS] [COMPLETE ORDER]
+MIRAGE 3500      John Doe     Completed     [VIEW ORDER DETAILS]
+
+TO DO:
+
+- start getting the customer information and add a customer input to the mirage3500 forms
+- add hidden elements for sold and date sold on the forms 
+- configure the orders to be filtered by customers
+- incorporate customers into the forms and account page
+- work on getting soft deletes to work 
+- make sure user authentication is integrated (including for Gary specifically)
+- change the popups to say data will be inserted after the create form is submitted and not when the confirm form is
+- make sure there are popups before each action 
+- Fix some of the form fields not populating after create form is submitted  
+
+  NOT REQUIRED FIELDS MIRAGE3500:
+
+  mohair and mohair position
+
+  Changes needed: 
+
+  - there should be an EXTRA admin page that will get all orders without soft deleting any of them. No WHERE clause for the admin page (should be the same as account page but with ALL orders and the ones completed on the regular account page should be soft deleted. Not deleted from the database, but removed from view. )
+  - ADMIN (Gary) should be able to change and reassign employees to another order (this means that for ADMIN, the account page should have an employee section that tells him what employee is working on the order) 
+  - ADMIN should have the same permissions as all employees
+- mobile view for account page: one column with collapsable sections instead of a side scrolling option
+- mirage and mirage3500 both REQUIRE retractable controls (general_retract_control table)
+- mirage by itself is pivot pro handle only 
+- mirage 3500 has more options for the handle
+- if mirage3500 pivot pro is selected, the pivot pro color must appear as a new option
+
+
+
+NOTE TO ASK GARY (NICK):
+
+We need to verify what columns are needed for each product we're working on and which fields are needed/required and out of those fields, are any of them specifc to the retractable controlling feature. For example, if you order mirage, does it automatically require retractable controls, or not? And if true, we need to make sure we have all of those pieces. 
+
+
+
+Notes 11/24:
+
+- Three distinct filters on the account page: 
+1. customer 
+2. employee
+3. completed
+
+
+Account page needs to work for ALL orders not just mirage3500
+update order log by joining to order log from customer
+
+columns that potentially need adding to customization table (foreign keys):
+
+- top_adapter_width
+- unit_height
+- pivot_pro_height
+- btm_adapter_width
+- middle_opening_width
+- middle_opening_height
+
+fields that need to be removed from the mirage3500 form:
+
+right buildout 
+left buildout 

@@ -1,6 +1,6 @@
 @media screen and (min-width: 900px) {
     #main-header {
-        grid-template-columns: 150px 1fr 1fr;
+        grid-template-columns: 200px 1fr 1fr;
     }
     #loggedin img, #loggedout img {
         width: 15%;
@@ -35,11 +35,32 @@
     nav ul li:nth-of-type(1){
         margin-top: unset;
     }
-    #passImg {
-        width: 3%;
-    }
     .types {
         display: grid;
         grid-template-columns: 1fr 1fr;
+    }
+
+    .order-types {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .order-type-card {
+        padding: 40px;
+    }
+
+    .order-type-card h3 {
+        font-size: 1.5em;
+    }
+
+    form {
+        width: 50%;
+    }
+    .form-actions {
+        flex-direction: row;
+        justify-content: flex-end;
+        max-width: 80%;
+    }
+    .form-grid {
+        margin: 0 5%;
     }
 }

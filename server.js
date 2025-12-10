@@ -17,6 +17,7 @@ const generalRoute = require("./routes/generalRoute")
 const ordersRoute = require("./routes/ordersRoute")
 // const contactRoute = require("./routes/messageRoute")
 const accountRoute = require("./routes/accountRoute")
+const adminRoute = require("./routes/adminRoute")
 // const aboutRoute = require("./routes/aboutRoute")
 // const menuRoute = require("./routes/menuRoute")
 const bodyParser = require("body-parser")
@@ -79,8 +80,8 @@ app.get("/about", generalRoute)
 // Orders Route
 app.use("/orders", ordersRoute)
 
-// // Menu Route
-// app.use("/menu", menuRoute)
+// Admin Route
+app.use("/admin", adminRoute)
 
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {
