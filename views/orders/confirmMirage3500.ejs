@@ -355,17 +355,16 @@
 </form>
 
 <script>
-    // Clear localStorage when page loads (successful form submission from create page)
-    window.addEventListener('DOMContentLoaded', function() {
-        localStorage.removeItem('mirage3500FormData');
-        console.log('Form data cleared from localStorage on confirm page load');
-    });
 
     // Add confirmation popup when form is submitted
     document.getElementById('form').addEventListener('submit', function(event) {
         const confirmed = confirm('Are you sure you want to confirm and submit this order?');
         if (!confirmed) {
             event.preventDefault(); // Prevent form submission if user clicks Cancel
+        } else {
+            // Clear localStorage when order is confirmed and submitted
+            localStorage.removeItem('mirage3500FormData');
+            console.log('Form data cleared from localStorage');
         }
     });
 </script>
