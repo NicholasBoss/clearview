@@ -1,5 +1,9 @@
 
-<h1>Create New Window Screen Order</h1>
+<% if (title) { %>
+    <h1><%= title %></h1>
+<% } else { %>
+    <h1>Create New Window Screen Order</h1>
+<% } %>
 
 <%- messages() %>
 <% if (errors) { %>
@@ -26,7 +30,7 @@
   });
 </script>
 
-<form action="/orders/confirmNWS" method="post">
+<form id="form" action="/orders/confirmNWS" method="post">
     <div class="form-grid">
         <!-- Customer Information -->
         <fieldset class="full-width">
@@ -62,72 +66,126 @@
             <div class="grid-row three-col">
                 <div class="form-group">
                     <label class="required-field">Quantity</label>
-                    <input type="text" name="quantity" id="">
+                    <input type="text" name="quantity" id="quantity" value="<%= formData.quantity || '' %>" placeholder="Enter quantity" required <%= errors && errors.array().find(e => e.path === 'quantity') ? 'class="error-input"' : '' %>>
+                    <% if (errors) { %>
+                        <% const error = errors.array().find(e => e.path === 'quantity') %>
+                        <% if (error) { %>
+                            <span class="error-message"><%= error.msg %></span>
+                        <% } %>
+                    <% } %>
                 </div>
 
                 <div class="form-group">
-                    <label>Fab</label>
-                    <input type="text" name="width_input" id="">
+                    <label class="required-field">Fab</label>
+                    <input type="text" name="fab_width" id="fab_width" value="<%= formData.fab_width || '' %>" placeholder="Enter fab width" required <%= errors && errors.array().find(e => e.path === 'fab_width') ? 'class="error-input"' : '' %>>
+                    <% if (errors) { %>
+                        <% const error = errors.array().find(e => e.path === 'fab_width') %>
+                        <% if (error) { %>
+                            <span class="error-message"><%= error.msg %></span>
+                        <% } %>
+                    <% } %>
                 </div>
 
                 <div class="form-group">
-                    <label>Frame</label>
-                    <select name="frame_size" id="frame_size_id">
+                    <label class="required-field">Frame</label>
+                    <select name="frame_size" id="frame_size" required <%= errors && errors.array().find(e => e.path === 'frame_size') ? 'class="error-input"' : '' %>>
                         <option value="">Select</option>
                         <% frame_sizes.forEach(frame_size => { %>
-                            <option value="<%= frame_size.size_type %>" <%= formData.frame_size_id === frame_size.size_type ? 'selected' : '' %>><%= frame_size.size_type %></option>
+                            <option value="<%= frame_size.size_type %>" <%= formData.frame_size === frame_size.size_type ? 'selected' : '' %>><%= frame_size.size_type %></option>
                         <% }) %>
                     </select>
+                    <% if (errors) { %>
+                        <% const error = errors.array().find(e => e.path === 'frame_size') %>
+                        <% if (error) { %>
+                            <span class="error-message"><%= error.msg %></span>
+                        <% } %>
+                    <% } %>
                 </div>
 
                 <div class="form-group">
-                    <label>Color</label>
-                    <select name="color" id="color_id">
+                    <label class="required-field">Color</label>
+                    <select name="color" id="color" required <%= errors && errors.array().find(e => e.path === 'color') ? 'class="error-input"' : '' %>>
                         <option value="">Select</option>
                         <% colors.forEach(color => { %>
-                            <option value="<%= color.color_name %>" <%= formData.color_id === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
+                            <option value="<%= color.color_name %>" <%= formData.color === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
                         <% }) %>
                     </select>
+                    <% if (errors) { %>
+                        <% const error = errors.array().find(e => e.path === 'color') %>
+                        <% if (error) { %>
+                            <span class="error-message"><%= error.msg %></span>
+                        <% } %>
+                    <% } %>
                 </div>
 
                 <div class="form-group">
-                    <label>Mesh</label>
-                    <select name="mesh" id="mesh_id">
+                    <label class="required-field">Mesh</label>
+                    <select name="mesh" id="mesh" required <%= errors && errors.array().find(e => e.path === 'mesh') ? 'class="error-input"' : '' %>>
                         <option value="">Select</option>
                         <% meshs.forEach(mesh => { %>
-                            <option value="<%= mesh.mesh_type %>" <%= formData.mesh_id === mesh.mesh_type ? 'selected' : '' %>><%= mesh.mesh_type %></option>
+                            <option value="<%= mesh.mesh_type %>" <%= formData.mesh === mesh.mesh_type ? 'selected' : '' %>><%= mesh.mesh_type %></option>
                         <% }) %>
                     </select>
+                    <% if (errors) { %>
+                        <% const error = errors.array().find(e => e.path === 'mesh') %>
+                        <% if (error) { %>
+                            <span class="error-message"><%= error.msg %></span>
+                        <% } %>
+                    <% } %>
                 </div>
 
                 <div class="form-group">
-                    <label>Fastener</label>
-                    <select name="fastener" id="fastener_id">
+                    <label class="required-field">Fastener</label>
+                    <select name="fastener" id="fastener" required <%= errors && errors.array().find(e => e.path === 'fastener') ? 'class="error-input"' : '' %>>
                         <option value="">Select</option>
                         <% fasteners.forEach(fastener => { %>
-                            <option value="<%= fastener.fastener_type %>" <%= formData.fastener_id === fastener.fastener_type ? 'selected' : '' %>><%= fastener.fastener_type %></option>
+                            <option value="<%= fastener.fastener_type %>" <%= formData.fastener === fastener.fastener_type ? 'selected' : '' %>><%= fastener.fastener_type %></option>
                         <% }) %>
                     </select>
+                    <% if (errors) { %>
+                        <% const error = errors.array().find(e => e.path === 'fastener') %>
+                        <% if (error) { %>
+                            <span class="error-message"><%= error.msg %></span>
+                        <% } %>
+                    <% } %>
                 </div>
 
                 <div class="form-group">
-                    <label>Spring</label>
-                    <select name="spring" id="tab_spring_id">
+                    <label class="required-field">Spring</label>
+                    <select name="spring" id="spring" required <%= errors && errors.array().find(e => e.path === 'spring') ? 'class="error-input"' : '' %>>
                         <option value="">Select</option>
                         <% springs.forEach(spring => { %>
-                            <option value="<%= spring.tab_spring_name %>" <%= formData.tab_spring_id === spring.tab_spring_name ? 'selected' : '' %>><%= spring.tab_spring_name %></option>
+                            <option value="<%= spring.tab_spring_name %>" <%= formData.spring === spring.tab_spring_name ? 'selected' : '' %>><%= spring.tab_spring_name %></option>
                         <% }) %>
                     </select>
+                    <% if (errors) { %>
+                        <% const error = errors.array().find(e => e.path === 'spring') %>
+                        <% if (error) { %>
+                            <span class="error-message"><%= error.msg %></span>
+                        <% } %>
+                    <% } %>
                 </div>
 
                 <div class="form-group">
-                    <label>Fastener Location</label>
-                    <input type="text" name="fastener_location" id="">
+                    <label class="required-field">Fastener Location</label>
+                    <input type="text" name="fastener_location" id="fastener_location" value="<%= formData.fastener_location || '' %>" placeholder="Enter fastener location" required <%= errors && errors.array().find(e => e.path === 'fastener_location') ? 'class="error-input"' : '' %>>
+                    <% if (errors) { %>
+                        <% const error = errors.array().find(e => e.path === 'fastener_location') %>
+                        <% if (error) { %>
+                            <span class="error-message"><%= error.msg %></span>
+                        <% } %>
+                    <% } %>
                 </div>
 
                 <div class="form-group">
-                    <label>Notes</label>
-                    <input type="text" name="notes" id="">
+                    <label class="required-field">Notes</label>
+                    <input type="text" name="notes" id="notes" value="<%= formData.notes || '' %>" placeholder="Enter notes" required <%= errors && errors.array().find(e => e.path === 'notes') ? 'class="error-input"' : '' %>>
+                    <% if (errors) { %>
+                        <% const error = errors.array().find(e => e.path === 'notes') %>
+                        <% if (error) { %>
+                            <span class="error-message"><%= error.msg %></span>
+                        <% } %>
+                    <% } %>
                 </div>
             </div>
         </fieldset>
@@ -137,65 +195,95 @@
             <legend>Dimensions</legend>
             <div class="grid-row three-col">
                 <div class="form-group">
-                    <label>Width</label>
+                    <label class="required-field">Width</label>
                     <div class="measurement-input">
-                        <input type="text" name="width_input" id="">
-                        <select name="measurement_name" id="">
+                        <input type="text" name="width_input" id="width_input" value="<%= formData.width_input || '' %>" placeholder="Enter width" required <%= errors && errors.array().find(e => e.path === 'width_input') ? 'class="error-input"' : '' %>>
+                        <select name="measurement_name" id="measurement_name" required <%= errors && errors.array().find(e => e.path === 'measurement_name') ? 'class="error-input"' : '' %>>
                             <option value="">Fraction</option>
                             <% fractions.forEach(fraction => { %>
-                            <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
-                            <% }) %> 
+                            <option value="<%= fraction.measurement_name %>" <%= formData.measurement_name === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                            <% }) %>
                         </select>
                     </div>
+                    <% if (errors) { %>
+                        <% const error = errors.array().find(e => e.path === 'width_input') || errors.array().find(e => e.path === 'measurement_name') %>
+                        <% if (error) { %>
+                            <span class="error-message"><%= error.msg %></span>
+                        <% } %>
+                    <% } %>
                 </div>
 
                 <div class="form-group">
-                    <label>Width +/-</label>
-                    <select name="plus_minus" id="width_plus_minus">
+                    <label class="required-field">Width +/-</label>
+                    <select name="width_plus_minus" id="width_plus_minus" required <%= errors && errors.array().find(e => e.path === 'width_plus_minus') ? 'class="error-input"' : '' %>>
                         <option value="">Select</option>
-                        <option value="+">+</option>
-                        <option value="-">-</option>
+                        <option value="+" <%= formData.width_plus_minus === '+' ? 'selected' : '' %>>+</option>
+                        <option value="-" <%= formData.width_plus_minus === '-' ? 'selected' : '' %>>-</option>
                     </select>
+                    <% if (errors) { %>
+                        <% const error = errors.array().find(e => e.path === 'width_plus_minus') %>
+                        <% if (error) { %>
+                            <span class="error-message"><%= error.msg %></span>
+                        <% } %>
+                    <% } %>
                 </div>
 
                 <div class="form-group">
-                    <label>Height</label>
+                    <label class="required-field">Height</label>
                     <div class="measurement-input">
-                        <input type="text" name="height_input" id="">
-                        <select name="height_fraction" id="">
+                        <input type="text" name="height_input" id="height_input" value="<%= formData.height_input || '' %>" placeholder="Enter height" required <%= errors && errors.array().find(e => e.path === 'height_input') ? 'class="error-input"' : '' %>>
+                        <select name="height_fraction" id="height_fraction" required <%= errors && errors.array().find(e => e.path === 'height_fraction') ? 'class="error-input"' : '' %>>
                             <option value="">Fraction</option>
                             <% fractions.forEach(fraction => { %>
-                            <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
-                            <% }) %> 
+                            <option value="<%= fraction.measurement_name %>" <%= formData.height_fraction === fraction.measurement_name ? 'selected' : '' %>><%= fraction.measurement_name %></option>
+                            <% }) %>
                         </select>
                     </div>
+                    <% if (errors) { %>
+                        <% const error = errors.array().find(e => e.path === 'height_input') || errors.array().find(e => e.path === 'height_fraction') %>
+                        <% if (error) { %>
+                            <span class="error-message"><%= error.msg %></span>
+                        <% } %>
+                    <% } %>
                 </div>
 
                 <div class="form-group">
-                    <label>Height +/-</label>
-                    <select name="plus_minus" id="height_plus_minus">
+                    <label class="required-field">Height +/-</label>
+                    <select name="height_plus_minus" id="height_plus_minus" required <%= errors && errors.array().find(e => e.path === 'height_plus_minus') ? 'class="error-input"' : '' %>>
                         <option value="">Select</option>
-                        <option value="+">+</option>
-                        <option value="-">-</option>
+                        <option value="+" <%= formData.height_plus_minus === '+' ? 'selected' : '' %>>+</option>
+                        <option value="-" <%= formData.height_plus_minus === '-' ? 'selected' : '' %>>-</option>
                     </select>
+                    <% if (errors) { %>
+                        <% const error = errors.array().find(e => e.path === 'height_plus_minus') %>
+                        <% if (error) { %>
+                            <span class="error-message"><%= error.msg %></span>
+                        <% } %>
+                    <% } %>
                 </div>
 
                 <div class="form-group">
-                    <label>Tabs</label>
-                    <select name="tabs" id="">
+                    <label class="required-field">Tabs</label>
+                    <select name="tabs" id="tabs" required <%= errors && errors.array().find(e => e.path === 'tabs') ? 'class="error-input"' : '' %>>
                         <option value="">Select</option>
-                        <option value="L">L</option>
-                        <option value="S">S</option>
-                        <option value="None">None</option>
+                        <option value="L" <%= formData.tabs === 'L' ? 'selected' : '' %>>L</option>
+                        <option value="S" <%= formData.tabs === 'S' ? 'selected' : '' %>>S</option>
+                        <option value="None" <%= formData.tabs === 'None' ? 'selected' : '' %>>None</option>
                     </select>
+                    <% if (errors) { %>
+                        <% const error = errors.array().find(e => e.path === 'tabs') %>
+                        <% if (error) { %>
+                            <span class="error-message"><%= error.msg %></span>
+                        <% } %>
+                    <% } %>
                 </div>
             </div>
         </fieldset>
 
-        <fieldset>
+        <!-- Additional Options -->
+        <fieldset class="full-width">
             <legend>Additional Options</legend>
             <div class="grid-row two-col">
-                <!-- just a choice between phone order and on-site order -->
                 <div class="form-group">
                     <label class="required-field">Order Type</label>
                     <select name="order_type" id="order_type" required <%= errors && errors.array().find(e => e.path === 'order_type') ? 'class="error-input"' : '' %>>
@@ -209,6 +297,8 @@
                             <span class="error-message"><%= error.msg %></span>
                         <% } %>
                     <% } %>
+                </div>
+            </div>
         </fieldset>
 
         <div class="form-actions">

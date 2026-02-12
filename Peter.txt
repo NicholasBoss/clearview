@@ -128,3 +128,62 @@ fields that need to be removed from the mirage3500 form:
 
 right buildout 
 left buildout 
+
+CHANGES MADE TODAY:
+2/12/26
+
+Updated NWS ejs forms & validation
+
+Here's a summary of everything that was changed to get NWS saving to the database:
+
+ordersModel.js — Rewrote saveNWSData:
+
+The old function was copied from Mirage 3500 and referenced wrong tables/variables. The new one follows the actual NWS schema:
+
+Gets/inserts lookup values: frame_size, color, mesh, fastener, tab_spring
+Creates a window record (junction linking all the above)
+Creates a new_window_screen record (linked to window)
+Creates an nws_measurement record (stores width/height fractions and +/- values)
+Creates a customization record with nws_measurement_id
+Creates an order record with the quantity
+Creates order_customization with is_estimate=TRUE
+Links the customer via cust_order and order_log
+Also exported saveNWSData, confirmNWSOrder, and completeNWSOrder.
+
+ordersController.js — Updated processNWSForm, added saveNWSOrder:
+
+processNWSForm now saves to DB immediately (like Mirage 3500), stores customization_id in session, and handles Phone Order vs On-Site Order routing
+saveNWSOrder (new) — called from the confirm page, sets is_confirmed=TRUE and redirects to account
+ordersRoute.js — Added POST /saveNWS route pointing to saveNWSOrder
+
+The flow now matches Mirage 3500:
+
+Submit form → validates → processNWSForm saves to DB as estimate
+Phone Order → straight to account page
+On-Site Order → confirm page → "Confirm Order" → saveNWSOrder sets confirmed → account page
+
+FIXED ACCOUNT PAGE FOR NWS
+
+1. account.ejs:138 - Fixed product name mismatch
+Changed case 'NWS': to case 'New Window Screen': so the switch statement matches the actual product name stored in the database. The URL name 'NWS' is still used for routes.
+
+2. ordersController.js:868-889 - Fixed editNWS controller
+Replaced the stub ("not yet implemented" flash message) with actual logic that:
+
+Loads the order data via ordersModel.getOrderById()
+Stores it in req.session.nwsData and req.session.nwsOrderId
+Redirects to /orders/confirmNWS (matching the editMirage3500 pattern)
+This enables the "Confirm" button on the account page to work for NWS orders with is_estimate=TRUE.
+
+3. ordersModel.js:643-682 - Added NWS JOINs to both queries
+Added JOINs through the NWS chain (nws_measurement -> new_window_screen -> window -> frame_size + color) in both getOrdersByAccountId and getOrders, selecting nws_frame_size and nws_color.
+
+4. account.ejs:96-103 - Added NWS details display
+Added else if (order.nws_frame_size) to show "Frame: X, Color: Y" in the Details column for NWS orders.
+
+The full NWS flow now works:
+
+Create -> saves with is_estimate=TRUE (Phone Orders go straight to account, On-Site Orders go to confirm)
+Account page -> shows NWS orders with "Needs Confirmation" status and a "Confirm" button
+Confirm -> clicking "Confirm" loads the confirm page, submitting sets is_confirmed=TRUE
+Complete -> "Complete Order" button sets is_completed=TRUE

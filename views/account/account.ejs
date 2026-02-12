@@ -97,6 +97,8 @@
                                     Handle: <%= order.mirage_3500_handle %>
                                 <% } else if (order.mirage_build_out) { %>
                                     Build Out: <%= order.mirage_build_out %>
+                                <% } else if (order.nws_frame_size) { %>
+                                    Frame: <%= order.nws_frame_size %>, Color: <%= order.nws_color %>
                                 <% } else { %>
                                     Order #<%= order.customization_id %>
                                 <% } %>
@@ -135,7 +137,7 @@
                                         case 'Rainier':
                                             productUrlName = 'Rainier';
                                             break;
-                                        case 'NWS':
+                                        case 'New Window Screen':
                                             productUrlName = 'NWS';
                                             break;
                                         default:
