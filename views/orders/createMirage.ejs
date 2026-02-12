@@ -298,6 +298,25 @@
             </fieldset>
         </fieldset>
 
+        <fieldset>
+            <legend>Additional Options</legend>
+            <div class="grid-row two-col">
+                <!-- just a choice between phone order and on-site order -->
+                <div class="form-group">
+                    <label class="required-field">Order Type</label>
+                    <select name="order_type" id="order_type" required <%= errors && errors.array().find(e => e.path === 'order_type') ? 'class="error-input"' : '' %>>
+                        <option value="">Select</option>
+                        <option value="Phone Order" <%= formData.order_type === 'Phone Order' ? 'selected' : '' %>>Phone Order</option>
+                        <option value="On-Site Order" <%= formData.order_type === 'On-Site Order' ? 'selected' : '' %>>On-Site Order</option>
+                    </select>
+                    <% if (errors) { %>
+                        <% const error = errors.array().find(e => e.path === 'order_type') %>
+                        <% if (error) { %>
+                            <span class="error-message"><%= error.msg %></span>
+                        <% } %>
+                    <% } %>
+        </fieldset>
+
         <div class="form-actions">
             <button type="submit" class="btn-primary">Submit Order</button>
             <button type="button" id="clearFormBtn" class="btn-secondary">Clear Form</button>

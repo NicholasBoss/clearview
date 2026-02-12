@@ -82,7 +82,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Housing Series</label>
+                    <label class="required-field">Housing Series</label>
                     <select name="housing_series">
                         <option value="">Select</option>
                         <% housing.forEach(item => { %>
@@ -91,7 +91,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Drive Side</label>
+                    <label class="required-field">Drive Side</label>
                     <select name="drive_side">
                         <option value="">Select</option>
                         <% driveSide.forEach(item => { %>
@@ -100,7 +100,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Hembar</label>
+                    <label class="required-field">Hembar</label>
                     <select name="hembar_name">
                         <option value="">Select</option>
                         <% hembar.forEach(item => { %>
@@ -109,7 +109,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Pile Brush</label>
+                    <label class="required-field">Pile Brush</label>
                     <select name="pile_brush">
                         <option value="">Select</option>
                         <% pilebrush.forEach(item => { %>
@@ -118,7 +118,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Brush Location</label>
+                    <label class="required-field">Brush Location</label>
                     <select name="brush_location">
                         <option value="">Select</option>
                         <% brushLocation.forEach(item => { %>
@@ -127,7 +127,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Zipper Color</label>
+                    <label class="required-field">Zipper Color</label>
                     <select name="zipper_color">
                         <option value="">Select</option>
                         <% zipperColor.forEach(item => { %>
@@ -136,7 +136,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Cord Length</label>
+                    <label class="required-field">Cord Length</label>
                     <select name="cord_length">
                         <option value="">Select</option>
                         <% cordLength.forEach(item => { %>
@@ -145,7 +145,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Mount Type</label>
+                    <label class="required-field">Mount Type</label>
                     <select name="mount_type">
                         <option value="">Select</option>
                         <% mountTypes.forEach(item => { %>
@@ -162,7 +162,7 @@
             <div class="grid-row">
                 <!-- Top Opening -->
                 <div class="form-group">
-                    <label>Top Opening Width</label>
+                    <label class="required-field">Top Opening Width</label>
                     <div class="measurement-input">
                         <input type="text" name="top_opening_width" value="<%= formData.top_opening_width || '' %>">
                         <select name="top_opening_width_inch">
@@ -174,13 +174,13 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Top Level</label>
+                    <label class="required-field">Top Level</label>
                     <input type="text" name="top_level" value="<%= formData.top_level || '' %>">
                 </div>
 
                 <!-- Bottom Opening -->
                 <div class="form-group">
-                    <label>Bottom Opening Width</label>
+                    <label class="required-field">Bottom Opening Width</label>
                     <div class="measurement-input">
                         <input type="text" name="bottom_opening_width" value="<%= formData.bottom_opening_width || '' %>">
                         <select name="bottom_opening_width_inch">
@@ -192,13 +192,13 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Bottom Level</label>
+                    <label class="required-field">Bottom Level</label>
                     <input type="text" name="bottom_level" value="<%= formData.bottom_level || '' %>">
                 </div>
 
                 <!-- Left Opening -->
                 <div class="form-group">
-                    <label>Left Opening Height</label>
+                    <label class="required-field">Left Opening Height</label>
                     <div class="measurement-input">
                         <input type="text" name="left_opening_height" value="<%= formData.left_opening_height || '' %>">
                         <select name="left_opening_height_inch">
@@ -210,13 +210,13 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Left Plumb</label>
+                    <label class="required-field">Left Plumb</label>
                     <input type="text" name="left_plumb" value="<%= formData.left_plumb || '' %>">
                 </div>
 
                 <!-- Right Opening -->
                 <div class="form-group">
-                    <label>Right Opening Height</label>
+                    <label class="required-field">Right Opening Height</label>
                     <div class="measurement-input">
                         <input type="text" name="right_opening_height" value="<%= formData.right_opening_height || '' %>">
                         <select name="right_opening_height_inch">
@@ -228,7 +228,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Right Plumb</label>
+                    <label class="required-field">Right Plumb</label>
                     <input type="text" name="right_plumb" value="<%= formData.right_plumb || '' %>">
                 </div>
             </div>
@@ -239,7 +239,7 @@
             <legend>Buildouts & Tracks</legend>
             <div class="grid-row three-col">
                 <div class="form-group">
-                    <label>Left Build Out</label>
+                    <label class="required-field">Left Build Out</label>
                     <select name="left_build_out">
                         <option value="None">Select</option>
                         <% leftBuildout.forEach(item => { %>
@@ -248,7 +248,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Right Build Out</label>
+                    <label class="required-field">Right Build Out</label>
                     <select name="right_build_out">
                         <option value="None">Select</option>
                         <% rightBuildout.forEach(item => { %>
@@ -257,11 +257,11 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Add Build Out</label>
+                    <label class="required-field">Add Build Out</label>
                     <input type="text" name="add_build_out" value="<%= formData.add_build_out || '' %>">
                 </div>
                 <div class="form-group">
-                    <label>Left Track</label>
+                    <label class="required-field">Left Track</label>
                     <select name="left_track">
                         <option value="None">Select</option>
                         <% leftTrack.forEach(item => { %>
@@ -270,7 +270,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Right Track</label>
+                    <label class="required-field">Right Track</label>
                     <select name="right_track">
                         <option value="None">Select</option>
                         <% rightTrack.forEach(item => { %>
@@ -279,6 +279,25 @@
                     </select>
                 </div>
             </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Additional Options</legend>
+            <div class="grid-row two-col">
+                <!-- just a choice between phone order and on-site order -->
+                <div class="form-group">
+                    <label class="required-field">Order Type</label>
+                    <select name="order_type" id="order_type" required <%= errors && errors.array().find(e => e.path === 'order_type') ? 'class="error-input"' : '' %>>
+                        <option value="">Select</option>
+                        <option value="Phone Order" <%= formData.order_type === 'Phone Order' ? 'selected' : '' %>>Phone Order</option>
+                        <option value="On-Site Order" <%= formData.order_type === 'On-Site Order' ? 'selected' : '' %>>On-Site Order</option>
+                    </select>
+                    <% if (errors) { %>
+                        <% const error = errors.array().find(e => e.path === 'order_type') %>
+                        <% if (error) { %>
+                            <span class="error-message"><%= error.msg %></span>
+                        <% } %>
+                    <% } %>
         </fieldset>
 
         <div class="form-actions">
