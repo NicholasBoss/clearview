@@ -673,4 +673,159 @@ validate.checkRainierData = async (req, res, next) => {
     next()
 }
 
+/* *************************************
+* NWS (New Window Screen) Validation Rules
+************************************** */
+validate.nwsRules = () => {
+    return [
+        // Customer First Name - required
+        body("customer_firstname")
+        .notEmpty()
+        .withMessage("Customer First Name is required.")
+        .trim()
+        .isLength({ min: 1, max: 255 })
+        .withMessage("Customer First Name must be between 1 and 255 characters.")
+        .matches(/^[a-zA-Z\s\-']+$/)
+        .withMessage("Customer First Name can only contain letters, spaces, hyphens, and apostrophes."),
+
+        // Customer Last Name - required
+        body("customer_lastname")
+        .notEmpty()
+        .withMessage("Customer Last Name is required.")
+        .trim()
+        .isLength({ min: 1, max: 255 })
+        .withMessage("Customer Last Name must be between 1 and 255 characters.")
+        .matches(/^[a-zA-Z\s\-']+$/)
+        .withMessage("Customer Last Name can only contain letters, spaces, hyphens, and apostrophes."),
+
+        // Quantity - required numeric
+        body("quantity")
+        .notEmpty()
+        .withMessage("Quantity is required.")
+        .trim()
+        .isInt({ min: 1 })
+        .withMessage("Quantity must be a whole number greater than 0."),
+
+        // Frame Size - optional
+        body("frame_size")
+        .optional({ checkFalsy: true })
+        .trim(),
+
+        // Color - optional
+        body("color")
+        .optional({ checkFalsy: true })
+        .trim(),
+
+        // Mesh - optional
+        body("mesh")
+        .optional({ checkFalsy: true })
+        .trim(),
+
+        // Fastener - optional
+        body("fastener")
+        .optional({ checkFalsy: true })
+        .trim(),
+
+        // Spring - optional
+        body("spring")
+        .optional({ checkFalsy: true })
+        .trim(),
+
+        // Fastener Location - optional
+        body("fastener_location")
+        .optional({ checkFalsy: true })
+        .trim(),
+
+        // Notes - optional
+        body("notes")
+        .optional({ checkFalsy: true })
+        .trim(),
+
+        // Width - optional numeric
+        body("width_input")
+        .optional({ checkFalsy: true })
+        .trim(),
+
+        // Width Fraction - optional
+        body("measurement_name")
+        .optional({ checkFalsy: true })
+        .trim(),
+
+        // Width +/- - optional
+        body("plus_minus")
+        .optional({ checkFalsy: true }),
+
+        // Height - optional numeric
+        body("height_input")
+        .optional({ checkFalsy: true })
+        .trim(),
+
+        // Height Fraction - optional
+        body("height_fraction")
+        .optional({ checkFalsy: true })
+        .trim(),
+
+        // Tabs - optional
+        body("tabs")
+        .optional({ checkFalsy: true })
+        .isIn(['L', 'S', 'None'])
+        .withMessage("Tabs must be L, S, or None."),
+
+        // Order Type - required
+        body("order_type")
+        .notEmpty()
+        .withMessage("Order Type is required.")
+        .trim()
+        .isIn(['Phone Order', 'On-Site Order'])
+        .withMessage("Order Type must be Phone Order or On-Site Order.")
+    ]
+}
+
+/* *********************************************************
+* Check NWS data and return errors or continue to confirmation
+********************************************************** */
+validate.checkNWSData = async (req, res, next) => {
+    let errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        console.log('Validation errors found:', errors.array())
+
+        const colors = await ordersModel.getColorsByProduct("New Window Screen")
+        const mesh = await ordersModel.getMeshByProduct("New Window Screen")
+        const measurements = await ordersModel.getMeasurements("New Window Screen")
+
+        let frame_sizes, fasteners, springs
+        try {
+            const jaOrdersModel = require('../models/jaOrdersModel')
+            frame_sizes = await jaOrdersModel.getFrameSizes("New Window Screen")
+            fasteners = await jaOrdersModel.getFasteners("New Window Screen")
+            springs = await jaOrdersModel.getTabSpring("New Window Screen")
+        } catch (e) {
+            console.log('Error loading jaOrdersModel data:', e.message)
+            frame_sizes = []
+            fasteners = []
+            springs = []
+        }
+
+        // Store errors and form data in session
+        req.session.validationErrors = errors.array()
+        req.session.formData = req.body
+
+        // Re-render form with errors and form data
+        res.render('orders/createNWS', {
+                errors,
+                title: 'Create New Window Screen Order',
+                link: 'orders/createNWS',
+                formData: req.body,
+                colors: colors || [],
+                frame_sizes: frame_sizes || [],
+                fractions: measurements || [],
+                springs: springs || [],
+                meshs: mesh || [],
+                fasteners: fasteners || []
+        })
+        return
+    }
+    next()
+}
+
 module.exports = validate

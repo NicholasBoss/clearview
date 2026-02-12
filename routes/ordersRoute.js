@@ -49,7 +49,11 @@ router.get("/editRainier/:id", util.checkLogin, util.handleErrors(ordersControll
 router.post("/completeRainier/:id", util.checkLogin, util.handleErrors(ordersController.completeRainier))
 
 router.get("/createNWS", util.checkLogin, util.handleErrors(ordersController.buildCreateNWS))
-router.post("/confirmNWS", util.checkLogin, util.handleErrors(ordersController.processNWSForm))
+router.post("/confirmNWS",
+    util.checkLogin,
+    ordersValidation.nwsRules(),
+    ordersValidation.checkNWSData,
+    util.handleErrors(ordersController.processNWSForm))
 router.get("/confirmNWS", util.checkLogin, util.handleErrors(ordersController.buildConfirmNWS))
 router.get("/viewNWS/:id", util.checkLogin, util.handleErrors(ordersController.buildViewNWS))
 router.get("/editNWS/:id", util.checkLogin, util.handleErrors(ordersController.editNWS))
