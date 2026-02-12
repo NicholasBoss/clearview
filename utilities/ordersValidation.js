@@ -647,10 +647,152 @@ validate.rainierRules = () => {
         .notEmpty()
         .withMessage("Placement is required."),
 
+        body("rainier_color")
+        .notEmpty()
+        .withMessage("Color is required."),
+
         // Fabric & Color - required
         body("fabric_color")
         .notEmpty()
-        .withMessage("Fabric & Color is required.")
+        .withMessage("Fabric & Color is required."),
+
+        body("housing_series")
+        .notEmpty()
+        .withMessage("Housing Series is required."),
+
+        body("drive_side")
+        .notEmpty()
+        .withMessage("Drive Side is required."),
+
+        body("hembar_name")
+        .notEmpty()
+        .withMessage("Hembar is required."),
+
+        body("pile_brush")
+        .notEmpty()
+        .withMessage("Pile Brush is required."),
+
+        body("brush_location")
+        .notEmpty()
+        .withMessage("Brush Location is required."),
+
+        body("zipper_color")
+        .notEmpty()
+        .withMessage("Zipper Color is required."),
+
+        body("cord_length")
+        .notEmpty()
+        .withMessage("Cord Length is required."),
+
+        body("mount_type")
+        .notEmpty()
+        .withMessage("Mount Type is required."),
+
+        body("top_opening_width")
+        .notEmpty()
+        .withMessage("Top Opening Width is required.")
+        .trim()
+        .isNumeric()
+        .withMessage("Top Opening Width must be a number."),
+
+        // Top Opening Width Fraction - required
+        body("top_opening_width_inch")
+        .notEmpty()
+        .withMessage("Top Opening Width Inch is required."),
+
+        // Top Level - required
+        body("top_level")
+        .notEmpty()
+        .withMessage("Top Level is required.")
+        .trim(),
+
+        // Bottom Opening Width - required numeric
+        body("bottom_opening_width")
+        .notEmpty()
+        .withMessage("Bottom Opening Width is required.")
+        .trim()
+        .isNumeric()
+        .withMessage("Bottom Opening Width must be a number."),
+
+        // Bottom Opening Width Fraction - required
+        body("bottom_opening_width_inch")
+        .notEmpty()
+        .withMessage("Bottom Opening Width Inch is required."),
+
+        // Bottom Level - required
+        body("bottom_level")
+        .notEmpty()
+        .withMessage("Bottom Level is required.")
+        .trim(),
+
+        // Left Opening Height - required numeric
+        body("left_opening_height")
+        .notEmpty()
+        .withMessage("Left Opening Height is required.")
+        .trim()
+        .isNumeric()
+        .withMessage("Left Opening Height must be a number."),
+
+        // Left Opening Height Fraction - required
+        body("left_opening_height_inch")
+        .notEmpty()
+        .withMessage("Left Opening Height Inch is required."),
+
+        // Left Plumb - required
+        body("left_plumb")
+        .notEmpty()
+        .withMessage("Left Plumb is required.")
+        .trim(),
+
+        // Right Opening Height - required numeric
+        body("right_opening_height")
+        .notEmpty()
+        .withMessage("Right Opening Height is required.")
+        .trim()
+        .isNumeric()
+        .withMessage("Right Opening Height must be a number."),
+
+        // Right Opening Height Fraction - required
+        body("right_opening_height_inch")
+        .notEmpty()
+        .withMessage("Right Opening Height Inch is required."),
+
+        // Right Plumb - required
+        body("right_plumb")
+        .notEmpty()
+        .withMessage("Right Plumb is required.")
+        .trim(),
+
+        // Left Build Out - required
+        body("left_build_out")
+        .notEmpty()
+        .withMessage("Left Build Out is required."),
+
+        // Right Build Out - required
+        body("right_build_out")
+        .notEmpty()
+        .withMessage("Right Build Out is required."),
+
+        // Add Build Out - required
+        body("add_build_out")
+        .notEmpty()
+        .withMessage("Add Build Out is required.")
+        .trim(),
+
+        // Left Track - required
+        body("left_track")
+        .notEmpty()
+        .withMessage("Left Track is required."),
+
+        // Right Track - required
+        body("right_track")
+        .notEmpty()
+        .withMessage("Right Track is required."),
+
+        // Order Type - required
+        body("order_type")
+        .notEmpty()
+        .withMessage("Order Type is required.")
     ]
 }
 
