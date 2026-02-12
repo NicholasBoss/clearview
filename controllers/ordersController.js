@@ -277,6 +277,10 @@ ordersController.processMirageForm = async function(req, res){
         console.log('========== PROCESS MIRAGE FORM ==========')
         console.log('Form body received:', JSON.stringify(req.body, null, 2))
 
+        req.session.mirageData = req.body
+
+        const mirageData = req.body
+
         // Get account_id from logged-in user
         const account_id = res.locals.accountData.account_id
         console.log('Account ID:', account_id)
@@ -289,7 +293,13 @@ ordersController.processMirageForm = async function(req, res){
 
         console.log('Order created with is_estimate=true, customization_id:', result.customization_id)
 
-        res.redirect('/orders/confirmMirage')
+        if (mirageData.order_type === 'Phone Order') {
+            req.flash('success', 'Phone order saved!')
+            return res.redirect('/account')
+        } else {
+            console.log('Mirage form data stored in session, redirecting to confirm page')
+            return res.redirect('/orders/confirmMirage')
+        }
     } catch (error) {
         console.error('Error processing Mirage form:', error)
         req.flash('error', 'Failed to save order. Please try again.')
@@ -298,32 +308,41 @@ ordersController.processMirageForm = async function(req, res){
 }
 
 ordersController.buildConfirmMirage = async function(req, res){
-    try {
-        console.log('========== BUILD CONFIRM MIRAGE ==========')
+    const formData = req.session.mirageData || {}
 
-        const customizationId = req.session.mirageOrderId
+    const fractions = await ordersModel.getMeasurements()
+    const colors = await ordersModel.getColors()
+    const handles = await ordersModel.getHandles()
+    const topAdapters = await ordersModel.getTopAdapters()
+    const topAdapterColors = await ordersModel.getTopAdapterColor("Mirage")
+    const bottomAdapters = await ordersModel.getBottomAdapters()
+    const bottomAdapterColors = await ordersModel.getBottomAdapterColor("Mirage")
+    const buildouts = await ordersModel.getBuildouts()
+    const meshTypes = await ordersModel.getMeshTypes()
+    const mohairOptions = await ordersModel.getMohair()
+    const mohairPositions = await ordersModel.getMohairPositions()
+    const customers = await ordersModel.getAllCustomers()
+    const pivot_colors = await ordersModel.getPivotColorsByProduct("Mirage")
 
-        if (!customizationId) {
-            req.flash('error', 'No order found. Please create an order first.')
-            return res.redirect('/orders/createMirage')
-        }
-
-        // Fetch the order data from database
-        const orderData = await ordersModel.getOrderById(customizationId)
-
-        console.log('Order data:', orderData)
-
-        res.render('orders/confirmMirage', {
-            title: 'Confirm Mirage order',
-            link: 'orders/confirmMirage',
-            errors: null,
-            formData: orderData
-        })
-    } catch (error) {
-        console.error('Error loading Mirage order for confirmation:', error)
-        req.flash('error', 'Failed to load order. Please try again.')
-        res.redirect('/orders/createMirage')
-    }
+    res.render('orders/confirmMirage', {
+        title: 'Confirm Mirage order',
+        link: 'orders/confirmMirage',
+        errors: null,
+        formData: formData,
+        fractions: fractions || [],
+        colors: colors || [],
+        handles: handles || [],
+        top_adapters: topAdapters || [],
+        top_adapter_colors: topAdapterColors || [],
+        bottom_adapters: bottomAdapters || [],
+        bottom_adapter_colors: bottomAdapterColors || [],
+        build_outs: buildouts || [],
+        meshTypes: meshTypes || [],
+        mohairs: mohairOptions || [],
+        mohair_positions: mohairPositions || [],
+        customers: customers || [],
+        pivot_colors: pivot_colors || []
+    })
 }
 
 ordersController.saveMirageOrder = async function(req, res){
@@ -658,8 +677,19 @@ ordersController.buildViewMirage = async function(req, res){
 ordersController.editMirage = async function(req, res){
     try {
         const customizationId = req.params.id
-        req.flash('notice', 'Editing for Mirage orders is not yet implemented.')
-        res.redirect('/account')
+        const orderData = await ordersModel.getOrderById(customizationId)
+
+        if (!orderData) {
+            req.flash('error', 'Order not found')
+            return res.redirect('/account')
+        }
+
+        // Store order data in session so confirmMirage can display it
+        req.session.mirageData = orderData
+        req.session.mirageOrderId = customizationId
+
+        // Redirect to confirm page (which is editable)
+        res.redirect('/orders/confirmMirage')
     } catch (error) {
         console.error('Error loading order for editing:', error)
         req.flash('error', 'Failed to load order for editing')

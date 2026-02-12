@@ -23,6 +23,15 @@
 
 <form id="form" action="/orders/saveMirage3500" method="post">
     <div class="form-grid">
+        <fieldset class="full-width">
+            <legend>Order Details</legend>
+            <div class="grid-row">
+                <div class="form-group">
+                    <label>Order #</label>
+                    <input type="text" value="<%= orderData.customization_id || '' %>" readonly>
+                </div>
+            </div>
+        </fieldset>
         <!-- Customer Information -->
         <fieldset class="full-width">
             <legend>Customer Information</legend>

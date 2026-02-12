@@ -21,6 +21,15 @@
 
 <form id="form" action="/orders/confirmRainier" method="post">
     <div class="container">
+        <fieldset class="full-width">
+            <legend>Order Details</legend>
+            <div class="grid-row">
+                <div class="form-group">
+                    <label>Order #</label>
+                    <input type="text" value="<%= formData.customization_id || '' %>" readonly>
+                </div>
+            </div>
+        </fieldset>
         <label class="required-field"><b>Customer First Name</b>
             <input type="text" name="customer_firstname" id="customer_firstname" value="<%= formData.customer_firstname || '' %>" placeholder="Enter customer first name" required <%= errors && errors.array().find(e => e.path === 'customer_firstname') ? 'class="error-input"' : '' %>>
             <% if (errors) { const error = errors.array().find(e => e.path === 'customer_firstname'); if (error) { %><span class="error-message"><%= error.msg %></span><% }} %>

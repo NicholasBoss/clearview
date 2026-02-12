@@ -2217,12 +2217,12 @@ async function saveMirageData(formData, account_id) {
         console.log('  -> topAdapterColorJunctionId:', topAdapterColorJunctionId)
 
         // Bottom adapter color
-        let btmAdapterColorJunctionId = null
+        let bottomAdapterColorJunctionId = null
         if (btmAdapterColorId) {
             const btmAdapterProductColorId = await getOrCreateProductColor(productId, btmAdapterColorId)
-            btmAdapterColorJunctionId = await getOrCreateBottomAdapterColor(btmAdapterProductColorId)
+            bottomAdapterColorJunctionId = await getOrCreateBottomAdapterColor(btmAdapterProductColorId)
         }
-        console.log('  -> btmAdapterColorJunctionId:', btmAdapterColorJunctionId)
+        console.log('  -> bottomAdapterColorJunctionId:', bottomAdapterColorJunctionId)
 
         // Pivot Pro Color
         let pivotProColorJunctionId = null
@@ -2376,7 +2376,7 @@ async function saveMirageData(formData, account_id) {
             topAdapterId,
             buildoutId,
             btmAdapterId,
-            bottomAdapterColorId,
+            bottomAdapterColorJunctionId,
             pivotProColorJunctionId,
             topAdapterColorJunctionId,
             topAdapterWidth,
