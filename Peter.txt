@@ -187,3 +187,14 @@ Create -> saves with is_estimate=TRUE (Phone Orders go straight to account, On-S
 Account page -> shows NWS orders with "Needs Confirmation" status and a "Confirm" button
 Confirm -> clicking "Confirm" loads the confirm page, submitting sets is_confirmed=TRUE
 Complete -> "Complete Order" button sets is_completed=TRUE
+
+
+TO DO NEXT (NOTE FOR PETER):
+
+1. fix viewNWS so that it shows all the fields as does confirmNWS
+2. Add changes made to the account page to the admin account page for NWS
+
+
+GENERAL TO DO LIST:
+
+1. Add an option to cancel an order if it is a phone order
