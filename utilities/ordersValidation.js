@@ -848,68 +848,98 @@ validate.nwsRules = () => {
         .isInt({ min: 1 })
         .withMessage("Quantity must be a whole number greater than 0."),
 
-        // Frame Size - optional
+        // Frame Size - required
         body("frame_size")
-        .optional({ checkFalsy: true })
+        .notEmpty()
+        .withMessage("Frame Size is required.")
         .trim(),
 
-        // Color - optional
+        // Color - required
         body("color")
-        .optional({ checkFalsy: true })
+        .notEmpty()
+        .withMessage("Color is required.")
         .trim(),
 
-        // Mesh - optional
+        // Mesh - required
         body("mesh")
-        .optional({ checkFalsy: true })
+        .notEmpty()
+        .withMessage("Mesh is required.")
         .trim(),
 
-        // Fastener - optional
+        // Fastener - required
         body("fastener")
-        .optional({ checkFalsy: true })
+        .notEmpty()
+        .withMessage("Fastener is required.")
         .trim(),
 
-        // Spring - optional
+        // Spring - required
         body("spring")
-        .optional({ checkFalsy: true })
+        .notEmpty()
+        .withMessage("Spring is required.")
         .trim(),
 
-        // Fastener Location - optional
+        // Fastener Location - required
         body("fastener_location")
-        .optional({ checkFalsy: true })
+        .notEmpty()
+        .withMessage("Fastener Location is required.")
         .trim(),
 
-        // Notes - optional
+        // Notes - required
         body("notes")
-        .optional({ checkFalsy: true })
+        .notEmpty()
+        .withMessage("Notes is required.")
         .trim(),
 
-        // Width - optional numeric
+        // Fab Width - required
+        body("fab_width")
+        .notEmpty()
+        .withMessage("Fab is required.")
+        .trim(),
+
+        // Width - required numeric
         body("width_input")
-        .optional({ checkFalsy: true })
-        .trim(),
+        .notEmpty()
+        .withMessage("Width is required.")
+        .trim()
+        .isNumeric()
+        .withMessage("Width must be a number."),
 
-        // Width Fraction - optional
+        // Width Fraction - required
         body("measurement_name")
-        .optional({ checkFalsy: true })
-        .trim(),
+        .notEmpty()
+        .withMessage("Width Fraction is required."),
 
-        // Width +/- - optional
-        body("plus_minus")
-        .optional({ checkFalsy: true }),
+        // Width +/- - required
+        body("width_plus_minus")
+        .notEmpty()
+        .withMessage("Width +/- is required.")
+        .isIn(['+', '-'])
+        .withMessage("Width +/- must be + or -."),
 
-        // Height - optional numeric
+        // Height - required numeric
         body("height_input")
-        .optional({ checkFalsy: true })
-        .trim(),
+        .notEmpty()
+        .withMessage("Height is required.")
+        .trim()
+        .isNumeric()
+        .withMessage("Height must be a number."),
 
-        // Height Fraction - optional
+        // Height Fraction - required
         body("height_fraction")
-        .optional({ checkFalsy: true })
-        .trim(),
+        .notEmpty()
+        .withMessage("Height Fraction is required."),
 
-        // Tabs - optional
+        // Height +/- - required
+        body("height_plus_minus")
+        .notEmpty()
+        .withMessage("Height +/- is required.")
+        .isIn(['+', '-'])
+        .withMessage("Height +/- must be + or -."),
+
+        // Tabs - required
         body("tabs")
-        .optional({ checkFalsy: true })
+        .notEmpty()
+        .withMessage("Tabs is required.")
         .isIn(['L', 'S', 'None'])
         .withMessage("Tabs must be L, S, or None."),
 

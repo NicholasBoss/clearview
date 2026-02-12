@@ -1,112 +1,190 @@
 
-<h1>Confirm New Window Screen Order</h1>
+<% if (title) { %>
+    <h1><%= title %></h1>
+<% } else { %>
+    <h1>Confirm New Window Screen Order</h1>
+<% } %>
 
-<form action="/orders/confirm" method="post">
+<div class="confirmation-notice">
+    <h2>Please Review Your Order</h2>
+    <p>Check all details below. If everything is correct, click "Confirm Order" to save.</p>
+</div>
+
+<form id="form" action="/orders/saveNWS" method="post">
     <div class="container">
-        <label><b>Quantity</b>
-            <input type="text" name="quantity" id="">
-        </label><br>
-        <label><b>Fab</b>
-            <input type="text" name="width_input" id="">
-        </label><br>
-        <label><b>Frame</b>
-            <select name="frame_size" id="frame_size_id">
-                <option value="">Select</option>
-                <% orders.forEach(frame_size => { %>
-                    <option value="<%= frame_size.size_type %>" <%= formData.frame_size_id === frame_size.size_type ? 'selected' : '' %>><%= frame_size.size_type %></option>
-                <% }) %>
-            </select>
-        </label><br>
-        <label><b>Color</b>
-            <select name="color" id="color_id">
-                <option value="">Select</option>
-                <% orders.forEach(color => { %>
-                    <option value="<%= color.color_name %>" <%= formData.color_id === color.color_name ? 'selected' : '' %>><%= color.color_name %></option>
-                <% }) %>
-            </select>
-        </label><br>
-        <label><b>Width</b>
-            <input type="text" name="width_input" id="">
-        </label><br>
-        <label><b>W / F</b>
-            <select name="measurement_name" id="">
-                <option value="">Select</option>
-                <% orders.forEach(fraction => { %>
-                <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
-                <% }) %> 
-            </select>
-        </label><br>
-        <label><b>+ / -</b>
-            <select name="plus_minus" id="width_plus_minus">
-                <option value="">Select</option>
-                <option value="+">+</option>
-                <option value="-">-</option>
-            </select>
-        </label><br>
-        <label><b>Height</b>
-            <input type="text" name="height_input" id="">
-        </label><br>
-        <label><b>H / F</b>
-            <select name="height_fraction" id="">
-                <option value="">Select</option>
-                <% orders.forEach(fraction => { %>
-                <option value="<%= fraction.measurement_name %>"><%= fraction.measurement_name %></option>
-                <% }) %> 
-            </select>
-        </label><br>
-        <label><b>+ / -</b>
-            <select name="plus_minus" id="height_plus_minus">
-                <option value="">Select</option>
-                <option value="+">+</option>
-                <option value="-">-</option>
-            </select>
-        </label><br>
-        <label><b>Tabs</b>
-            <select name="tabs" id="">
-                <option value="">Select</option>
-                <option value="L">L</option>
-                <option value="S">S</option>
-                <option value="None">None</option>
-            </select>
-        </label><br>
-        <label><b>Spring</b>
-            <select name="spring" id="tab_spring_id">
-                <option value="">Select</option>
-                <% orders.forEach(spring => { %>
-                    <option value="<%= spring.tab_spring_name %>" <%= formData.tab_spring_id === spring.tab_spring_name ? 'selected' : '' %>><%= spring.tab_spring_name %></option>
-                <% }) %>
-            </select>
-        </label><br>
-        <label><b>Mesh</b>
-            <select name="mesh" id="mesh_id">
-                <option value="">Select</option>
-                <% orders.forEach(mesh => { %>
-                    <option value="<%= mesh.mesh_type %>" <%= formData.mesh_id === mesh.mesh_type ? 'selected' : '' %>><%= mesh.mesh_type %></option>
-                <% }) %>
-            </select>
-        </label><br>
-        <label><b>Fastener</b>
-            <select name="fastener" id="fastener_id">
-                <option value="">Select</option>
-                <% orders.forEach(fastener => { %>
-                    <option value="<%= fastener.fastener_type %>" <%= formData.fastener_id === fastener.fastener_type ? 'selected' : '' %>><%= fastener.fastener_type %></option>
-                <% }) %>
-            </select>
-        </label><br>
-        <label><b>Fastener Location</b>
-            <input type="text" name="fastener_location" id="">
-        </label><br>
-        <label><b>Notes</b>
-            <input type="text" name="notes" id="">
-        </label><br>
+        <!-- Customer Info -->
+        <fieldset>
+            <legend>Customer Information</legend>
+            <label><b>First Name</b>
+                <input type="text" name="customer_firstname" value="<%= formData.customer_firstname %>" readonly>
+            </label>
+            <label><b>Last Name</b>
+                <input type="text" name="customer_lastname" value="<%= formData.customer_lastname %>" readonly>
+            </label>
+        </fieldset>
 
-        <label><b>Order Type</b>
-            <select name="order_type" id="">
-                <option value="phone">Phone Order</option>
-                <option value="in_person">On-Site Order</option>
-            </select>
-        </label><br>
+        <!-- Product Specifications -->
+        <fieldset>
+            <legend>Product Specifications</legend>
 
-        <button type="submit">Create Order</button>
+            <label><b>Quantity</b>
+                <input type="text" name="quantity" value="<%= formData.quantity %>" readonly>
+            </label>
+
+            <label><b>Fab</b>
+                <input type="text" name="fab_width" value="<%= formData.fab_width || '' %>" readonly>
+            </label>
+
+            <label><b>Frame</b>
+                <input type="text" name="frame_size" value="<%= formData.frame_size || '' %>" readonly>
+            </label>
+
+            <label><b>Color</b>
+                <input type="text" name="color" value="<%= formData.color || '' %>" readonly>
+            </label>
+
+            <label><b>Mesh</b>
+                <input type="text" name="mesh" value="<%= formData.mesh || '' %>" readonly>
+            </label>
+
+            <label><b>Fastener</b>
+                <input type="text" name="fastener" value="<%= formData.fastener || '' %>" readonly>
+            </label>
+
+            <label><b>Spring</b>
+                <input type="text" name="spring" value="<%= formData.spring || '' %>" readonly>
+            </label>
+
+            <label><b>Fastener Location</b>
+                <input type="text" name="fastener_location" value="<%= formData.fastener_location || '' %>" readonly>
+            </label>
+
+            <label><b>Notes</b>
+                <input type="text" name="notes" value="<%= formData.notes || '' %>" readonly>
+            </label>
+        </fieldset>
+
+        <!-- Dimensions -->
+        <fieldset>
+            <legend>Dimensions</legend>
+
+            <div class="measurement-row">
+                <label><b>Width</b>
+                    <input type="text" name="width_input" value="<%= formData.width_input || '' %>" readonly>
+                </label>
+                <label><b>Width Fraction</b>
+                    <input type="text" name="measurement_name" value="<%= formData.measurement_name || '' %>" readonly>
+                </label>
+            </div>
+
+            <label><b>Width +/-</b>
+                <input type="text" name="width_plus_minus" value="<%= formData.width_plus_minus || '' %>" readonly>
+            </label>
+
+            <div class="measurement-row">
+                <label><b>Height</b>
+                    <input type="text" name="height_input" value="<%= formData.height_input || '' %>" readonly>
+                </label>
+                <label><b>Height Fraction</b>
+                    <input type="text" name="height_fraction" value="<%= formData.height_fraction || '' %>" readonly>
+                </label>
+            </div>
+
+            <label><b>Height +/-</b>
+                <input type="text" name="height_plus_minus" value="<%= formData.height_plus_minus || '' %>" readonly>
+            </label>
+
+            <label><b>Tabs</b>
+                <input type="text" name="tabs" value="<%= formData.tabs || '' %>" readonly>
+            </label>
+        </fieldset>
+
+        <!-- Additional Options -->
+        <fieldset>
+            <legend>Additional Options</legend>
+            <label><b>Order Type</b>
+                <input type="text" name="order_type" value="<%= formData.order_type %>" readonly>
+            </label>
+        </fieldset>
+
+        <div class="confirmation-actions">
+            <button class="btn-confirm" type="submit">Confirm Order</button>
+            <a href="/orders/createNWS" class="btn-back">Back to Edit</a>
+        </div>
     </div>
 </form>
+
+<style>
+    .confirmation-notice {
+        background-color: #e9ecef;
+        padding: 1rem;
+        border-radius: 4px;
+        margin-bottom: 1.5rem;
+        border-left: 5px solid #007bff;
+    }
+
+    fieldset {
+        border: 1px solid #ddd;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+    }
+
+    legend {
+        font-weight: bold;
+        padding: 0 10px;
+    }
+
+    .measurement-row {
+        display: flex;
+        gap: 20px;
+    }
+
+    .measurement-row label {
+        flex: 1;
+    }
+
+    .btn-confirm {
+        background-color: #28a745;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-right: 10px;
+    }
+
+    .btn-confirm:hover {
+        background-color: #218838;
+    }
+
+    .btn-back {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #6c757d;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+    }
+
+    .btn-back:hover {
+        background-color: #5a6268;
+    }
+
+    input[readonly] {
+        background-color: #f8f9fa;
+        border: 1px solid #ced4da;
+        color: #495057;
+        padding: 8px;
+        width: 100%;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+</style>

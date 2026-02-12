@@ -653,6 +653,8 @@ async function getOrdersByAccountId(account_id){
                 o.order_date,
                 m3.mirage_3500_handle,
                 m.mirage_build_out,
+                nws_fs.size_type AS nws_frame_size,
+                nws_col.color_name AS nws_color,
                 cust.customer_id,
                 cust.customer_firstname,
                 cust.customer_lastname
@@ -664,6 +666,11 @@ async function getOrdersByAccountId(account_id){
             LEFT JOIN customer cust ON co.customer_id = cust.customer_id
             LEFT JOIN mirage_3500 m3 ON c.mirage_3500_id = m3.mirage_3500_id
             LEFT JOIN mirage m ON c.mirage_id = m.mirage_id
+            LEFT JOIN nws_measurement nwsm ON c.nws_measurement_id = nwsm.nws_measurement_id
+            LEFT JOIN new_window_screen nws ON nwsm.nws_id = nws.nws_id
+            LEFT JOIN public.window w ON nws.window_id = w.window_id
+            LEFT JOIN frame_size nws_fs ON w.frame_size_id = nws_fs.frame_size_id
+            LEFT JOIN color nws_col ON w.color_id = nws_col.color_id
             INNER JOIN order_log ol ON o.order_id = ol.order_id
             WHERE ol.account_id = $1
             ORDER BY c.customization_id DESC
@@ -695,6 +702,8 @@ async function getOrders(){
                 o.order_date,
                 m3.mirage_3500_handle,
                 m.mirage_build_out,
+                nws_fs.size_type AS nws_frame_size,
+                nws_col.color_name AS nws_color,
                 cust.customer_id,
                 cust.customer_firstname,
                 cust.customer_lastname,
@@ -708,6 +717,11 @@ async function getOrders(){
             LEFT JOIN customer cust ON co.customer_id = cust.customer_id
             LEFT JOIN mirage_3500 m3 ON c.mirage_3500_id = m3.mirage_3500_id
             LEFT JOIN mirage m ON c.mirage_id = m.mirage_id
+            LEFT JOIN nws_measurement nwsm ON c.nws_measurement_id = nwsm.nws_measurement_id
+            LEFT JOIN new_window_screen nws ON nwsm.nws_id = nws.nws_id
+            LEFT JOIN public.window w ON nws.window_id = w.window_id
+            LEFT JOIN frame_size nws_fs ON w.frame_size_id = nws_fs.frame_size_id
+            LEFT JOIN color nws_col ON w.color_id = nws_col.color_id
             LEFT JOIN order_log ol ON o.order_id = ol.order_id
             LEFT JOIN account acc ON ol.account_id = acc.account_id
             ORDER BY c.customization_id DESC
@@ -2524,71 +2538,74 @@ async function saveMirageData(formData, account_id) {
 // Comprehensive function to save all NWS data
 async function saveNWSData(formData, account_id) {
     try {
-        // 1. Handle NWS (handle type)
-        const nwsId = await getOrInsert('nws', 'nws_handle', formData.handle, 'nws_id')
-        
-        // 1(A).Get Quantity 
+        console.log('========== SAVE NWS DATA START ==========')
 
-        // 1(B).Get Fab
-
-        // 2. Handle frame size
-        const frameSizeId = await getOrInsert('frame_size', 'size.type', formData.frame_size, 'frame_size_id')
-
-        // 3. Handle color
-        const ColorId = await getOrInsert('color', 'color_name', formData.handle_color, 'color_id')
-
-        // 4. Handle width
-        const widthId = combineMeasurement(
-            formData.width_input,
-            formData.width_fraction
-        )
-        
-        // 5. Handle color
-        const  widtthPlusMinusId = await getOrInsert('color', 'color_name', formData.handle_color, 'color_id')
-        
-        // 6. Handle height
-        const heightId = combineMeasurement(
-            formData.height_input,
-            formData.height_fraction
-        )
-
-        // 7. Handle tab_spring
-        const tabSpringId = await getOrInsert('tab spring', 'tab_spring_name', formData.tab_spring, 'tab_spring_id')
-
-        // 7. Handle mesh
+        // 1. Get/insert lookup table values
+        const frameSizeId = await getOrInsert('frame_size', 'size_type', formData.frame_size, 'frame_size_id')
+        const colorId = await getOrInsert('color', 'color_name', formData.color, 'color_id')
         const meshId = await getOrInsert('mesh', 'mesh_type', formData.mesh, 'mesh_id')
+        const fastenerId = await getOrInsert('fastener', 'fastener_type', formData.fastener, 'fastener_id')
+        const tabSpringId = await getOrInsert('tab_spring', 'tab_spring_name', formData.spring, 'tab_spring_id')
 
-         // 8. Handle fasteners
-        const fastenersId = await getOrInsert('fastener', 'fastener_type', formData.fastener, 'fastener_id')
-        
-        // 9. Handle Fastener Location
+        console.log('Lookup IDs:', { frameSizeId, colorId, meshId, fastenerId, tabSpringId })
 
-        // 10. Handle Notes
+        // 2. Create window record (junction linking tab_spring, color, frame_size, fastener, mesh)
+        const windowSql = `
+            INSERT INTO public.window (tab_spring_id, color_id, frame_size_id, fastener_id, mesh_id)
+            VALUES ($1, $2, $3, $4, $5)
+            RETURNING window_id
+        `
+        const windowResult = await pool.query(windowSql, [
+            tabSpringId,    // $1
+            colorId,        // $2
+            frameSizeId,    // $3
+            fastenerId,     // $4
+            meshId          // $5
+        ])
+        const windowId = windowResult.rows[0].window_id
+        console.log('Window created with ID:', windowId)
 
-        // 11. Handle Order Type
+        // 3. Create new_window_screen record
+        const nwsSql = `
+            INSERT INTO new_window_screen (width_inch, height_inch, window_id)
+            VALUES ($1, $2, $3)
+            RETURNING nws_id
+        `
+        const nwsResult = await pool.query(nwsSql, [
+            true,       // $1 - width_inch (default to true)
+            true,       // $2 - height_inch (default to true)
+            windowId    // $3
+        ])
+        const nwsId = nwsResult.rows[0].nws_id
+        console.log('New window screen created with ID:', nwsId)
 
-        // 18. Get product_id for Mirage 3500
+        // 4. Get measurement_id from the width fraction
+        const measurementId = await getMeasurementId(formData.measurement_name) || 1
+
+        // 5. Create nws_measurement record
+        const nwsMeasurementSql = `
+            INSERT INTO nws_measurement (measurement_id, nws_id, width_fraction, width_plus_minus, height_fraction, height_plus_minus)
+            VALUES ($1, $2, $3, $4, $5, $6)
+            RETURNING nws_measurement_id
+        `
+        const nwsMeasurementResult = await pool.query(nwsMeasurementSql, [
+            measurementId,                  // $1
+            nwsId,                          // $2
+            formData.measurement_name,      // $3 - width fraction
+            formData.width_plus_minus,      // $4
+            formData.height_fraction,       // $5
+            formData.height_plus_minus      // $6
+        ])
+        const nwsMeasurementId = nwsMeasurementResult.rows[0].nws_measurement_id
+        console.log('NWS measurement created with ID:', nwsMeasurementId)
+
+        // 6. Get product_id for New Window Screen
         const productSql = 'SELECT product_id FROM product WHERE product_name = $1'
-        const productResult = await pool.query(productSql, ['Mirage 3500'])
+        const productResult = await pool.query(productSql, ['New Window Screen'])
         const productId = productResult.rows[0].product_id
+        console.log('Product ID for New Window Screen:', productId)
 
-        // 19. Create product_color and junction table entries for colors
-        // Handle color - create product_color entry, then handle_color junction entry
-        let handleColorJunctionId = null
-        if (handleColorId) {
-            const handleProductColorId = await getOrCreateProductColor(productId, handleColorId)
-            handleColorJunctionId = await getOrCreateHandleColor(handleProductColorId, mirage3500Id)
-        }
-
-
-        // 20. Handle all measurements with their fractions
-        console.log('Processing measurements...')
-        console.log('All measurements processed successfully')
-
-        // Get primary measurement_id for the form
-        const primaryMeasurementId = await getMeasurementId(formData.top_opening_width_fraction) || 1
-
-        // Get product_mesh_id
+        // 7. Get or create product_mesh entry
         const productMeshSql = 'SELECT product_mesh_id FROM product_mesh WHERE product_id = $1 AND mesh_id = $2'
         const productMeshResult = await pool.query(productMeshSql, [productId, meshId])
 
@@ -2596,72 +2613,12 @@ async function saveNWSData(formData, account_id) {
         if (productMeshResult.rows.length > 0) {
             productMeshId = productMeshResult.rows[0].product_mesh_id
         } else {
-            // Create product_mesh entry if it doesn't exist
             const insertProductMeshSql = 'INSERT INTO product_mesh (product_id, mesh_id) VALUES ($1, $2) RETURNING product_mesh_id'
             const insertResult = await pool.query(insertProductMeshSql, [productId, meshId])
             productMeshId = insertResult.rows[0].product_mesh_id
         }
 
-        // 19. INSERT into general_retract_control table first
-        // Get buildout_id by inserting into buildout table
-        const buildoutId = buildOutDimension ? await getOrInsert('buildout', 'buildout_name', buildOutDimension, 'buildout_id') : null
-
-        // For mohair fields - if they're not provided, get a default "none" or first available ID
-        // since general_retract_control requires these to be NOT NULL
-        let finalMohairId = mohairId
-        let finalMohairPositionId = mohairPositionId
-
-        if (!finalMohairId) {
-            // Get first mohair_id as default if none provided
-            const defaultMohairSql = 'SELECT mohair_id FROM mohair LIMIT 1'
-            const defaultMohairResult = await pool.query(defaultMohairSql)
-            finalMohairId = defaultMohairResult.rows[0]?.mohair_id || 1
-        }
-
-        if (!finalMohairPositionId) {
-            // Get first mohair_position_id as default if none provided
-            const defaultMohairPosSql = 'SELECT mohair_position_id FROM mohair_position LIMIT 1'
-            const defaultMohairPosResult = await pool.query(defaultMohairPosSql)
-            finalMohairPositionId = defaultMohairPosResult.rows[0]?.mohair_position_id || 1
-        }
-
-        const generalRetractControlSql = `
-            INSERT INTO general_retract_control (
-                door_type,
-                door_mount,
-                opening_side,
-                measurement_id,
-                mesh_id,
-                mohair_id,
-                mohair_position_id,
-                top_adapter_id,
-                buildout_id,
-                bottom_adapter_id,
-                btm_adapter_color
-            ) VALUES (
-                $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11
-            ) RETURNING general_retract_control_id
-        `
-
-        const generalRetractControlResult = await pool.query(generalRetractControlSql, [
-            formData.door_type,           // $1
-            formData.door_mount,          // $2
-            formData.opening_side,        // $3
-            primaryMeasurementId,         // $4
-            meshId,                       // $5
-            finalMohairId,                // $6
-            finalMohairPositionId,        // $7
-            topAdapterId,                 // $8
-            buildoutId,                   // $9
-            btmAdapterId,                 // $10
-            formData.btm_adapter_color    // $11 - storing color name directly as VARCHAR
-        ])
-
-        const generalRetractControlId = generalRetractControlResult.rows[0].general_retract_control_id
-        console.log('General retract control created with ID:', generalRetractControlId)
-
-        // 20. INSERT into customization table
-        // NOTE: New simplified schema - most fields moved to general_retract_control
+        // 8. INSERT into customization table
         const customizationSql = `
             INSERT INTO customization (
                 product_id,
@@ -2671,40 +2628,35 @@ async function saveNWSData(formData, account_id) {
                 color_id,
                 mesh_id,
                 product_mesh_id,
-                mirage_3500_id,
-                general_retract_control_id
+                nws_measurement_id
             ) VALUES (
-                $1, $2, $3, $4, $5, $6, $7, $8, $9
+                $1, $2, $3, $4, $5, $6, $7, $8
             ) RETURNING customization_id
         `
-
         const customizationResult = await pool.query(customizationSql, [
-            productId,                  // $1
-            primaryMeasurementId,       // $2
-            frameSizeId,                // $3
-            fastenerId,                 // $4
-            colorId,                    // $5
-            meshId,                     // $6
-            productMeshId,              // $7
-            mirage3500Id,               // $8
-            generalRetractControlId     // $9 - foreign key to general_retract_control
+            productId,          // $1
+            measurementId,      // $2
+            frameSizeId,        // $3
+            fastenerId,         // $4
+            colorId,            // $5
+            meshId,             // $6
+            productMeshId,      // $7
+            nwsMeasurementId    // $8
         ])
-
         const customizationId = customizationResult.rows[0].customization_id
+        console.log('Customization created with ID:', customizationId)
 
-        console.log('Order saved with customization_id:', customizationId)
-
-        // Create order entry (basic order record)
-        // Provide required NOT NULL fields: order_date, estimated_date, estimated_cost, quantity
+        // 9. Create order entry
+        const quantity = parseInt(formData.quantity) || 1
         const orderSql = `
             INSERT INTO public.order (order_date, estimated_date, estimated_cost, quantity)
-            VALUES (CURRENT_DATE, CURRENT_DATE, 0.00, 1)
+            VALUES (CURRENT_DATE, CURRENT_DATE, 0.00, $1)
             RETURNING order_id
         `
-        const orderResult = await pool.query(orderSql)
+        const orderResult = await pool.query(orderSql, [quantity])
         const orderId = orderResult.rows[0].order_id
 
-        // Create order_customization entry with is_estimate = TRUE
+        // 10. Create order_customization entry with is_estimate = TRUE
         const orderCustomizationSql = `
             INSERT INTO order_customization (
                 order_id,
@@ -2717,30 +2669,21 @@ async function saveNWSData(formData, account_id) {
             RETURNING order_customization_id
         `
         await pool.query(orderCustomizationSql, [orderId, customizationId])
-
         console.log('Order_customization created with is_estimate = TRUE')
 
-        // Create cust_order entry linking customer to order
+        // 11. Create cust_order entry linking customer to order
         if (formData.customer_firstname && formData.customer_lastname) {
-            // Get or create customer by name
             const customerId = await getOrCreateCustomer(formData.customer_firstname, formData.customer_lastname)
 
-            // Get or create customer_address for this customer
             let customerAddressId
-
-            // Check if customer already has an address
             const checkAddressSql = `
-                SELECT customer_address_id
-                FROM customer_address
-                WHERE customer_id = $1
-                LIMIT 1
+                SELECT customer_address_id FROM customer_address WHERE customer_id = $1 LIMIT 1
             `
             const addressCheck = await pool.query(checkAddressSql, [customerId])
 
             if (addressCheck.rows.length > 0) {
                 customerAddressId = addressCheck.rows[0].customer_address_id
             } else {
-                // Create a default address for this customer
                 const createAddressSql = `
                     INSERT INTO address (address_line1, address_line2, address_city, address_state, address_zip)
                     VALUES ('TBD', '', 'TBD', 'UT', '00000')
@@ -2749,7 +2692,6 @@ async function saveNWSData(formData, account_id) {
                 const addressResult = await pool.query(createAddressSql)
                 const addressId = addressResult.rows[0].address_id
 
-                // Link address to customer
                 const createCustAddressSql = `
                     INSERT INTO customer_address (customer_id, address_id)
                     VALUES ($1, $2)
@@ -2759,7 +2701,6 @@ async function saveNWSData(formData, account_id) {
                 customerAddressId = custAddressResult.rows[0].customer_address_id
             }
 
-            // Create cust_order record
             const custOrderSql = `
                 INSERT INTO cust_order (customer_id, order_id, customer_address_id)
                 VALUES ($1, $2, $3)
@@ -2768,7 +2709,7 @@ async function saveNWSData(formData, account_id) {
             await pool.query(custOrderSql, [customerId, orderId, customerAddressId])
             console.log('cust_order created linking customer to order')
 
-            // Create order_log entry to track which account created this order
+            // 12. Create order_log entry
             if (account_id) {
                 const orderLogSql = `
                     INSERT INTO order_log (customer_id, account_id, order_id, actual_date)
@@ -2777,12 +2718,10 @@ async function saveNWSData(formData, account_id) {
                 `
                 await pool.query(orderLogSql, [customerId, account_id, orderId])
                 console.log('order_log created linking account to order')
-            } else {
-                console.warn('No account_id provided - order_log entry not created')
             }
         }
 
-        // Return the customization_id
+        console.log('========== SAVE NWS DATA SUCCESS ==========')
         return {
             customization_id: customizationId
         }
@@ -3316,5 +3255,8 @@ module.exports = {
     saveMirageData,
     saveMirage3500Data,
     saveRainierData,
+    saveNWSData,
+    confirmNWSOrder,
+    completeNWSOrder,
     getMeshByProduct
 }

@@ -55,6 +55,7 @@ router.post("/confirmNWS",
     ordersValidation.checkNWSData,
     util.handleErrors(ordersController.processNWSForm))
 router.get("/confirmNWS", util.checkLogin, util.handleErrors(ordersController.buildConfirmNWS))
+router.post("/saveNWS", util.checkLogin, util.handleErrors(ordersController.saveNWSOrder))
 router.get("/viewNWS/:id", util.checkLogin, util.handleErrors(ordersController.buildViewNWS))
 router.get("/editNWS/:id", util.checkLogin, util.handleErrors(ordersController.editNWS))
 router.post("/completeNWS/:id", util.checkLogin, util.handleErrors(ordersController.completeNWS))

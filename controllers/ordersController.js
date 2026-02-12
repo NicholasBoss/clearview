@@ -525,12 +525,75 @@ ordersController.buildCreateNWS = async function(req, res){
         formData: {}
     })
 }
+ordersController.processNWSForm = async function(req, res){
+    try {
+        console.log('========== PROCESS NWS FORM ==========')
+        console.log('Form body received:', JSON.stringify(req.body, null, 2))
+
+        // Store form data in session for confirm page
+        req.session.nwsData = req.body
+
+        // Get account_id from logged-in user
+        const account_id = res.locals.accountData.account_id
+
+        // Save to database with is_estimate=true
+        const result = await ordersModel.saveNWSData(req.body, account_id)
+
+        // Store customization_id in session to prevent duplicate inserts
+        req.session.nwsOrderId = result.customization_id
+
+        console.log('Order created with is_estimate=true, customization_id:', result.customization_id)
+
+        if (req.body.order_type === 'Phone Order') {
+            req.flash('success', 'Phone order saved!')
+            return res.redirect('/account')
+        } else {
+            console.log('NWS form data stored in session, redirecting to confirm page')
+            return res.redirect('/orders/confirmNWS')
+        }
+    } catch (error) {
+        console.error('Error processing NWS form:', error)
+        req.flash('error', 'Failed to save order. Please try again.')
+        res.redirect('/orders/createNWS')
+    }
+}
+
 ordersController.buildConfirmNWS = async function(req, res){
+    const formData = req.session.nwsData || {}
+
     res.render('orders/confirmNWS', {
-        title: 'Confirm order',
+        title: 'Confirm New Window Screen Order',
         link: 'orders/confirmNWS',
-        errors: null
+        errors: null,
+        formData: formData
     })
+}
+
+ordersController.saveNWSOrder = async function(req, res){
+    try {
+        // Get customization_id from session
+        const customizationId = req.session.nwsOrderId
+
+        if (!customizationId) {
+            throw new Error('No order found to confirm. Please start over.')
+        }
+
+        // Update order to set is_confirmed=true
+        await ordersModel.confirmNWSOrder(customizationId)
+
+        // Clear session data
+        delete req.session.nwsData
+        delete req.session.nwsOrderId
+
+        console.log('NWS order confirmed successfully, customization_id:', customizationId)
+
+        req.flash('success', 'New Window Screen order confirmed!')
+        res.redirect('/account')
+    } catch (error) {
+        console.error('Error confirming NWS order:', error)
+        req.flash('error', 'Failed to confirm order. Please try again.')
+        res.redirect('/orders/confirmNWS')
+    }
 }
 
 ordersController.buildViewMirage3500 = async function(req, res){
@@ -835,8 +898,19 @@ ordersController.buildViewNWS = async function(req, res){
 ordersController.editNWS = async function(req, res){
     try {
         const customizationId = req.params.id
-        req.flash('notice', 'Editing for NWS orders is not yet implemented.')
-        res.redirect('/account')
+        const orderData = await ordersModel.getOrderById(customizationId)
+
+        if (!orderData) {
+            req.flash('error', 'Order not found')
+            return res.redirect('/account')
+        }
+
+        // Store order data in session so confirmNWS can display it
+        req.session.nwsData = orderData
+        req.session.nwsOrderId = customizationId
+
+        // Redirect to confirm page
+        res.redirect('/orders/confirmNWS')
     } catch (error) {
         console.error('Error loading order for editing:', error)
         req.flash('error', 'Failed to load order for editing')
