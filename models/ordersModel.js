@@ -780,7 +780,19 @@ async function getOrderById(customization_id){
                 roh_dim.right_opening_height_name,
                 moh_dim.middle_opening_height_name,
                 mow_dim.middle_opening_width_name,
-                bd_dim.buildout_dimension_name
+                bd_dim.buildout_dimension_name,
+                nwsm.width_fraction AS nws_width_fraction,
+                nwsm.width_plus_minus AS nws_width_plus_minus,
+                nwsm.height_fraction AS nws_height_fraction,
+                nwsm.height_plus_minus AS nws_height_plus_minus,
+                nws_screen.width_inch AS nws_width_inch,
+                nws_screen.height_inch AS nws_height_inch,
+                nws_fs.size_type AS nws_frame_size,
+                nws_fastener.fastener_type AS nws_fastener_type,
+                nws_spring.tab_spring_name AS nws_tab_spring,
+                nws_col.color_name AS nws_color,
+                nws_mesh.mesh_type AS nws_mesh_type,
+                o_qty.quantity AS order_quantity
             FROM customization c
             JOIN product p ON c.product_id = p.product_id
             LEFT JOIN color col ON c.color_id = col.color_id
@@ -834,6 +846,19 @@ async function getOrderById(customization_id){
             LEFT JOIN middle_opening_height moh_dim ON c.middle_opening_height_id = moh_dim.middle_opening_height_id
             LEFT JOIN middle_opening_width mow_dim ON c.middle_opening_width_id = mow_dim.middle_opening_width_id
             LEFT JOIN buildout_dimension bd_dim ON grc.buildout_dimension_id = bd_dim.buildout_dimension_id
+
+            -- NWS specific joins
+            LEFT JOIN nws_measurement nwsm ON c.nws_measurement_id = nwsm.nws_measurement_id
+            LEFT JOIN new_window_screen nws_screen ON nwsm.nws_id = nws_screen.nws_id
+            LEFT JOIN public.window w ON nws_screen.window_id = w.window_id
+            LEFT JOIN frame_size nws_fs ON w.frame_size_id = nws_fs.frame_size_id
+            LEFT JOIN fastener nws_fastener ON w.fastener_id = nws_fastener.fastener_id
+            LEFT JOIN tab_spring nws_spring ON w.tab_spring_id = nws_spring.tab_spring_id
+            LEFT JOIN color nws_col ON w.color_id = nws_col.color_id
+            LEFT JOIN mesh nws_mesh ON w.mesh_id = nws_mesh.mesh_id
+
+            -- Order quantity
+            LEFT JOIN public.order o_qty ON oc.order_id = o_qty.order_id
             WHERE c.customization_id = $1
         `
         const result = await pool.query(sql, [customization_id])
@@ -923,8 +948,20 @@ async function getOrderById(customization_id){
             unit_height: unitHeight.int,
             unit_height_fraction: unitHeight.fraction,
             pivot_pro_height: pivotProHeight.int,
-            pivot_pro_height_fraction: pivotProHeight.fraction
-            // These will show as empty when viewing/editing existing orders
+            pivot_pro_height_fraction: pivotProHeight.fraction,
+            // NWS specific fields
+            nws_frame_size: row.nws_frame_size,
+            nws_color: row.nws_color,
+            nws_mesh: row.nws_mesh_type,
+            nws_fastener: row.nws_fastener_type,
+            nws_tab_spring: row.nws_tab_spring,
+            nws_width_fraction: row.nws_width_fraction,
+            nws_width_plus_minus: row.nws_width_plus_minus,
+            nws_height_fraction: row.nws_height_fraction,
+            nws_height_plus_minus: row.nws_height_plus_minus,
+            nws_width_inch: row.nws_width_inch,
+            nws_height_inch: row.nws_height_inch,
+            order_quantity: row.order_quantity
         }
     } catch (error) {
         console.error('Error in getOrderById:', error)

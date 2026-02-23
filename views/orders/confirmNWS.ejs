@@ -28,7 +28,7 @@
             <legend>Product Specifications</legend>
 
             <label><b>Quantity</b>
-                <input type="text" name="quantity" value="<%= formData.quantity %>" readonly>
+                <input type="text" name="quantity" value="<%= formData.quantity || formData.order_quantity || '' %>" readonly>
             </label>
 
             <label><b>Fab</b>
@@ -36,27 +36,27 @@
             </label>
 
             <label><b>Frame</b>
-                <input type="text" name="frame_size" value="<%= formData.frame_size || '' %>" readonly>
+                <input type="text" name="frame_size" value="<%= formData.frame_size || formData.nws_frame_size || '' %>" readonly>
             </label>
 
             <label><b>Color</b>
-                <input type="text" name="color" value="<%= formData.color || '' %>" readonly>
+                <input type="text" name="color" value="<%= formData.color || formData.nws_color || formData.color_name || '' %>" readonly>
             </label>
 
             <label><b>Mesh</b>
-                <input type="text" name="mesh" value="<%= formData.mesh || '' %>" readonly>
+                <input type="text" name="mesh" value="<%= formData.mesh || formData.nws_mesh || formData.mesh_type || '' %>" readonly>
             </label>
 
             <label><b>Fastener</b>
-                <input type="text" name="fastener" value="<%= formData.fastener || '' %>" readonly>
+                <input type="text" name="fastener" value="<%= formData.fastener || formData.nws_fastener || '' %>" readonly>
             </label>
 
             <label><b>Spring</b>
-                <input type="text" name="spring" value="<%= formData.spring || '' %>" readonly>
+                <input type="text" name="spring" value="<%= formData.spring || formData.nws_tab_spring || '' %>" readonly>
             </label>
 
             <label><b>Fastener Location</b>
-                <input type="text" name="fastener_location" value="<%= formData.fastener_location || '' %>" readonly>
+                <input type="text" name="fastener_location" value="<%= formData.fastener_location || formData.nws_fastener || '' %>" readonly>
             </label>
 
             <label><b>Notes</b>
@@ -73,12 +73,12 @@
                     <input type="text" name="width_input" value="<%= formData.width_input || '' %>" readonly>
                 </label>
                 <label><b>Width Fraction</b>
-                    <input type="text" name="measurement_name" value="<%= formData.measurement_name || '' %>" readonly>
+                    <input type="text" name="measurement_name" value="<%= formData.measurement_name || formData.nws_width_fraction || '' %>" readonly>
                 </label>
             </div>
 
             <label><b>Width +/-</b>
-                <input type="text" name="width_plus_minus" value="<%= formData.width_plus_minus || '' %>" readonly>
+                <input type="text" name="width_plus_minus" value="<%= formData.width_plus_minus || formData.nws_width_plus_minus || '' %>" readonly>
             </label>
 
             <div class="measurement-row">
@@ -86,16 +86,16 @@
                     <input type="text" name="height_input" value="<%= formData.height_input || '' %>" readonly>
                 </label>
                 <label><b>Height Fraction</b>
-                    <input type="text" name="height_fraction" value="<%= formData.height_fraction || '' %>" readonly>
+                    <input type="text" name="height_fraction" value="<%= formData.height_fraction || formData.nws_height_fraction || '' %>" readonly>
                 </label>
             </div>
 
             <label><b>Height +/-</b>
-                <input type="text" name="height_plus_minus" value="<%= formData.height_plus_minus || '' %>" readonly>
+                <input type="text" name="height_plus_minus" value="<%= formData.height_plus_minus || formData.nws_height_plus_minus || '' %>" readonly>
             </label>
 
             <label><b>Tabs</b>
-                <input type="text" name="tabs" value="<%= formData.tabs || '' %>" readonly>
+                <input type="text" name="tabs" value="<%= formData.tabs || formData.nws_tab_spring || '' %>" readonly>
             </label>
         </fieldset>
 
@@ -103,7 +103,7 @@
         <fieldset>
             <legend>Additional Options</legend>
             <label><b>Order Type</b>
-                <input type="text" name="order_type" value="<%= formData.order_type %>" readonly>
+                <input type="text" name="order_type" value="<%= formData.order_type || '' %>" readonly>
             </label>
         </fieldset>
 

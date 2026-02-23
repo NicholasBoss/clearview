@@ -867,26 +867,11 @@ ordersController.buildViewNWS = async function(req, res){
             return res.redirect('/account')
         }
 
-        // Get all dropdown options for NWS
-        const jaOrdersModel = require('../models/jaOrdersModel')
-        const colors = await ordersModel.getColorsByProduct("New Window Screen")
-        const mesh = await ordersModel.getMeshByProduct("New Window Screen")
-        const measurements = await ordersModel.getMeasurements("New Window Screen")
-        const frame_sizes = await jaOrdersModel.getFrameSizes("New Window Screen")
-        const fasteners = await jaOrdersModel.getFasteners("New Window Screen")
-        const springs = await jaOrdersModel.getTabSpring("New Window Screen")
-
         res.render('account/viewNWS', {
             title: 'View NWS Order',
             link: 'account/viewNWS',
             errors: null,
-            formData: orderData,
-            colors: colors || [],
-            frame_sizes: frame_sizes || [],
-            fractions: measurements || [],
-            springs: springs || [],
-            meshs: mesh || [],
-            fasteners: fasteners || []
+            orderData: orderData
         })
     } catch (error) {
         console.error('Error loading order:', error)

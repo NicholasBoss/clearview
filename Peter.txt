@@ -198,3 +198,29 @@ TO DO NEXT (NOTE FOR PETER):
 GENERAL TO DO LIST:
 
 1. Add an option to cancel an order if it is a phone order
+
+
+NOTES FROM AI 2/23/26
+
+Here's a summary of the changes and the DB mapping I found:
+
+refer to added screenshot "4_NWS_DB.png"
+
+Changes made
+confirmNWS.ejs:
+
+Added || formData.color_name and || formData.mesh_type as additional fallbacks (from ...row spread in getOrderById)
+Added || formData.nws_fastener fallback to Fastener Location
+Added || formData.nws_tab_spring fallback to Tabs
+Added || '' to Order Type to prevent undefined showing
+
+viewNWS.ejs:
+
+Removed confusing "Yes/No" width_inch/height_inch boolean display
+Renamed "Spring" to "Tabs / Spring" since they map to the same tab_spring table
+Cleaned up Dimensions section to only show fraction and +/- values that are actually stored
+
+TO DO AFTER TODAY:
+
+1. Add option to cancel order if it is a phone order
+2. Possibly make DB changes according to screenshot of the table that Claude gave me. 
