@@ -878,22 +878,14 @@ validate.nwsRules = () => {
         .withMessage("Spring is required.")
         .trim(),
 
-        // Fastener Location - required
+        // Fastener Location - optional
         body("fastener_location")
-        .notEmpty()
-        .withMessage("Fastener Location is required.")
+        .optional({ checkFalsy: true })
         .trim(),
 
-        // Notes - required
+        // Notes - optional
         body("notes")
-        .notEmpty()
-        .withMessage("Notes is required.")
-        .trim(),
-
-        // Fab Width - required
-        body("fab_width")
-        .notEmpty()
-        .withMessage("Fab is required.")
+        .optional({ checkFalsy: true })
         .trim(),
 
         // Width - required numeric

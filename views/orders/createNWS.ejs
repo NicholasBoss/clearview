@@ -76,17 +76,6 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="required-field">Fab</label>
-                    <input type="text" name="fab_width" id="fab_width" value="<%= formData.fab_width || '' %>" placeholder="Enter fab width" required <%= errors && errors.array().find(e => e.path === 'fab_width') ? 'class="error-input"' : '' %>>
-                    <% if (errors) { %>
-                        <% const error = errors.array().find(e => e.path === 'fab_width') %>
-                        <% if (error) { %>
-                            <span class="error-message"><%= error.msg %></span>
-                        <% } %>
-                    <% } %>
-                </div>
-
-                <div class="form-group">
                     <label class="required-field">Frame</label>
                     <select name="frame_size" id="frame_size" required <%= errors && errors.array().find(e => e.path === 'frame_size') ? 'class="error-input"' : '' %>>
                         <option value="">Select</option>
@@ -167,8 +156,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="required-field">Fastener Location</label>
-                    <input type="text" name="fastener_location" id="fastener_location" value="<%= formData.fastener_location || '' %>" placeholder="Enter fastener location" required <%= errors && errors.array().find(e => e.path === 'fastener_location') ? 'class="error-input"' : '' %>>
+                    <label>Fastener Location</label>
+                    <input type="text" name="fastener_location" id="fastener_location" value="<%= formData.fastener_location || '' %>" placeholder="Enter fastener location" <%= errors && errors.array().find(e => e.path === 'fastener_location') ? 'class="error-input"' : '' %>>
                     <% if (errors) { %>
                         <% const error = errors.array().find(e => e.path === 'fastener_location') %>
                         <% if (error) { %>
@@ -178,8 +167,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="required-field">Notes</label>
-                    <input type="text" name="notes" id="notes" value="<%= formData.notes || '' %>" placeholder="Enter notes" required <%= errors && errors.array().find(e => e.path === 'notes') ? 'class="error-input"' : '' %>>
+                    <label>Notes</label>
+                    <input type="text" name="notes" id="notes" value="<%= formData.notes || '' %>" placeholder="Enter notes" <%= errors && errors.array().find(e => e.path === 'notes') ? 'class="error-input"' : '' %>>
                     <% if (errors) { %>
                         <% const error = errors.array().find(e => e.path === 'notes') %>
                         <% if (error) { %>
