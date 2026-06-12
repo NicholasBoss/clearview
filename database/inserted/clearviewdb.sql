@@ -119,6 +119,7 @@ CREATE TABLE IF NOT EXISTS public.order
   estimated_cost REAL NOT NULL,
   actual_cost REAL NULL DEFAULT NULL,
   quantity INTEGER NOT NULL,
+  notes TEXT NULL,
   CONSTRAINT order_pk PRIMARY KEY (order_id)
 );
 
@@ -493,8 +494,9 @@ CREATE TABLE IF NOT EXISTS public.window
 CREATE TABLE IF NOT EXISTS new_window_screen 
 (
   nws_id SERIAL,
-  width_inch BOOLEAN NULL,
-  height_inch BOOLEAN NULL,
+  width_inch INTEGER NULL,
+  height_inch INTEGER NULL,
+  fastener_location VARCHAR NULL,
   window_id INTEGER NOT NULL,
   CONSTRAINT nws_pk PRIMARY KEY (nws_id),
   CONSTRAINT nws_fk1

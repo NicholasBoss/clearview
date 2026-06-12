@@ -2583,6 +2583,9 @@ async function saveNWSData(formData, account_id) {
         const meshId = await getOrInsert('mesh', 'mesh_type', formData.mesh, 'mesh_id')
         const fastenerId = await getOrInsert('fastener', 'fastener_type', formData.fastener, 'fastener_id')
         const tabSpringId = await getOrInsert('tab_spring', 'tab_spring_name', formData.spring, 'tab_spring_id')
+        const nws_width_inch = formData.width_input
+        const nws_height_inch = formData.height_input
+        const fastener_location = formData.fastener_location
 
         console.log('Lookup IDs:', { frameSizeId, colorId, meshId, fastenerId, tabSpringId })
 
@@ -2604,14 +2607,15 @@ async function saveNWSData(formData, account_id) {
 
         // 3. Create new_window_screen record
         const nwsSql = `
-            INSERT INTO new_window_screen (width_inch, height_inch, window_id)
-            VALUES ($1, $2, $3)
+            INSERT INTO new_window_screen (width_inch, height_inch, window_id, fastener_location)
+            VALUES ($1, $2, $3, $4)
             RETURNING nws_id
         `
         const nwsResult = await pool.query(nwsSql, [
-            true,       // $1 - width_inch (default to true)
-            true,       // $2 - height_inch (default to true)
-            windowId    // $3
+            nws_width_inch,   // $1
+            nws_height_inch,  // $2
+            windowId,         // $3
+            fastener_location // $4
         ])
         const nwsId = nwsResult.rows[0].nws_id
         console.log('New window screen created with ID:', nwsId)
@@ -2685,12 +2689,13 @@ async function saveNWSData(formData, account_id) {
 
         // 9. Create order entry
         const quantity = parseInt(formData.quantity) || 1
+        const notes = formData.notes || ''
         const orderSql = `
-            INSERT INTO public.order (order_date, estimated_date, estimated_cost, quantity)
-            VALUES (CURRENT_DATE, CURRENT_DATE, 0.00, $1)
+            INSERT INTO public.order (order_date, estimated_date, estimated_cost, quantity, notes)
+            VALUES (CURRENT_DATE, CURRENT_DATE, 0.00, $1, $2)
             RETURNING order_id
         `
-        const orderResult = await pool.query(orderSql, [quantity])
+        const orderResult = await pool.query(orderSql, [quantity, notes])
         const orderId = orderResult.rows[0].order_id
 
         // 10. Create order_customization entry with is_estimate = TRUE

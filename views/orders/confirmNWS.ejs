@@ -39,7 +39,7 @@
                 </div>
                 <div class="form-group">
                     <label>Fab</label>
-                    <input type="text" name="fab_width" value="<%= formData.fab_width || '' %>" readonly>
+                    <input type="text" name="fab_width" value="<%= formData.quantity || formData.order_quantity || '' %>" readonly>
                 </div>
                 <div class="form-group">
                     <label>Frame</label>
@@ -58,7 +58,7 @@
                     <input type="text" name="fastener" value="<%= formData.fastener || formData.nws_fastener || '' %>" readonly>
                 </div>
                 <div class="form-group">
-                    <label>Spring</label>
+                    <label>Spring/Tabs</label>
                     <input type="text" name="spring" value="<%= formData.spring || formData.nws_tab_spring || '' %>" readonly>
                 </div>
                 <div class="form-group">
@@ -79,7 +79,7 @@
                 <div class="form-group">
                     <label>Width</label>
                     <div class="measurement-input">
-                        <input type="text" name="width_input" value="<%= formData.width_input || '' %>" readonly>
+                        <input type="text" name="width_input" value="<%= formData.width_input || formData.nws_width_inch || '' %>" readonly>
                         <input type="text" name="measurement_name" value="<%= formData.measurement_name || formData.nws_width_fraction || '' %>" readonly>
                     </div>
                 </div>
@@ -90,28 +90,13 @@
                 <div class="form-group">
                     <label>Height</label>
                     <div class="measurement-input">
-                        <input type="text" name="height_input" value="<%= formData.height_input || '' %>" readonly>
+                        <input type="text" name="height_input" value="<%= formData.height_input || formData.nws_height_inch || '' %>" readonly>
                         <input type="text" name="height_fraction" value="<%= formData.height_fraction || formData.nws_height_fraction || '' %>" readonly>
                     </div>
                 </div>
                 <div class="form-group">
                     <label>Height +/-</label>
                     <input type="text" name="height_plus_minus" value="<%= formData.height_plus_minus || formData.nws_height_plus_minus || '' %>" readonly>
-                </div>
-                <div class="form-group">
-                    <label>Tabs</label>
-                    <input type="text" name="tabs" value="<%= formData.tabs || '' %>" readonly>
-                </div>
-            </div>
-        </fieldset>
-
-        <!-- Additional Options -->
-        <fieldset class="full-width">
-            <legend>Additional Options</legend>
-            <div class="grid-row">
-                <div class="form-group">
-                    <label>Order Type</label>
-                    <input type="text" name="order_type" value="<%= formData.order_type || '' %>" readonly>
                 </div>
             </div>
         </fieldset>

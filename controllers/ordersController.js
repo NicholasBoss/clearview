@@ -445,9 +445,28 @@ ordersController.processRainierForm = async function(req, res){
         
         // Store form data in session for confirm page
         req.session.rainierData = req.body
+
+        const rainierData = req.body
+
+         // Get account_id from logged-in user
+        const account_id = res.locals.accountData.account_id
+        console.log('Account ID:', account_id)
+
+        // Save to database immediately with is_estimate=true
+        const result = await ordersModel.saveRainierData(req.body, account_id)
+
+        // Store customization_id in session to prevent duplicate inserts
+        req.session.rainierOrderId = result.customization_id
+
+        console.log('Order created with is_estimate=true, customization_id:', result.customization_id)
         
-        console.log('Rainier form data stored in session, redirecting to confirm page')
-        res.redirect('/orders/confirmRainier')
+        if (rainierData.order_type === 'Phone Order') {
+            req.flash('success', 'Phone order saved!')
+            return res.redirect('/account')
+        } else {
+            console.log('Rainier form data stored in session, redirecting to confirm page')
+            return res.redirect('/orders/confirmRainier')
+        }
     } catch (error) {
         console.error('Error processing Rainier form:', error)
         req.flash('error', 'Failed to process order. Please try again.')

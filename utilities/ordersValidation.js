@@ -936,13 +936,6 @@ validate.nwsRules = () => {
         .isIn(['+', '-'])
         .withMessage("Height +/- must be + or -."),
 
-        // Tabs - required
-        body("tabs")
-        .notEmpty()
-        .withMessage("Tabs is required.")
-        .isIn(['L', 'S', 'None'])
-        .withMessage("Tabs must be L, S, or None."),
-
         // Order Type - required
         body("order_type")
         .notEmpty()
