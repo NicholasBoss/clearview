@@ -2674,10 +2674,9 @@ async function saveNWSData(formData, account_id) {
                 color_id,
                 mesh_id,
                 product_mesh_id,
-                nws_measurement_id,
-                notes
+                nws_measurement_id
             ) VALUES (
-                $1, $2, $3, $4, $5, $6, $7, $8, $9
+                $1, $2, $3, $4, $5, $6, $7, $8
             ) RETURNING customization_id
         `
         const customizationResult = await pool.query(customizationSql, [
@@ -2689,7 +2688,6 @@ async function saveNWSData(formData, account_id) {
             meshId,                     // $6
             productMeshId,              // $7
             nwsMeasurementId,           // $8
-            formData.notes || null      // $9
         ])
         const customizationId = customizationResult.rows[0].customization_id
         console.log('Customization created with ID:', customizationId)
