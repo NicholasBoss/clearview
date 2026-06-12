@@ -111,6 +111,11 @@
             <legend>Dimensions</legend>
             <div class="grid-row three-col">
                 <div class="form-group">
+                    <label>Width</label>
+                    <input type="text" value="<%= orderData.nws_width_inch || '' %>" readonly>
+                </div>
+
+                <div class="form-group">
                     <label>Width Fraction</label>
                     <input type="text" value="<%= orderData.nws_width_fraction || '' %>" readonly>
                 </div>
@@ -122,6 +127,11 @@
             </div>
 
             <div class="grid-row three-col">
+                <div class="form-group">
+                    <label>Height</label>
+                    <input type="text" value="<%= orderData.nws_height_inch || '' %>" readonly>
+                </div>
+
                 <div class="form-group">
                     <label>Height Fraction</label>
                     <input type="text" value="<%= orderData.nws_height_fraction || '' %>" readonly>

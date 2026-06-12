@@ -787,6 +787,7 @@ async function getOrderById(customization_id){
                 nwsm.height_plus_minus AS nws_height_plus_minus,
                 nws_screen.width_inch AS nws_width_inch,
                 nws_screen.height_inch AS nws_height_inch,
+                nws_screen.fastener_location AS nws_fastener_location,
                 nws_fs.size_type AS nws_frame_size,
                 nws_fastener.fastener_type AS nws_fastener_type,
                 nws_spring.tab_spring_name AS nws_tab_spring,
@@ -961,6 +962,10 @@ async function getOrderById(customization_id){
             nws_height_plus_minus: row.nws_height_plus_minus,
             nws_width_inch: row.nws_width_inch,
             nws_height_inch: row.nws_height_inch,
+            // Map NWS width/height INT values to the confirm/view form field names
+            width_input: row.nws_width_inch,
+            height_input: row.nws_height_inch,
+            fastener_location: row.nws_fastener_location,
             order_quantity: row.order_quantity
         }
     } catch (error) {
@@ -2669,20 +2674,22 @@ async function saveNWSData(formData, account_id) {
                 color_id,
                 mesh_id,
                 product_mesh_id,
-                nws_measurement_id
+                nws_measurement_id,
+                notes
             ) VALUES (
-                $1, $2, $3, $4, $5, $6, $7, $8
+                $1, $2, $3, $4, $5, $6, $7, $8, $9
             ) RETURNING customization_id
         `
         const customizationResult = await pool.query(customizationSql, [
-            productId,          // $1
-            measurementId,      // $2
-            frameSizeId,        // $3
-            fastenerId,         // $4
-            colorId,            // $5
-            meshId,             // $6
-            productMeshId,      // $7
-            nwsMeasurementId    // $8
+            productId,                  // $1
+            measurementId,              // $2
+            frameSizeId,                // $3
+            fastenerId,                 // $4
+            colorId,                    // $5
+            meshId,                     // $6
+            productMeshId,              // $7
+            nwsMeasurementId,           // $8
+            formData.notes || null      // $9
         ])
         const customizationId = customizationResult.rows[0].customization_id
         console.log('Customization created with ID:', customizationId)

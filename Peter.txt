@@ -246,13 +246,24 @@ confirmNWS.ejs (a working-tree edit had removed them, which would have blanked F
 Mesh/Fastener/Spring/Quantity/fractions on the edit path too). Those persisted fields now
 populate again on both paths.
 
-STILL TO DO (needs Gary/Nick — requires a SCHEMA CHANGE, so coordinate with the DB person):
-1. Add real columns to hold the 5 lost fields:
-   - width/height INTEGER values (either change width_inch/height_inch to a numeric/varchar
-     measurement column, or add new columns on new_window_screen / nws_measurement)
-   - fab_width, notes, order_type, fastener_location, tabs (decide which table they live on)
-2. After columns exist, update saveNWSData to INSERT those 5 values (currently width_inch /
-   height_inch are hardcoded TRUE).
-3. Update getOrderById to SELECT them back and alias them to the form field names the confirm
-   page reads: fab_width, notes, order_type, width_input, height_input
-   (plus fastener_location / tabs if added).
+UPDATE 6/12/26 (later): Nick made the DB changes + I wired the code to match. Decisions:
+- Fab REMOVED (it's the same as quantity for NWS) -> dropped from form, confirm, validation
+- Order Type NOT stored (automatic phone/on-site, used only for routing) -> no DB code
+- width_inch / height_inch changed BOOL -> INT on new_window_screen (kept the names)
+- notes -> nullable column on customization
+- fastener_location -> nullable column on new_window_screen
+
+Code changes made (in clearview, NOT the schema file):
+- createNWS.ejs: removed Fab; notes + fastener_location no longer required
+- confirmNWS.ejs: removed Fab (width/height/notes/fastener_location now populate on edit path)
+- viewNWS.ejs: added Width + Height whole-number fields
+- ordersValidation.js: removed fab_width rule; notes + fastener_location now .optional()
+- saveNWSData: inserts real INT width/height; writes notes (customization) + fastener_location
+  (new_window_screen) instead of hardcoded TRUE
+- getOrderById: selects fastener_location, maps nws_width_inch/nws_height_inch -> width_input/
+  height_input and nws_fastener_location -> fastener_location (notes flows via c.*)
+
+!! DO NOT run an NWS create until Nick's migration is PULLED -- saveNWSData now inserts INTs
+   into width_inch/height_inch and writes customization.notes + nws.fastener_location, which
+   will ERROR against the old (un-migrated) schema.
+NOTE: database/inserted/migrations.sql is still an old AI draft and does NOT match the above.
