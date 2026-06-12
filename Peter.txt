@@ -223,4 +223,36 @@ Cleaned up Dimensions section to only show fraction and +/- values that are actu
 TO DO AFTER TODAY:
 
 1. Add option to cancel order if it is a phone order
-2. Possibly make DB changes according to screenshot of the table that Claude gave me. 
+2. Possibly make DB changes according to screenshot of the table that Claude gave me.
+
+
+NOTES FROM AI 6/12/26
+
+confirmNWS edit-path investigation:
+
+On the EDIT path (account page "Confirm" button -> editNWS -> getOrderById -> session),
+5 fields were always blank: Fab, Notes, Order Type, Width (integer), Height (integer).
+
+Root cause: saveNWSData NEVER stores these values, and the schema has nowhere to put them:
+- new_window_screen.width_inch / height_inch are BOOLEAN columns (code hardcodes TRUE),
+  so the actual width/height INTEGER (e.g. the "36" part) is lost. Only the fraction
+  (nws_measurement.width_fraction / height_fraction) and +/- are saved.
+- There is NO column anywhere for fab_width, notes, order_type, fastener_location, or tabs.
+So getOrderById can never return them, and the edit page can't show them.
+(Create -> confirm path is fine because it reads the raw submitted form body from session.)
+
+Fixed today: restored the nws_* / order_quantity / color_name / mesh_type fallbacks in
+confirmNWS.ejs (a working-tree edit had removed them, which would have blanked Frame/Color/
+Mesh/Fastener/Spring/Quantity/fractions on the edit path too). Those persisted fields now
+populate again on both paths.
+
+STILL TO DO (needs Gary/Nick — requires a SCHEMA CHANGE, so coordinate with the DB person):
+1. Add real columns to hold the 5 lost fields:
+   - width/height INTEGER values (either change width_inch/height_inch to a numeric/varchar
+     measurement column, or add new columns on new_window_screen / nws_measurement)
+   - fab_width, notes, order_type, fastener_location, tabs (decide which table they live on)
+2. After columns exist, update saveNWSData to INSERT those 5 values (currently width_inch /
+   height_inch are hardcoded TRUE).
+3. Update getOrderById to SELECT them back and alias them to the form field names the confirm
+   page reads: fab_width, notes, order_type, width_input, height_input
+   (plus fastener_location / tabs if added).
